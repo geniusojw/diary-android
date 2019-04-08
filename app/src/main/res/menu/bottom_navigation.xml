@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_today"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/today_diary" />
+
+    <item
+        android:id="@+id/nav_diary"
+        android:icon="@drawable/ic_subject_black_24dp"
+        android:title="@string/my_diary" />
+
+    <item
+        android:id="@+id/nav_letter"
+        android:icon="@drawable/ic_mail_outline_black_24dp"
+        android:title="@string/letters" />
+
+</menu>
