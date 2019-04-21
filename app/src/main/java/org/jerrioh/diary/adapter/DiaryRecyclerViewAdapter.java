@@ -9,13 +9,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jerrioh.diary.R;
-import org.jerrioh.diary.dbmodel.Writing;
+import org.jerrioh.diary.dbmodel.Write;
 
 import java.util.List;
 
 public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecyclerViewAdapter.DiaryViewHolder> {
 
-    private final List<Writing> diaryData;
+    private final List<Write> diaryData;
     private final OnItemClickListener callback;
 
     public interface OnItemClickListener {
@@ -34,7 +34,7 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
         }
     }
 
-    public DiaryRecyclerViewAdapter(List<Writing> diaryData, OnItemClickListener callback) {
+    public DiaryRecyclerViewAdapter(List<Write> diaryData, OnItemClickListener callback) {
         this.diaryData = diaryData;
         this.callback = callback;
     }
@@ -50,8 +50,8 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
     @Override
     public void onBindViewHolder(@NonNull DiaryViewHolder diaryViewHolder, int i) {
         TextView textView = (TextView) diaryViewHolder.itemView.findViewById(R.id.row_diary_title);
-        Writing diary = diaryData.get(i);
-        textView.setText(diary.getTitle());
+        Write diary = diaryData.get(i);
+        textView.setText(diary.getWriteDay() + " / " + diary.getTitle() + " / " + diary.getContent());
     }
 
     @Override

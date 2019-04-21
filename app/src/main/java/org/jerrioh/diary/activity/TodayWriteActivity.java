@@ -1,8 +1,6 @@
 package org.jerrioh.diary.activity;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,12 +8,12 @@ import android.widget.EditText;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.config.Information;
-import org.jerrioh.diary.db.DbHelper;
-import org.jerrioh.diary.db.WritingDao;
-import org.jerrioh.diary.dbmodel.Writing;
+import org.jerrioh.diary.db.WriteDao;
+import org.jerrioh.diary.dbmodel.Write;
+import org.jerrioh.diary.util.DateUtil;
 
 public class TodayWriteActivity extends AppCompatActivity {
-    private Writing todayDiary;
+    private Write todayDiary;
     private EditText titleText;
     private EditText contentText;
 
@@ -37,15 +35,16 @@ public class TodayWriteActivity extends AppCompatActivity {
         titleText = findViewById(R.id.todaywrite_title);
         contentText = findViewById(R.id.todaywrite_content);
 
-        WritingDao writingDao = new WritingDao(this);
-        todayDiary = writingDao.getTodayDiary();
+        WriteDao writeDao = new WriteDao(this);
+        String today_yyyyMMdd = DateUtil.getyyyyMMdd();
+        todayDiary = writeDao.getTodayDiary(today_yyyyMMdd);
         if (todayDiary == null) {
-            int writingType = Writing.WritingType.DIARY;
-            String writingDate = Information.ClientInformation.TODAY;
-            String writer = Information.ClientInformation.USER_ID;
-            String reader = Information.ClientInformation.USER_ID;
-            todayDiary = new Writing(writingType, writingDate, writer, reader, "", "");
-            writingDao.insertWriting(todayDiary);
+            int writeType = Write.WriteType.DIARY;
+            String writeDay = today_yyyyMMdd;
+            String writeUserId = Information.account.getUserId();
+            String readUserId = Information.account.getUserId();
+            todayDiary = new Write(writeType, writeDay, writeUserId, readUserId, "", "");
+            writeDao.insertWrite(todayDiary);
         }
 
         titleText.setText(todayDiary.getTitle());
@@ -66,7 +65,7 @@ public class TodayWriteActivity extends AppCompatActivity {
         todayDiary.setTitle(titleText.getText().toString());
         todayDiary.setContent(contentText.getText().toString());
 
-        WritingDao writingDao = new WritingDao(this);
-        writingDao.updateTodayDiary(todayDiary);
+        WriteDao writeDao = new WriteDao(this);
+        writeDao.updateTodayDiary(todayDiary);
     }
 }

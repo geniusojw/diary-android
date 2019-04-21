@@ -8,7 +8,7 @@
 
     <item
         android:id="@+id/nav_diary"
-        android:icon="@drawable/ic_subject_black_24dp"
+        android:icon="@drawable/ic_import_contacts_black_24dp"
         android:title="@string/my_diary" />
 
     <item

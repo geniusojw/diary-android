@@ -5,21 +5,8 @@
     android:layout_height="match_parent"
     android:background ="@android:color/holo_red_light" >
 
-    <TextView
-        android:id="@+id/display_today"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background ="@android:color/holo_red_dark"
-        android:gravity="center"
-        android:text="2019. 4. 30"
-        android:maxLines="1"
-        android:textSize="30sp"
-        app:autoSizeTextType="uniform"
-        app:autoSizeMinTextSize="20sp"
-        app:autoSizeMaxTextSize="50sp"
-        app:autoSizeStepGranularity="1sp"
-        android:layout_alignParentTop="true"
-        />
+    <include layout="@layout/fragment_today_people" />
+    <include layout="@layout/fragment_today_letter" />
 
     <TextView
         android:layout_width="wrap_content"

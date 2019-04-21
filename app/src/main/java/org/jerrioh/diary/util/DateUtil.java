@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 public class DateUtil {
     public static final String TIMEZONE_GMT_M10 = "Pacific/Honolulu";
@@ -13,7 +14,7 @@ public class DateUtil {
     public static final String TIMEZONE_GMT_P8 = "Asia/Shanghai";
     public static final String TIMEZONE_GMT_P9 = "Asia/Seoul";
 
-    private static final String DATE_PATTERN_SIMPLE = "yyyyMMdd";
+    private static final String DATE_PATTERN_yyyyMMdd = "yyyyMMdd";
     private static final String DATE_PATTERN_TEST = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
     private static final String DATE_PATTERN_KOREAN = "M월 d일 (E)";
     private static final String DATE_PATTERN_ENGLISH = "EEE, d, MMM";
@@ -22,24 +23,32 @@ public class DateUtil {
     private static final String LANGUAGE_KOREAN = "kor";
     private static final String LANGUAGE_ENGLISH = "eng";
 
-    public static String getSimpleDateString(Date date, Locale locale) {
-        return getDateString(date, TimeZone.getDefault(), DATE_PATTERN_SIMPLE, Locale.ENGLISH);
+    public static String getyyyyMMdd() {
+        return getyyyyMMdd(System.currentTimeMillis());
+    }
+    public static String getyyyyMMdd(long timeMillis) {
+        return getDateString(timeMillis, TimeZone.getDefault(), DATE_PATTERN_yyyyMMdd, Locale.ENGLISH);
     }
 
-    public static String getTodayDateString(Date date, Locale locale) {
+    public static String getTodayDateString(long timeMillis, Locale locale) {
         String iso3Language = locale.getISO3Language();
         if (LANGUAGE_KOREAN.equals(iso3Language)) {
-            return getDateString(date, TimeZone.getDefault(), DATE_PATTERN_KOREAN, Locale.KOREAN);
+            return getDateString(timeMillis, TimeZone.getDefault(), DATE_PATTERN_KOREAN, Locale.KOREAN);
         } else if (LANGUAGE_ENGLISH.equals(iso3Language)) {
-            return getDateString(date, TimeZone.getDefault(), DATE_PATTERN_ENGLISH, Locale.ENGLISH);
+            return getDateString(timeMillis, TimeZone.getDefault(), DATE_PATTERN_ENGLISH, Locale.ENGLISH);
         } else {
-            return getDateString(date, TimeZone.getDefault(), DATE_PATTERN_TEST, Locale.ENGLISH);
+            return getDateString(timeMillis, TimeZone.getDefault(), DATE_PATTERN_TEST, Locale.ENGLISH);
         }
     }
 
-    public static String getDateString(Date date, TimeZone timeZone, String pattern, Locale locale) {
+    public static String getDateString(long timeMillis, TimeZone timeZone, String pattern, Locale locale) {
+        Date date = new Date(timeMillis);
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, locale);
         dateFormat.setTimeZone(timeZone);
         return dateFormat.format(date);
+    }
+
+    public static boolean timePassed(long current, long updated, int seconds) {
+        return current > updated + TimeUnit.SECONDS.toMillis(seconds);
     }
 }

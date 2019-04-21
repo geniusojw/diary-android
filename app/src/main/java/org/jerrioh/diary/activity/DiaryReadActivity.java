@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import org.jerrioh.diary.dbmodel.Writing;
+import org.jerrioh.diary.dbmodel.Write;
 import org.jerrioh.diary.R;
 
 public class DiaryReadActivity extends AppCompatActivity {
@@ -16,7 +16,7 @@ public class DiaryReadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_diaryread);
 
         Intent intent = getIntent();
-        Writing diary = (Writing) intent.getSerializableExtra("diary");
+        Write diary = (Write) intent.getSerializableExtra("diary");
 
         TextView readView = (TextView) findViewById(R.id.diaryread_contents);
         readView.setText(diary.getContent());
