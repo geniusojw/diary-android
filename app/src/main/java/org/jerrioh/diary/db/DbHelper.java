@@ -22,7 +22,8 @@ public class DbHelper extends SQLiteOpenHelper {
                             "%s STRING, " +
                             "%s STRING, " +
                             "%s STRING, " +
-                            "%s STRING" + ")",
+                            "%s STRING, " +
+                            "%s INTEGER" + ")",
                     Write.TableDesc.TABLE_NAME,
                     Write.TableDesc._ID,
                     Write.TableDesc.COLUMN_NAME_WRITE_TYPE,
@@ -30,7 +31,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     Write.TableDesc.COLUMN_NAME_WRITE_USER_ID,
                     Write.TableDesc.COLUMN_NAME_READ_USER_ID,
                     Write.TableDesc.COLUMN_NAME_TITLE,
-                    Write.TableDesc.COLUMN_NAME_CONTENT);
+                    Write.TableDesc.COLUMN_NAME_CONTENT,
+                    Write.TableDesc.COLUMN_NAME_SERVER_SAVED);
 
     public static final String SQL_CREATE_ACCOUNT_TABLE =
             String.format("CREATE TABLE IF NOT EXISTS " +

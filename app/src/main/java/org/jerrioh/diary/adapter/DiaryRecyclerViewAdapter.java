@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,8 +16,8 @@ import java.util.List;
 
 public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecyclerViewAdapter.DiaryViewHolder> {
 
-    private final List<Write> diaryData;
-    private final OnItemClickListener callback;
+    private List<Write> diaryData;
+    private OnItemClickListener callback;
 
     public interface OnItemClickListener {
         void onItemClick(int pos);
@@ -39,6 +40,10 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
         this.callback = callback;
     }
 
+    public void setDiaryData(List<Write> diaryData) {
+        this.diaryData = diaryData;
+    }
+
     @NonNull
     @Override
     public DiaryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -49,9 +54,18 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
 
     @Override
     public void onBindViewHolder(@NonNull DiaryViewHolder diaryViewHolder, int i) {
-        TextView textView = (TextView) diaryViewHolder.itemView.findViewById(R.id.row_diary_title);
+        TextView imageText1 = (TextView) diaryViewHolder.itemView.findViewById(R.id.diary_date_image_text1);
+        TextView imageText2 = (TextView) diaryViewHolder.itemView.findViewById(R.id.diary_date_image_text2);
+        TextView titleText = (TextView) diaryViewHolder.itemView.findViewById(R.id.diary_date_text_title);
+        TextView contentText = (TextView) diaryViewHolder.itemView.findViewById(R.id.diary_date_text_content);
+
+
         Write diary = diaryData.get(i);
-        textView.setText(diary.getWriteDay() + " / " + diary.getTitle() + " / " + diary.getContent());
+        String writeDay = diary.getWriteDay();
+
+        imageText2.setText(writeDay.substring(6, 8));
+        titleText.setText(diary.getTitle());
+        contentText.setText(diary.getContent());
     }
 
     @Override

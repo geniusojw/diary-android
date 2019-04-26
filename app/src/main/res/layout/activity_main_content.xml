@@ -52,7 +52,7 @@
                 android:text="TODAY DIARY"
                 />
 
-            <TextView
+            <RelativeLayout
                 android:id="@+id/main_banner_content_mid"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -60,13 +60,41 @@
                 android:background ="@android:color/holo_red_dark"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:maxLines="1"
-                app:autoSizeTextType="uniform"
-                app:autoSizeMinTextSize="10sp"
-                app:autoSizeMaxTextSize="30sp"
-                app:autoSizeStepGranularity="1sp"
-                android:text="2019. 4. 30"
-                />
+                >
+
+                <ImageView
+                    android:id="@+id/main_banner_content_mid_left_button"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_chevron_left_black_24dp"
+                    android:background ="@null" />
+
+                <ImageView
+                    android:id="@+id/main_banner_content_mid_right_button"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_chevron_right_black_24dp"
+                    android:background ="@null" />
+
+                <TextView
+                    android:id="@+id/main_banner_content_mid_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:maxLines="1"
+                    app:autoSizeTextType="uniform"
+                    app:autoSizeMinTextSize="10sp"
+                    app:autoSizeMaxTextSize="30sp"
+                    app:autoSizeStepGranularity="1sp"
+                    android:text="2019. 4. 30"
+                    />
+            </RelativeLayout>
+
             <TextView
                 android:id="@+id/main_banner_content_bottom"
                 android:layout_width="match_parent"

@@ -21,7 +21,8 @@ public class WriteDao extends AbstractDao {
             Write.TableDesc.COLUMN_NAME_WRITE_USER_ID,
             Write.TableDesc.COLUMN_NAME_READ_USER_ID,
             Write.TableDesc.COLUMN_NAME_TITLE,
-            Write.TableDesc.COLUMN_NAME_CONTENT
+            Write.TableDesc.COLUMN_NAME_CONTENT,
+            Write.TableDesc.COLUMN_NAME_SERVER_SAVED
     };
 
     public WriteDao(Context context) {
@@ -95,6 +96,7 @@ public class WriteDao extends AbstractDao {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Write.TableDesc.COLUMN_NAME_TITLE, write.getTitle());
         contentValues.put(Write.TableDesc.COLUMN_NAME_CONTENT, write.getContent());
+        contentValues.put(Write.TableDesc.COLUMN_NAME_SERVER_SAVED, write.getServerSaved());
 
         String selection = Write.TableDesc.COLUMN_NAME_WRITE_TYPE + "=?" +
                 " AND " + Write.TableDesc.COLUMN_NAME_WRITE_DAY + "=?" +
@@ -112,8 +114,18 @@ public class WriteDao extends AbstractDao {
         contentValues.put(Write.TableDesc.COLUMN_NAME_READ_USER_ID, write.getReadUserId());
         contentValues.put(Write.TableDesc.COLUMN_NAME_TITLE, write.getTitle());
         contentValues.put(Write.TableDesc.COLUMN_NAME_CONTENT, write.getContent());
+        contentValues.put(Write.TableDesc.COLUMN_NAME_SERVER_SAVED, write.getServerSaved());
 
         return writableDb().insert(TABLE_NAME, null, contentValues);
+    }
+
+    public long removeMyDiary(String writeday) {
+        String selection = Write.TableDesc.COLUMN_NAME_WRITE_TYPE + "=?" +
+                " AND " + Write.TableDesc.COLUMN_NAME_WRITE_DAY + "=?" +
+                " AND " + Write.TableDesc.COLUMN_NAME_WRITE_USER_ID + "=?";
+        String[] args = { String.valueOf(Write.WriteType.DIARY), writeday, Information.account.getUserId() };
+
+        return writableDb().delete(TABLE_NAME, selection, args);
     }
 
     private Write getWriteOnCursor(Cursor cursor) {
@@ -126,6 +138,7 @@ public class WriteDao extends AbstractDao {
         String readUserId  = cursor.getString(3);
         String title = cursor.getString(4);
         String content  = cursor.getString(5);
-        return new Write(writeType, writeDay, writeUserId, readUserId, title, content);
+        int serverSaved = cursor.getInt(6);
+        return new Write(writeType, writeDay, writeUserId, readUserId, title, content, serverSaved);
     }
 }

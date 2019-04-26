@@ -4,7 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import org.jerrioh.diary.db.AccountDao;
+import org.jerrioh.diary.db.WriteDao;
 import org.jerrioh.diary.dbmodel.Account;
+import org.jerrioh.diary.dbmodel.Write;
 import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.DiaryApiUtil;
 import org.jerrioh.diary.util.StringUtil;
@@ -12,8 +14,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Locale;
-import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -42,7 +42,6 @@ public class Information {
             Log.d(TAG, "do not update account information. wait...");
             return;
         }
-
         Log.d(TAG, "try to update account information");
 
         try {
@@ -54,6 +53,7 @@ public class Information {
                 account.setNextUpdateTime(String.valueOf(currentTime + TimeUnit.SECONDS.toMillis(15)));
             } else {
                 getApplicationInformation(context);
+                sendToServerYesterDayDiary(context);
                 account.setNextUpdateTime(String.valueOf(currentTime + TimeUnit.SECONDS.toMillis(30)));
             }
 
@@ -101,7 +101,7 @@ public class Information {
         DiaryApiUtil.post(context, "/account/signin", json.toString(), null, callback);
     }
 
-    private static void getApplicationInformation(Context context) {
+    private static void getApplicationInformation(Context context) throws JSONException {
         DiaryApiUtil.Callback callback = (jsonObject) -> {
             int code = (int) jsonObject.get("code");
             if (code == 200000) {
@@ -115,5 +115,34 @@ public class Information {
             }
         };
         DiaryApiUtil.get(context, "/application-information", account.getToken(), callback);
+    }
+
+    private static void sendToServerYesterDayDiary(Context context) throws JSONException {
+        // 어제의 일기 저장
+        WriteDao writeDao = new WriteDao(context);
+        String yesterday_yyyyMMdd = DateUtil.getyyyyMMdd(System.currentTimeMillis() - TimeUnit.HOURS.toMillis(24));
+
+        Write yesterdayDiary = writeDao.getTodayDiary(yesterday_yyyyMMdd);
+        if (yesterdayDiary == null || yesterdayDiary.getServerSaved() == 1) {
+            return;
+        }
+
+        if (StringUtil.isEmpty(yesterdayDiary.getTitle())
+            && StringUtil.isEmpty(yesterdayDiary.getContent())) {
+            return;
+        }
+
+        DiaryApiUtil.Callback callback = (jsonObject) -> {
+            int code = (int) jsonObject.get("code");
+            if (code == 200000 || code == 409002) { // 저장성공 or 이미 서버에 저장됨
+                yesterdayDiary.setServerSaved(1);
+                writeDao.updateTodayDiary(yesterdayDiary);
+                Log.d(TAG, "save complete. day=" + yesterdayDiary.getWriteDay() + ", code=" + code);
+            }
+        };
+        JSONObject json = new JSONObject();
+        json.put("title", yesterdayDiary.getTitle());
+        json.put("content", yesterdayDiary.getContent());
+        DiaryApiUtil.post(context, "/diary/" + yesterdayDiary.getWriteDay(), json.toString(), account.getToken(), callback);
     }
 }

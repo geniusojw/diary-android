@@ -35,6 +35,7 @@ public class TodayWriteActivity extends AppCompatActivity {
         titleText = findViewById(R.id.todaywrite_title);
         contentText = findViewById(R.id.todaywrite_content);
 
+        // 오늘의 일기 생성
         WriteDao writeDao = new WriteDao(this);
         String today_yyyyMMdd = DateUtil.getyyyyMMdd();
         todayDiary = writeDao.getTodayDiary(today_yyyyMMdd);
@@ -43,7 +44,7 @@ public class TodayWriteActivity extends AppCompatActivity {
             String writeDay = today_yyyyMMdd;
             String writeUserId = Information.account.getUserId();
             String readUserId = Information.account.getUserId();
-            todayDiary = new Write(writeType, writeDay, writeUserId, readUserId, "", "");
+            todayDiary = new Write(writeType, writeDay, writeUserId, readUserId, "", "", 0);
             writeDao.insertWrite(todayDiary);
         }
 

@@ -15,6 +15,7 @@ public class Write implements Serializable {
         public static final String COLUMN_NAME_READ_USER_ID = "read_user_id";
         public static final String COLUMN_NAME_TITLE = "title";
         public static final String COLUMN_NAME_CONTENT = "content";
+        public static final String COLUMN_NAME_SERVER_SAVED = "server_saved";
     }
 
     public static class WriteType {
@@ -29,14 +30,16 @@ public class Write implements Serializable {
     private String readUserId;
     private String title;
     private String content;
+    private int serverSaved; // ex) 0: not saved, 1: saved
 
-    public Write(int writeType, String writeDay, String writeUserId, String readUserId, String title, String content) {
+    public Write(int writeType, String writeDay, String writeUserId, String readUserId, String title, String content, int serverSaved) {
         this.writeType = writeType;
         this.writeDay = writeDay;
         this.writeUserId = writeUserId;
         this.readUserId = readUserId;
         this.title = title;
         this.content = content;
+        this.serverSaved = serverSaved;
     }
 
     public int getWriteType() {
@@ -57,6 +60,9 @@ public class Write implements Serializable {
     public String getContent() {
         return content;
     }
+    public int getServerSaved() {
+        return serverSaved;
+    }
 
     // 수정가능 항목
     public void setReadUserId(String readUserId) {
@@ -67,6 +73,9 @@ public class Write implements Serializable {
     }
     public void setContent(String content) {
         if (isMyWrite()) this.content = content;
+    }
+    public void setServerSaved(int serverSaved) {
+        if (isMyWrite()) this.serverSaved = serverSaved;
     }
 
     private boolean isMyWrite() {

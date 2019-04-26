@@ -1,47 +1,33 @@
 package org.jerrioh.diary.activity;
 
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.jerrioh.diary.R;
-import org.jerrioh.diary.config.Config;
 import org.jerrioh.diary.config.Information;
-import org.jerrioh.diary.db.WriteDao;
-import org.jerrioh.diary.dbmodel.Write;
 import org.jerrioh.diary.fragment.DiaryFragment;
 import org.jerrioh.diary.fragment.LetterFragment;
 import org.jerrioh.diary.fragment.TodayFragment;
 import org.jerrioh.diary.util.DateUtil;
-import org.jerrioh.diary.util.DiaryApiUtil;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.jerrioh.diary.util.StringUtil;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+    private String diaryYyyyMM = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +49,15 @@ public class MainActivity extends AppCompatActivity {
         drawNav.setNavigationItemSelectedListener(menu -> {
             int id = menu.getItemId();
             if (id == R.id.developer_test) {
-                Log.d(TAG, "test code started.");
-                /*WriteDao writeDao = new WriteDao(this);
-                Write write1 = new Write(Write.WriteType.DIARY, "20190411", "GUEST_JW", "GUEST_JW", "today is good day", "i don't know.");
-                Write write2 = new Write(Write.WriteType.DIARY, "20190410", "GUEST_JW", "GUEST_JW", "today's diary", "");
-                Write write3 = new Write(Write.WriteType.DIARY, "20190409", "GUEST_JW", "GUEST_JW", "4.9 hangul eul sseul su ub da", "font size\n" +
+                /*Log.d(TAG, "test code started.");
+                WriteDao writeDao = new WriteDao(this);
+                Write write1 = new Write(Write.WriteType.DIARY, "20190411", Information.account.getUserId(), Information.account.getUserId(), "today is good day", "i don't know.", 0);
+                Write write2 = new Write(Write.WriteType.DIARY, "20190410", Information.account.getUserId(), Information.account.getUserId(), "today's diary", "", 0);
+                Write write3 = new Write(Write.WriteType.DIARY, "20190409", Information.account.getUserId(), Information.account.getUserId(), "4.9 hangul eul sseul su ub da", "font size\n" +
                         "alias\n" + "member registration & login\n" + "do not share diary\n" + "background image\n" +
-                        "export diary\n" + "alarm\n" + "lullaby\n" + "change screen lock password\n" + "no receive fcm push");
-                Write write4 = new Write(Write.WriteType.DIARY, "20190412", "GUEST_JW", "GUEST_JW", "abc\n", "abcd12");
-                Write write5 = new Write(Write.WriteType.DIARY, "20190430", "GUEST_JW", "GUEST_JW", "title today", "DFASDFfsdflkaj sdk;lfadsf");
+                        "export diary\n" + "alarm\n" + "lullaby\n" + "change screen lock password\n" + "no receive fcm push", 0);
+                Write write4 = new Write(Write.WriteType.DIARY, "20190412", Information.account.getUserId(), Information.account.getUserId(), "abc\n", "abcd12", 0);
+                Write write5 = new Write(Write.WriteType.DIARY, "20190430", Information.account.getUserId(), Information.account.getUserId(), "title today", "DFASDFfsdflkaj sdk;lfadsf", 0);
 
                 writeDao.insertWrite(write1);
                 writeDao.insertWrite(write2);
@@ -92,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             if (menuItem.getItemId() == bottomNav.getSelectedItemId()) {
                 return false;
             }
-            Fragment fragment = getFragmentByNavId(menuItem.getItemId());
+            Fragment fragment = getFragmentByNavId(menuItem.getItemId(), null);
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, fragment).commit();
@@ -100,35 +86,97 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
+        // 다이어리 fragment일때 배너의 쬐그만 버튼 2개 (월 조정)
+        View leftButton = findViewById(R.id.main_banner_content_mid_left_button);
+        View rightButton = findViewById(R.id.main_banner_content_mid_right_button);
+        leftButton.setOnClickListener(v -> {
+            String yyyyMM = DateUtil.diffMonth(diaryYyyyMM, -1);
+            Fragment fragment = getFragmentByNavId(R.id.nav_diary, yyyyMM);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, fragment).commit();
+        });
+        rightButton.setOnClickListener(v -> {
+            String yyyyMM = DateUtil.diffMonth(diaryYyyyMM, 1);
+            Fragment fragment = getFragmentByNavId(R.id.nav_diary, yyyyMM);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, fragment).commit();
+        });
+
         // 초기 fragment 세팅 (today)
         Intent intent = getIntent();
-        int initNavId = intent.getIntExtra("initNavId", R.id.nav_today);
+        int bottomNavId = intent.getIntExtra("initNavId", R.id.nav_today);
 
-        bottomNav.setSelectedItemId(initNavId);
-        Fragment initFragment = getFragmentByNavId(initNavId);
+        bottomNav.setSelectedItemId(bottomNavId);
+        Fragment initFragment = getFragmentByNavId(bottomNavId, null);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, initFragment).commit();
 
-        // 배너 세팅
-        TextView textView = findViewById(R.id.main_banner_content_mid);
-        //textView.setText(DateUtil.getTodayDateString(System.currentTimeMillis(), Locale.KOREAN));
-        textView.setText(DateUtil.getTodayDateString(System.currentTimeMillis(), Locale.CHINA));
-
         Information.updateMyAccount(this);
     }
 
-    private Fragment getFragmentByNavId(int bottomNavId) {
+    private Fragment getFragmentByNavId(int bottomNavId, String _diaryYyyyMM) {
+        String mainBannerText;
+        int weatherImageResource;
+        //View.OnClickListener listener;
+        Fragment fragment;
+
+        View leftbutton = findViewById(R.id.main_banner_content_mid_left_button);
+        View rightbutton = findViewById(R.id.main_banner_content_mid_right_button);
+        leftbutton.setVisibility(View.INVISIBLE); leftbutton.setClickable(false);
+        rightbutton.setVisibility(View.INVISIBLE); rightbutton.setClickable(false);
+
         if (bottomNavId == R.id.nav_today) {
-            return new TodayFragment();
+            fragment = new TodayFragment();
+            //mainBannerText = DateUtil.getTodayDateString(System.currentTimeMillis(), Locale.CHINA);
+            mainBannerText = DateUtil.getTodayDateString(System.currentTimeMillis(), Locale.getDefault());
+            weatherImageResource = R.drawable.ic_wb_sunny_black_24dp;
+            //listener = v -> { System.out.println("tbd"); };
+
         } else if (bottomNavId == R.id.nav_diary) {
-            return new DiaryFragment();
+            fragment = new DiaryFragment();
+            if (StringUtil.isEmpty(_diaryYyyyMM)) {
+                diaryYyyyMM = DateUtil.getyyyyMMdd().substring(0, 6);
+            } else {
+                diaryYyyyMM = _diaryYyyyMM;
+            }
+
+            Bundle args = new Bundle();
+            args.putString("diplay_yyyyMM", diaryYyyyMM);
+            fragment.setArguments(args);
+            //mainBannerText = DateUtil.getDiaryDateString(System.currentTimeMillis(), Locale.getDefault());
+            mainBannerText = DateUtil.getDiaryDateString(diaryYyyyMM, Locale.getDefault());
+
+            weatherImageResource = R.drawable.ic_search_black_24dp;
+            //listener = v -> { System.out.println("tbd"); };
+            leftbutton.setVisibility(View.VISIBLE); leftbutton.setClickable(true);
+            rightbutton.setVisibility(View.VISIBLE); rightbutton.setClickable(true);
+
         } else if (bottomNavId == R.id.nav_letter) {
-            return new LetterFragment();
+            fragment = new LetterFragment();
+            mainBannerText = DateUtil.getTodayDateString(System.currentTimeMillis(), Locale.getDefault());
+            weatherImageResource = R.drawable.ic_search_black_24dp;
+            //listener = v -> { System.out.println("tbd"); };
+
         } else {
+            fragment = new TodayFragment();
             Log.d(TAG, "unknown bottomNavId. bottomNavId=" + bottomNavId);
-            return new TodayFragment();
+            mainBannerText = DateUtil.getTodayDateString(System.currentTimeMillis(), Locale.CHINA);
+            weatherImageResource = R.drawable.ic_wb_sunny_black_24dp;
+            //listener = v -> { System.out.println("tbd"); };
         }
+
+        // 1. 배너 세팅 (오늘 날짜, 이번 달, 편지 쓸 사람 목록)
+        TextView mainBannerTextView = findViewById(R.id.main_banner_content_mid_text);
+        mainBannerTextView.setText(mainBannerText);
+
+        // 2. weatherImageResource -> 배너 우측 날씨, 달력, 행운의 편지
+        ImageView weatherView = findViewById(R.id.main_banner_weather);
+        weatherView.setClickable(true);
+        weatherView.setImageResource(weatherImageResource);
+        //weatherView.setOnClickListener(listener);
+
+        return fragment;
     }
 
     @Override

@@ -7,31 +7,31 @@
         <item
             android:id="@+id/developer_test"
             android:icon="@drawable/ic_mail_outline_black_24dp"
-            android:title="Developer Test" />
+            android:title="About ME (Developer Test)" />
         <item
             android:id="@+id/nav_export"
             android:icon="@drawable/ic_mail_outline_black_24dp"
-            android:title="export" />
+            android:title="Alias Setting" />
         <item
             android:id="@+id/nav_alias"
             android:icon="@drawable/ic_mail_outline_black_24dp"
-            android:title="Alias" />
+            android:title="Detail Configuration - Export, FontSize, alarm, do not share diary, lullaby, screenlock, no fcm" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/backgroundimage"
             android:icon="@drawable/ic_mail_outline_black_24dp"
-            android:title="Slideshow" />
+            android:title="Sign-in" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="About Today Diary">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_mail_outline_black_24dp"
-                android:title="Share" />
+                android:title="FAQ" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_mail_outline_black_24dp"
-                android:title="Send" />
+                android:title="Share" />
         </menu>
     </item>
 
