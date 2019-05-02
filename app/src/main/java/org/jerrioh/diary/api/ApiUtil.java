@@ -1,8 +1,9 @@
-package org.jerrioh.diary.util;
+package org.jerrioh.diary.api;
 
 import android.content.Context;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -13,47 +14,22 @@ import com.android.volley.toolbox.Volley;
 
 import org.jerrioh.diary.config.Config;
 import org.jerrioh.diary.config.Information;
+import org.jerrioh.diary.util.DateUtil;
+import org.jerrioh.diary.util.StringUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
-public class DiaryApiUtil {
+public class ApiUtil {
+
+    private static final String TAG = "ApiUtil";
+
     public interface Callback {
         void proc(JSONObject jsonObject) throws JSONException;
-    }
-
-    private static final String TAG = "DiaryApiUtil";
-
-    public static boolean timeToUpdateToken(String token) {
-        if (StringUtil.isEmpty(token)) {
-            Log.d(TAG, "token is empty");
-            return true;
-        }
-
-        int start = token.indexOf(".") + 1;
-        int end = token.indexOf(".", start);
-
-        byte[] decoded = Base64.decode(token.substring(start, end), 0);
-        String jwtBody = new String(decoded);
-        if (StringUtil.isEmpty(jwtBody)) {
-            Log.d(TAG, "jwt body is null");
-            return true;
-        }
-
-        try {
-            long exp = new JSONObject(jwtBody).getLong("exp") * 1000;
-            long cur = System.currentTimeMillis();
-            if (DateUtil.timePassed(cur, exp, -60)) {
-                Log.d(TAG, "cur: " + cur + ", exp: " + exp);
-                return true;
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
     // 정보에 따라서 빈번하게 또는 이따금씩만 호출해도 될 수 있다.
@@ -108,6 +84,8 @@ public class DiaryApiUtil {
                     params.put("Content-Type", "application/json");
                 }
                 params.put("User-Agent", "Onul Diary Mobile Client");
+                params.put("Timestamp", String.valueOf(System.currentTimeMillis()));
+                params.put("Country-Code", Locale.getDefault().getISO3Country());
                 params.put("token", token);
                 return params;
             }

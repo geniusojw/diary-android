@@ -31,6 +31,6 @@
         android:id="@+id/userDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="A person who does not write a diary" />
+        android:text="A person who does not diary a diary" />
 
 </LinearLayout>

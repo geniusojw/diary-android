@@ -13,14 +13,16 @@ public class Account implements Serializable {
         public static final String COLUMN_NAME_USER_ID = "user_id";
         public static final String COLUMN_NAME_TOKEN = "token";
         public static final String COLUMN_NAME_NICKNAME = "nickname";
+        public static final String COLUMN_NAME_DESCRIPTION = "description";
         public static final String COLUMN_NAME_UPDATE_TIME = "update_time";
         public static final String COLUMN_NAME_NEXT_UPDATE_TIME = "next_update_time";
     }
 
-    public Account(String userId, String token, String nickname, String updateTime, String nextUpdateTime) {
+    public Account(String userId, String token, String nickname, String description, String updateTime, String nextUpdateTime) {
         this.userId = userId;
         this.token = token;
         this.nickname = nickname;
+        this.description = description;
         this.updateTime = updateTime;
         this.nextUpdateTime = nextUpdateTime;
     }
@@ -28,6 +30,7 @@ public class Account implements Serializable {
     private String userId; // ex) 20190430
     private String token;
     private String nickname;
+    private String description;
     private String updateTime;
     private String nextUpdateTime;
 
@@ -48,6 +51,12 @@ public class Account implements Serializable {
     }
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
     public String getUpdateTime() {
         return updateTime;

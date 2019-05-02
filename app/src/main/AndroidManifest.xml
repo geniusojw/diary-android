@@ -19,8 +19,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.TodayWriteActivity" />
+        <activity android:name=".activity.AccountActivity" />
         <activity android:name=".activity.TodayPeopleActivity" />
+
         <activity android:name=".activity.DiaryReadActivity" />
+        <activity android:name=".activity.LetterReadActivity" />
     </application>
 
 </manifest>

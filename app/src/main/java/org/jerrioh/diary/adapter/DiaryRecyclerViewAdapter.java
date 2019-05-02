@@ -5,18 +5,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jerrioh.diary.R;
-import org.jerrioh.diary.dbmodel.Write;
+import org.jerrioh.diary.dbmodel.Diary;
+import org.jerrioh.diary.util.DateUtil;
 
 import java.util.List;
+import java.util.Locale;
 
 public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecyclerViewAdapter.DiaryViewHolder> {
 
-    private List<Write> diaryData;
+    private List<Diary> diaryData;
     private OnItemClickListener callback;
 
     public interface OnItemClickListener {
@@ -35,13 +36,9 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
         }
     }
 
-    public DiaryRecyclerViewAdapter(List<Write> diaryData, OnItemClickListener callback) {
+    public DiaryRecyclerViewAdapter(List<Diary> diaryData, OnItemClickListener callback) {
         this.diaryData = diaryData;
         this.callback = callback;
-    }
-
-    public void setDiaryData(List<Write> diaryData) {
-        this.diaryData = diaryData;
     }
 
     @NonNull
@@ -56,14 +53,18 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
     public void onBindViewHolder(@NonNull DiaryViewHolder diaryViewHolder, int i) {
         TextView imageText1 = (TextView) diaryViewHolder.itemView.findViewById(R.id.diary_date_image_text1);
         TextView imageText2 = (TextView) diaryViewHolder.itemView.findViewById(R.id.diary_date_image_text2);
-        TextView titleText = (TextView) diaryViewHolder.itemView.findViewById(R.id.diary_date_text_title);
-        TextView contentText = (TextView) diaryViewHolder.itemView.findViewById(R.id.diary_date_text_content);
+        TextView imageText3 = (TextView) diaryViewHolder.itemView.findViewById(R.id.diary_date_image_text3);
 
+        TextView titleText = (TextView) diaryViewHolder.itemView.findViewById(R.id.diary_row_title);
+        TextView contentText = (TextView) diaryViewHolder.itemView.findViewById(R.id.diary_row_content);
 
-        Write diary = diaryData.get(i);
+        Diary diary = diaryData.get(i);
         String writeDay = diary.getWriteDay();
 
+        imageText1.setText(DateUtil.dayOfWeek(writeDay, Locale.getDefault()));
         imageText2.setText(writeDay.substring(6, 8));
+        imageText3.setText(writeDay.substring(0, 4) + "." + writeDay.substring(4, 6));
+
         titleText.setText(diary.getTitle());
         contentText.setText(diary.getContent());
     }

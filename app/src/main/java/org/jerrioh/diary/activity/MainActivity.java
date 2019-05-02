@@ -14,9 +14,14 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.config.Information;
+import org.jerrioh.diary.db.DiaryDao;
+import org.jerrioh.diary.db.LetterDao;
+import org.jerrioh.diary.dbmodel.Diary;
+import org.jerrioh.diary.dbmodel.Letter;
 import org.jerrioh.diary.fragment.DiaryFragment;
 import org.jerrioh.diary.fragment.LetterFragment;
 import org.jerrioh.diary.fragment.TodayFragment;
@@ -38,9 +43,15 @@ public class MainActivity extends AppCompatActivity {
         ImageView imageView = findViewById(R.id.main_banner_draw_menu);
         imageView.setClickable(true);
         imageView.setOnClickListener(v -> {
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            DrawerLayout drawer = findViewById(R.id.drawer_layout);
             if (!drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.openDrawer(GravityCompat.START);
+
+                TextView nickname = findViewById(R.id.userNickname);
+                nickname.setText(Information.getAccount(this).getNickname());
+
+                TextView description = findViewById(R.id.userDescription);
+                description.setText(Information.getAccount(this).getDescription());
             }
         });
 
@@ -48,23 +59,12 @@ public class MainActivity extends AppCompatActivity {
         NavigationView drawNav = findViewById(R.id.drawer_navigation);
         drawNav.setNavigationItemSelectedListener(menu -> {
             int id = menu.getItemId();
-            if (id == R.id.developer_test) {
-                /*Log.d(TAG, "test code started.");
-                WriteDao writeDao = new WriteDao(this);
-                Write write1 = new Write(Write.WriteType.DIARY, "20190411", Information.account.getUserId(), Information.account.getUserId(), "today is good day", "i don't know.", 0);
-                Write write2 = new Write(Write.WriteType.DIARY, "20190410", Information.account.getUserId(), Information.account.getUserId(), "today's diary", "", 0);
-                Write write3 = new Write(Write.WriteType.DIARY, "20190409", Information.account.getUserId(), Information.account.getUserId(), "4.9 hangul eul sseul su ub da", "font size\n" +
-                        "alias\n" + "member registration & login\n" + "do not share diary\n" + "background image\n" +
-                        "export diary\n" + "alarm\n" + "lullaby\n" + "change screen lock password\n" + "no receive fcm push", 0);
-                Write write4 = new Write(Write.WriteType.DIARY, "20190412", Information.account.getUserId(), Information.account.getUserId(), "abc\n", "abcd12", 0);
-                Write write5 = new Write(Write.WriteType.DIARY, "20190430", Information.account.getUserId(), Information.account.getUserId(), "title today", "DFASDFfsdflkaj sdk;lfadsf", 0);
+            if (id == R.id.nav_login) {
+                Intent accountIntent = new Intent(this, AccountActivity.class);
+                startActivity(accountIntent);
 
-                writeDao.insertWrite(write1);
-                writeDao.insertWrite(write2);
-                writeDao.insertWrite(write3);
-                writeDao.insertWrite(write4);
-                writeDao.insertWrite(write5);
-                Toast.makeText(this, "developer is genius", Toast.LENGTH_LONG);*/
+            } else if (id == R.id.nav_alias) {
+                testcode();
             }
 
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -128,8 +128,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (bottomNavId == R.id.nav_today) {
             fragment = new TodayFragment();
-            //mainBannerText = DateUtil.getTodayDateString(System.currentTimeMillis(), Locale.CHINA);
-            mainBannerText = DateUtil.getTodayDateString(System.currentTimeMillis(), Locale.getDefault());
+            //mainBannerText = DateUtil.getDayString(System.currentTimeMillis(), Locale.CHINA);
+            mainBannerText = DateUtil.getDayString(System.currentTimeMillis(), Locale.getDefault());
             weatherImageResource = R.drawable.ic_wb_sunny_black_24dp;
             //listener = v -> { System.out.println("tbd"); };
 
@@ -144,8 +144,8 @@ public class MainActivity extends AppCompatActivity {
             Bundle args = new Bundle();
             args.putString("diplay_yyyyMM", diaryYyyyMM);
             fragment.setArguments(args);
-            //mainBannerText = DateUtil.getDiaryDateString(System.currentTimeMillis(), Locale.getDefault());
-            mainBannerText = DateUtil.getDiaryDateString(diaryYyyyMM, Locale.getDefault());
+            //mainBannerText = DateUtil.getDayString_yyyyMM(System.currentTimeMillis(), Locale.getDefault());
+            mainBannerText = DateUtil.getDayString_yyyyMM(diaryYyyyMM, Locale.getDefault());
 
             weatherImageResource = R.drawable.ic_search_black_24dp;
             //listener = v -> { System.out.println("tbd"); };
@@ -154,14 +154,14 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (bottomNavId == R.id.nav_letter) {
             fragment = new LetterFragment();
-            mainBannerText = DateUtil.getTodayDateString(System.currentTimeMillis(), Locale.getDefault());
+            mainBannerText = DateUtil.getDayString(System.currentTimeMillis(), Locale.getDefault());
             weatherImageResource = R.drawable.ic_search_black_24dp;
             //listener = v -> { System.out.println("tbd"); };
 
         } else {
             fragment = new TodayFragment();
             Log.d(TAG, "unknown bottomNavId. bottomNavId=" + bottomNavId);
-            mainBannerText = DateUtil.getTodayDateString(System.currentTimeMillis(), Locale.CHINA);
+            mainBannerText = DateUtil.getDayString(System.currentTimeMillis(), Locale.CHINA);
             weatherImageResource = R.drawable.ic_wb_sunny_black_24dp;
             //listener = v -> { System.out.println("tbd"); };
         }
@@ -194,5 +194,37 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.drawer_navigation, menu);
         return true;
+    }
+
+    private void testcode() {
+
+        Log.d(TAG, "test code started.");
+        Toast.makeText(this, "developer is genius", Toast.LENGTH_LONG).show();
+
+         /*
+        DiaryDao writeDao = new DiaryDao(this);
+        Diary diary1 = new Diary("20190411", Information.account.getUserId(), "today is good day", "i don't know.", 0);
+        Diary diary2 = new Diary("20190410", Information.account.getUserId(), "today's diary", "", 0);
+        Diary diary3 = new Diary("20190409", Information.account.getUserId(), "4.9 hangul eul sseul su ub da", "font size\n" +
+                "alias\n" + "member registration & login\n" + "do not share diary\n" + "background image\n" +
+                "export diary\n" + "alarm\n" + "lullaby\n" + "change screen lock password\n" + "no receive fcm push", 0);
+        Diary diary4 = new Diary("20190412", Information.account.getUserId(), "abc\n", "abcd12", 0);
+        Diary diary5 = new Diary("20190430", Information.account.getUserId(), "title today", "DFASDFfsdflkaj sdk;lfadsf", 0);
+
+        writeDao.insertWrite(diary1);
+        writeDao.insertWrite(diary2);
+        writeDao.insertWrite(diary3);
+        writeDao.insertWrite(diary4);
+        writeDao.insertWrite(diary5);
+
+
+        LetterDao letterDao = new LetterDao(this);
+        Letter letter1 = new Letter(String.valueOf(System.currentTimeMillis() - 100L), "jw@hanmail.com", Information.account.getUserId(), "letter title1", "i am find thank you", 0, 0);
+        Letter letter2 = new Letter(String.valueOf(System.currentTimeMillis() - 200L), "jw@hanmail2.com", Information.account.getUserId(), "letter title2", "thank you and you", 0, 0);
+        Letter letter3 = new Letter(String.valueOf(System.currentTimeMillis() - 300L), "jw@hanmail3.com", Information.account.getUserId(), "letter title3", "", 0, 0);
+
+        letterDao.insertLetter(letter1);
+        letterDao.insertLetter(letter2);
+        letterDao.insertLetter(letter3); */
     }
 }

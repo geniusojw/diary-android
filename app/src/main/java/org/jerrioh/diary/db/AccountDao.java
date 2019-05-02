@@ -5,9 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
-import org.jerrioh.diary.config.Information;
 import org.jerrioh.diary.dbmodel.Account;
-import org.jerrioh.diary.dbmodel.Write;
 
 public class AccountDao extends AbstractDao {
     private static final String TAG = "AccountDao";
@@ -17,6 +15,7 @@ public class AccountDao extends AbstractDao {
             Account.TableDesc.COLUMN_NAME_USER_ID,
             Account.TableDesc.COLUMN_NAME_TOKEN,
             Account.TableDesc.COLUMN_NAME_NICKNAME,
+            Account.TableDesc.COLUMN_NAME_DESCRIPTION,
             Account.TableDesc.COLUMN_NAME_UPDATE_TIME,
             Account.TableDesc.COLUMN_NAME_NEXT_UPDATE_TIME
     };
@@ -42,13 +41,32 @@ public class AccountDao extends AbstractDao {
         return getAccountOnCursor(cursor);
     }
 
-    public int updateMyAccount(Account account) {
+    public int updateAccount(String email, String token, String nickname, String description) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Account.TableDesc.COLUMN_NAME_USER_ID, account.getUserId());
-        contentValues.put(Account.TableDesc.COLUMN_NAME_TOKEN, account.getToken());
-        contentValues.put(Account.TableDesc.COLUMN_NAME_NICKNAME, account.getNickname());
-        contentValues.put(Account.TableDesc.COLUMN_NAME_UPDATE_TIME, account.getUpdateTime());
-        contentValues.put(Account.TableDesc.COLUMN_NAME_NEXT_UPDATE_TIME, account.getNextUpdateTime());
+        contentValues.put(Account.TableDesc.COLUMN_NAME_USER_ID, email);
+        contentValues.put(Account.TableDesc.COLUMN_NAME_TOKEN, token);
+        contentValues.put(Account.TableDesc.COLUMN_NAME_NICKNAME, nickname);
+        contentValues.put(Account.TableDesc.COLUMN_NAME_DESCRIPTION, description);
+
+        String selection = "1 = 1";
+        String[] args = { };
+
+        return writableDb().update(TABLE_NAME, contentValues, selection, args);
+    }
+
+    public int updateToken(String token) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Account.TableDesc.COLUMN_NAME_TOKEN, token);
+
+        String selection = "1 = 1";
+        String[] args = { };
+
+        return writableDb().update(TABLE_NAME, contentValues, selection, args);
+    }
+
+    public int updateNextUpdateTime(String nextUpdateTime) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Account.TableDesc.COLUMN_NAME_NEXT_UPDATE_TIME, nextUpdateTime);
 
         String selection = "1 = 1";
         String[] args = { };
@@ -61,6 +79,7 @@ public class AccountDao extends AbstractDao {
         contentValues.put(Account.TableDesc.COLUMN_NAME_USER_ID, account.getUserId());
         contentValues.put(Account.TableDesc.COLUMN_NAME_TOKEN, account.getToken());
         contentValues.put(Account.TableDesc.COLUMN_NAME_NICKNAME, account.getNickname());
+        contentValues.put(Account.TableDesc.COLUMN_NAME_DESCRIPTION, account.getDescription());
         contentValues.put(Account.TableDesc.COLUMN_NAME_UPDATE_TIME, account.getUpdateTime());
         contentValues.put(Account.TableDesc.COLUMN_NAME_NEXT_UPDATE_TIME, account.getNextUpdateTime());
 
@@ -74,8 +93,9 @@ public class AccountDao extends AbstractDao {
         String userId = cursor.getString(0);
         String token  = cursor.getString(1);
         String nickname  = cursor.getString(2);
-        String updateTime = cursor.getString(3);
-        String nextUpdateTime = cursor.getString(4);
-        return new Account(userId, token, nickname, updateTime, nextUpdateTime);
+        String description  = cursor.getString(3);
+        String updateTime = cursor.getString(4);
+        String nextUpdateTime = cursor.getString(5);
+        return new Account(userId, token, nickname, description, updateTime, nextUpdateTime);
     }
 }

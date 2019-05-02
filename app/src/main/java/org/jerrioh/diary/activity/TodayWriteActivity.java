@@ -5,24 +5,29 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.config.Information;
-import org.jerrioh.diary.db.WriteDao;
-import org.jerrioh.diary.dbmodel.Write;
+import org.jerrioh.diary.db.DiaryDao;
+import org.jerrioh.diary.dbmodel.Diary;
 import org.jerrioh.diary.util.DateUtil;
 
+import java.util.Locale;
+
 public class TodayWriteActivity extends AppCompatActivity {
-    private Write todayDiary;
+    private Diary todayDiary;
+
+    private TextView diaryDay;
     private EditText titleText;
     private EditText contentText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_todaywrite);
+        setContentView(R.layout.activity_detail);
 
-        View backButton = findViewById(R.id.back_today_button);
+        View backButton = findViewById(R.id.floating_back_button);
         backButton.setEnabled(true);
         backButton.setClickable(true);
         backButton.setOnClickListener(v -> {
@@ -32,22 +37,26 @@ public class TodayWriteActivity extends AppCompatActivity {
             startActivity(backIntent);
         });
 
-        titleText = findViewById(R.id.todaywrite_title);
-        contentText = findViewById(R.id.todaywrite_content);
+        diaryDay = findViewById(R.id.detail_date);
+        titleText = findViewById(R.id.detail_title);
+        titleText.setFocusableInTouchMode(true);
+
+        contentText = findViewById(R.id.detail_content);
+        contentText.setFocusableInTouchMode(true);
 
         // 오늘의 일기 생성
-        WriteDao writeDao = new WriteDao(this);
+        DiaryDao diaryDao = new DiaryDao(this);
         String today_yyyyMMdd = DateUtil.getyyyyMMdd();
-        todayDiary = writeDao.getTodayDiary(today_yyyyMMdd);
+        todayDiary = diaryDao.getTodayDiary(today_yyyyMMdd);
         if (todayDiary == null) {
-            int writeType = Write.WriteType.DIARY;
             String writeDay = today_yyyyMMdd;
-            String writeUserId = Information.account.getUserId();
-            String readUserId = Information.account.getUserId();
-            todayDiary = new Write(writeType, writeDay, writeUserId, readUserId, "", "", 0);
-            writeDao.insertWrite(todayDiary);
+            String writeUserId = Information.getAccount(this).getUserId();
+            todayDiary = new Diary(writeDay, writeUserId,  "", "", 0);
+            diaryDao.insertWrite(todayDiary);
         }
+        String dayString = DateUtil.getDayString(System.currentTimeMillis(), Locale.getDefault());
 
+        diaryDay.setText(dayString);
         titleText.setText(todayDiary.getTitle());
         contentText.setText(todayDiary.getContent());
 
@@ -66,7 +75,7 @@ public class TodayWriteActivity extends AppCompatActivity {
         todayDiary.setTitle(titleText.getText().toString());
         todayDiary.setContent(contentText.getText().toString());
 
-        WriteDao writeDao = new WriteDao(this);
-        writeDao.updateTodayDiary(todayDiary);
+        DiaryDao diaryDao = new DiaryDao(this);
+        diaryDao.updateTodayDiary(todayDiary);
     }
 }

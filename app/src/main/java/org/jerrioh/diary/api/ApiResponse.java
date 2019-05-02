@@ -1,6 +1,6 @@
-package org.jerrioh.diary.util;
+package org.jerrioh.diary.api;
 
-public class DiaryApiResponse<T> {
+public class ApiResponse<T> {
     private int statusCode;
     private int code;
     private String message;

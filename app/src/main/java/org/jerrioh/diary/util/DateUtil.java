@@ -2,6 +2,7 @@ package org.jerrioh.diary.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -25,6 +26,8 @@ public class DateUtil {
     private static final String DATE_PATTERN_DIARY_KOREAN = "yyyy년 M월";
     private static final String DATE_PATTERN_DIARY_ENGLISH = "MMM, yyyy";
 
+    private static final String DATE_PATTERN_DAY_OF_WEEK = "EEEE";
+
     private static final String LANGUAGE_TEST = "tst";
     private static final String LANGUAGE_KOREAN = "kor";
     private static final String LANGUAGE_ENGLISH = "eng";
@@ -32,11 +35,13 @@ public class DateUtil {
     public static String getyyyyMMdd() {
         return getyyyyMMdd(System.currentTimeMillis());
     }
+
     public static String getyyyyMMdd(long timeMillis) {
         return getDateString(timeMillis, TimeZone.getDefault(), DATE_PATTERN_yyyyMMdd, Locale.ENGLISH);
     }
 
-    public static String getTodayDateString(long timeMillis, Locale locale) {
+    // 년 월 일 표시
+    public static String getDayString(long timeMillis, Locale locale) {
         String iso3Language = locale.getISO3Language();
         if (LANGUAGE_KOREAN.equals(iso3Language)) {
             return getDateString(timeMillis, TimeZone.getDefault(), DATE_PATTERN_TODAY_KOREAN, Locale.KOREAN);
@@ -46,21 +51,29 @@ public class DateUtil {
             return getDateString(timeMillis, TimeZone.getDefault(), DATE_PATTERN_TODAY_TEST, Locale.ENGLISH);
         }
     }
-    public static String getDiaryDateString(long timeMillis, Locale locale) {
-        String iso3Language = locale.getISO3Language();
-        if (LANGUAGE_KOREAN.equals(iso3Language)) {
-            return getDateString(timeMillis, TimeZone.getDefault(), DATE_PATTERN_DIARY_KOREAN, Locale.KOREAN);
-        } else if (LANGUAGE_ENGLISH.equals(iso3Language)) {
-            return getDateString(timeMillis, TimeZone.getDefault(), DATE_PATTERN_DIARY_ENGLISH, Locale.ENGLISH);
-        } else {
-            return getDateString(timeMillis, TimeZone.getDefault(), DATE_PATTERN_DIARY_TEST, Locale.ENGLISH);
-        }
+
+    public static String getDateString(long timeMillis, TimeZone timeZone, String pattern, Locale locale) {
+        Date date = new Date(timeMillis);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, locale);
+        dateFormat.setTimeZone(timeZone);
+        return dateFormat.format(date);
     }
 
-    public static String getDiaryDateString(String yyyyMM, Locale locale) {
+    // 년 월 표시
+    public static String getDayString_yyyyMMdd(String yyyyMMdd, Locale locale) {
+        if (StringUtil.isEmpty(yyyyMMdd) || yyyyMMdd.length() != 8) {
+            return null;
+        }
         try {
-            Date date = new SimpleDateFormat("yyyyMMdd").parse(yyyyMM + "15");
-            return getDiaryDateString(date.getTime(), locale);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", locale);
+            String iso3Language = locale.getISO3Language();
+            if (LANGUAGE_KOREAN.equals(iso3Language)) {
+                return new SimpleDateFormat(DATE_PATTERN_TODAY_KOREAN, Locale.KOREAN).format(sdf.parse(yyyyMMdd));
+            } else if (LANGUAGE_ENGLISH.equals(iso3Language)) {
+                return new SimpleDateFormat(DATE_PATTERN_TODAY_ENGLISH, Locale.ENGLISH).format(sdf.parse(yyyyMMdd));
+            } else {
+                return new SimpleDateFormat(DATE_PATTERN_TODAY_TEST, Locale.ENGLISH).format(sdf.parse(yyyyMMdd));
+            }
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -68,11 +81,28 @@ public class DateUtil {
         return null;
     }
 
-    public static String getDateString(long timeMillis, TimeZone timeZone, String pattern, Locale locale) {
-        Date date = new Date(timeMillis);
-        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, locale);
-        dateFormat.setTimeZone(timeZone);
-        return dateFormat.format(date);
+    // 년 월 표시
+    public static String getDayString_yyyyMM(String yyyyMM, Locale locale) {
+        if (StringUtil.isEmpty(yyyyMM) || yyyyMM.length() != 6) {
+            return null;
+        }
+
+        String yyyyMMdd = yyyyMM + "15";
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            String iso3Language = locale.getISO3Language();
+            if (LANGUAGE_KOREAN.equals(iso3Language)) {
+                return new SimpleDateFormat(DATE_PATTERN_DIARY_KOREAN, Locale.KOREAN).format(sdf.parse(yyyyMMdd));
+            } else if (LANGUAGE_ENGLISH.equals(iso3Language)) {
+                return new SimpleDateFormat(DATE_PATTERN_DIARY_ENGLISH, Locale.ENGLISH).format(sdf.parse(yyyyMMdd));
+            } else {
+                return new SimpleDateFormat(DATE_PATTERN_DIARY_TEST, Locale.ENGLISH).format(sdf.parse(yyyyMMdd));
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static boolean timePassed(long current, long updated, int seconds) {
@@ -102,5 +132,23 @@ public class DateUtil {
         }
 
         return String.format("%04d", yyyyInteger) + String.format("%02d", monthInteger);
+    }
+
+    public static String dayOfWeek(String yyyyMMdd, Locale locale) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        try {
+            String iso3Language = locale.getISO3Language();
+            if (LANGUAGE_KOREAN.equals(iso3Language)) {
+                return new SimpleDateFormat(DATE_PATTERN_DAY_OF_WEEK).format(sdf.parse(yyyyMMdd));
+            } else if (LANGUAGE_ENGLISH.equals(iso3Language)) {
+                return new SimpleDateFormat(DATE_PATTERN_DAY_OF_WEEK).format(sdf.parse(yyyyMMdd));
+            } else {
+                return new SimpleDateFormat(DATE_PATTERN_DAY_OF_WEEK).format(sdf.parse(yyyyMMdd));
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

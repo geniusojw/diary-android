@@ -7,36 +7,37 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.jerrioh.diary.dbmodel.Diary;
 import org.jerrioh.diary.R;
+import org.jerrioh.diary.dbmodel.Diary;
+import org.jerrioh.diary.dbmodel.Letter;
 import org.jerrioh.diary.util.DateUtil;
 
 import java.util.Locale;
 
-public class DiaryReadActivity extends AppCompatActivity {
+public class LetterReadActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
         Intent intent = getIntent();
-        Diary diary = (Diary) intent.getSerializableExtra("diary");
+        Letter letter = (Letter) intent.getSerializableExtra("letter");
 
-        TextView day = findViewById(R.id.detail_date);
-        day.setText(DateUtil.getDayString_yyyyMMdd(diary.getWriteDay(), Locale.getDefault()));
+        TextView date = findViewById(R.id.detail_date);
+        date.setText(letter.getWriteUserId());
 
         EditText title = findViewById(R.id.detail_title);
-        title.setText(diary.getTitle());
+        title.setText(letter.getTitle());
 
         EditText content = findViewById(R.id.detail_content);
-        content.setText(diary.getContent());
+        content.setText(letter.getContent());
 
         View backButton = findViewById(R.id.floating_back_button);
         backButton.setEnabled(true);
         backButton.setClickable(true);
         backButton.setOnClickListener(v -> {
-            Intent backIntent = new Intent(DiaryReadActivity.this, MainActivity.class);
-            backIntent.putExtra("initNavId", R.id.nav_diary);
+            Intent backIntent = new Intent(LetterReadActivity.this, MainActivity.class);
+            backIntent.putExtra("initNavId", R.id.nav_letter);
             startActivity(backIntent);
         });
     }
