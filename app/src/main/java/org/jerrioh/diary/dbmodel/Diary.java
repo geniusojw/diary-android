@@ -2,7 +2,7 @@ package org.jerrioh.diary.dbmodel;
 
 import android.provider.BaseColumns;
 
-import org.jerrioh.diary.config.Information;
+import org.jerrioh.diary.util.CurrentAccountUtil;
 
 import java.io.Serializable;
 
@@ -58,6 +58,6 @@ public class Diary implements Serializable {
     }
 
     private boolean isMyWrite() {
-        return writeUserId.equals(Information.getAccount().getUserId());
+        return writeUserId.equals(CurrentAccountUtil.getAccount().getUserId());
     }
 }

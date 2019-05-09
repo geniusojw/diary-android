@@ -14,6 +14,6 @@
     <item
         android:id="@+id/nav_letter"
         android:icon="@drawable/ic_mail_outline_black_24dp"
-        android:title="@string/letters" />
+        android:title="@string/letter" />
 
 </menu>

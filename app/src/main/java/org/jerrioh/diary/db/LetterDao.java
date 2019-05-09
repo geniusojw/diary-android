@@ -5,8 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
-import org.jerrioh.diary.config.Information;
-import org.jerrioh.diary.dbmodel.Diary;
+import org.jerrioh.diary.util.CurrentAccountUtil;
 import org.jerrioh.diary.dbmodel.Letter;
 
 import java.util.ArrayList;
@@ -51,7 +50,7 @@ public class LetterDao extends AbstractDao {
 
     public List<Letter> getTotalLetterToMe() {
         String selection = Letter.TableDesc.COLUMN_NAME_READ_USER_ID + "=?";
-        String[] args = { Information.getAccount().getUserId() };
+        String[] args = { CurrentAccountUtil.getAccount().getUserId() };
         String orderBy = Letter.TableDesc.COLUMN_NAME_WRITE_TIME + " DESC";
 
         Cursor cursor = readableDb().query(TABLE_NAME, COLUMN_NAMES, selection, args, null, null, orderBy);

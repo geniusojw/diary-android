@@ -17,10 +17,11 @@ public class DateUtil {
     public static final String TIMEZONE_GMT_P9 = "Asia/Seoul";
 
     private static final String DATE_PATTERN_yyyyMMdd = "yyyyMMdd";
+    private static final String DATE_PATTERN_HHmmss = "HHmmss";
 
     private static final String DATE_PATTERN_TODAY_TEST = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-    private static final String DATE_PATTERN_TODAY_KOREAN = "M월 d일 (E)";
-    private static final String DATE_PATTERN_TODAY_ENGLISH = "EEE, d, MMM";
+    private static final String DATE_PATTERN_TODAY_KOREAN = "yyyy년 M월 d일 (E)";
+    private static final String DATE_PATTERN_TODAY_ENGLISH = "EEE, d, MMM, yyyy";
 
     private static final String DATE_PATTERN_DIARY_TEST = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
     private static final String DATE_PATTERN_DIARY_KOREAN = "yyyy년 M월";
@@ -32,12 +33,20 @@ public class DateUtil {
     private static final String LANGUAGE_KOREAN = "kor";
     private static final String LANGUAGE_ENGLISH = "eng";
 
+    public static String getHHmmss() {
+        return getPattern(System.currentTimeMillis(), DATE_PATTERN_HHmmss);
+    }
+
     public static String getyyyyMMdd() {
-        return getyyyyMMdd(System.currentTimeMillis());
+        return getPattern(System.currentTimeMillis(), DATE_PATTERN_yyyyMMdd);
     }
 
     public static String getyyyyMMdd(long timeMillis) {
-        return getDateString(timeMillis, TimeZone.getDefault(), DATE_PATTERN_yyyyMMdd, Locale.ENGLISH);
+        return getPattern(timeMillis, DATE_PATTERN_yyyyMMdd);
+    }
+
+    private static String getPattern(long timeMillis, String pattern) {
+        return getDateString(timeMillis, TimeZone.getDefault(), pattern, Locale.ENGLISH);
     }
 
     // 년 월 일 표시

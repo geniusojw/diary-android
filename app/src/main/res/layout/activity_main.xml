@@ -19,8 +19,28 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+
         app:headerLayout="@layout/header_drawer"
-        app:menu="@menu/drawer_navigation" />
+        app:menu="@menu/drawer_navigation">
+
+        <LinearLayout
+            android:id="@+id/drawer_sync"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:clickable="false"
+            android:visibility="gone"
+            >
+        <TextView
+            android:id="@+id/footer_item_1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="Synchronization" />
+        </LinearLayout>
+
+    </android.support.design.widget.NavigationView>
 
 
 </android.support.v4.widget.DrawerLayout>

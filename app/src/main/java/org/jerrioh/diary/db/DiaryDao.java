@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
-import org.jerrioh.diary.config.Information;
+import org.jerrioh.diary.util.CurrentAccountUtil;
 import org.jerrioh.diary.dbmodel.Diary;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class DiaryDao extends AbstractDao {
     public Diary getTodayDiary(String today_yyyyMMdd) {
         String selection = Diary.TableDesc.COLUMN_NAME_WRITE_DAY + "=?" +
                 " AND " + Diary.TableDesc.COLUMN_NAME_WRITE_USER_ID + "=?";
-        String[] args = { today_yyyyMMdd, Information.getAccount().getUserId() };
+        String[] args = { today_yyyyMMdd, CurrentAccountUtil.getAccount().getUserId() };
 
         Cursor cursor = readableDb().query(TABLE_NAME, COLUMN_NAMES, selection, args, null, null, null);
         if (cursor == null) {
@@ -45,11 +45,29 @@ public class DiaryDao extends AbstractDao {
         return getWriteOnCursor(cursor);
     }
 
+    public Diary getFirstDiary() {
+        String selection = "1 = 1";
+        String[] args = {};
+        String orderBy = Diary.TableDesc.COLUMN_NAME_WRITE_DAY + " ASC";
+
+        Cursor cursor = readableDb().query(TABLE_NAME, COLUMN_NAMES, selection, args, null, null, orderBy, "1");
+        if (cursor == null) {
+            Log.d(TAG, "cursor is null. sql=getFirstDiary.");
+            return null;
+        }
+        if (cursor.getCount() > 1) {
+            Log.e(TAG, "Too many result. sql=getFirstDiary. cursor.getCount()=" + cursor.getCount());
+            return null;
+        }
+        cursor.moveToFirst();
+        return getWriteOnCursor(cursor);
+    }
+
     public List<Diary> getMyPeriodDiary(String month_yyyyMM, String max_yyyyMMdd) {
         String selection = Diary.TableDesc.COLUMN_NAME_WRITE_DAY + " LIKE ?" +
                 " AND " + Diary.TableDesc.COLUMN_NAME_WRITE_DAY + " <=?" +
                 " AND " + Diary.TableDesc.COLUMN_NAME_WRITE_USER_ID + "=?";
-        String[] args = { month_yyyyMM + "%", max_yyyyMMdd, Information.getAccount().getUserId() };
+        String[] args = { month_yyyyMM + "%", max_yyyyMMdd, CurrentAccountUtil.getAccount().getUserId() };
         String orderBy = Diary.TableDesc.COLUMN_NAME_WRITE_DAY + " ASC";
 
         Cursor cursor = readableDb().query(TABLE_NAME, COLUMN_NAMES, selection, args, null, null, orderBy);
@@ -69,7 +87,7 @@ public class DiaryDao extends AbstractDao {
 
     public List<Diary> getMyTotalDiary() {
         String selection = Diary.TableDesc.COLUMN_NAME_WRITE_USER_ID + "=?";
-        String[] args = { Information.getAccount().getUserId() };
+        String[] args = { CurrentAccountUtil.getAccount().getUserId() };
         String orderBy = Diary.TableDesc.COLUMN_NAME_WRITE_DAY + " ASC";
 
         Cursor cursor = readableDb().query(TABLE_NAME, COLUMN_NAMES, selection, args, null, null, orderBy);
@@ -95,7 +113,7 @@ public class DiaryDao extends AbstractDao {
 
         String selection = Diary.TableDesc.COLUMN_NAME_WRITE_DAY + "=?" +
                 " AND " + Diary.TableDesc.COLUMN_NAME_WRITE_USER_ID + "=?";
-        String[] args = { diary.getWriteDay(), Information.getAccount().getUserId() };
+        String[] args = { diary.getWriteDay(), CurrentAccountUtil.getAccount().getUserId() };
 
         return writableDb().update(TABLE_NAME, contentValues, selection, args);
     }
@@ -119,7 +137,7 @@ public class DiaryDao extends AbstractDao {
     public long removeMyDiary(String writeday) {
         String selection = Diary.TableDesc.COLUMN_NAME_WRITE_DAY + "=?" +
                 " AND " + Diary.TableDesc.COLUMN_NAME_WRITE_USER_ID + "=?";
-        String[] args = { writeday, Information.getAccount().getUserId() };
+        String[] args = { writeday, CurrentAccountUtil.getAccount().getUserId() };
 
         return writableDb().delete(TABLE_NAME, selection, args);
     }

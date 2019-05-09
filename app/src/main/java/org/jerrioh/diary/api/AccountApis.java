@@ -3,9 +3,9 @@ package org.jerrioh.diary.api;
 import android.content.Context;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.jerrioh.diary.db.AccountDao;
-import org.jerrioh.diary.dbmodel.Account;
 import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.StringUtil;
 import org.json.JSONException;
@@ -45,54 +45,70 @@ public class AccountApis {
     }
 
     public static void signup(Context context, String userId, String password) throws JSONException {
-        JSONObject json = new JSONObject();
-        json.put("userId", userId);
-        json.put("password", password);
-
-        ApiUtil.Callback callback = (jsonObject) -> {
+        ApiCaller.Callback callback = (jsonObject) -> {
             int code = (int) jsonObject.get("code");
             if (code == 200000) {
                 JSONObject data = (JSONObject) jsonObject.get("data");
                 new AccountDao(context).updateToken(data.getString("token"));
             }
         };
-        ApiUtil.post(context, "/account/signup", json.toString(), null, callback);
+        signupCallback(context, userId, password, callback);
+    }
+
+    public static void signupCallback(Context context, String userId, String password, ApiCaller.Callback callback) throws JSONException {
+        JSONObject json = new JSONObject();
+        json.put("userId", userId);
+        json.put("password", password);
+
+        ApiCaller.postWithoutToken(context, "/account/signup", json.toString(), callback);
     }
 
     public static void signin(Context context, String userId, String password) throws JSONException {
-        JSONObject json = new JSONObject();
-        json.put("userId", userId);
-        json.put("password", password);
-
-        ApiUtil.Callback callback = (jsonObject) -> {
+        ApiCaller.Callback callback = (jsonObject) -> {
             int code = (int) jsonObject.get("code");
             if (code == 200000) {
                 JSONObject data = (JSONObject) jsonObject.get("data");
                 new AccountDao(context).updateToken(data.getString("token"));
             }
         };
-        ApiUtil.post(context, "/account/signin", json.toString(), null, callback);
+        signinCallback(context, userId, password, callback);
     }
 
-    public static void signinCallback(Context context, String userId, String password, ApiUtil.Callback callback) throws JSONException {
+    public static void signinCallback(Context context, String userId, String password, ApiCaller.Callback callback) throws JSONException {
         JSONObject json = new JSONObject();
         json.put("userId", userId);
         json.put("password", password);
 
-        ApiUtil.post(context, "/account/signin", json.toString(), null, callback);
+        ApiCaller.postWithoutToken(context, "/account/signin", json.toString(), callback);
     }
 
-    public static void refresh(Context context, String token) throws JSONException {
+    public static void refresh(Context context) throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("jwt", token);
 
-        ApiUtil.Callback callback = (jsonObject) -> {
+        ApiCaller.Callback callback = (jsonObject) -> {
             int code = (int) jsonObject.get("code");
             if (code == 200000) {
                 JSONObject data = (JSONObject) jsonObject.get("data");
                 new AccountDao(context).updateToken(data.getString("token"));
             }
         };
-        ApiUtil.post(context, "/account/refresh-token", json.toString(), null, callback);
+        ApiCaller.post(context, "/account/refresh-token", json.toString(), callback);
+    }
+
+    public static void deleteNonMember(Context context, String token, String memberUserId) throws JSONException {
+        JSONObject json = new JSONObject();
+        json.put("memberUserId", memberUserId);
+
+        ApiCaller.Callback callback = (jsonObject) -> {
+            int code = (int) jsonObject.get("code");
+            if (code == 200000) {
+                // ok
+            }
+        };
+        ApiCaller.post(context, "/account/deleteNonMember", json.toString(), callback);
+    }
+
+    public static void aboutMe(Context context, ApiCaller.Callback callback) {
+        ApiCaller.get(context, "/account/about-me", callback);
     }
 }

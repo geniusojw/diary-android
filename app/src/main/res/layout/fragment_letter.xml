@@ -11,17 +11,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/search_diary_by_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        app:srcCompat="@drawable/ic_date_range_black_24dp"
-        app:useCompatPadding="true"
-        app:fabCustomSize="70dp"
-        app:elevation="6dp"
-        app:fabSize="normal"
-        />
-
 </RelativeLayout>

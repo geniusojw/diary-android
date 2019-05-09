@@ -2,6 +2,7 @@ package org.jerrioh.diary.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jerrioh.diary.R;
+import org.jerrioh.diary.config.Constants;
 import org.jerrioh.diary.dbmodel.Diary;
 import org.jerrioh.diary.util.DateUtil;
+import org.jerrioh.diary.util.StringUtil;
 
 import java.util.List;
 import java.util.Locale;
@@ -65,7 +68,7 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
         imageText2.setText(writeDay.substring(6, 8));
         imageText3.setText(writeDay.substring(0, 4) + "." + writeDay.substring(4, 6));
 
-        titleText.setText(diary.getTitle());
+        titleText.setText(StringUtil.defaultIfEmpty(diary.getTitle(), Constants.DEFAULT_TITLE));
         contentText.setText(diary.getContent());
     }
 

@@ -41,6 +41,13 @@ public class AccountDao extends AbstractDao {
         return getAccountOnCursor(cursor);
     }
 
+    public int deleteAccount() {
+        String selection = "1 = 1";
+        String[] args = { };
+
+        return writableDb().delete(TABLE_NAME, selection, args);
+    }
+
     public int updateAccount(String email, String token, String nickname, String description) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Account.TableDesc.COLUMN_NAME_USER_ID, email);

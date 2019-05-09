@@ -2,10 +2,7 @@ package org.jerrioh.diary.dbmodel;
 
 import android.provider.BaseColumns;
 
-import org.jerrioh.diary.config.Information;
-
 import java.io.Serializable;
-import java.util.Date;
 
 public class Account implements Serializable {
     public static class TableDesc implements BaseColumns {

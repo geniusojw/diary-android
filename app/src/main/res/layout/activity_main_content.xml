@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background ="@android:color/holo_orange_light"
+        android:elevation="8dp"
         >
 
         <ImageView
@@ -116,6 +117,19 @@
         android:layout_below="@id/main_banner"
         android:layout_above="@id/bottom_navigation" >
     </FrameLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/write_diary_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_above="@id/bottom_navigation"
+        app:srcCompat="@drawable/ic_edit_black_48dp"
+        app:useCompatPadding="true"
+        app:fabCustomSize="80dp"
+        app:elevation="6dp"
+        app:fabSize="normal"
+        />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"

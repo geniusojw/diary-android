@@ -5,61 +5,38 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_login"
-            android:icon="@drawable/ic_mail_outline_black_24dp"
-            android:title="Login" />
+            android:id="@+id/drawer_nav_account"
+            android:icon="@drawable/ic_account_circle_black_24dp"
+            android:title="Account" />
         <item
-            android:id="@+id/nav_alias"
-            android:icon="@drawable/ic_mail_outline_black_24dp"
-            android:title="Alias" />
-        <!--<item
-            android:id="@+id/nav_backgroundimage"
-            android:icon="@drawable/ic_mail_outline_black_24dp"
-            android:title="Background Image (TBD)" />
+            android:id="@+id/drawer_nav_setting"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="Setting" />
         <item
-            android:id="@+id/nav_export"
-            android:icon="@drawable/ic_mail_outline_black_24dp"
-            android:title="Export (TBD)" />
+            android:id="@+id/drawer_nav_share"
+            android:icon="@drawable/ic_share_black_24dp"
+            android:title="Share" />
         <item
-            android:id="@+id/nav_nav_font_size"
-            android:icon="@drawable/ic_mail_outline_black_24dp"
-            android:title="Font Size (TBD)" />
-        <item
-            android:id="@+id/nav_alarm"
-            android:icon="@drawable/ic_mail_outline_black_24dp"
-            android:title="Alarm lullaby" />
-        <item
-            android:id="@+id/nav_donotsharediary"
-            android:icon="@drawable/ic_mail_outline_black_24dp"
-            android:title="do not share diary" />
-        <item
-            android:id="@+id/nav_screenlock"
-            android:icon="@drawable/ic_mail_outline_black_24dp"
-            android:title="screenlock" />
-        <item
-            android:id="@+id/nav_lullaby"
-            android:icon="@drawable/ic_mail_outline_black_24dp"
-            android:title="lullaby" />
-        <item
-            android:id="@+id/nav_no_fcm"
-            android:icon="@drawable/ic_mail_outline_black_24dp"
-            android:title="NO FCM Push (TBD)" />-->
+            android:id="@+id/drawer_nav_feed_back"
+            android:icon="@drawable/ic_send_black_24dp"
+            android:title="Feedback" />
     </group>
 
-    <item android:title="About Today Diary">
+    <item android:title="Information">
         <menu>
             <item
-                android:id="@+id/nav_faq"
-                android:icon="@drawable/ic_mail_outline_black_24dp"
+                android:id="@+id/drawer_nav_faq"
+                android:icon="@drawable/ic_help_outline_black_24dp"
                 android:title="FAQ" />
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_mail_outline_black_24dp"
-                android:title="SHARE" />
+                android:id="@+id/drawer_nav_appInfo"
+                android:icon="@drawable/ic_info_outline_black_24dp"
+                android:title="About Onul Diary" />
             <item
-                android:id="@+id/nav_review"
-                android:icon="@drawable/ic_mail_outline_black_24dp"
-                android:title="REVIEW" />
+                android:id="@+id/footer_space"
+                android:checkable="false"
+                android:enabled="false"
+                android:title="" />
         </menu>
     </item>
 

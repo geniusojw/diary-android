@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import org.jerrioh.diary.dbmodel.Account;
 import org.jerrioh.diary.dbmodel.Diary;
 import org.jerrioh.diary.dbmodel.Letter;
+import org.jerrioh.diary.dbmodel.Setting;
 
 public class DbHelper extends SQLiteOpenHelper {
     private static DbHelper instance;
@@ -71,6 +72,17 @@ public class DbHelper extends SQLiteOpenHelper {
                     Letter.TableDesc.COLUMN_NAME_SERVER_SAVED,
                     Letter.TableDesc.COLUMN_NAME_STATUS);
 
+    public static final String SQL_CREATE_SETTING_TABLE =
+            String.format("CREATE TABLE IF NOT EXISTS " +
+                            "%s (" +
+                            "%s INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                            "%s STRING, " +
+                            "%s STRING" + ")",
+                    Setting.TableDesc.TABLE_NAME,
+                    Setting.TableDesc._ID,
+                    Setting.TableDesc.COLUMN_NAME_SETTING_KEY,
+                    Setting.TableDesc.COLUMN_NAME_SETTING_VALUE);
+
     public static final String SQL_DELETE_ACCOUNT_TABLE =
             String.format("DROP TABLE IF EXISTS %s",
                     Account.TableDesc.TABLE_NAME);
@@ -82,6 +94,10 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String SQL_DELETE_LETTER_TABLE =
             String.format("DROP TABLE IF EXISTS %s",
                     Letter.TableDesc.TABLE_NAME);
+
+    public static final String SQL_DELETE_SETTING_TABLE =
+            String.format("DROP TABLE IF EXISTS %s",
+                    Setting.TableDesc.TABLE_NAME);
 
     private DbHelper(Context context) {
         super(context, DB_NAME, null, 1);
@@ -99,6 +115,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_ACCOUNT_TABLE);
         db.execSQL(SQL_CREATE_DIARY_TABLE);
         db.execSQL(SQL_CREATE_LETTER_TABLE);
+        db.execSQL(SQL_CREATE_SETTING_TABLE);
     }
 
     @Override
@@ -106,6 +123,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_DELETE_ACCOUNT_TABLE);
         db.execSQL(SQL_DELETE_DIARY_TABLE);
         db.execSQL(SQL_DELETE_LETTER_TABLE);
+        db.execSQL(SQL_DELETE_SETTING_TABLE);
         this.onCreate(db);
     }
 }

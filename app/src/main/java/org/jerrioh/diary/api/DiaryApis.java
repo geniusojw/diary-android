@@ -1,10 +1,8 @@
 package org.jerrioh.diary.api;
 
 import android.content.Context;
-import android.util.Base64;
 import android.util.Log;
 
-import org.jerrioh.diary.db.AccountDao;
 import org.jerrioh.diary.db.DiaryDao;
 import org.jerrioh.diary.dbmodel.Diary;
 import org.jerrioh.diary.util.DateUtil;
@@ -21,7 +19,7 @@ public class DiaryApis {
 
     public static void getAllDiary(Context context, String token) throws JSONException {
 
-        ApiUtil.Callback callback = (jsonObject) -> {
+        ApiCaller.Callback callback = (jsonObject) -> {
             int code = (int) jsonObject.get("code");
             if (code == 200000) {
                 DiaryDao diaryDao = new DiaryDao(context);
@@ -39,10 +37,10 @@ public class DiaryApis {
             }
         };
 
-        ApiUtil.get(context, "/diary", token, callback);
+        ApiCaller.get(context, "/diary", callback);
     }
 
-    public static void sendToServerYesterDayDiary(Context context, String token) throws JSONException {
+    public static void sendToServerYesterDayDiary(Context context) throws JSONException {
         // 어제의 일기 저장
         DiaryDao diaryDao = new DiaryDao(context);
         String yesterday_yyyyMMdd = DateUtil.getyyyyMMdd(System.currentTimeMillis() - TimeUnit.HOURS.toMillis(24));
@@ -57,7 +55,7 @@ public class DiaryApis {
             return;
         }
 
-        ApiUtil.Callback callback = (jsonObject) -> {
+        ApiCaller.Callback callback = (jsonObject) -> {
             int code = (int) jsonObject.get("code");
             if (code == 200000 || code == 409002) { // 저장성공 or 이미 서버에 저장됨
                 yesterdayDiary.setServerSaved(1);
@@ -68,6 +66,6 @@ public class DiaryApis {
         JSONObject json = new JSONObject();
         json.put("title", yesterdayDiary.getTitle());
         json.put("content", yesterdayDiary.getContent());
-        ApiUtil.post(context, "/diary/" + yesterdayDiary.getWriteDay(), json.toString(), token, callback);
+        ApiCaller.post(context, "/diary/" + yesterdayDiary.getWriteDay(), json.toString(), callback);
     }
 }

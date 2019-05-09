@@ -3,13 +3,16 @@ package org.jerrioh.diary.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.jerrioh.diary.config.Constants;
 import org.jerrioh.diary.dbmodel.Diary;
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.util.DateUtil;
+import org.jerrioh.diary.util.StringUtil;
 
 import java.util.Locale;
 
@@ -26,7 +29,7 @@ public class DiaryReadActivity extends AppCompatActivity {
         day.setText(DateUtil.getDayString_yyyyMMdd(diary.getWriteDay(), Locale.getDefault()));
 
         EditText title = findViewById(R.id.detail_title);
-        title.setText(diary.getTitle());
+        title.setText(StringUtil.defaultIfEmpty(diary.getTitle(), Constants.DEFAULT_TITLE));
 
         EditText content = findViewById(R.id.detail_content);
         content.setText(diary.getContent());
@@ -35,9 +38,7 @@ public class DiaryReadActivity extends AppCompatActivity {
         backButton.setEnabled(true);
         backButton.setClickable(true);
         backButton.setOnClickListener(v -> {
-            Intent backIntent = new Intent(DiaryReadActivity.this, MainActivity.class);
-            backIntent.putExtra("initNavId", R.id.nav_diary);
-            startActivity(backIntent);
+            finish();
         });
     }
 }

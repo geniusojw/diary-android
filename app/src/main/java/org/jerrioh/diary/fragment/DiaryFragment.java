@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class DiaryFragment extends Fragment {
+public class DiaryFragment extends MainActivityFragment {
     private static final String TAG = "DiaryFragment";
 
     @Nullable
@@ -35,7 +35,7 @@ public class DiaryFragment extends Fragment {
 
         Bundle args = getArguments();
         if (args != null) {
-            yyyyMM = args.getString("diplay_yyyyMM");
+            yyyyMM = args.getString("display_yyyyMM");
         }
         if (yyyyMM == null) {
             yyyyMM = DateUtil.getyyyyMMdd().substring(0, 6);
@@ -61,6 +61,7 @@ public class DiaryFragment extends Fragment {
         diaryRecyclerView.setLayoutManager(layoutManager);
         diaryRecyclerView.setAdapter(mAdapter);
 
+        setDiaryWriteButton(true);
         return diaryView;
     }
 
@@ -72,12 +73,10 @@ public class DiaryFragment extends Fragment {
         // 리스트 노출전 제목과 내용이 없는 일기 삭제 처리
         List<Diary> removeData = new ArrayList<>();
         for (Diary diary : diaryData) {
-            if (StringUtil.isEmpty(diary.getTitle())
-                    && StringUtil.isEmpty(diary.getContent())) {
+            if (StringUtil.isEmpty(diary.getTitle()) && StringUtil.isEmpty(diary.getContent())) {
                 removeData.add(diary);
             }
         }
-        List<String> writeDays = new ArrayList<>();
         for (Diary diary : removeData) {
             diaryDao.removeMyDiary(diary.getWriteDay());
             diaryData.remove(diary);

@@ -36,9 +36,7 @@ public class LetterReadActivity extends AppCompatActivity {
         backButton.setEnabled(true);
         backButton.setClickable(true);
         backButton.setOnClickListener(v -> {
-            Intent backIntent = new Intent(LetterReadActivity.this, MainActivity.class);
-            backIntent.putExtra("initNavId", R.id.nav_letter);
-            startActivity(backIntent);
+            finish();
         });
     }
 }

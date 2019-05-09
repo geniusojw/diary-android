@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorBlack">#000000</color>
+    <color name="colorRed">#FF0000</color>
+    <color name="colorMaroon">#800000</color>
+    <color name="colorWhite">#FFFFFF</color>
+
     <color name="colorPrimary">#5d95ba</color>
     <color name="colorPrimaryDark">#325a70</color>
     <color name="colorAccent">#fc6b51</color>
+
+    <color name="penguinWhite">#f5f3ef</color>
+    <color name="prussianBlue">#003458</color>
+    <color name="cobaltBlue">#00498c</color>
+    <color name="vanDyckBrown">#584630</color>
+    <color name="darkCharcoal">#333333</color>
+    <color name="blackCoffee">#3b2f2f</color>
+
 </resources>

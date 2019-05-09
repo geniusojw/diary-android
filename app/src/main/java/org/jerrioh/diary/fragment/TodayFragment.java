@@ -14,7 +14,7 @@ import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.TodayPeopleActivity;
 import org.jerrioh.diary.activity.TodayWriteActivity;
 
-public class TodayFragment extends Fragment {
+public class TodayFragment extends MainActivityFragment {
     private static final String TAG = "TodayFragment";
 
     @Nullable
@@ -30,14 +30,7 @@ public class TodayFragment extends Fragment {
             startActivity(intent);
         });
 
-        View writeButton = todayView.findViewById(R.id.write_diary_button);
-        writeButton.setEnabled(true);
-        writeButton.setClickable(true);
-        writeButton.setOnClickListener(view -> {
-            Intent intent = new Intent(getActivity(), TodayWriteActivity.class);
-            startActivity(intent);
-        });
-
+        setDiaryWriteButton(true);
         return todayView;
     }
 }

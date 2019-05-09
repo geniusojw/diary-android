@@ -12,7 +12,7 @@ public class EtcApis {
     private static final String TAG = "EtcApis";
 
     public static void getApplicationInformation(Context context, String token) throws JSONException {
-        ApiUtil.Callback callback = (jsonObject) -> {
+        ApiCaller.Callback callback = (jsonObject) -> {
             int code = (int) jsonObject.get("code");
             if (code == 200000) {
                 JSONObject data = (JSONObject) jsonObject.get("data");
@@ -24,6 +24,6 @@ public class EtcApis {
                 Log.d(TAG, "tips = " + tips);
             }
         };
-        ApiUtil.get(context, "/application-information", token, callback);
+        ApiCaller.get(context, "/application-information", callback);
     }
 }

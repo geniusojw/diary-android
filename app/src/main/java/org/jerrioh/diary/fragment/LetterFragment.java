@@ -23,7 +23,7 @@ import org.jerrioh.diary.dbmodel.Letter;
 
 import java.util.List;
 
-public class LetterFragment extends Fragment {
+public class LetterFragment extends MainActivityFragment {
     private static final String TAG = "LetterFragment";
 
     @Nullable
@@ -42,8 +42,8 @@ public class LetterFragment extends Fragment {
             startActivity(intent);
         });
 
-        View diaryView = inflater.inflate(R.layout.fragment_letter, container, false);
-        RecyclerView diaryRecyclerView = diaryView.findViewById(R.id.letter_recycler_view);
+        View letterView = inflater.inflate(R.layout.fragment_letter, container, false);
+        RecyclerView diaryRecyclerView = letterView.findViewById(R.id.letter_recycler_view);
 
         diaryRecyclerView.setHasFixedSize(false);
 
@@ -51,6 +51,7 @@ public class LetterFragment extends Fragment {
         diaryRecyclerView.setLayoutManager(layoutManager);
         diaryRecyclerView.setAdapter(mAdapter);
 
-        return diaryView;
+        setDiaryWriteButton(false);
+        return letterView;
     }
 }
