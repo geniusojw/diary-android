@@ -2,10 +2,9 @@ package org.jerrioh.diary.api;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyLog;
@@ -13,9 +12,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.jerrioh.diary.config.Config;
-import org.jerrioh.diary.dbmodel.Account;
-import org.jerrioh.diary.util.CurrentAccountUtil;
-import org.jerrioh.diary.util.StringUtil;
+import org.jerrioh.diary.model.Author;
+import org.jerrioh.diary.model.db.AuthorDao;
+import org.jerrioh.diary.util.AuthorUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,127 +22,145 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class ApiCaller {
-
     private static final String TAG = "ApiCaller";
+    private static final String UTF_8 = "utf-8";
 
-    public interface Callback {
-        void callback(JSONObject jsonObject) throws JSONException;
+    protected Context context;
+
+    protected ApiCaller(Context context) {
+        this.context = context;
     }
 
-    public static void get(Context context, String uri, Callback callback) {
-        String validToken = validToken(context);
-        if (TextUtils.isEmpty(validToken)) {
-            return;
+    protected void get(String uri, Map<String, String> headers, ApiCallback callback) {
+        if (validParameters(uri, headers, callback)) {
+            StringRequest request = volleyRequest(Request.Method.GET, Config.get(context, "api_url") + uri, headers, null, callback);
+            RequestQueue queue = Volley.newRequestQueue(context);
+            queue.add(request);
         }
-
-        StringRequest request = getStringRequest(Request.Method.GET, Config.get(context, "api_url") + uri, null, validToken, callback);
-        RequestQueue queue = Volley.newRequestQueue(context);
-        queue.add(request);
     }
 
-    public static void post(Context context, String uri, String requestBody, Callback callback) {
-        String validToken = validToken(context);
-        if (TextUtils.isEmpty(validToken)) {
-            return;
+    protected void post(String uri, Map<String, String> headers, String body, ApiCallback callback) {
+        if (validParameters(uri, headers, callback)) {
+            StringRequest request = volleyRequest(Request.Method.POST, Config.get(context, "api_url") + uri, headers, body, callback);
+            RequestQueue queue = Volley.newRequestQueue(context);
+            queue.add(request);
         }
-
-        StringRequest request = getStringRequest(Request.Method.POST, Config.get(context, "api_url") + uri, requestBody, validToken, callback);
-        RequestQueue queue = Volley.newRequestQueue(context);
-        queue.add(request);
     }
 
-
-    public static void postWithoutToken(Context context, String uri, String requestBody, Callback callback) {
-        StringRequest request = getStringRequest(Request.Method.POST, Config.get(context, "api_url") + uri, requestBody, null, callback);
-        RequestQueue queue = Volley.newRequestQueue(context);
-        queue.add(request);
+    private boolean validParameters(String uri, Map<String, String> headers, ApiCallback callback) {
+        return uri != null && headers != null && callback != null;
     }
 
-    private static StringRequest getStringRequest(int method, String url, String requestBody, String token, Callback callback) {
+    private StringRequest volleyRequest(int method, String url, Map<String, String> headers, String body, ApiCallback callback) {
         return new StringRequest(method, url,
                 response -> {
                     Log.d(TAG, url + " success!");
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        Log.d(TAG, jsonObject.toString());
-                        callback.callback(jsonObject);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    Log.d(TAG, "response = " + response);
+                    callback.execute(200, response);
                 },
-                vollyError -> {
-                    Log.d(TAG, url + " fail!" + ", vollyError=" + vollyError.toString());
-                    if (vollyError.networkResponse != null) {
+                volleyError -> {
+                    Log.d(TAG, url + " fail!" + ", volleyError=" + volleyError.toString());
+                    if (volleyError.networkResponse != null) {
+                        String response = null;
                         try {
-                            JSONObject jsonObject = new JSONObject(new String(vollyError.networkResponse.data, "utf-8"));
-                            Log.d(TAG, jsonObject.toString());
-                            callback.callback(jsonObject);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            response = new String(volleyError.networkResponse.data, UTF_8);
+                            Log.d(TAG, "response = " + response);
+                            callback.execute(volleyError.networkResponse.statusCode, response);
                         } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
+                            Log.d(TAG, "UnsupportedEncodingException = " + e.toString());
                         }
                     }
                 }
         ) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String>  params = new HashMap<>();
-                params.put("User-Agent", "Onul Diary Mobile Client");
-                params.put("Timestamp", String.valueOf(System.currentTimeMillis()));
-                params.put("Country", Locale.getDefault().getISO3Country());
-                params.put("Language", Locale.getDefault().getISO3Language());
-                params.put("Token", token);
-                if (requestBody != null) {
-                    params.put("Content-Type", "application/json");
-                }
-                return params;
+            public Map<String, String> getHeaders() {
+                return headers;
             }
             @Override
-            public byte[] getBody() throws AuthFailureError {
-                try {
-                    return requestBody == null ? null : requestBody.getBytes("utf-8");
-                } catch (UnsupportedEncodingException uee) {
-                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
-                    return null;
+            public byte[] getBody() {
+                if (body != null) {
+                    try {
+                        return body.getBytes(UTF_8);
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", body, "utf-8");
+                    }
                 }
+                return null;
             }
         };
     }
 
-    private static String validToken(Context context) {
-        Account currentAccount = CurrentAccountUtil.getAccount(context);
+    protected Map<String, String> defaultHeaders() {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("User-Agent", "Onul Diary Mobile Client");
+        headers.put("Timestamp", String.valueOf(System.currentTimeMillis()));
+        headers.put("Country", Locale.getDefault().getISO3Country());
+        headers.put("Language", Locale.getDefault().getISO3Language());
+        headers.put("Content-Type", "application/json");
+        return headers;
+    }
 
-        if (CurrentAccountUtil.isMember(currentAccount.getUserId())) {
-            Log.d(TAG, "try to update member account information");
-            if (StringUtil.isEmpty(currentAccount.getToken())) {
-                return null;
-            } else if (AccountApis.expired(currentAccount.getToken())) {
-                return null;
-            } else {
-                return currentAccount.getToken();
-            }
+    protected Map<String, String> authorHeaders() {
+        AuthorDao authorDao = new AuthorDao(context);
+        Author author = authorDao.getAuthor();
 
-        } else {
-            Log.d(TAG, "try to update non-member account information");
-            try {
-                if (StringUtil.isEmpty(currentAccount.getToken())) {
-                    AccountApis.signup(context, currentAccount.getUserId(), "watermelon#00");
-                    return null;
-                } else if (AccountApis.expired(currentAccount.getToken())) {
-                    AccountApis.signin(context, currentAccount.getUserId(), "watermelon#00");
-                    return null;
-                } else {
-                    return currentAccount.getToken();
-                }
-            } catch (JSONException e) {
-                return null;
-            }
+        Map<String, String> headers = defaultHeaders();
+        headers.put("Author-ID", author.getAuthorId());
+        headers.put("Author-Code", author.getAuthorCode());
+        return headers;
+    }
+
+    protected Map<String, String> accountHeaders() {
+        AuthorDao authorDao = new AuthorDao(context);
+        Author author = authorDao.getAuthor();
+
+        // 로그인하지 않은 사용자
+        if (TextUtils.isEmpty(author.getAccountEmail())) {
+            return null;
         }
+
+        // 로그인하였으나 토큰만료된 상태
+        String accountToken = author.getAccountToken();
+        if (!isValidAccountToken(accountToken)) {
+            AuthorUtil.accountSignOut(context); // 로그아웃 처리
+            return null;
+        }
+
+        Map<String, String> headers = defaultHeaders();
+        headers.put("Token", accountToken);
+        return headers;
+    }
+
+    private boolean isValidAccountToken(String accountToken) {
+        if (TextUtils.isEmpty(accountToken)) {
+            Log.d(TAG, "accountToken is empty");
+            return false;
+        }
+
+        int start = accountToken.indexOf(".") + 1;
+        int end = accountToken.indexOf(".", start);
+
+        byte[] decoded = Base64.decode(accountToken.substring(start, end), 0);
+        String jwtBody = new String(decoded);
+        if (TextUtils.isEmpty(jwtBody)) {
+            Log.d(TAG, "JWT body is null");
+            return false;
+        }
+
+        try {
+            JSONObject jsonObject = new JSONObject(jwtBody);
+            long expire = jsonObject.getLong("exp") * 1000;
+            long current = System.currentTimeMillis();
+
+            if (expire < current) {
+                Log.d(TAG, "current: " + current + ", expire: " + expire);
+                return false;
+            }
+        } catch (JSONException e) {
+            Log.d(TAG, "JsonException. " + e.toString());
+        }
+        return true;
     }
 }

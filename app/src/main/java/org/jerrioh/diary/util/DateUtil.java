@@ -1,8 +1,9 @@
 package org.jerrioh.diary.util;
 
+import android.text.TextUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -70,7 +71,7 @@ public class DateUtil {
 
     // 년 월 표시
     public static String getDayString_yyyyMMdd(String yyyyMMdd, Locale locale) {
-        if (StringUtil.isEmpty(yyyyMMdd) || yyyyMMdd.length() != 8) {
+        if (TextUtils.isEmpty(yyyyMMdd) || yyyyMMdd.length() != 8) {
             return null;
         }
         try {
@@ -92,7 +93,7 @@ public class DateUtil {
 
     // 년 월 표시
     public static String getDayString_yyyyMM(String yyyyMM, Locale locale) {
-        if (StringUtil.isEmpty(yyyyMM) || yyyyMM.length() != 6) {
+        if (TextUtils.isEmpty(yyyyMM) || yyyyMM.length() != 6) {
             return null;
         }
 
@@ -124,7 +125,6 @@ public class DateUtil {
         }
         int yyyyInteger = Integer.parseInt(yyyyMM.substring(0, 4));
         int monthInteger = Integer.parseInt(yyyyMM.substring(4, 6));
-
 
         int addYear = diffMonth / 12;
         int addMonth = diffMonth % 12;

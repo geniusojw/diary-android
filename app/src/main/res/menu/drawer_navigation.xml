@@ -5,38 +5,46 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/drawer_nav_account"
-            android:icon="@drawable/ic_account_circle_black_24dp"
+            android:id="@+id/drawer_option_account"
+            android:icon="@drawable/ic_cloud_queue_black_24dp"
             android:title="Account" />
         <item
-            android:id="@+id/drawer_nav_setting"
+            android:id="@+id/drawer_option_about_me"
+            android:icon="@drawable/ic_face_black_24dp"
+            android:title="About ME" />
+        <item
+            android:id="@+id/drawer_option_change_nick"
+            android:icon="@drawable/ic_fiber_new_black_24dp"
+            android:title="New Nickname" />
+        <item
+            android:id="@+id/drawer_option_setting"
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="Setting" />
-        <item
-            android:id="@+id/drawer_nav_share"
-            android:icon="@drawable/ic_share_black_24dp"
-            android:title="Share" />
-        <item
-            android:id="@+id/drawer_nav_feed_back"
-            android:icon="@drawable/ic_send_black_24dp"
-            android:title="Feedback" />
     </group>
 
     <item android:title="Information">
         <menu>
             <item
-                android:id="@+id/drawer_nav_faq"
+                android:id="@+id/drawer_option_faq"
                 android:icon="@drawable/ic_help_outline_black_24dp"
                 android:title="FAQ" />
             <item
-                android:id="@+id/drawer_nav_appInfo"
+                android:id="@+id/drawer_option_about_application"
                 android:icon="@drawable/ic_info_outline_black_24dp"
                 android:title="About Onul Diary" />
+        </menu>
+    </item>
+
+    <item android:title="Communication">
+        <menu>
             <item
-                android:id="@+id/footer_space"
-                android:checkable="false"
-                android:enabled="false"
-                android:title="" />
+                android:id="@+id/drawer_option_share"
+                android:icon="@drawable/ic_share_black_24dp"
+                android:title="Share" />
+            <item
+                android:id="@+id/drawer_option_feedback"
+                android:icon="@drawable/ic_send_black_24dp"
+                android:title="Feedback" />
         </menu>
     </item>
 

@@ -8,7 +8,7 @@
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/x_toolbar"
+        layout="@layout/toolbar"
         />
 
     <LinearLayout
@@ -19,6 +19,53 @@
         android:paddingRight="16dp"
         android:paddingTop="16dp"
         >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="23dp">
+            <TextView
+                android:id="@+id/text_view_setting_alias"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="17sp"
+                android:textColor="@color/darkCharcoal"
+                android:text="Alias Feature"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="12sp"
+                android:textColor="@color/blackCoffee"
+                android:text="Set the alias to use for a letter or group diary"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="23dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="17sp"
+                android:textColor="@color/darkCharcoal"
+                android:text="Diary Theme"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="12sp"
+                android:textColor="@color/blackCoffee"
+                android:text="Let's change the atmosphere of the diary"
+                />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,7 +119,7 @@
             android:orientation="vertical"
             android:layout_marginBottom="23dp">
             <Switch
-                android:id="@+id/switch_screenlock"
+                android:id="@+id/switch_setting_screen_lock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -96,7 +143,7 @@
             android:orientation="vertical"
             android:layout_marginBottom="23dp">
             <Switch
-                android:id="@+id/switch_diary_alarm"
+                android:id="@+id/switch_setting_diary_alarm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -121,7 +168,7 @@
             android:layout_marginBottom="23dp">
 
             <Switch
-                android:id="@+id/switch_group_invitation"
+                android:id="@+id/switch_setting_group_invitation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -135,6 +182,30 @@
                 android:textSize="12sp"
                 android:textColor="@color/blackCoffee"
                 android:text="Get a diary group invitation"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_setting_data_reset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="23dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="17sp"
+                android:textColor="@color/darkCharcoal"
+                android:text="Data Reset"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="12sp"
+                android:textColor="@color/blackCoffee"
+                android:text="All diaries, letters and settings will be permanently deleted"
                 />
         </LinearLayout>
 

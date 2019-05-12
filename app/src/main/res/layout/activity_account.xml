@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -9,7 +10,7 @@
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/x_toolbar"
+        layout="@layout/toolbar"
         />
 
     <LinearLayout
@@ -22,121 +23,100 @@
         >
 
         <LinearLayout
+            android:id="@+id/linear_layout_account_sync"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="@null"
-                android:layout_marginRight="20dp"
-                android:src="@drawable/ic_cloud_queue_black_24dp"
-                />
-
-            <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginBottom="23dp">
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/login_text1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="22sp"
-                    android:textColor="@color/prussianBlue"
-                    android:layout_marginBottom="10dp"
-                    android:text="Account(Member) Text"
-                    />
-                <TextView
-                    android:id="@+id/login_text2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@color/cobaltBlue"
-                    android:layout_marginBottom="5dp"
-                    android:text="text"
-                    />
-            </LinearLayout>
+                android:gravity="center_vertical"
+                android:textSize="17sp"
+                android:textColor="@color/darkCharcoal"
+                android:text="Synchronization"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="12sp"
+                android:textColor="@color/blackCoffee"
+                android:text="Sync your diary to be recoverable."
+                />
         </LinearLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/login_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/login_email_input"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:inputType="text"
-                android:maxLines="1"
-                android:maxLength="50"
-                android:hint="Email"
-                />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/login_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/login_password_input"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:inputType="text"
-                android:maxLines="1"
-                android:maxLength="50"
-                android:hint="Password"
-                />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/login_password_confirm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/login_password_confirm_input"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:inputType="text"
-                android:maxLines="1"
-                android:maxLength="50"
-                android:hint="Confirm Password"
-                />
-        </android.support.design.widget.TextInputLayout>
-
-        <Button
-            android:id="@+id/login_button"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/btn_blue"
-            android:textColor="@color/colorWhite"
-            android:stateListAnimator="@null"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Sign up for free"
-            android:layout_marginBottom="16dp"
-            />
-
-        <TextView
-            android:id="@+id/login_option1"
+        <LinearLayout
+            android:id="@+id/linear_layout_account_export"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:textSize="15sp"
-            android:text="option1"
-            android:textColor="@color/darkCharcoal"
-            />
-        <TextView
-            android:id="@+id/login_option2"
+            android:orientation="vertical"
+            android:layout_marginBottom="23dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="17sp"
+                android:textColor="@color/darkCharcoal"
+                android:text="Export Diary"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="12sp"
+                android:textColor="@color/blackCoffee"
+                android:text="You can get diaries by mail."
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_account_change_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:text="option2"
-            android:textColor="@color/darkCharcoal"
-            />
+            android:orientation="vertical"
+            android:layout_marginBottom="23dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="17sp"
+                android:textColor="@color/darkCharcoal"
+                android:text="Change account"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="12sp"
+                android:textColor="@color/blackCoffee"
+                android:text="Change password, and delete account."
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_account_sign_out"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="23dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="17sp"
+                android:textColor="@color/darkCharcoal"
+                android:text="Sign out"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="12sp"
+                android:textColor="@color/blackCoffee"
+                android:text="Sign out of the current device. Sync will stop."
+                />
+        </LinearLayout>
 
     </LinearLayout>
 

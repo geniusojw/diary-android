@@ -11,24 +11,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/NoActionBarTheme">
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.TodayWriteActivity" />
-        <activity android:name=".activity.TodayPeopleActivity" />
+        <activity android:name=".activity.main.TodayWriteActivity" />
+        <activity android:name=".activity.main.TodayPeopleActivity" />
 
-        <activity android:name=".activity.DiaryReadActivity" />
-        <activity android:name=".activity.LetterReadActivity" />
+        <activity android:name=".activity.main.DiaryReadActivity" />
+        <activity android:name=".activity.main.LetterReadActivity" />
 
-        <activity android:name=".activity.MemberActivity" />
-        <activity android:name=".activity.AccountActivity" />
-        <activity android:name=".activity.AccountMemberActivity" />
-        <activity android:name=".activity.SettingActivity" />
-        <activity android:name=".activity.AppInformationActivity" />
+        <activity android:name=".activity.draw.AccountActivity" />
+        <activity android:name=".activity.draw.AccountSignUpActivity" />
+        <activity android:name=".activity.draw.AccountChangePwActivity" />
+        <activity android:name=".activity.draw.SettingActivity" />
+        <activity android:name=".activity.draw.AboutApplicationActivity" />
 
     </application>
 

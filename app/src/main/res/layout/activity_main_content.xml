@@ -13,7 +13,7 @@
         >
 
         <ImageView
-            android:id="@+id/main_banner_draw_menu"
+            android:id="@+id/image_view_open_drawer_hamburger"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentLeft="true"
@@ -23,13 +23,14 @@
             android:padding="10dp" />
 
         <ImageView
-            android:id="@+id/main_banner_weather"
+            android:id="@+id/image_view_banner_right_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:src="@drawable/ic_wb_sunny_black_24dp"
             android:background ="@null"
+            android:clickable="true"
             android:padding="10dp" />
 
         <LinearLayout
@@ -38,13 +39,13 @@
             android:orientation="vertical"
             android:gravity="center"
             android:background ="@android:color/holo_orange_light"
-            android:layout_toRightOf="@id/main_banner_draw_menu"
-            android:layout_toLeftOf="@id/main_banner_weather"
+            android:layout_toRightOf="@id/image_view_open_drawer_hamburger"
+            android:layout_toLeftOf="@id/image_view_banner_right_button"
             android:weightSum="1"
             >
 
             <TextView
-                android:id="@+id/main_banner_content_top"
+                android:id="@+id/text_view_main_banner_top"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.2"
@@ -54,7 +55,7 @@
                 />
 
             <RelativeLayout
-                android:id="@+id/main_banner_content_mid"
+                android:id="@+id/relative_layout_main_banner_mid"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.5"
@@ -64,7 +65,7 @@
                 >
 
                 <ImageView
-                    android:id="@+id/main_banner_content_mid_left_button"
+                    android:id="@+id/image_view_month_adjust_left"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -73,7 +74,7 @@
                     android:background ="@null" />
 
                 <ImageView
-                    android:id="@+id/main_banner_content_mid_right_button"
+                    android:id="@+id/image_view_month_adjust_right"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -82,7 +83,7 @@
                     android:background ="@null" />
 
                 <TextView
-                    android:id="@+id/main_banner_content_mid_text"
+                    android:id="@+id/text_view_main_banner_mid"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -97,7 +98,7 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/main_banner_content_bottom"
+                android:id="@+id/text_view_main_banner_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.3"
@@ -111,19 +112,19 @@
     </RelativeLayout>
 
     <FrameLayout
-        android:id="@+id/fragment_container"
+        android:id="@+id/frame_layout_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/main_banner"
-        android:layout_above="@id/bottom_navigation" >
+        android:layout_above="@id/bottom_navigation_view" >
     </FrameLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/write_diary_button"
+        android:id="@+id/floating_action_button_write_diary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_above="@id/bottom_navigation"
+        android:layout_above="@id/bottom_navigation_view"
         app:srcCompat="@drawable/ic_edit_black_48dp"
         app:useCompatPadding="true"
         app:fabCustomSize="80dp"
@@ -132,7 +133,7 @@
         />
 
     <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+        android:id="@+id/bottom_navigation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
