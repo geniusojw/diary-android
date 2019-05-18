@@ -21,36 +21,36 @@ public class Letter implements Serializable {
         public static final String COLUMN_NAME_STATUS = "status";
     }
 
-    private String letter_id; // ex) unix time
-    private String from_author_id;
-    private String to_author_id;
+    private String letterId; // ex) author_id + seq
+    private String fromAuthorId;
+    private String toAuthorId;
     private String title;
     private String content;
-    private String written_time;
+    private long writtenTime;
     private int status; // ex) 0: unread, 1: read
 
-    public String getLetter_id() {
-        return letter_id;
+    public String getLetterId() {
+        return letterId;
     }
 
-    public void setLetter_id(String letter_id) {
-        this.letter_id = letter_id;
+    public void setLetterId(String letterId) {
+        this.letterId = letterId;
     }
 
-    public String getFrom_author_id() {
-        return from_author_id;
+    public String getFromAuthorId() {
+        return fromAuthorId;
     }
 
-    public void setFrom_author_id(String from_author_id) {
-        this.from_author_id = from_author_id;
+    public void setFromAuthorId(String fromAuthorId) {
+        this.fromAuthorId = fromAuthorId;
     }
 
-    public String getTo_author_id() {
-        return to_author_id;
+    public String getToAuthorId() {
+        return toAuthorId;
     }
 
-    public void setTo_author_id(String to_author_id) {
-        this.to_author_id = to_author_id;
+    public void setToAuthorId(String toAuthorId) {
+        this.toAuthorId = toAuthorId;
     }
 
     public String getTitle() {
@@ -69,12 +69,12 @@ public class Letter implements Serializable {
         this.content = content;
     }
 
-    public String getWritten_time() {
-        return written_time;
+    public long getWrittenTime() {
+        return writtenTime;
     }
 
-    public void setWritten_time(String written_time) {
-        this.written_time = written_time;
+    public void setWrittenTime(long writtenTime) {
+        this.writtenTime = writtenTime;
     }
 
     public int getStatus() {

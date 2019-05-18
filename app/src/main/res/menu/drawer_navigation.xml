@@ -9,17 +9,13 @@
             android:icon="@drawable/ic_cloud_queue_black_24dp"
             android:title="Account" />
         <item
-            android:id="@+id/drawer_option_about_me"
-            android:icon="@drawable/ic_face_black_24dp"
-            android:title="About ME" />
-        <item
-            android:id="@+id/drawer_option_change_nick"
-            android:icon="@drawable/ic_fiber_new_black_24dp"
-            android:title="New Nickname" />
-        <item
             android:id="@+id/drawer_option_setting"
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="Setting" />
+        <item
+            android:id="@+id/drawer_option_chocolate_shop"
+            android:icon="@drawable/ic_store_black_24dp"
+            android:title="Chocolate shop" />
     </group>
 
     <item android:title="Information">

@@ -3,7 +3,6 @@ package org.jerrioh.diary.activity.main;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,13 +14,14 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.draw.AccountActivity;
 import org.jerrioh.diary.activity.draw.AboutApplicationActivity;
+import org.jerrioh.diary.activity.draw.ChocolateShopActivity;
+import org.jerrioh.diary.activity.draw.FaqActivity;
 import org.jerrioh.diary.activity.draw.SettingActivity;
 import org.jerrioh.diary.config.Constants;
 import org.jerrioh.diary.util.AuthorUtil;
@@ -135,17 +135,15 @@ public class MainActivity extends AppCompatActivity {
             if (id == R.id.drawer_option_account) {
                 startActivityForResult(new Intent(this, AccountActivity.class), REQUEST_ACCOUNT_ACTIVITY);
 
-            } else if (id == R.id.drawer_option_about_me) {
-
-            } else if (id == R.id.drawer_option_change_nick) {
-
             } else if (id == R.id.drawer_option_setting) {
                 startActivityForResult(new Intent(this, SettingActivity.class), REQUEST_SETTING_ACTIVITY);
 
+            } else if (id == R.id.drawer_option_chocolate_shop) {
+                startActivity(new Intent(this, ChocolateShopActivity.class));
             } else if (id == R.id.drawer_option_faq) {
+                startActivity(new Intent(this, FaqActivity.class));
             } else if (id == R.id.drawer_option_about_application) {
                 startActivity(new Intent(this, AboutApplicationActivity.class));
-
             } else if (id == R.id.drawer_option_share) {
             } else if (id == R.id.drawer_option_feedback) {
             }

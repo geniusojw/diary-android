@@ -60,7 +60,7 @@ public class DbHelper extends SQLiteOpenHelper {
                             "%s STRING, " +
                             "%s STRING, " +
                             "%s STRING, " +
-                            "%s STRING, " +
+                            "%s INTEGER, " +
                             "%s INTEGER" + ")",
                     Letter.TableDesc.TABLE_NAME,
                     Letter.TableDesc._ID,

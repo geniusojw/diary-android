@@ -1,8 +1,10 @@
 package org.jerrioh.diary.model.db;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.model.Letter;
 
 import java.util.ArrayList;
@@ -60,18 +62,31 @@ public class LetterDao extends AbstractDao {
         return letters;
     }
 
+    public long insertLetter(Letter letter) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Letter.TableDesc.COLUMN_NAME_LETTER_ID, letter.getLetterId());
+        contentValues.put(Letter.TableDesc.COLUMN_NAME_FROM_AUTHOR_ID, letter.getTitle());
+        contentValues.put(Letter.TableDesc.COLUMN_NAME_TO_AUTHOR_ID, letter.getToAuthorId());
+        contentValues.put(Letter.TableDesc.COLUMN_NAME_TITLE, letter.getTitle());
+        contentValues.put(Letter.TableDesc.COLUMN_NAME_CONTENT, letter.getContent());
+        contentValues.put(Letter.TableDesc.COLUMN_NAME_WRITTEN_TIME, letter.getWrittenTime());
+        contentValues.put(Letter.TableDesc.COLUMN_NAME_STATUS, letter.getStatus());
+
+        return writableDb().insert(TABLE_NAME, null, contentValues);
+    }
+
     public long deleteAllLetters() {
         return writableDb().delete(TABLE_NAME, "1=1", new String[]{});
     }
 
     private Letter getLetterOnCursor(Cursor cursor) {
         Letter letter = new Letter();
-        letter.setLetter_id(cursor.getString(0));
-        letter.setFrom_author_id(cursor.getString(1));
-        letter.setTo_author_id(cursor.getString(2));
+        letter.setLetterId(cursor.getString(0));
+        letter.setFromAuthorId(cursor.getString(1));
+        letter.setToAuthorId(cursor.getString(2));
         letter.setTitle(cursor.getString(3));
         letter.setContent(cursor.getString(4));
-        letter.setWritten_time(cursor.getString(5));
+        letter.setWrittenTime(cursor.getLong(5));
         letter.setStatus(cursor.getInt(6));
         return letter;
     }

@@ -20,7 +20,7 @@ public class LetterReadActivity extends AppCompatActivity {
         Letter letter = (Letter) intent.getSerializableExtra("letter");
 
         TextView date = findViewById(R.id.detail_date);
-        date.setText(letter.getFrom_author_id());
+        date.setText(letter.getFromAuthorId());
 
         EditText title = findViewById(R.id.detail_title);
         title.setText(letter.getTitle());

@@ -17,6 +17,7 @@ import org.jerrioh.diary.model.db.AuthorDao;
 import org.jerrioh.diary.util.AuthorUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -44,6 +45,14 @@ public class ApiCaller {
     protected void post(String uri, Map<String, String> headers, String body, ApiCallback callback) {
         if (validParameters(uri, headers, callback)) {
             StringRequest request = volleyRequest(Request.Method.POST, Config.get(context, "api_url") + uri, headers, body, callback);
+            RequestQueue queue = Volley.newRequestQueue(context);
+            queue.add(request);
+        }
+    }
+
+    protected void delete(String uri, Map<String, String> headers, String body, ApiCallback callback) {
+        if (validParameters(uri, headers, callback)) {
+            StringRequest request = volleyRequest(Request.Method.DELETE, Config.get(context, "api_url") + uri, headers, body, callback);
             RequestQueue queue = Volley.newRequestQueue(context);
             queue.add(request);
         }
@@ -103,8 +112,12 @@ public class ApiCaller {
     }
 
     protected Map<String, String> authorHeaders() {
-        AuthorDao authorDao = new AuthorDao(context);
-        Author author = authorDao.getAuthor();
+        Author author = AuthorUtil.getAuthor(context);
+
+        // 등록되지 않은 author
+        if (TextUtils.isEmpty(author.getAuthorCode())) {
+            return null;
+        }
 
         Map<String, String> headers = defaultHeaders();
         headers.put("Author-ID", author.getAuthorId());
@@ -113,8 +126,7 @@ public class ApiCaller {
     }
 
     protected Map<String, String> accountHeaders() {
-        AuthorDao authorDao = new AuthorDao(context);
-        Author author = authorDao.getAuthor();
+        Author author = AuthorUtil.getAuthor(context);
 
         // 로그인하지 않은 사용자
         if (TextUtils.isEmpty(author.getAccountEmail())) {

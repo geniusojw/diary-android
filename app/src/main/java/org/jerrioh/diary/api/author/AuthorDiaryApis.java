@@ -15,7 +15,7 @@ import java.util.Map;
 public class AuthorDiaryApis extends ApiCaller {
     private static final String TAG = "AuthorDiaryApis";
 
-    protected AuthorDiaryApis(Context context) {
+    public AuthorDiaryApis(Context context) {
         super(context);
     }
 
@@ -29,7 +29,7 @@ public class AuthorDiaryApis extends ApiCaller {
             json.put("country", Locale.getDefault().getISO3Country());
             json.put("language", Locale.getDefault().getISO3Language());
 
-            super.post("/author/diary", headers, json.toString(), callback);
+            super.post("/author/diaries", headers, json.toString(), callback);
         } catch (JSONException e) {
             Log.e(TAG, "JSONException, " + e.toString());
         }

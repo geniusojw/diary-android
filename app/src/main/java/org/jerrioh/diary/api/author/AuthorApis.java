@@ -22,7 +22,7 @@ public class AuthorApis extends ApiCaller {
         try {
             JSONObject json = new JSONObject();
             json.put("authorId", authorId);
-            super.post("/author/create", headers, json.toString(), callback);
+            super.post("/author/start", headers, json.toString(), callback);
         } catch (JSONException e) {
             Log.e(TAG, "JSONException, " + e.toString());
         }
@@ -31,6 +31,12 @@ public class AuthorApis extends ApiCaller {
     public void authorInfo(ApiCallback callback) {
         Map<String, String> headers = authorHeaders();
         super.get("/author", headers, callback);
+    }
+
+    public void delete(ApiCallback callback) {
+        Map<String, String> headers = authorHeaders();
+        JSONObject json = new JSONObject();
+        super.delete("/author", headers, json.toString(), callback);
     }
 
     public void changeNickname(String authorId, ApiCallback callback) {

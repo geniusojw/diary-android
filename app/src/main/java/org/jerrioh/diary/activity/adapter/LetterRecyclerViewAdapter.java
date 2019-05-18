@@ -12,6 +12,7 @@ import android.widget.TextView;
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.model.Letter;
 
+import java.util.Date;
 import java.util.List;
 
 public class LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecyclerViewAdapter.LetterViewHolder> {
@@ -51,7 +52,7 @@ public class LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecycl
     @Override
     public void onBindViewHolder(@NonNull LetterViewHolder letterViewHolder, int i) {
         Letter letter = letterData.get(i);
-        String fromAuthorId = letter.getFrom_author_id();
+        String fromAuthorId = letter.getFromAuthorId();
 
         ImageView image = letterViewHolder.itemView.findViewById(R.id.letter_row_image);
         TextView titleText = letterViewHolder.itemView.findViewById(R.id.letter_row_title);
@@ -65,7 +66,7 @@ public class LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecycl
         }
         image.setImageResource(imageResource);
         titleText.setText("FROM " + fromAuthorId);
-        contentText.setText("* 편지는 36시간 후에 삭제됩니다.");
+        contentText.setText("편지는 36시간 후에 삭제됩니다.\n작성시간: " + new Date(letter.getWrittenTime()));
     }
 
     @Override

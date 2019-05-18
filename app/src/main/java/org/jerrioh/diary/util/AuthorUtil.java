@@ -2,6 +2,7 @@ package org.jerrioh.diary.util;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.account.AccountDiaryApis;
@@ -32,21 +33,43 @@ public class AuthorUtil {
     }
 
     public static Author getAuthor(Context context) {
-        AuthorDao accountDao = new AuthorDao(context);
-        author = accountDao.getAuthor();
+        AuthorDao authorDao = new AuthorDao(context);
+        author = authorDao.getAuthor();
 
         // 새로운 author
         if (author == null) {
             author = generateNewAuthor();
-            accountDao.insertAuthor(author);
+            authorDao.insertAuthor(author);
+        }
+
+        // author code 생성
+        if (TextUtils.isEmpty(author.getAuthorCode())) {
+            AuthorApis authorApis = new AuthorApis(context);
+            authorApis.create(author.getAuthorId(), new ApiCallback() {
+                @Override
+                protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                if (httpStatus == 200) {
+                    JSONObject data = jsonObject.getJSONObject("data");
+                    String authorCode = data.getString("authorCode");
+
+                    AuthorDao authorDao = new AuthorDao(context);
+                    authorDao.updateAuthorCode(authorCode);
+                }
+                }
+            });
         }
 
         return author;
     }
 
     public static void resetAuthorData(Context context) {
-//        AuthorApis authorApis = new AuthorApis(context);
-//        authorApis.delete();
+        AuthorApis authorApis = new AuthorApis(context);
+        authorApis.delete(new ApiCallback() {
+            @Override
+            protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                // do nothing
+            }
+        });
 
         AuthorDao authorDao = new AuthorDao(context);
         authorDao.deleteAuthor();
@@ -133,8 +156,11 @@ public class AuthorUtil {
 
     private static Author generateNewAuthor() {
         Author author = new Author();
-        author.setAuthorId(generateAuthorId());
-        author.setAuthorCode("");
+        author.setAuthorId("92f44a4e-09ea-4fa5-ab54-df3c10a46812");
+        author.setAuthorCode("abcd1234ABCD9876");
+
+//        author.setAuthorId(generateAuthorId());
+//        author.setAuthorCode("");
         author.setNickname(generateNickname());
         author.setDescription(generateDescription());
         author.setAccountEmail("");

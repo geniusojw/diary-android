@@ -32,7 +32,7 @@ public class AccountDiaryApis extends ApiCaller {
                 json.put("content", diary.getContent());
                 jsonArray.put(json);
             }
-            super.post("/account/diary/synchronize", headers, jsonArray.toString(), callback);
+            super.post("/account/diaries/synchronize", headers, jsonArray.toString(), callback);
         } catch (JSONException e) {
             Log.e(TAG, "JSONException, " + e.toString());
         }
@@ -50,7 +50,7 @@ public class AccountDiaryApis extends ApiCaller {
             json.put("diaryDate", diary.getDiaryDate());
             json.put("title", diary.getTitle());
             json.put("content", diary.getContent());
-            super.post("/account/diary", headers, json.toString(), callback);
+            super.post("/account/diaries", headers, json.toString(), callback);
         } catch (JSONException e) {
             Log.e(TAG, "JSONException, " + e.toString());
         }

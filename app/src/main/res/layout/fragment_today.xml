@@ -3,15 +3,53 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background ="@android:color/holo_red_light" >
+    android:background ="@drawable/shape_gradient_background" >
 
-    <include layout="@layout/fragment_today_people" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Good day Today"
-        android:textSize="30sp"
-        android:layout_centerInParent="true" />
+    <RelativeLayout
+        android:id="@+id/relative_layout_today_anonymous_diary_group"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:elevation="40dp"
+        android:background="@drawable/selector_anonymous_group_button"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_people_black_24dp"
+            android:layout_above="@id/text_view_today_anonymous_diary_group_name"
+            android:layout_centerInParent="true"
+            />
+        <TextView
+            android:id="@+id/text_view_today_anonymous_diary_group_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="폭풍우치는 겨울밤 술집의 총잡이들"
+            android:textStyle="normal|italic"
+            android:typeface="serif"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:maxLines="1"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeMaxTextSize="30sp"
+            app:autoSizeStepGranularity="1sp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="D - 3"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_below="@id/text_view_today_anonymous_diary_group_name"
+            />
+    </RelativeLayout>
 
 </RelativeLayout>

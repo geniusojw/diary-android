@@ -7,10 +7,10 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import org.jerrioh.diary.R;
-import org.jerrioh.diary.activity.main.TodayPeopleActivity;
+import org.jerrioh.diary.activity.main.AnonymousDiaryActivity;
 
 public class TodayFragment extends MainActivityFragment {
     private static final String TAG = "TodayFragment";
@@ -21,10 +21,10 @@ public class TodayFragment extends MainActivityFragment {
         // 쓰기 버튼 활성화
         View todayView =  inflater.inflate(R.layout.fragment_today, container, false);
 
-        LinearLayout diaryGroupButton = todayView.findViewById(R.id.diary_group_button);
-        diaryGroupButton.setClickable(true);
-        diaryGroupButton.setOnClickListener(view -> {
-            Intent intent = new Intent(getActivity(), TodayPeopleActivity.class);
+        RelativeLayout diaryGroupLayout = todayView.findViewById(R.id.relative_layout_today_anonymous_diary_group);
+        diaryGroupLayout.setClickable(true);
+        diaryGroupLayout.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), AnonymousDiaryActivity.class);
             startActivity(intent);
         });
 

@@ -32,6 +32,12 @@ public class AuthorDao extends AbstractDao {
         }
     }
 
+    public int updateAuthorCode(String authorCode) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Author.TableDesc.COLUMN_NAME_AUTHOR_CODE, authorCode);
+        return writableDb().update(TABLE_NAME, contentValues, "1=1", new String[]{});
+    }
+
     public int updateAccountEmailAndToken(String accountEmail, String accountToken) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Author.TableDesc.COLUMN_NAME_ACCOUNT_EMAIL, accountEmail);
