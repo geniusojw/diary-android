@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import org.jerrioh.diary.model.Author;
 import org.jerrioh.diary.model.Diary;
+import org.jerrioh.diary.model.DiaryGroup;
 import org.jerrioh.diary.model.Letter;
 import org.jerrioh.diary.model.Setting;
 
@@ -72,6 +73,29 @@ public class DbHelper extends SQLiteOpenHelper {
                     Letter.TableDesc.COLUMN_NAME_WRITTEN_TIME,
                     Letter.TableDesc.COLUMN_NAME_STATUS);
 
+    public static final String SQL_CREATE_DIARY_GROUP_TABLE =
+            String.format("CREATE TABLE IF NOT EXISTS " +
+                            "%s (" +
+                            "%s INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                            "%s INTEGER, " +
+                            "%s STRING, " +
+                            "%s STRING, " +
+                            "%s STRING, " +
+                            "%s STRING, " +
+                            "%s STRING, " +
+                            "%s INTEGER, " +
+                            "%s INTEGER" + ")",
+                    DiaryGroup.TableDesc.TABLE_NAME,
+                    DiaryGroup.TableDesc._ID,
+                    DiaryGroup.TableDesc.COLUMN_NAME_DIARY_GROUP_ID,
+                    DiaryGroup.TableDesc.COLUMN_NAME_DIARY_GROUP_NAME,
+                    DiaryGroup.TableDesc.COLUMN_NAME_KEYWORD,
+                    DiaryGroup.TableDesc.COLUMN_NAME_COUNTRY,
+                    DiaryGroup.TableDesc.COLUMN_NAME_LANGUAGE,
+                    DiaryGroup.TableDesc.COLUMN_NAME_TIME_ZONE_ID,
+                    DiaryGroup.TableDesc.COLUMN_NAME_START_TIME,
+                    DiaryGroup.TableDesc.COLUMN_NAME_END_TIME);
+
     public static final String SQL_CREATE_SETTING_TABLE =
             String.format("CREATE TABLE IF NOT EXISTS " +
                             "%s (" +
@@ -95,6 +119,10 @@ public class DbHelper extends SQLiteOpenHelper {
             String.format("DROP TABLE IF EXISTS %s",
                     Letter.TableDesc.TABLE_NAME);
 
+    public static final String SQL_DELETE_DIARY_GROUP_TABLE =
+            String.format("DROP TABLE IF EXISTS %s",
+                    DiaryGroup.TableDesc.TABLE_NAME);
+
     public static final String SQL_DELETE_SETTING_TABLE =
             String.format("DROP TABLE IF EXISTS %s",
                     Setting.TableDesc.TABLE_NAME);
@@ -115,6 +143,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_AUTHOR_TABLE);
         db.execSQL(SQL_CREATE_DIARY_TABLE);
         db.execSQL(SQL_CREATE_LETTER_TABLE);
+        db.execSQL(SQL_CREATE_DIARY_GROUP_TABLE);
         db.execSQL(SQL_CREATE_SETTING_TABLE);
     }
 
@@ -123,6 +152,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_DELETE_AUTHOR_TABLE);
         db.execSQL(SQL_DELETE_DIARY_TABLE);
         db.execSQL(SQL_DELETE_LETTER_TABLE);
+        db.execSQL(SQL_DELETE_DIARY_GROUP_TABLE);
         db.execSQL(SQL_DELETE_SETTING_TABLE);
         this.onCreate(db);
     }

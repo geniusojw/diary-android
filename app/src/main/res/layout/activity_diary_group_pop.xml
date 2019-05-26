@@ -10,7 +10,7 @@
     >
 
     <LinearLayout
-        android:id="@+id/linear_layout_anonymous_diary_header"
+        android:id="@+id/linear_layout_diary_group_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -24,6 +24,7 @@
             android:layout_marginBottom="20dp"
             >
             <TextView
+                android:id="@+id/text_view_diary_group_header_group_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -31,14 +32,16 @@
                 />
 
             <TextView
+                android:id="@+id/text_view_diary_group_header_group_period"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="종료일 : 6/30(토) 24:00 (GMT+9)"
+                android:text="6/30(토) 00:00 ~ 7/2(월) 00:00"
                 android:layout_marginBottom="15dp"
                 />
 
             <TextView
+                android:id="@+id/text_view_diary_group_header_group_keyword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -52,20 +55,21 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/linear_layout_anonymous_diary_header"
-        android:layout_above="@id/linear_layout_anonymous_diary_close"
+        android:layout_below="@id/linear_layout_diary_group_header"
+        android:layout_above="@id/linear_layout_diary_group_close"
         >
 
         <LinearLayout
-            android:id="@+id/linear_layout_anonymous_diary_body_person"
+            android:id="@+id/linear_layout_diary_group_body_part1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginBottom="20dp"
-            android:layout_above="@id/linear_layout_anonymous_diary_body_diary"
+            android:layout_above="@id/linear_layout_diary_group_body_part2"
             >
 
             <TextView
+                android:id="@+id/text_view_diary_group_body_part1_current_author_index"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -73,6 +77,7 @@
                 />
 
             <TextView
+                android:id="@+id/text_view_diary_group_body_part1_current_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -83,7 +88,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linear_layout_anonymous_diary_body_diary"
+            android:id="@+id/linear_layout_diary_group_body_part2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -91,6 +96,7 @@
             >
 
             <ImageView
+                android:id="@+id/image_view_diary_group_body_part2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
@@ -99,6 +105,7 @@
                 />
 
             <TextView
+                android:id="@+id/text_view_diary_group_body_part2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -126,7 +133,7 @@
 
 
     <LinearLayout
-        android:id="@+id/linear_layout_anonymous_diary_previous"
+        android:id="@+id/linear_layout_diary_group_previous_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -134,6 +141,7 @@
         android:orientation="vertical"
         >
         <TextView
+            android:id="@+id/text_view_diary_group_previous_author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -151,7 +159,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linear_layout_anonymous_diary_next"
+        android:id="@+id/linear_layout_diary_group_next_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -159,6 +167,7 @@
         android:orientation="vertical"
         >
         <TextView
+            android:id="@+id/text_view_diary_group_next_author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -178,7 +187,7 @@
 
 
     <LinearLayout
-        android:id="@+id/linear_layout_anonymous_diary_close"
+        android:id="@+id/linear_layout_diary_group_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

@@ -11,9 +11,7 @@ import org.jerrioh.diary.model.db.DiaryDao;
 import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.util.DateUtil;
 
-import java.util.Locale;
-
-public class TodayWriteActivity extends AppCompatActivity {
+public class DiaryWriteActivity extends AppCompatActivity {
     private Diary todayDiary;
 
     private TextView diaryDate;
@@ -23,7 +21,7 @@ public class TodayWriteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_diary_detail);
+        setContentView(R.layout.activity_writing_detail);
 
         View backButton = findViewById(R.id.floating_back_button);
         backButton.setEnabled(true);
@@ -33,11 +31,11 @@ public class TodayWriteActivity extends AppCompatActivity {
             finish();
         });
 
-        diaryDate = findViewById(R.id.detail_date);
-        titleText = findViewById(R.id.detail_title);
+        diaryDate = findViewById(R.id.text_view_detail_date);
+        titleText = findViewById(R.id.edit_text_detail_title);
         titleText.setFocusableInTouchMode(true);
 
-        contentText = findViewById(R.id.detail_content);
+        contentText = findViewById(R.id.edit_text_detail_content);
         contentText.setFocusableInTouchMode(true);
 
         // 오늘의 일기 생성
@@ -53,7 +51,7 @@ public class TodayWriteActivity extends AppCompatActivity {
             todayDiary.setAccountDiaryStatus(Diary.DiaryStatus.UNSAVED);
             diaryDao.insertDiary(todayDiary);
         }
-        String diaryDateString = DateUtil.getDayString(System.currentTimeMillis(), Locale.getDefault());
+        String diaryDateString = DateUtil.getDateString();
 
         diaryDate.setText(diaryDateString);
         titleText.setText(todayDiary.getTitle());

@@ -18,8 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.main.AnonymousDiaryActivity" android:theme="@style/AnonymousDiaryTheme" />
-        <activity android:name=".activity.main.TodayWriteActivity" />
+        <activity android:name=".activity.main.DiaryGroupPopActivity" android:theme="@style/AnonymousDiaryTheme" />
+        <activity android:name=".activity.main.ChocolateStorePopActivity" android:theme="@style/AnonymousDiaryTheme" />
+        <activity android:name=".activity.main.DiaryWriteActivity" />
 
         <activity android:name=".activity.main.DiaryReadActivity" />
         <activity android:name=".activity.main.LetterReadActivity" />
@@ -28,7 +29,7 @@
         <activity android:name=".activity.draw.AccountSignUpActivity" />
         <activity android:name=".activity.draw.AccountChangePwActivity" />
         <activity android:name=".activity.draw.SettingActivity" />
-        <activity android:name=".activity.draw.ChocolateShopActivity" />
+        <activity android:name=".activity.draw.ChocolateStoreActivity" />
         <activity android:name=".activity.draw.FaqActivity" />
         <activity android:name=".activity.draw.AboutApplicationActivity" />
 

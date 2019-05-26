@@ -24,14 +24,15 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textColor="@color/darkCharcoal"
-            android:text="WELCOME TO CHOCOLATE SHOP !!"
+            android:text="WELCOME TO CHOCOLATE STORE !!"
             />
         <TextView
+            android:id="@+id/text_view_chocolate_store_number_of_chocolate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="17sp"
             android:textColor="@color/darkCharcoal"
-            android:text="You have 1 chocolates."
+            android:text="Waiting for chocolate grandfather ..."
             />
     </LinearLayout>
 
@@ -45,6 +46,7 @@
         >
 
         <LinearLayout
+            android:id="@+id/linear_layout_chocolate_store_change_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -76,6 +78,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linear_layout_chocolate_store_change_nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -107,6 +110,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linear_layout_chocolate_store_alias_feature"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -138,6 +142,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linear_layout_chocolate_store_invite1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -169,6 +174,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linear_layout_chocolate_store_invite2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -200,6 +206,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linear_layout_chocolate_store_donate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

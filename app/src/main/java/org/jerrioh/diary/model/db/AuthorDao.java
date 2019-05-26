@@ -45,6 +45,18 @@ public class AuthorDao extends AbstractDao {
         return writableDb().update(TABLE_NAME, contentValues, "1=1", new String[]{});
     }
 
+    public int updateDescription(String description) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Author.TableDesc.COLUMN_NAME_DESCRIPTION, description);
+        return writableDb().update(TABLE_NAME, contentValues, "1=1", new String[]{});
+    }
+
+    public int updateNickname(String nickname) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Author.TableDesc.COLUMN_NAME_NICKNAME, nickname);
+        return writableDb().update(TABLE_NAME, contentValues, "1=1", new String[]{});
+    }
+
     public long insertAuthor(Author author) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Author.TableDesc.COLUMN_NAME_AUTHOR_ID, author.getAuthorId());

@@ -13,9 +13,9 @@
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="Setting" />
         <item
-            android:id="@+id/drawer_option_chocolate_shop"
+            android:id="@+id/drawer_option_chocolate_store"
             android:icon="@drawable/ic_store_black_24dp"
-            android:title="Chocolate shop" />
+            android:title="Chocolate Store" />
     </group>
 
     <item android:title="Information">

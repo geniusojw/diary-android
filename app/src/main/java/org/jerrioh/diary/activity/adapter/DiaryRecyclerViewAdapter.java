@@ -53,17 +53,17 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
 
     @Override
     public void onBindViewHolder(@NonNull DiaryViewHolder diaryViewHolder, int i) {
-        TextView imageText1 = (TextView) diaryViewHolder.itemView.findViewById(R.id.diary_date_image_text1);
-        TextView imageText2 = (TextView) diaryViewHolder.itemView.findViewById(R.id.diary_date_image_text2);
-        TextView imageText3 = (TextView) diaryViewHolder.itemView.findViewById(R.id.diary_date_image_text3);
+        TextView imageText1 = diaryViewHolder.itemView.findViewById(R.id.diary_date_image_text1);
+        TextView imageText2 = diaryViewHolder.itemView.findViewById(R.id.diary_date_image_text2);
+        TextView imageText3 = diaryViewHolder.itemView.findViewById(R.id.diary_date_image_text3);
 
-        TextView titleText = (TextView) diaryViewHolder.itemView.findViewById(R.id.diary_row_title);
-        TextView contentText = (TextView) diaryViewHolder.itemView.findViewById(R.id.diary_row_content);
+        TextView titleText = diaryViewHolder.itemView.findViewById(R.id.diary_row_title);
+        TextView contentText = diaryViewHolder.itemView.findViewById(R.id.diary_row_content);
 
         Diary diary = diaryData.get(i);
         String diaryDate = diary.getDiaryDate();
 
-        imageText1.setText(DateUtil.dayOfWeek(diaryDate, Locale.getDefault()));
+        imageText1.setText(DateUtil.dayOfWeek(diaryDate));
         imageText2.setText(diaryDate.substring(6, 8));
         imageText3.setText(diaryDate.substring(0, 4) + "." + diaryDate.substring(4, 6));
 

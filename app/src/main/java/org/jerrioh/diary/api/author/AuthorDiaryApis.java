@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class AuthorDiaryApis extends ApiCaller {
     private static final String TAG = "AuthorDiaryApis";
@@ -26,8 +27,9 @@ public class AuthorDiaryApis extends ApiCaller {
             json.put("diaryDate", diary.getDiaryDate());
             json.put("title", diary.getTitle());
             json.put("content", diary.getContent());
-            json.put("country", Locale.getDefault().getISO3Country());
             json.put("language", Locale.getDefault().getISO3Language());
+            json.put("country", Locale.getDefault().getISO3Country());
+            json.put("timeZoneId", TimeZone.getDefault().getID());
 
             super.post("/author/diaries", headers, json.toString(), callback);
         } catch (JSONException e) {

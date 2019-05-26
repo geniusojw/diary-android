@@ -13,25 +13,23 @@ import org.jerrioh.diary.R;
 import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.CommonUtil;
 
-import java.util.Locale;
-
 public class DiaryReadActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_diary_detail);
+        setContentView(R.layout.activity_writing_detail);
 
         Intent intent = getIntent();
         Diary diary = (Diary) intent.getSerializableExtra("diary");
 
-        TextView day = findViewById(R.id.detail_date);
-        day.setText(DateUtil.getDayString_yyyyMMdd(diary.getDiaryDate(), Locale.getDefault()));
+        TextView dateTextView = findViewById(R.id.text_view_detail_date);
+        dateTextView.setText(DateUtil.getDateString_yyyyMMdd(diary.getDiaryDate()));
 
-        EditText title = findViewById(R.id.detail_title);
-        title.setText(CommonUtil.defaultIfEmpty(diary.getTitle(), Constants.DEFAULT_TITLE));
+        EditText titleEditText = findViewById(R.id.edit_text_detail_title);
+        titleEditText.setText(CommonUtil.defaultIfEmpty(diary.getTitle(), Constants.DEFAULT_TITLE));
 
-        EditText content = findViewById(R.id.detail_content);
-        content.setText(diary.getContent());
+        EditText contentEditText = findViewById(R.id.edit_text_detail_content);
+        contentEditText.setText(diary.getContent());
 
         View backButton = findViewById(R.id.floating_back_button);
         backButton.setEnabled(true);

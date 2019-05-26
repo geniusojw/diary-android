@@ -48,13 +48,13 @@ public class AuthorUtil {
             authorApis.create(author.getAuthorId(), new ApiCallback() {
                 @Override
                 protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
-                if (httpStatus == 200) {
-                    JSONObject data = jsonObject.getJSONObject("data");
-                    String authorCode = data.getString("authorCode");
+                    if (httpStatus == 200) {
+                        JSONObject data = jsonObject.getJSONObject("data");
+                        String authorCode = data.getString("authorCode");
 
-                    AuthorDao authorDao = new AuthorDao(context);
-                    authorDao.updateAuthorCode(authorCode);
-                }
+                        AuthorDao authorDao = new AuthorDao(context);
+                        authorDao.updateAuthorCode(authorCode);
+                    }
                 }
             });
         }
@@ -157,7 +157,7 @@ public class AuthorUtil {
     private static Author generateNewAuthor() {
         Author author = new Author();
         author.setAuthorId("92f44a4e-09ea-4fa5-ab54-df3c10a46812");
-        author.setAuthorCode("abcd1234ABCD9876");
+        author.setAuthorCode("RcDHKCZRhQXLe3Cj");
 
 //        author.setAuthorId(generateAuthorId());
 //        author.setAuthorCode("");

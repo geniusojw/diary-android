@@ -14,18 +14,18 @@ public class LetterReadActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_diary_detail);
+        setContentView(R.layout.activity_writing_detail);
 
         Intent intent = getIntent();
         Letter letter = (Letter) intent.getSerializableExtra("letter");
 
-        TextView date = findViewById(R.id.detail_date);
+        TextView date = findViewById(R.id.text_view_detail_date);
         date.setText(letter.getFromAuthorId());
 
-        EditText title = findViewById(R.id.detail_title);
+        EditText title = findViewById(R.id.edit_text_detail_title);
         title.setText(letter.getTitle());
 
-        EditText content = findViewById(R.id.detail_content);
+        EditText content = findViewById(R.id.edit_text_detail_content);
         content.setText(letter.getContent());
 
         View backButton = findViewById(R.id.floating_back_button);

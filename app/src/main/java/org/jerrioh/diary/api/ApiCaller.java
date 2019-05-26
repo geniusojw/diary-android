@@ -67,20 +67,23 @@ public class ApiCaller {
                 response -> {
                     Log.d(TAG, url + " success!");
                     Log.d(TAG, "response = " + response);
-                    callback.execute(200, response);
+                    executeCallback(200, response, callback);
                 },
                 volleyError -> {
                     Log.d(TAG, url + " fail!" + ", volleyError=" + volleyError.toString());
+
+                    int statusCode = -1;
+                    String response = null;
                     if (volleyError.networkResponse != null) {
-                        String response = null;
                         try {
+                            statusCode = volleyError.networkResponse.statusCode;
                             response = new String(volleyError.networkResponse.data, UTF_8);
                             Log.d(TAG, "response = " + response);
-                            callback.execute(volleyError.networkResponse.statusCode, response);
                         } catch (UnsupportedEncodingException e) {
                             Log.d(TAG, "UnsupportedEncodingException = " + e.toString());
                         }
                     }
+                    executeCallback(statusCode, response, callback);
                 }
         ) {
             @Override
@@ -99,6 +102,18 @@ public class ApiCaller {
                 return null;
             }
         };
+    }
+
+    private void executeCallback(int httpStatus, String response, ApiCallback callback) {
+        JSONObject jsonObject = null;
+        try {
+            if (response != null) {
+                jsonObject = new JSONObject(response);
+            }
+            callback.execute(httpStatus, jsonObject);
+        } catch (JSONException e) {
+            Log.e(TAG, "JSONException! response = " + response);
+        }
     }
 
     protected Map<String, String> defaultHeaders() {

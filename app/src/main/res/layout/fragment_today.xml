@@ -13,6 +13,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
+        android:visibility="gone"
         android:elevation="40dp"
         android:background="@drawable/selector_anonymous_group_button"
         >
@@ -42,6 +43,7 @@
             app:autoSizeStepGranularity="1sp"
             />
         <TextView
+            android:id="@+id/text_view_today_anonymous_diary_group_end_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="D - 3"

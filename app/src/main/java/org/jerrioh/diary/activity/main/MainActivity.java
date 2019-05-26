@@ -20,7 +20,7 @@ import android.widget.Toast;
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.draw.AccountActivity;
 import org.jerrioh.diary.activity.draw.AboutApplicationActivity;
-import org.jerrioh.diary.activity.draw.ChocolateShopActivity;
+import org.jerrioh.diary.activity.draw.ChocolateStoreActivity;
 import org.jerrioh.diary.activity.draw.FaqActivity;
 import org.jerrioh.diary.activity.draw.SettingActivity;
 import org.jerrioh.diary.config.Constants;
@@ -36,7 +36,6 @@ import org.jerrioh.diary.util.DateUtil;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -138,8 +137,8 @@ public class MainActivity extends AppCompatActivity {
             } else if (id == R.id.drawer_option_setting) {
                 startActivityForResult(new Intent(this, SettingActivity.class), REQUEST_SETTING_ACTIVITY);
 
-            } else if (id == R.id.drawer_option_chocolate_shop) {
-                startActivity(new Intent(this, ChocolateShopActivity.class));
+            } else if (id == R.id.drawer_option_chocolate_store) {
+                startActivity(new Intent(this, ChocolateStoreActivity.class));
             } else if (id == R.id.drawer_option_faq) {
                 startActivity(new Intent(this, FaqActivity.class));
             } else if (id == R.id.drawer_option_about_application) {
@@ -207,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
         writeButton.setEnabled(true);
         writeButton.setClickable(true);
         writeButton.setOnClickListener(view -> {
-            startActivity(new Intent(this, TodayWriteActivity.class));
+            startActivity(new Intent(this, DiaryWriteActivity.class));
         });
     }
 
@@ -225,8 +224,8 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 fragment = new TodayNightFragment();
             }
-            //mainBannerText = DateUtil.getDayString(System.currentTimeMillis(), Locale.CHINA);
-            mainBannerText = DateUtil.getDayString(System.currentTimeMillis(), Locale.getDefault());
+            //mainBannerText = DateUtil.getDateString(System.currentTimeMillis(), Locale.CHINA);
+            mainBannerText = DateUtil.getDateString();
             weatherImageResource = R.drawable.ic_wb_sunny_black_24dp;
             //weatherButtonClickListener = v -> { System.out.println("tbd"); };
             enableMonthAdjustment = false;
@@ -234,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (bottomNavId == R.id.bottom_option_diary) {
             Bundle args = new Bundle(); args.putString("display_yyyyMM", diaryDate_yyyyMM);
             fragment = new DiaryFragment(); fragment.setArguments(args);
-            mainBannerText = DateUtil.getDayString_yyyyMM(diaryDate_yyyyMM, Locale.getDefault());
+            mainBannerText = DateUtil.getDateString_yyyyMM(diaryDate_yyyyMM);
 
             weatherImageResource = R.drawable.ic_search_black_24dp;
             //weatherButtonClickListener = v -> { System.out.println("tbd"); };
