@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.model.Letter;
+import org.jerrioh.diary.model.db.LetterDao;
 
 public class LetterReadActivity extends AppCompatActivity {
     @Override
@@ -20,13 +21,18 @@ public class LetterReadActivity extends AppCompatActivity {
         Letter letter = (Letter) intent.getSerializableExtra("letter");
 
         TextView date = findViewById(R.id.text_view_detail_date);
-        date.setText(letter.getFromAuthorId());
+        date.setText(letter.getFromAuthorNickname());
 
         EditText title = findViewById(R.id.edit_text_detail_title);
         title.setText(letter.getTitle());
 
         EditText content = findViewById(R.id.edit_text_detail_content);
         content.setText(letter.getContent());
+
+        if (letter.getStatus() == Letter.LetterStatus.UNREAD) {
+            LetterDao letterDao = new LetterDao(this);
+            letterDao.updateLetterStatus(letter.getLetterId(), Letter.LetterStatus.READ);
+        }
 
         View backButton = findViewById(R.id.floating_back_button);
         backButton.setEnabled(true);

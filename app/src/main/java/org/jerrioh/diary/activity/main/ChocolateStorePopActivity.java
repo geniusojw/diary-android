@@ -39,6 +39,7 @@ public class ChocolateStorePopActivity extends Activity {
             } else if (httpStatus == 402) {
                 Toast.makeText(ChocolateStorePopActivity.this, "not enough chocolates", Toast.LENGTH_LONG).show();
             }
+            finish();
         }
     };
 
@@ -64,6 +65,7 @@ public class ChocolateStorePopActivity extends Activity {
                     }
                 });
             }
+            finish();
         }
     };
 
@@ -74,31 +76,53 @@ public class ChocolateStorePopActivity extends Activity {
 
         setWindowAttribute();
 
-        Button okButton = findViewById(R.id.button_chocolate_pop_ok);
-        Button noButton = findViewById(R.id.button_chocolate_pop_no);
-
         AuthorStoreApis authorStoreApis = new AuthorStoreApis(this);
 
         Intent intent = getIntent();
         int item = intent.getIntExtra("item", -1);
 
-        okButton.setOnClickListener(v -> {
-            if (item == ChocolateStoreActivity.CHOCOLATE_STORE_ITEM_CHANGE_DESCRIPTION) {
+        String descriptionText = "";
+        View.OnClickListener okClickListener = null;
+        if (item == ChocolateStoreActivity.CHOCOLATE_STORE_ITEM_CHANGE_DESCRIPTION) {
+            descriptionText = "1초코릿 내시겟어요?";
+            okClickListener = v -> {
                 authorStoreApis.changeDescription(callback);
-            } else if (item == ChocolateStoreActivity.CHOCOLATE_STORE_ITEM_CHANGE_NICKNAME) {
+            };
+        } else if (item == ChocolateStoreActivity.CHOCOLATE_STORE_ITEM_CHANGE_NICKNAME) {
+            descriptionText = "닉네임 돌려줘?";
+            okClickListener = v -> {
                 authorStoreApis.changeNickname(callback);
-            } else if (item == ChocolateStoreActivity.CHOCOLATE_STORE_ITEM_ALIAS_FEATURE_UNLIMITED_USE) {
+            };
+        } else if (item == ChocolateStoreActivity.CHOCOLATE_STORE_ITEM_ALIAS_FEATURE_UNLIMITED_USE) {
+            descriptionText = "살겁니까?";
+            okClickListener = v -> {
                 authorStoreApis.aliasFeatureUnlimitedUse(callback);
-            } else if (item == ChocolateStoreActivity.CHOCOLATE_STORE_ITEM_INVITE1) {
+            };
+        } else if (item == ChocolateStoreActivity.CHOCOLATE_STORE_ITEM_INVITE1) {
+            descriptionText = "초대1를 하시겠습니까?";
+            okClickListener = v -> {
                 authorStoreApis.inviteTicket1(inviteCallback);
-            } else if (item == ChocolateStoreActivity.CHOCOLATE_STORE_ITEM_INVITE2) {
+            };
+        } else if (item == ChocolateStoreActivity.CHOCOLATE_STORE_ITEM_INVITE2) {
+            descriptionText = "초대2를 하시겠습니까?";
+            okClickListener = v -> {
                 authorStoreApis.inviteTicket2(inviteCallback);
-            } else if (item == ChocolateStoreActivity.CHOCOLATE_STORE_ITEM_DONATE) {
-                //authorStoreApis.donate();
-            }
-            finish();
-        });
+            };
+        } else if (item == ChocolateStoreActivity.CHOCOLATE_STORE_ITEM_DONATE) {
+            descriptionText = "쪼꼬렛 기부를 하시겠습니까?";
+            okClickListener = v -> {
+                //authorStoreApis.donate(callback);
+                finish();
+            };
+        }
 
+        TextView popDescriptionView = findViewById(R.id.text_view_chocolate_pop_description);
+        popDescriptionView.setText(descriptionText);
+
+        Button okButton = findViewById(R.id.button_chocolate_pop_ok);
+        Button noButton = findViewById(R.id.button_chocolate_pop_no);
+
+        okButton.setOnClickListener(okClickListener);
         noButton.setOnClickListener(v -> {
             finish();
         });
@@ -111,12 +135,12 @@ public class ChocolateStorePopActivity extends Activity {
         int width = metrics.widthPixels;
         int height = metrics.heightPixels;
 
-        getWindow().setLayout((int)(width*.95), (int)(height*.9));
+        getWindow().setLayout((int)(width*.95), (int)(height*.5));
 
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.gravity = Gravity.CENTER;
         params.x = 0;
-        params.y = -20;
+        params.y = -50;
 
         getWindow().setAttributes(params);
 

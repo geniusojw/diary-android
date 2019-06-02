@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +60,7 @@ public class ChocolateStoreActivity extends CommonActionBarActivity {
                 if (httpStatus == 200) {
                     JSONObject data = jsonObject.getJSONObject("data");
                     int chocolates = data.getInt("chocolates");
+                    Log.e(TAG, "YOU HAVE + " + chocolates + " !!!!!!!!!!!!!!!!!!!!!!");
                     if (chocolates > 1) {
                         chocolateTextView.setText("You have " + chocolates + " chocolates.");
                     } else if (chocolates == 1) {

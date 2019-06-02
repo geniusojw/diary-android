@@ -13,6 +13,7 @@
         >
 
         <TextView
+            android:id="@+id/text_view_chocolate_pop_description"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="당신의 이야기를 들을 수 있습니다.\n초콜릿 1개를 주고 당신의 이야기를 듣겠습니까?\n"

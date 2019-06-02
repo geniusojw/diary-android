@@ -3,6 +3,8 @@ package org.jerrioh.diary.util;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.account.AccountDiaryApis;
@@ -94,7 +96,7 @@ public class AuthorUtil {
         authorDao.updateAccountEmailAndToken(accountEmail, accountToken);
 
         // sync diaries
-        syncDiaries(context);
+        syncDiaries(context, null);
     }
 
     public static void accountSignOut(Context context) {
@@ -112,7 +114,7 @@ public class AuthorUtil {
         settingDao.deleteSetting(Setting.Key.SCREEN_LOCK_4DIGIT);
     }
 
-    public static void syncDiaries(Context context) {
+    public static void syncDiaries(Context context, ProgressBar progressBar) {
         DiaryDao diaryDao = new DiaryDao(context);
         List<Diary> diaries = diaryDao.getAllDiariesBeforeToday(DateUtil.getyyyyMMdd());
         ApiCallback callback = new ApiCallback() {
@@ -148,6 +150,9 @@ public class AuthorUtil {
                             }
                         }
                     }
+                }
+                if (progressBar != null) {
+                    progressBar.setVisibility(View.GONE);
                 }
             }
         };

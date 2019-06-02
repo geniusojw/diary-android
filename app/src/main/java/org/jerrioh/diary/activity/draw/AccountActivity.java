@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.jerrioh.diary.R;
@@ -62,7 +64,11 @@ public class AccountActivity extends CommonActionBarActivity {
     private void accountDiarySync() {
         LinearLayout syncLayout = findViewById(R.id.linear_layout_account_sync);
         syncLayout.setOnClickListener(v -> {
-            AuthorUtil.syncDiaries(this);
+            ProgressBar progressBar = findViewById(R.id.progress_bar_account);
+            if (progressBar.getVisibility() != View.VISIBLE) {
+                progressBar.setVisibility(View.VISIBLE);
+                AuthorUtil.syncDiaries(this, progressBar);
+            }
         });
     }
 

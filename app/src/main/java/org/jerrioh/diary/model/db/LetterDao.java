@@ -17,6 +17,7 @@ public class LetterDao extends AbstractDao {
     private static final String[] COLUMN_NAMES = {
             Letter.TableDesc.COLUMN_NAME_LETTER_ID,
             Letter.TableDesc.COLUMN_NAME_FROM_AUTHOR_ID,
+            Letter.TableDesc.COLUMN_NAME_FROM_AUTHOR_NICKNAME,
             Letter.TableDesc.COLUMN_NAME_TO_AUTHOR_ID,
             Letter.TableDesc.COLUMN_NAME_TITLE,
             Letter.TableDesc.COLUMN_NAME_CONTENT,
@@ -65,7 +66,8 @@ public class LetterDao extends AbstractDao {
     public long insertLetter(Letter letter) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Letter.TableDesc.COLUMN_NAME_LETTER_ID, letter.getLetterId());
-        contentValues.put(Letter.TableDesc.COLUMN_NAME_FROM_AUTHOR_ID, letter.getTitle());
+        contentValues.put(Letter.TableDesc.COLUMN_NAME_FROM_AUTHOR_ID, letter.getFromAuthorId());
+        contentValues.put(Letter.TableDesc.COLUMN_NAME_FROM_AUTHOR_NICKNAME, letter.getFromAuthorNickname());
         contentValues.put(Letter.TableDesc.COLUMN_NAME_TO_AUTHOR_ID, letter.getToAuthorId());
         contentValues.put(Letter.TableDesc.COLUMN_NAME_TITLE, letter.getTitle());
         contentValues.put(Letter.TableDesc.COLUMN_NAME_CONTENT, letter.getContent());
@@ -73,6 +75,17 @@ public class LetterDao extends AbstractDao {
         contentValues.put(Letter.TableDesc.COLUMN_NAME_STATUS, letter.getStatus());
 
         return writableDb().insert(TABLE_NAME, null, contentValues);
+    }
+
+    public long updateLetterStatus(String letterId, int letterStatus) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Letter.TableDesc.COLUMN_NAME_STATUS, letterStatus);
+
+        String selection = Letter.TableDesc.COLUMN_NAME_LETTER_ID + "=?";
+        String[] args = { letterId };
+
+        return writableDb().update(TABLE_NAME, contentValues, selection, args);
+
     }
 
     public long deleteAllLetters() {
@@ -83,11 +96,12 @@ public class LetterDao extends AbstractDao {
         Letter letter = new Letter();
         letter.setLetterId(cursor.getString(0));
         letter.setFromAuthorId(cursor.getString(1));
-        letter.setToAuthorId(cursor.getString(2));
-        letter.setTitle(cursor.getString(3));
-        letter.setContent(cursor.getString(4));
-        letter.setWrittenTime(cursor.getLong(5));
-        letter.setStatus(cursor.getInt(6));
+        letter.setFromAuthorNickname(cursor.getString(2));
+        letter.setToAuthorId(cursor.getString(3));
+        letter.setTitle(cursor.getString(4));
+        letter.setContent(cursor.getString(5));
+        letter.setWrittenTime(cursor.getLong(6));
+        letter.setStatus(cursor.getInt(7));
         return letter;
     }
 }

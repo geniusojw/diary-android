@@ -1,6 +1,7 @@
 package org.jerrioh.diary.activity.main;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -16,12 +17,15 @@ import android.widget.Toast;
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.DiaryGroupApis;
+import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.model.DiaryGroup;
 import org.jerrioh.diary.model.db.DiaryGroupDao;
 import org.jerrioh.diary.util.DateUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.concurrent.TimeUnit;
 
 public class DiaryGroupPopActivity extends Activity {
     private static final String TAG = "DiaryGroupPopActivity";
@@ -109,7 +113,7 @@ public class DiaryGroupPopActivity extends Activity {
             TextView groupNameView = findViewById(R.id.text_view_diary_group_header_group_name);
             groupNameView.setText(diaryGroupName + " (" + diaryGroupAuthorJsonArray.length() + "인)");
 
-            String period = DateUtil.getDateString_group(startTime) + " ~ " + DateUtil.getDateString_group(endTime);
+            String period = DateUtil.getDateString_group(startTime) + " ~ " + DateUtil.getDateString_group(endTime - TimeUnit.MINUTES.toMillis(1));
             TextView periodView = findViewById(R.id.text_view_diary_group_header_group_period);
             periodView.setText(period);
 
@@ -168,13 +172,18 @@ public class DiaryGroupPopActivity extends Activity {
             readText = nickname + "님의 일기 보기";
             readClickable = true;
             setOnClickListener = v -> {
-                Toast.makeText(this, title + "\n" + content, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(this, DiaryGroupReadActivity.class);
+                intent.putExtra("nickname", nickname);
+                intent.putExtra("title", title);
+                intent.putExtra("content", content);
+                startActivity(intent);
             };
         }
         readDiaryImageView.setImageResource(drawableId);
         readDiaryTextView.setText(readText);
         readDiaryTextView.setClickable(readClickable);
         readDiaryTextView.setOnClickListener(setOnClickListener);
+        readDiaryImageView.setOnClickListener(setOnClickListener);
 
         int previousAuthorIndex = currentAuthorIndex - 1 >= 0 ? currentAuthorIndex - 1 : diaryGroupAuthorJsonArray.length() - 1;
         int nextAuthorIndex = currentAuthorIndex + 1 < diaryGroupAuthorJsonArray.length() ? currentAuthorIndex + 1 : 0;

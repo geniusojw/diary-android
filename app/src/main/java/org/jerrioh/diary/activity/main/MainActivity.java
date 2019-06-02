@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private static final List<String> MONTH_RIGHT_ADJUST_FAIL_MESSAGES = Arrays.asList("Do you want to know the future?", "Please keep a diary in the future.", "You can not see the diary tomorrow.");
 
     private String diaryDate_yyyyMM = null;
+    private boolean lettersToMe = true;
 
     private static final int REQUEST_ACCOUNT_ACTIVITY = 1;
     private static final int REQUEST_SETTING_ACTIVITY = 2;
@@ -241,7 +242,11 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (bottomNavId == R.id.bottom_option_letter) {
             fragment = new LetterFragment();
-            mainBannerText = "Letter";
+            if (lettersToMe) {
+                mainBannerText = "내게 보내진 편지";
+            } else {
+                mainBannerText = "내가 쓴 편지";
+            }
             weatherImageResource = R.drawable.ic_search_black_24dp;
             //weatherButtonClickListener = v -> { System.out.println("tbd"); };
             enableMonthAdjustment = false;

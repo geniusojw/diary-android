@@ -52,20 +52,20 @@ public class LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecycl
     @Override
     public void onBindViewHolder(@NonNull LetterViewHolder letterViewHolder, int i) {
         Letter letter = letterData.get(i);
-        String fromAuthorId = letter.getFromAuthorId();
+        String fromAuthorNickname = letter.getFromAuthorNickname();
 
         ImageView image = letterViewHolder.itemView.findViewById(R.id.letter_row_image);
         TextView titleText = letterViewHolder.itemView.findViewById(R.id.letter_row_title);
         TextView contentText = letterViewHolder.itemView.findViewById(R.id.letter_row_expire_date);
 
         int imageResource;
-        if (letter.getStatus() == Letter.DiaryStatus.UNREAD) {
+        if (letter.getStatus() == Letter.LetterStatus.UNREAD) {
             imageResource = R.drawable.ic_mail_black_24dp;
         } else {
             imageResource = R.drawable.ic_drafts_black_24dp;
         }
         image.setImageResource(imageResource);
-        titleText.setText("FROM " + fromAuthorId);
+        titleText.setText("FROM " + fromAuthorNickname);
         contentText.setText("편지는 36시간 후에 삭제됩니다.\n작성시간: " + new Date(letter.getWrittenTime()));
     }
 

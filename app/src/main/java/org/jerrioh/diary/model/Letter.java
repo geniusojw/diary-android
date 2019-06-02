@@ -5,7 +5,7 @@ import android.provider.BaseColumns;
 import java.io.Serializable;
 
 public class Letter implements Serializable {
-    public static class DiaryStatus {
+    public static class LetterStatus {
         public static final int UNREAD = 0;
         public static final int READ = 1;
     }
@@ -14,6 +14,7 @@ public class Letter implements Serializable {
         public static final String TABLE_NAME = "letter";
         public static final String COLUMN_NAME_LETTER_ID = "letter_id";
         public static final String COLUMN_NAME_FROM_AUTHOR_ID = "from_author_id";
+        public static final String COLUMN_NAME_FROM_AUTHOR_NICKNAME = "from_author_nickname";
         public static final String COLUMN_NAME_TO_AUTHOR_ID = "to_author_id";
         public static final String COLUMN_NAME_TITLE = "title";
         public static final String COLUMN_NAME_CONTENT = "content";
@@ -23,6 +24,7 @@ public class Letter implements Serializable {
 
     private String letterId; // ex) author_id + seq
     private String fromAuthorId;
+    private String fromAuthorNickname;
     private String toAuthorId;
     private String title;
     private String content;
@@ -43,6 +45,14 @@ public class Letter implements Serializable {
 
     public void setFromAuthorId(String fromAuthorId) {
         this.fromAuthorId = fromAuthorId;
+    }
+
+    public String getFromAuthorNickname() {
+        return fromAuthorNickname;
+    }
+
+    public void setFromAuthorNickname(String fromAuthorNickname) {
+        this.fromAuthorNickname = fromAuthorNickname;
     }
 
     public String getToAuthorId() {

@@ -27,7 +27,6 @@ import org.json.JSONObject;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class LetterFragment extends MainActivityFragment {
     private static final String TAG = "LetterFragment";
@@ -62,11 +61,12 @@ public class LetterFragment extends MainActivityFragment {
                             Letter newLetter = new Letter();
                             newLetter.setLetterId(letterId);
                             newLetter.setFromAuthorId(letterResponse.getString("fromAuthorId"));
+                            newLetter.setFromAuthorNickname(letterResponse.getString("fromAuthorNickname"));
                             newLetter.setToAuthorId(author.getAuthorId());
                             newLetter.setTitle(letterResponse.getString("title"));
                             newLetter.setContent(letterResponse.getString("content"));
                             newLetter.setWrittenTime(letterResponse.getLong("writtenTime"));
-                            newLetter.setStatus(Letter.DiaryStatus.UNREAD);
+                            newLetter.setStatus(Letter.LetterStatus.UNREAD);
 
                             letterDao.insertLetter(newLetter);
                         }

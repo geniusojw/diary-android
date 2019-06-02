@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -26,23 +24,39 @@
             android:id="@+id/linear_layout_account_sync"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="23dp">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textSize="17sp"
-                android:textColor="@color/darkCharcoal"
-                android:text="Synchronization"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textSize="12sp"
-                android:textColor="@color/blackCoffee"
-                android:text="Sync your diary to be recoverable."
+            android:orientation="horizontal"
+            android:layout_marginBottom="23dp"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_weight="0.8"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textSize="17sp"
+                    android:textColor="@color/darkCharcoal"
+                    android:text="Synchronization"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp"
+                    android:textColor="@color/blackCoffee"
+                    android:text="일기를 복구할 수 있도록 동기화하세요.\n마지막 동기화 시간: "
+                    />
+            </LinearLayout>
+            <ProgressBar
+                android:id="@+id/progress_bar_account"
+                android:layout_weight="0.2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:visibility="gone"
                 />
         </LinearLayout>
 

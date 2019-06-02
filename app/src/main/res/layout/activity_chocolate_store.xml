@@ -237,6 +237,16 @@
                 />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/text_view_chocolate_store_empty_space"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="AD FREE"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:background="@color/babyBlueEyes"
+            />
+
     </LinearLayout>
 
 </LinearLayout>

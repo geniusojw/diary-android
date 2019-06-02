@@ -9,12 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.main.DiaryGroupPopActivity;
 import org.jerrioh.diary.model.DiaryGroup;
 import org.jerrioh.diary.model.db.DiaryGroupDao;
 import org.jerrioh.diary.util.DateUtil;
+
+import java.util.concurrent.TimeUnit;
 
 import static org.jerrioh.diary.R.id.relative_layout_today_anonymous_diary_group;
 import static org.jerrioh.diary.R.id.text_view_today_anonymous_diary_group_end_time;
@@ -38,19 +41,20 @@ public class TodayFragment extends MainActivityFragment {
 
         if (diaryGroup != null) {
             long currentTime = System.currentTimeMillis();
+            String start = DateUtil.getDateString_group(diaryGroup.getStartTime());
+            String end = DateUtil.getDateString_group(diaryGroup.getEndTime() - TimeUnit.MINUTES.toMillis(1));
+            String period = start + " ~ " + end;
+
             if (currentTime < diaryGroup.getStartTime()) {
-                String period = DateUtil.getDateString_group(diaryGroup.getStartTime()) + " ~ " + DateUtil.getDateString_group(diaryGroup.getEndTime());
                 diaryGroupNameView.setText(diaryGroup.getDiaryGroupName());
                 diaryGroupEndTimeView.setText(period);
 
                 diaryGroupLayout.setVisibility(View.VISIBLE);
                 diaryGroupLayout.setOnClickListener(view -> {
-                    Intent intent = new Intent(getActivity(), DiaryGroupPopActivity.class);
-                    startActivity(intent);
+                    Toast.makeText(getActivity(), "시작시간 : " + start, Toast.LENGTH_SHORT).show();
                 });
 
             } else if (currentTime < diaryGroup.getEndTime()) {
-                String period = DateUtil.getDateString_group(diaryGroup.getStartTime()) + " ~ " + DateUtil.getDateString_group(diaryGroup.getEndTime());
                 diaryGroupNameView.setText(diaryGroup.getDiaryGroupName());
                 diaryGroupEndTimeView.setText(period);
 
