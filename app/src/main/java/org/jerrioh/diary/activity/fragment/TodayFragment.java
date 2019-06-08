@@ -41,8 +41,8 @@ public class TodayFragment extends MainActivityFragment {
 
         if (diaryGroup != null) {
             long currentTime = System.currentTimeMillis();
-            String start = DateUtil.getDateString_group(diaryGroup.getStartTime());
-            String end = DateUtil.getDateString_group(diaryGroup.getEndTime() - TimeUnit.MINUTES.toMillis(1));
+            String start = DateUtil.getDateStringSkipYear(diaryGroup.getStartTime());
+            String end = DateUtil.getDateStringSkipYear(diaryGroup.getEndTime() - TimeUnit.MINUTES.toMillis(1));
             String period = start + " ~ " + end;
 
             if (currentTime < diaryGroup.getStartTime()) {
@@ -70,7 +70,7 @@ public class TodayFragment extends MainActivityFragment {
             }
         }
 
-        setDiaryWriteButton(true);
+        setDiaryWriteButton(true, BUTTON_TYPE_WRITE_DIARY);
         return todayView;
     }
 }

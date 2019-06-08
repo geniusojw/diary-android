@@ -12,12 +12,10 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.DiaryGroupApis;
-import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.model.DiaryGroup;
 import org.jerrioh.diary.model.db.DiaryGroupDao;
 import org.jerrioh.diary.util.DateUtil;
@@ -113,7 +111,7 @@ public class DiaryGroupPopActivity extends Activity {
             TextView groupNameView = findViewById(R.id.text_view_diary_group_header_group_name);
             groupNameView.setText(diaryGroupName + " (" + diaryGroupAuthorJsonArray.length() + "인)");
 
-            String period = DateUtil.getDateString_group(startTime) + " ~ " + DateUtil.getDateString_group(endTime - TimeUnit.MINUTES.toMillis(1));
+            String period = DateUtil.getDateStringSkipYear(startTime) + " ~ " + DateUtil.getDateStringSkipYear(endTime - TimeUnit.MINUTES.toMillis(1));
             TextView periodView = findViewById(R.id.text_view_diary_group_header_group_period);
             periodView.setText(period);
 

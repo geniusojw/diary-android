@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.model.db.DiaryDao;
@@ -28,7 +29,7 @@ public class DiaryWriteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_writing_detail);
+        setContentView(R.layout.activity_detail_diary);
 
         diaryDate = findViewById(R.id.text_view_detail_date);
         titleText = findViewById(R.id.edit_text_detail_title);
@@ -44,8 +45,7 @@ public class DiaryWriteActivity extends AppCompatActivity {
         backButton.setEnabled(true);
         backButton.setClickable(true);
         backButton.setOnClickListener(v -> {
-            saveDiary();
-            finish();
+            onBackPressed();
         });
 
         TextView emptySpaceView = findViewById(R.id.text_view_detail_empty_space);
@@ -83,7 +83,7 @@ public class DiaryWriteActivity extends AppCompatActivity {
             todayDiary.setAccountDiaryStatus(Diary.DiaryStatus.UNSAVED);
             diaryDao.insertDiary(todayDiary);
         }
-        String diaryDateString = DateUtil.getDateString();
+        String diaryDateString = DateUtil.getDateStringSkipTime();
 
         diaryDate.setText(diaryDateString);
         titleText.setText(todayDiary.getTitle());
@@ -96,6 +96,7 @@ public class DiaryWriteActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
         saveDiary();
         super.onBackPressed();
     }

@@ -57,6 +57,7 @@ public class DbHelper extends SQLiteOpenHelper {
                             "%s (" +
                             "%s INTEGER PRIMARY KEY AUTOINCREMENT, " +
                             "%s STRING, " +
+                            "%s INTEGER, " +
                             "%s STRING, " +
                             "%s STRING, " +
                             "%s STRING, " +
@@ -67,10 +68,11 @@ public class DbHelper extends SQLiteOpenHelper {
                     Letter.TableDesc.TABLE_NAME,
                     Letter.TableDesc._ID,
                     Letter.TableDesc.COLUMN_NAME_LETTER_ID,
+                    Letter.TableDesc.COLUMN_NAME_LETTER_TYPE,
                     Letter.TableDesc.COLUMN_NAME_FROM_AUTHOR_ID,
                     Letter.TableDesc.COLUMN_NAME_FROM_AUTHOR_NICKNAME,
                     Letter.TableDesc.COLUMN_NAME_TO_AUTHOR_ID,
-                    Letter.TableDesc.COLUMN_NAME_TITLE,
+                    Letter.TableDesc.COLUMN_NAME_TO_AUTHOR_NICKNAME,
                     Letter.TableDesc.COLUMN_NAME_CONTENT,
                     Letter.TableDesc.COLUMN_NAME_WRITTEN_TIME,
                     Letter.TableDesc.COLUMN_NAME_STATUS);

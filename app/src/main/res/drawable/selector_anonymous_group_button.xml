@@ -4,13 +4,13 @@
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
             <corners android:radius="30dp" />
-            <solid android:color="@color/eggshell"/>
+            <solid android:color="@color/steelTrap"/>
         </shape>
     </item>
     <item android:state_enabled="true">
         <shape android:shape="rectangle">
             <corners android:radius="30dp" />
-            <solid android:color="@color/beige"/>
+            <solid android:color="@color/medwayMist"/>
         </shape>
     </item>
     <item android:state_enabled="false">

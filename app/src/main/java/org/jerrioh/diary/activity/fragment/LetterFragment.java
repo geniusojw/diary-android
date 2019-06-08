@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -34,52 +36,31 @@ public class LetterFragment extends MainActivityFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        boolean lettersToMe = true;
+        boolean refreshed = false;
+
+        Bundle args = getArguments();
+        if (args != null) {
+            lettersToMe = args.getBoolean("lettersToMe", true);
+            refreshed = args.getBoolean("refreshed", false);
+        }
+
         Author author = AuthorUtil.getAuthor(getActivity());
-
-        AuthorLetterApis apis = new AuthorLetterApis(getActivity());
-        apis.receive(new ApiCallback() {
-            @Override
-            protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
-                if (httpStatus == 200) {
-                    JSONArray jsonArray = jsonObject.getJSONArray("data");
-                    if (jsonArray.length() > 0) {
-                        LetterDao letterDao = new LetterDao(getActivity());
-
-                        List<Letter> letters = letterDao.getLettersToMe(author.getAuthorId());
-                        Set<String> letterIds = new HashSet<>();
-                        for (Letter letter : letters) {
-                            letterIds.add(letter.getLetterId());
-                        }
-
-                        for (int index = 0; index < jsonArray.length(); index++) {
-                            JSONObject letterResponse = jsonArray.getJSONObject(index);
-                            String letterId = letterResponse.getString("letterId");
-                            if (letterIds.contains(letterId)) {
-                                continue;
-                            }
-
-                            Letter newLetter = new Letter();
-                            newLetter.setLetterId(letterId);
-                            newLetter.setFromAuthorId(letterResponse.getString("fromAuthorId"));
-                            newLetter.setFromAuthorNickname(letterResponse.getString("fromAuthorNickname"));
-                            newLetter.setToAuthorId(author.getAuthorId());
-                            newLetter.setTitle(letterResponse.getString("title"));
-                            newLetter.setContent(letterResponse.getString("content"));
-                            newLetter.setWrittenTime(letterResponse.getLong("writtenTime"));
-                            newLetter.setStatus(Letter.LetterStatus.UNREAD);
-
-                            letterDao.insertLetter(newLetter);
-                        }
-                    }
-                }
-            }
-        });
-
         LetterDao letterDao = new LetterDao(getActivity());
-        final List<Letter> letterData = letterDao.getLettersToMe(author.getAuthorId());
+        final List<Letter> letterData;
+        if (lettersToMe) {
+            letterData = letterDao.getLettersToMe(author.getAuthorId());
+        } else {
+            letterData = letterDao.getLettersToOthers(author.getAuthorId());
+        }
+
+        if (!refreshed) { // async
+            getLetters(author, lettersToMe);
+        }
+
         Log.d(TAG, "letterData.size()=" + letterData.size());
 
-        final LetterRecyclerViewAdapter mAdapter = new LetterRecyclerViewAdapter(letterData, pos -> {
+        final LetterRecyclerViewAdapter mAdapter = new LetterRecyclerViewAdapter(letterData, lettersToMe, pos -> {
             Intent intent = new Intent(getActivity(), LetterReadActivity.class);
 
             Letter letter = letterData.get(pos);
@@ -96,7 +77,64 @@ public class LetterFragment extends MainActivityFragment {
         diaryRecyclerView.setLayoutManager(layoutManager);
         diaryRecyclerView.setAdapter(mAdapter);
 
-        setDiaryWriteButton(true);
+        setDiaryWriteButton(true, BUTTON_TYPE_WRITE_LETTER);
         return letterView;
+    }
+
+    private void getLetters(Author author, boolean lettersToMe) {
+        String range = lettersToMe ? "in" : "out";
+
+
+        AuthorLetterApis apis = new AuthorLetterApis(getActivity());
+        apis.receive(range, new ApiCallback() {
+            @Override
+            protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                if (httpStatus == 200) {
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+                    if (jsonArray.length() > 0) {
+                        LetterDao letterDao = new LetterDao(getActivity());
+
+                        List<Letter> letters = letterDao.getAllLetters();
+                        Set<String> letterIds = new HashSet<>();
+                        for (Letter letter : letters) {
+                            letterIds.add(letter.getLetterId());
+                        }
+
+                        for (int index = 0; index < jsonArray.length(); index++) {
+                            JSONObject letterResponse = jsonArray.getJSONObject(index);
+                            String letterId = letterResponse.getString("letterId");
+                            if (letterIds.contains(letterId)) {
+                                continue;
+                            }
+
+                            Letter newLetter = new Letter();
+                            newLetter.setLetterId(letterId);
+                            newLetter.setLetterType(letterResponse.getInt("letterType"));
+                            newLetter.setFromAuthorId(letterResponse.getString("fromAuthorId"));
+                            newLetter.setFromAuthorNickname(letterResponse.getString("fromAuthorNickname"));
+                            newLetter.setToAuthorId(letterResponse.getString("toAuthorId"));
+                            newLetter.setToAuthorNickname(letterResponse.getString("toAuthorNickname"));
+                            newLetter.setContent(letterResponse.getString("content"));
+                            newLetter.setWrittenTime(letterResponse.getLong("writtenTime"));
+
+                            newLetter.setStatus(lettersToMe ? Letter.LetterStatus.UNREAD : Letter.LetterStatus.REPLIED);
+                            letterDao.insertLetter(newLetter);
+                        }
+
+                        Bundle args = new Bundle();
+                        args.putBoolean("lettersToMe", lettersToMe);
+                        args.putBoolean("refreshed", true);
+
+                        Fragment fragment = LetterFragment.this;
+                        fragment.setArguments(args);
+
+                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.detach(fragment);
+                        fragmentTransaction.attach(fragment);
+                        fragmentTransaction.commit();
+                    }
+                }
+            }
+        });
     }
 }

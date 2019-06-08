@@ -18,6 +18,7 @@ import java.util.List;
 public class LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecyclerViewAdapter.LetterViewHolder> {
 
     private List<Letter> letterData;
+    private boolean lettersToMe;
     private OnItemClickListener callback;
 
     public interface OnItemClickListener {
@@ -36,8 +37,9 @@ public class LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecycl
         }
     }
 
-    public LetterRecyclerViewAdapter(List<Letter> letterData, OnItemClickListener callback) {
+    public LetterRecyclerViewAdapter(List<Letter> letterData, boolean lettersToMe, OnItemClickListener callback) {
         this.letterData = letterData;
+        this.lettersToMe = lettersToMe;
         this.callback = callback;
     }
 
@@ -52,7 +54,6 @@ public class LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecycl
     @Override
     public void onBindViewHolder(@NonNull LetterViewHolder letterViewHolder, int i) {
         Letter letter = letterData.get(i);
-        String fromAuthorNickname = letter.getFromAuthorNickname();
 
         ImageView image = letterViewHolder.itemView.findViewById(R.id.letter_row_image);
         TextView titleText = letterViewHolder.itemView.findViewById(R.id.letter_row_title);
@@ -64,8 +65,16 @@ public class LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecycl
         } else {
             imageResource = R.drawable.ic_drafts_black_24dp;
         }
+
+        String letterTitle = "";
+        if (lettersToMe) {
+            letterTitle = "FROM: " + letter.getFromAuthorNickname();
+        } else {
+            letterTitle = "TO: " + letter.getToAuthorNickname();
+        }
+
         image.setImageResource(imageResource);
-        titleText.setText("FROM " + fromAuthorNickname);
+        titleText.setText(letterTitle);
         contentText.setText("편지는 36시간 후에 삭제됩니다.\n작성시간: " + new Date(letter.getWrittenTime()));
     }
 

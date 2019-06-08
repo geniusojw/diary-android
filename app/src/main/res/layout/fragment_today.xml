@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background ="@drawable/shape_gradient_background" >
+    android:background ="@drawable/bg_pattern1"
+    >
+    <!--android:background ="@drawable/shape_gradient_background"-->
 
     <RelativeLayout
         android:id="@+id/relative_layout_today_anonymous_diary_group"
@@ -46,7 +48,7 @@
             android:id="@+id/text_view_today_anonymous_diary_group_end_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="D - 3"
+            android:text="time"
             android:textSize="15sp"
             android:gravity="center"
             android:layout_centerInParent="true"

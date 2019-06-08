@@ -23,6 +23,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class ApiCaller {
     private static final String TAG = "ApiCaller";
@@ -122,6 +123,7 @@ public class ApiCaller {
         headers.put("Timestamp", String.valueOf(System.currentTimeMillis()));
         headers.put("Country", Locale.getDefault().getISO3Country());
         headers.put("Language", Locale.getDefault().getISO3Language());
+        headers.put("Time-Zone-Id", TimeZone.getDefault().getID());
         headers.put("Content-Type", "application/json");
         return headers;
     }

@@ -5,31 +5,38 @@ import android.provider.BaseColumns;
 import java.io.Serializable;
 
 public class Letter implements Serializable {
+    public static class LetterType {
+        public static final int NORMAL = 0;
+        public static final int INVITATION = 1;
+    }
     public static class LetterStatus {
         public static final int UNREAD = 0;
         public static final int READ = 1;
+        public static final int REPLIED = 2;
     }
 
     public static class TableDesc implements BaseColumns {
         public static final String TABLE_NAME = "letter";
         public static final String COLUMN_NAME_LETTER_ID = "letter_id";
+        public static final String COLUMN_NAME_LETTER_TYPE = "letter_type";
         public static final String COLUMN_NAME_FROM_AUTHOR_ID = "from_author_id";
         public static final String COLUMN_NAME_FROM_AUTHOR_NICKNAME = "from_author_nickname";
         public static final String COLUMN_NAME_TO_AUTHOR_ID = "to_author_id";
-        public static final String COLUMN_NAME_TITLE = "title";
+        public static final String COLUMN_NAME_TO_AUTHOR_NICKNAME = "to_author_nickname";
         public static final String COLUMN_NAME_CONTENT = "content";
         public static final String COLUMN_NAME_WRITTEN_TIME = "written_time";
         public static final String COLUMN_NAME_STATUS = "status";
     }
 
-    private String letterId; // ex) author_id + seq
+    private String letterId; // ex) fromAuthorId + "-" + writtenTime
+    private int letterType;
     private String fromAuthorId;
     private String fromAuthorNickname;
     private String toAuthorId;
-    private String title;
+    private String toAuthorNickname;
     private String content;
     private long writtenTime;
-    private int status; // ex) 0: unread, 1: read
+    private int status; // ex) 0: unread, 1: read, 2: replied
 
     public String getLetterId() {
         return letterId;
@@ -37,6 +44,14 @@ public class Letter implements Serializable {
 
     public void setLetterId(String letterId) {
         this.letterId = letterId;
+    }
+
+    public int getLetterType() {
+        return letterType;
+    }
+
+    public void setLetterType(int letterType) {
+        this.letterType = letterType;
     }
 
     public String getFromAuthorId() {
@@ -63,12 +78,12 @@ public class Letter implements Serializable {
         this.toAuthorId = toAuthorId;
     }
 
-    public String getTitle() {
-        return title;
+    public String getToAuthorNickname() {
+        return toAuthorNickname;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setToAuthorNickname(String toAuthorNickname) {
+        this.toAuthorNickname = toAuthorNickname;
     }
 
     public String getContent() {

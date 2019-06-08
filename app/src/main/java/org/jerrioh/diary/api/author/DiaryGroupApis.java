@@ -23,4 +23,9 @@ public class DiaryGroupApis extends ApiCaller {
         Map<String, String> headers = authorHeaders();
         super.get("/author/diary-group/yesterday-diaries", headers, callback);
     }
+
+    public void invitation(ApiCallback callback) {
+        Map<String, String> headers = authorHeaders();
+        super.get("/author/diary-group/yesterday-diaries", headers, callback);
+    }
 }

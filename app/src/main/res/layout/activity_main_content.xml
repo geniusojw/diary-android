@@ -8,7 +8,7 @@
         android:id="@+id/main_banner"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background ="@android:color/holo_orange_light"
+        android:background ="@color/carribeanSky"
         android:elevation="8dp"
         >
 
@@ -38,7 +38,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center"
-            android:background ="@android:color/holo_orange_light"
+            android:background ="@color/carribeanSky"
             android:layout_toRightOf="@id/image_view_open_drawer_hamburger"
             android:layout_toLeftOf="@id/image_view_banner_right_button"
             android:weightSum="1"
@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.5"
-                android:background ="@android:color/holo_red_dark"
+                android:background ="@color/carribeanSky"
                 android:gravity="center"
                 android:layout_gravity="center"
                 >

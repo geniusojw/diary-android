@@ -3,7 +3,6 @@ package org.jerrioh.diary.activity.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -26,7 +25,7 @@ public class DiaryReadActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_writing_detail);
+        setContentView(R.layout.activity_detail_diary);
 
         Intent intent = getIntent();
         Diary diary = (Diary) intent.getSerializableExtra("diary");

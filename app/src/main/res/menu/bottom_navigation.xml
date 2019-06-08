@@ -4,7 +4,7 @@
     <item
         android:id="@+id/bottom_option_today"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/today_diary" />
+        android:title="@string/today" />
 
     <item
         android:id="@+id/bottom_option_diary"

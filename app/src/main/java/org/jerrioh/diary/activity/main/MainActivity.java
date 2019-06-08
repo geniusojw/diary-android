@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
         setDrawerNavigation();// 드로우 네비게이션 (열기, 메뉴 선택)
         setBottomNavigation();// 바텀 네비게이션 (메뉴 선택 리스너)
         setMonthAdjustButton();// 월 이동 버튼
-        setWriteDiaryButton();// 일기쓰기 버튼
 
         // 초기 fragment 세팅 (today)
         diaryDate_yyyyMM = DateUtil.getyyyyMMdd().substring(0, 6);
@@ -132,14 +131,12 @@ public class MainActivity extends AppCompatActivity {
         NavigationView drawerNavigationView = findViewById(R.id.navigation_view_drawer);
         drawerNavigationView.setNavigationItemSelectedListener(menu -> {
             int id = menu.getItemId();
-            if (id == R.id.drawer_option_account) {
-                startActivityForResult(new Intent(this, AccountActivity.class), REQUEST_ACCOUNT_ACTIVITY);
-
+            if (id == R.id.drawer_option_chocolate_store) {
+                startActivity(new Intent(this, ChocolateStoreActivity.class));
             } else if (id == R.id.drawer_option_setting) {
                 startActivityForResult(new Intent(this, SettingActivity.class), REQUEST_SETTING_ACTIVITY);
-
-            } else if (id == R.id.drawer_option_chocolate_store) {
-                startActivity(new Intent(this, ChocolateStoreActivity.class));
+            } else if (id == R.id.drawer_option_account) {
+                startActivityForResult(new Intent(this, AccountActivity.class), REQUEST_ACCOUNT_ACTIVITY);
             } else if (id == R.id.drawer_option_faq) {
                 startActivity(new Intent(this, FaqActivity.class));
             } else if (id == R.id.drawer_option_about_application) {
@@ -202,15 +199,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setWriteDiaryButton() {
-        View writeButton = findViewById(R.id.floating_action_button_write_diary);
-        writeButton.setEnabled(true);
-        writeButton.setClickable(true);
-        writeButton.setOnClickListener(view -> {
-            startActivity(new Intent(this, DiaryWriteActivity.class));
-        });
-    }
-
     private void setFragmentByBottomNavId(int bottomNavId) {
         Fragment fragment = new TodayNightFragment();
         String mainBannerText = "";
@@ -225,30 +213,39 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 fragment = new TodayNightFragment();
             }
-            //mainBannerText = DateUtil.getDateString(System.currentTimeMillis(), Locale.CHINA);
-            mainBannerText = DateUtil.getDateString();
+            //mainBannerText = DateUtil.getDateStringSkipTime(System.currentTimeMillis(), Locale.CHINA);
+            mainBannerText = DateUtil.getDateStringSkipTime();
             weatherImageResource = R.drawable.ic_wb_sunny_black_24dp;
             //weatherButtonClickListener = v -> { System.out.println("tbd"); };
             enableMonthAdjustment = false;
 
         } else if (bottomNavId == R.id.bottom_option_diary) {
-            Bundle args = new Bundle(); args.putString("display_yyyyMM", diaryDate_yyyyMM);
-            fragment = new DiaryFragment(); fragment.setArguments(args);
-            mainBannerText = DateUtil.getDateString_yyyyMM(diaryDate_yyyyMM);
+            Bundle args = new Bundle();
+            args.putString("display_yyyyMM", diaryDate_yyyyMM);
+            fragment = new DiaryFragment();
+            fragment.setArguments(args);
+            mainBannerText = DateUtil.getDateStringYearMonth(diaryDate_yyyyMM);
 
             weatherImageResource = R.drawable.ic_search_black_24dp;
             //weatherButtonClickListener = v -> { System.out.println("tbd"); };
             enableMonthAdjustment = true;
 
         } else if (bottomNavId == R.id.bottom_option_letter) {
+            Bundle args = new Bundle();
+            args.putBoolean("lettersToMe", lettersToMe);
             fragment = new LetterFragment();
+            fragment.setArguments(args);
             if (lettersToMe) {
                 mainBannerText = "내게 보내진 편지";
             } else {
                 mainBannerText = "내가 쓴 편지";
             }
-            weatherImageResource = R.drawable.ic_search_black_24dp;
-            //weatherButtonClickListener = v -> { System.out.println("tbd"); };
+            weatherImageResource = R.drawable.ic_swap_horiz_black_24dp;
+            weatherButtonClickListener = v -> {
+                lettersToMe = !lettersToMe;
+                BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
+                bottomNav.setSelectedItemId(R.id.bottom_option_letter);
+            };
             enableMonthAdjustment = false;
         }
 

@@ -5,17 +5,17 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/drawer_option_account"
-            android:icon="@drawable/ic_cloud_queue_black_24dp"
-            android:title="Account" />
+            android:id="@+id/drawer_option_chocolate_store"
+            android:icon="@drawable/ic_store_black_24dp"
+            android:title="Chocolate Store" />
         <item
             android:id="@+id/drawer_option_setting"
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="Setting" />
         <item
-            android:id="@+id/drawer_option_chocolate_store"
-            android:icon="@drawable/ic_store_black_24dp"
-            android:title="Chocolate Store" />
+            android:id="@+id/drawer_option_account"
+            android:icon="@drawable/ic_cloud_queue_black_24dp"
+            android:title="Account" />
     </group>
 
     <item android:title="Information">

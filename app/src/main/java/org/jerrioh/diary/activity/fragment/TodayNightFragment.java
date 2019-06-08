@@ -20,7 +20,7 @@ public class TodayNightFragment extends MainActivityFragment {
 
 
 
-            setDiaryWriteButton(false);
+            setDiaryWriteButton(false, BUTTON_TYPE_WRITE_DIARY);
             return todayView;
         }
 }

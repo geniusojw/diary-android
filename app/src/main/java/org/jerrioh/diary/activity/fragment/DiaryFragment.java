@@ -58,7 +58,7 @@ public class DiaryFragment extends MainActivityFragment {
         diaryRecyclerView.setLayoutManager(layoutManager);
         diaryRecyclerView.setAdapter(mAdapter);
 
-        setDiaryWriteButton(true);
+        setDiaryWriteButton(true, BUTTON_TYPE_WRITE_DIARY);
         return diaryView;
     }
 

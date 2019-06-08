@@ -20,19 +20,19 @@ public class AuthorLetterApis extends ApiCaller {
         super(context);
     }
 
-    public void receive(ApiCallback callback) {
+    public void receive(String range, ApiCallback callback) {
         Map<String, String> headers = authorHeaders();
-        super.get("/author/letters", headers, callback);
+        super.get("/author/letters?range=" + range, headers, callback);
     }
 
-    public void send(Letter letter, ApiCallback callback) {
+    public void send(String letterId, String toAuthorId, String toAuthorNickname, String content, ApiCallback callback) {
         Map<String, String> headers = authorHeaders();
         try {
             JSONObject json = new JSONObject();
-            json.put("letterId", letter.getLetterId());
-            json.put("toAuthorId", letter.getToAuthorId());
-            json.put("title", letter.getTitle());
-            json.put("content", letter.getContent());
+            json.put("letterId", letterId);
+            json.put("toAuthorId", toAuthorId);
+            json.put("toAuthorNickname", toAuthorNickname);
+            json.put("content", content);
 
             super.post("/author/letters", headers, json.toString(), callback);
         } catch (JSONException e) {

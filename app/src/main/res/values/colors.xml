@@ -8,13 +8,16 @@
 
     <color name="colorPrimary">#778ba5</color> <!-- shadow blue -->
     <color name="colorPrimaryDark">#126180</color> <!-- blue sapphire -->
-    <color name="colorAccent">#ff7f50</color> <!-- coral -->
+    <color name="colorAccent">#FF9800</color> <!-- coral -->
 
     <color name="penguinWhite">#f5f3ef</color>
     <color name="beige">#f5f5dc</color>
     <color name="eggshell">#f0ead6</color>
     <color name="italianLeather">#635a52</color>
 
+    <color name="medwayMist">#f5f2f0</color>
+    <color name="steelTrap">#c7c4c3</color>
+    <color name="carribeanSky">#d6e4e5</color>
     <color name="babyBlueEyes">#a1caf1</color>
     <color name="ultramarineBlue">#4166f5</color>
     <color name="cobaltBlue">#00498c</color>

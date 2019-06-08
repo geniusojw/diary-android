@@ -16,10 +16,11 @@ public class LetterDao extends AbstractDao {
     private static final String TABLE_NAME = Letter.TableDesc.TABLE_NAME;
     private static final String[] COLUMN_NAMES = {
             Letter.TableDesc.COLUMN_NAME_LETTER_ID,
+            Letter.TableDesc.COLUMN_NAME_LETTER_TYPE,
             Letter.TableDesc.COLUMN_NAME_FROM_AUTHOR_ID,
             Letter.TableDesc.COLUMN_NAME_FROM_AUTHOR_NICKNAME,
             Letter.TableDesc.COLUMN_NAME_TO_AUTHOR_ID,
-            Letter.TableDesc.COLUMN_NAME_TITLE,
+            Letter.TableDesc.COLUMN_NAME_TO_AUTHOR_NICKNAME,
             Letter.TableDesc.COLUMN_NAME_CONTENT,
             Letter.TableDesc.COLUMN_NAME_WRITTEN_TIME,
             Letter.TableDesc.COLUMN_NAME_STATUS
@@ -27,6 +28,21 @@ public class LetterDao extends AbstractDao {
 
     public LetterDao(Context context) {
         super(context);
+    }
+
+    public List<Letter> getAllLetters() {
+        String orderBy = Letter.TableDesc.COLUMN_NAME_WRITTEN_TIME + " DESC";
+
+        Cursor cursor = readableDb().query(TABLE_NAME, COLUMN_NAMES, "1=1", new String[]{}, null, null, orderBy);
+        List<Letter> letters = new ArrayList<>();
+        if (cursorIsNotNull(cursor)) {
+            if (cursor.moveToFirst()) {
+                do {
+                    letters.add(getLetterOnCursor(cursor));
+                } while (cursor.moveToNext());
+            }
+        }
+        return letters;
     }
 
     public List<Letter> getLettersToMe(String authorId) {
@@ -66,10 +82,11 @@ public class LetterDao extends AbstractDao {
     public long insertLetter(Letter letter) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Letter.TableDesc.COLUMN_NAME_LETTER_ID, letter.getLetterId());
+        contentValues.put(Letter.TableDesc.COLUMN_NAME_LETTER_TYPE, letter.getLetterType());
         contentValues.put(Letter.TableDesc.COLUMN_NAME_FROM_AUTHOR_ID, letter.getFromAuthorId());
         contentValues.put(Letter.TableDesc.COLUMN_NAME_FROM_AUTHOR_NICKNAME, letter.getFromAuthorNickname());
         contentValues.put(Letter.TableDesc.COLUMN_NAME_TO_AUTHOR_ID, letter.getToAuthorId());
-        contentValues.put(Letter.TableDesc.COLUMN_NAME_TITLE, letter.getTitle());
+        contentValues.put(Letter.TableDesc.COLUMN_NAME_TO_AUTHOR_NICKNAME, letter.getToAuthorNickname());
         contentValues.put(Letter.TableDesc.COLUMN_NAME_CONTENT, letter.getContent());
         contentValues.put(Letter.TableDesc.COLUMN_NAME_WRITTEN_TIME, letter.getWrittenTime());
         contentValues.put(Letter.TableDesc.COLUMN_NAME_STATUS, letter.getStatus());
@@ -95,13 +112,14 @@ public class LetterDao extends AbstractDao {
     private Letter getLetterOnCursor(Cursor cursor) {
         Letter letter = new Letter();
         letter.setLetterId(cursor.getString(0));
-        letter.setFromAuthorId(cursor.getString(1));
-        letter.setFromAuthorNickname(cursor.getString(2));
-        letter.setToAuthorId(cursor.getString(3));
-        letter.setTitle(cursor.getString(4));
-        letter.setContent(cursor.getString(5));
-        letter.setWrittenTime(cursor.getLong(6));
-        letter.setStatus(cursor.getInt(7));
+        letter.setLetterType(cursor.getInt(1));
+        letter.setFromAuthorId(cursor.getString(2));
+        letter.setFromAuthorNickname(cursor.getString(3));
+        letter.setToAuthorId(cursor.getString(4));
+        letter.setToAuthorNickname(cursor.getString(5));
+        letter.setContent(cursor.getString(6));
+        letter.setWrittenTime(cursor.getLong(7));
+        letter.setStatus(cursor.getInt(8));
         return letter;
     }
 }

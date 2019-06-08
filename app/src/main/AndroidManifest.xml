@@ -21,6 +21,7 @@
         <activity android:name=".activity.main.DiaryGroupPopActivity" android:theme="@style/AnonymousDiaryTheme" />
         <activity android:name=".activity.main.ChocolateStorePopActivity" android:theme="@style/AnonymousDiaryTheme" />
         <activity android:name=".activity.main.DiaryWriteActivity" />
+        <activity android:name=".activity.main.LetterWriteActivity" />
         <activity android:name=".activity.main.DiaryGroupReadActivity" />
 
         <activity android:name=".activity.main.DiaryReadActivity" />
