@@ -8,9 +8,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jerrioh.diary.R;
-import org.jerrioh.diary.model.db.SettingDao;
-import org.jerrioh.diary.model.Setting;
+import org.jerrioh.diary.model.Property;
+import org.jerrioh.diary.model.db.PropertyDao;
 import org.jerrioh.diary.util.AuthorUtil;
+import org.jerrioh.diary.util.PropertyUtil;
 
 public class SettingActivity extends CommonActionBarActivity {
     private static final String TAG = "SettingActivity";
@@ -42,62 +43,62 @@ public class SettingActivity extends CommonActionBarActivity {
     }
 
     private void setFontSize() {
-        SettingDao settingDao = new SettingDao(this);
-        String fontSize = insertDefaultIfEmptyAndGet(Setting.Key.FONT_SIZE, settingDao);
+        PropertyDao propertyDao = new PropertyDao(this);
+        String fontSize = PropertyUtil.getProperty(Property.Key.FONT_SIZE, propertyDao);
     }
 
     private void setBackgroundImage() {
-        SettingDao settingDao = new SettingDao(this);
-        String fontSize = insertDefaultIfEmptyAndGet(Setting.Key.FONT_SIZE, settingDao);
+        PropertyDao propertyDao = new PropertyDao(this);
+        String fontSize = PropertyUtil.getProperty(Property.Key.FONT_SIZE, propertyDao);
     }
 
     private void setScreenLock() {
-        SettingDao settingDao = new SettingDao(this);
-        String screenLockUse = insertDefaultIfEmptyAndGet(Setting.Key.SCREEN_LOCK_USE, settingDao);
+        PropertyDao propertyDao = new PropertyDao(this);
+        String screenLockUse = PropertyUtil.getProperty(Property.Key.SCREEN_LOCK_USE, propertyDao);
         Switch switchScreenLock = findViewById(R.id.switch_setting_screen_lock);
         switchScreenLock.setChecked(Integer.parseInt(screenLockUse) == 1);
         switchScreenLock.setOnClickListener(v -> {
-            String lockUse = insertDefaultIfEmptyAndGet(Setting.Key.SCREEN_LOCK_USE, settingDao);
+            String lockUse = PropertyUtil.getProperty(Property.Key.SCREEN_LOCK_USE, propertyDao);
             if (Integer.parseInt(lockUse) == 1) {
-                new SettingDao(this).updateSetting(Setting.Key.SCREEN_LOCK_USE, "0");
+                new PropertyDao(this).updateProperty(Property.Key.SCREEN_LOCK_USE, "0");
                 switchScreenLock.setChecked(false);
             } else {
-                new SettingDao(this).updateSetting(Setting.Key.SCREEN_LOCK_USE, "1");
+                new PropertyDao(this).updateProperty(Property.Key.SCREEN_LOCK_USE, "1");
                 switchScreenLock.setChecked(true);
             }
         });
     }
 
     private void setDiaryAlarm() {
-        SettingDao settingDao = new SettingDao(this);
-        String diaryAlarmUse = insertDefaultIfEmptyAndGet(Setting.Key.DIARY_ALARM_USE, settingDao);
+        PropertyDao propertyDao = new PropertyDao(this);
+        String diaryAlarmUse = PropertyUtil.getProperty(Property.Key.DIARY_ALARM_USE, propertyDao);
         Switch switchDiaryAlarm = findViewById(R.id.switch_setting_diary_alarm);
         switchDiaryAlarm.setChecked(Integer.parseInt(diaryAlarmUse) == 1);
         switchDiaryAlarm.setOnClickListener(v -> {
-            String alarmUse = insertDefaultIfEmptyAndGet(Setting.Key.DIARY_ALARM_USE, settingDao);
+            String alarmUse = PropertyUtil.getProperty(Property.Key.DIARY_ALARM_USE, propertyDao);
             if (Integer.parseInt(alarmUse) == 1) {
-                new SettingDao(this).updateSetting(Setting.Key.DIARY_ALARM_USE, "0");
+                new PropertyDao(this).updateProperty(Property.Key.DIARY_ALARM_USE, "0");
                 switchDiaryAlarm.setChecked(false);
             } else {
-                new SettingDao(this).updateSetting(Setting.Key.DIARY_ALARM_USE, "1");
+                new PropertyDao(this).updateProperty(Property.Key.DIARY_ALARM_USE, "1");
                 switchDiaryAlarm.setChecked(true);
             }
         });
     }
 
     private void setDiaryGroupInvitation() {
-        SettingDao settingDao = new SettingDao(this);
-        String groupInvitationUse = insertDefaultIfEmptyAndGet(Setting.Key.GROUP_INVITATION_USE, settingDao);
+        PropertyDao propertyDao = new PropertyDao(this);
+        String groupInvitationUse = PropertyUtil.getProperty(Property.Key.GROUP_INVITATION_USE, propertyDao);
         Switch switchInvitation = findViewById(R.id.switch_setting_group_invitation);
         switchInvitation.setChecked(Integer.parseInt(groupInvitationUse) == 1);
         switchInvitation.setOnClickListener(v -> {
-            String invitationUse = insertDefaultIfEmptyAndGet(Setting.Key.GROUP_INVITATION_USE, settingDao);
+            String invitationUse = PropertyUtil.getProperty(Property.Key.GROUP_INVITATION_USE, propertyDao);
             if (Integer.parseInt(invitationUse) == 1) {
                 AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-                alertBuilder.setTitle("Disable diary group invitation")
-                        .setMessage("You can decline the invitation without disable it.\nDo you really want to disable it?")
+                alertBuilder.setTitle("Disable diary group beInvited")
+                        .setMessage("You can decline the beInvited without disable it.\nDo you really want to disable it?")
                         .setPositiveButton("Disable", (dialog, which) -> {
-                            new SettingDao(this).updateSetting(Setting.Key.GROUP_INVITATION_USE, "0");
+                            new PropertyDao(this).updateProperty(Property.Key.GROUP_INVITATION_USE, "0");
                             switchInvitation.setChecked(false);
                         })
                         .setNegativeButton("Cancel", (dialog, which) -> {
@@ -107,7 +108,7 @@ public class SettingActivity extends CommonActionBarActivity {
                 AlertDialog alertDialog = alertBuilder.create();
                 alertDialog.show();
             } else {
-                new SettingDao(this).updateSetting(Setting.Key.GROUP_INVITATION_USE, "1");
+                new PropertyDao(this).updateProperty(Property.Key.GROUP_INVITATION_USE, "1");
                 switchInvitation.setChecked(true);
             }
         });
@@ -130,14 +131,5 @@ public class SettingActivity extends CommonActionBarActivity {
             AlertDialog alertDialog = alertBuilder.create();
             alertDialog.show();
         });
-    }
-
-    private String insertDefaultIfEmptyAndGet(Setting.Key settingKey, SettingDao settingDao) {
-        String settingValue = settingDao.getSettingValue(settingKey);
-        if (settingValue == null) {
-            settingDao.insertSetting(settingKey, settingKey.DEFAULT_VALUE);
-            settingValue = settingKey.DEFAULT_VALUE;
-        }
-        return settingValue;
     }
 }

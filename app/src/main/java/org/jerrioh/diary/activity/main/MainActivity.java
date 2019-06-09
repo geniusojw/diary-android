@@ -23,7 +23,11 @@ import org.jerrioh.diary.activity.draw.AboutApplicationActivity;
 import org.jerrioh.diary.activity.draw.ChocolateStoreActivity;
 import org.jerrioh.diary.activity.draw.FaqActivity;
 import org.jerrioh.diary.activity.draw.SettingActivity;
+import org.jerrioh.diary.api.ApiCallback;
+import org.jerrioh.diary.api.author.DiaryGroupApis;
 import org.jerrioh.diary.config.Constants;
+import org.jerrioh.diary.model.Property;
+import org.jerrioh.diary.model.db.PropertyDao;
 import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.model.db.DiaryDao;
 import org.jerrioh.diary.model.Author;
@@ -33,10 +37,14 @@ import org.jerrioh.diary.activity.fragment.LetterFragment;
 import org.jerrioh.diary.activity.fragment.TodayFragment;
 import org.jerrioh.diary.activity.fragment.TodayNightFragment;
 import org.jerrioh.diary.util.DateUtil;
+import org.jerrioh.diary.util.PropertyUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -58,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
         }
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
         bottomNav.setSelectedItemId(bottomNav.getSelectedItemId());
+
+        // 초대편지 받기
+        this.getInviteLetter();
     }
 
     @Override
@@ -110,6 +121,8 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
         bottomNav.setSelectedItemId(R.id.bottom_option_today);
     }
+
+
 
     private void setDrawerNavigation() {
         ImageView imageView = findViewById(R.id.image_view_open_drawer_hamburger);
@@ -276,5 +289,36 @@ public class MainActivity extends AppCompatActivity {
     private void applyFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_layout_fragment_container, fragment).commit();
+    }
+
+    private void getInviteLetter() {
+        PropertyDao propertyDao = new PropertyDao(this);
+        String groupInvitationUse = PropertyUtil.getProperty(Property.Key.GROUP_INVITATION_USE, propertyDao);
+        if (Integer.parseInt(groupInvitationUse) == 0) {
+            return;
+        }
+
+        String latestInvitationTime = PropertyUtil.getProperty(Property.Key.LATEST_INVITATION_TIME, propertyDao);
+        long currentTime = System.currentTimeMillis();
+        long invitationTime = Long.parseLong(latestInvitationTime) + TimeUnit.SECONDS.toMillis(12);
+        if (currentTime < invitationTime) {
+            return;
+        }
+
+        PropertyUtil.setProperty(Property.Key.LATEST_INVITATION_TIME, String.valueOf(currentTime), propertyDao);
+
+        DiaryGroupApis diaryGroupApis = new DiaryGroupApis(this);
+        diaryGroupApis.beInvited(new ApiCallback() {
+            @Override
+            protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                if (httpStatus == 200) {
+                    Toast.makeText(MainActivity.this, "test invitation success!", Toast.LENGTH_SHORT).show();
+                } else if (httpStatus == 409) {
+                    AuthorUtil.syncAuthorDiaryGroupData(MainActivity.this);
+                } else {
+                    Toast.makeText(MainActivity.this, "test invitation fail! httpStatus: " + httpStatus, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

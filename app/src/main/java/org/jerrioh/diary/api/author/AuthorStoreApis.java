@@ -19,22 +19,33 @@ public class AuthorStoreApis extends ApiCaller {
         super(context);
     }
 
+    public void getStoreStatus(ApiCallback callback) {
+        Map<String, String> headers = authorHeaders();
+        super.get("/author/store/status", headers, callback);
+    }
+
     public void changeDescription(ApiCallback callback) {
         Map<String, String> headers = authorHeaders();
         JSONObject json = new JSONObject();
-        super.post("/author/shop/change-description", headers, json.toString(), callback);
+        super.post("/author/store/change-description", headers, json.toString(), callback);
     }
 
     public void changeNickname(ApiCallback callback) {
         Map<String, String> headers = authorHeaders();
         JSONObject json = new JSONObject();
-        super.post("/author/shop/change-nickname", headers, json.toString(), callback);
+        super.post("/author/store/change-nickname", headers, json.toString(), callback);
+    }
+
+    public void changeDiaryTheme(ApiCallback callback) {
+        Map<String, String> headers = authorHeaders();
+        JSONObject json = new JSONObject();
+        super.post("/author/store/change-diary-theme", headers, json.toString(), callback);
     }
 
     public void aliasFeatureUnlimitedUse(ApiCallback callback) {
         Map<String, String> headers = authorHeaders();
         JSONObject json = new JSONObject();
-        super.post("/author/shop/alias-feature-unlimited-use", headers, json.toString(), callback);
+        super.post("/author/store/alias-feature-unlimited-use", headers, json.toString(), callback);
     }
 
     public void inviteTicket1(ApiCallback callback) {
@@ -47,7 +58,7 @@ public class AuthorStoreApis extends ApiCaller {
             json.put("country", Locale.getDefault().getISO3Country());
             json.put("timeZoneId", TimeZone.getDefault().getID());
 
-            super.post("/author/shop/invite-ticket1", headers, json.toString(), callback);
+            super.post("/author/store/invite-ticket1", headers, json.toString(), callback);
 
         } catch (JSONException e) {
             Log.e(TAG, "JSONException, " + e.toString());
@@ -64,7 +75,20 @@ public class AuthorStoreApis extends ApiCaller {
             json.put("country", Locale.getDefault().getISO3Country());
             json.put("timeZoneId", TimeZone.getDefault().getID());
 
-            super.post("/author/shop/invite-ticket2", headers, json.toString(), callback);
+            super.post("/author/store/invite-ticket2", headers, json.toString(), callback);
+
+        } catch (JSONException e) {
+            Log.e(TAG, "JSONException, " + e.toString());
+        }
+    }
+
+    public void donate(int chocolates, ApiCallback callback) {
+        Map<String, String> headers = authorHeaders();
+        try {
+            JSONObject json = new JSONObject();
+            json.put("chocolates", chocolates);
+
+            super.post("/author/store/chocolate-donation", headers, json.toString(), callback);
 
         } catch (JSONException e) {
             Log.e(TAG, "JSONException, " + e.toString());

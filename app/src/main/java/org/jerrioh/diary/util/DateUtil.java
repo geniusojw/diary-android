@@ -80,11 +80,11 @@ public class DateUtil {
     public static String getDateStringSkipYear(long timeMillis) {
         String iso3Language = Locale.getDefault().getISO3Language();
         if (LANGUAGE_KOREAN.equals(iso3Language)) {
-            return getDateString(timeMillis, TimeZone.getDefault(), DATE_PATTERN_SKIP_YEAR_TEST, Locale.KOREAN);
+            return getDateString(timeMillis, TimeZone.getDefault(), DATE_PATTERN_SKIP_YEAR_KOREAN, Locale.KOREAN);
         } else if (LANGUAGE_ENGLISH.equals(iso3Language)) {
-            return getDateString(timeMillis, TimeZone.getDefault(), DATE_PATTERN_SKIP_YEAR_KOREAN, Locale.ENGLISH);
-        } else {
             return getDateString(timeMillis, TimeZone.getDefault(), DATE_PATTERN_SKIP_YEAR_ENGLISH, Locale.ENGLISH);
+        } else {
+            return getDateString(timeMillis, TimeZone.getDefault(), DATE_PATTERN_SKIP_YEAR_TEST, Locale.ENGLISH);
         }
     }
 

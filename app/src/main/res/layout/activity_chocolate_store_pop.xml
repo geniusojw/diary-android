@@ -1,51 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/penguinWhite"
     android:orientation="vertical"
+    android:background="@color/darkCharcoal"
+    android:padding="12dp"
     >
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/relative_layout_chocolate_pop"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_height="match_parent"
+        android:background="@color/carribeanSky"
+        android:padding="20dp"
         >
-
-        <TextView
-            android:id="@+id/text_view_chocolate_pop_description"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="당신의 이야기를 들을 수 있습니다.\n초콜릿 1개를 주고 당신의 이야기를 듣겠습니까?\n"
-            android:textSize="20sp"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:weightSum="1"
-        >
-        <Button
-            android:id="@+id/button_chocolate_pop_ok"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="OK"
-            android:layout_weight="0.5"
-            />
+            android:layout_alignParentTop="true"
+            >
 
-        <Button
-            android:id="@+id/button_chocolate_pop_no"
+            <TextView
+                android:id="@+id/text_view_chocolate_pop_description"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="당신의 이야기를 들을 수 있습니다.\n초콜릿 1개를 주고 당신의 이야기를 듣겠습니까?\n"
+                android:textSize="20sp"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="NO"
-            android:layout_weight="0.5"
-            />
-    </LinearLayout>
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            >
+            <Button
+                android:id="@+id/button_chocolate_pop_ok"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="OK"
+                android:layout_weight="0.5"
+                android:layout_marginRight="10dp"
+                />
 
+            <Button
+                android:id="@+id/button_chocolate_pop_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="NO"
+                android:layout_weight="0.5"
+                android:layout_marginLeft="10dp"
+                />
 
+            <Button
+                android:id="@+id/button_chocolate_pop_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Confirm"
+                android:layout_weight="1.0"
+                android:visibility="gone"
+                />
 
-</RelativeLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

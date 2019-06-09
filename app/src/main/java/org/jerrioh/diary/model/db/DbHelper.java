@@ -8,7 +8,7 @@ import org.jerrioh.diary.model.Author;
 import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.model.DiaryGroup;
 import org.jerrioh.diary.model.Letter;
-import org.jerrioh.diary.model.Setting;
+import org.jerrioh.diary.model.Property;
 
 public class DbHelper extends SQLiteOpenHelper {
     private static DbHelper instance;
@@ -100,16 +100,16 @@ public class DbHelper extends SQLiteOpenHelper {
                     DiaryGroup.TableDesc.COLUMN_NAME_START_TIME,
                     DiaryGroup.TableDesc.COLUMN_NAME_END_TIME);
 
-    public static final String SQL_CREATE_SETTING_TABLE =
+    public static final String SQL_CREATE_PROPERTY_TABLE =
             String.format("CREATE TABLE IF NOT EXISTS " +
                             "%s (" +
                             "%s INTEGER PRIMARY KEY AUTOINCREMENT, " +
                             "%s STRING, " +
                             "%s STRING" + ")",
-                    Setting.TableDesc.TABLE_NAME,
-                    Setting.TableDesc._ID,
-                    Setting.TableDesc.COLUMN_NAME_SETTING_KEY,
-                    Setting.TableDesc.COLUMN_NAME_SETTING_VALUE);
+                    Property.TableDesc.TABLE_NAME,
+                    Property.TableDesc._ID,
+                    Property.TableDesc.COLUMN_NAME_PROPERTY_KEY,
+                    Property.TableDesc.COLUMN_NAME_PROPERTY_VALUE);
 
     public static final String SQL_DELETE_AUTHOR_TABLE =
             String.format("DROP TABLE IF EXISTS %s",
@@ -127,9 +127,9 @@ public class DbHelper extends SQLiteOpenHelper {
             String.format("DROP TABLE IF EXISTS %s",
                     DiaryGroup.TableDesc.TABLE_NAME);
 
-    public static final String SQL_DELETE_SETTING_TABLE =
+    public static final String SQL_DELETE_PROPERTY_TABLE =
             String.format("DROP TABLE IF EXISTS %s",
-                    Setting.TableDesc.TABLE_NAME);
+                    Property.TableDesc.TABLE_NAME);
 
     private DbHelper(Context context) {
         super(context, DB_NAME, null, 1);
@@ -148,7 +148,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_DIARY_TABLE);
         db.execSQL(SQL_CREATE_LETTER_TABLE);
         db.execSQL(SQL_CREATE_DIARY_GROUP_TABLE);
-        db.execSQL(SQL_CREATE_SETTING_TABLE);
+        db.execSQL(SQL_CREATE_PROPERTY_TABLE);
     }
 
     @Override
@@ -157,7 +157,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_DELETE_DIARY_TABLE);
         db.execSQL(SQL_DELETE_LETTER_TABLE);
         db.execSQL(SQL_DELETE_DIARY_GROUP_TABLE);
-        db.execSQL(SQL_DELETE_SETTING_TABLE);
+        db.execSQL(SQL_DELETE_PROPERTY_TABLE);
         this.onCreate(db);
     }
 }

@@ -2,20 +2,22 @@ package org.jerrioh.diary.util;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.account.AccountDiaryApis;
 import org.jerrioh.diary.api.author.AuthorApis;
+import org.jerrioh.diary.api.author.DiaryGroupApis;
 import org.jerrioh.diary.model.Author;
 import org.jerrioh.diary.model.Diary;
-import org.jerrioh.diary.model.Setting;
+import org.jerrioh.diary.model.DiaryGroup;
+import org.jerrioh.diary.model.Property;
 import org.jerrioh.diary.model.db.AuthorDao;
 import org.jerrioh.diary.model.db.DiaryDao;
+import org.jerrioh.diary.model.db.DiaryGroupDao;
 import org.jerrioh.diary.model.db.LetterDao;
-import org.jerrioh.diary.model.db.SettingDao;
+import org.jerrioh.diary.model.db.PropertyDao;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,18 +78,62 @@ public class AuthorUtil {
         AuthorDao authorDao = new AuthorDao(context);
         authorDao.deleteAuthor();
 
-        //TODO diary, letter, alias, setting 삭제
+        // diary 삭제
         DiaryDao diaryDao = new DiaryDao(context);
         diaryDao.deleteAllDiaries();
 
+        // letter 삭제
         LetterDao letterDao = new LetterDao(context);
         letterDao.deleteAllLetters();
 
-        SettingDao settingDao = new SettingDao(context);
-        settingDao.deleteAllSettings();
+        // group 삭제
+        DiaryGroupDao diaryGroupDao = new DiaryGroupDao(context);
+        diaryGroupDao.deleteDiaryGroup();
+
+        // setting 삭제
+        PropertyDao propertyDao = new PropertyDao(context);
+        propertyDao.deleteAllProperties();
+
+        // TODO alias 삭제
 
         author = generateNewAuthor();
         authorDao.insertAuthor(author);
+    }
+
+    public static void syncAuthorDiaryGroupData(Context context) {
+        DiaryGroupApis diaryGroupApis = new DiaryGroupApis(context);
+        diaryGroupApis.getDiaryGroup(new ApiCallback() {
+            @Override
+            protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                if (httpStatus == 200) {
+                    JSONObject data = jsonObject.getJSONObject("data");
+                    saveDiaryGroup(data, context);
+
+                } else if (httpStatus == 404) {
+                    DiaryGroupDao diaryGroupDao = new DiaryGroupDao(context);
+                    diaryGroupDao.deleteDiaryGroup();
+                }
+            }
+        });
+    }
+
+    public static void saveDiaryGroup(JSONObject data, Context context) throws JSONException {
+        DiaryGroup diaryGroup = new DiaryGroup();
+        diaryGroup.setDiaryGroupId(data.getLong("diaryGroupId"));
+        diaryGroup.setDiaryGroupName(data.getString("diaryGroupName"));
+        diaryGroup.setKeyword(data.getString("keyword"));
+        diaryGroup.setCountry(data.getString("country"));
+        diaryGroup.setLanguage(data.getString("language"));
+        diaryGroup.setTimeZoneId(data.getString("timeZoneId"));
+        diaryGroup.setStartTime(data.getLong("startTime"));
+        diaryGroup.setEndTime(data.getLong("endTime"));
+
+        DiaryGroupDao diaryGroupDao = new DiaryGroupDao(context);
+        if (diaryGroupDao.getDiaryGroup() == null) {
+            diaryGroupDao.insertDiaryGroup(diaryGroup);
+        } else {
+            diaryGroupDao.updateDiaryGroup(diaryGroup);
+        }
     }
 
     public static void accountSignIn(Context context, String accountEmail, String accountToken) {
@@ -96,7 +142,7 @@ public class AuthorUtil {
         authorDao.updateAccountEmailAndToken(accountEmail, accountToken);
 
         // sync diaries
-        syncDiaries(context, null);
+        syncAccountDiaries(context, null);
     }
 
     public static void accountSignOut(Context context) {
@@ -109,15 +155,17 @@ public class AuthorUtil {
         diaryDao.updateAllDiaryAccountStatus(Diary.DiaryStatus.UNSAVED);
 
         // 화면잠금 해제
-        SettingDao settingDao = new SettingDao(context);
-        settingDao.deleteSetting(Setting.Key.SCREEN_LOCK_USE);
-        settingDao.deleteSetting(Setting.Key.SCREEN_LOCK_4DIGIT);
+        PropertyDao propertyDao = new PropertyDao(context);
+        propertyDao.deleteProperty(Property.Key.SCREEN_LOCK_USE);
+        propertyDao.deleteProperty(Property.Key.SCREEN_LOCK_4DIGIT);
     }
 
-    public static void syncDiaries(Context context, ProgressBar progressBar) {
+    public static void syncAccountDiaries(Context context, ProgressBar progressBar) {
         DiaryDao diaryDao = new DiaryDao(context);
         List<Diary> diaries = diaryDao.getAllDiariesBeforeToday(DateUtil.getyyyyMMdd());
-        ApiCallback callback = new ApiCallback() {
+
+        AccountDiaryApis accountDiaryApis = new AccountDiaryApis(context);
+        accountDiaryApis.synchronize(diaries, new ApiCallback() {
             @Override
             protected void execute(int httpStatus, JSONObject jsonObject)  throws JSONException {
                 if (httpStatus == 200) {
@@ -155,8 +203,7 @@ public class AuthorUtil {
                     progressBar.setVisibility(View.GONE);
                 }
             }
-        };
-        new AccountDiaryApis(context).synchronize(diaries, callback);
+        });
     }
 
     private static Author generateNewAuthor() {

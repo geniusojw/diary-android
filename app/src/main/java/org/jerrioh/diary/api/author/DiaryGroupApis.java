@@ -4,6 +4,7 @@ import android.content.Context;
 
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.ApiCaller;
+import org.json.JSONObject;
 
 import java.util.Map;
 
@@ -24,8 +25,9 @@ public class DiaryGroupApis extends ApiCaller {
         super.get("/author/diary-group/yesterday-diaries", headers, callback);
     }
 
-    public void invitation(ApiCallback callback) {
+    public void beInvited(ApiCallback callback) {
         Map<String, String> headers = authorHeaders();
-        super.get("/author/diary-group/yesterday-diaries", headers, callback);
+        JSONObject json = new JSONObject();
+        super.post("/author/diary-group/be-invited", headers, json.toString(), callback);
     }
 }

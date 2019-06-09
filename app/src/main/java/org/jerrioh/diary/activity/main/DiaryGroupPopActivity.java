@@ -18,6 +18,7 @@ import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.DiaryGroupApis;
 import org.jerrioh.diary.model.DiaryGroup;
 import org.jerrioh.diary.model.db.DiaryGroupDao;
+import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.util.DateUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,7 +64,7 @@ public class DiaryGroupPopActivity extends Activity {
             protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                 if (httpStatus == 200) {
                     diaryGroupJsonObject = jsonObject.getJSONObject("data");
-                    saveDiaryGroup(diaryGroupJsonObject);
+                    AuthorUtil.saveDiaryGroup(diaryGroupJsonObject, DiaryGroupPopActivity.this);
 
                     diaryGroupApis.readYesterdayDiaries(new ApiCallback() {
                         @Override
@@ -243,24 +244,5 @@ public class DiaryGroupPopActivity extends Activity {
 
         getWindow().setAttributes(params);
 
-    }
-
-    private void saveDiaryGroup(JSONObject data) throws JSONException {
-        DiaryGroup diaryGroup = new DiaryGroup();
-        diaryGroup.setDiaryGroupId(data.getLong("diaryGroupId"));
-        diaryGroup.setDiaryGroupName(data.getString("diaryGroupName"));
-        diaryGroup.setKeyword(data.getString("keyword"));
-        diaryGroup.setCountry(data.getString("country"));
-        diaryGroup.setLanguage(data.getString("language"));
-        diaryGroup.setTimeZoneId(data.getString("timeZoneId"));
-        diaryGroup.setStartTime(data.getLong("startTime"));
-        diaryGroup.setEndTime(data.getLong("endTime"));
-
-        DiaryGroupDao diaryGroupDao = new DiaryGroupDao(this);
-        if (diaryGroupDao.getDiaryGroup() == null) {
-            diaryGroupDao.insertDiaryGroup(diaryGroup);
-        } else {
-            diaryGroupDao.updateDiaryGroup(diaryGroup);
-        }
     }
 }

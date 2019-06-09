@@ -16,7 +16,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:visibility="gone"
-        android:elevation="40dp"
+        android:elevation="10dp"
         android:background="@drawable/selector_anonymous_group_button"
         >
         <ImageView

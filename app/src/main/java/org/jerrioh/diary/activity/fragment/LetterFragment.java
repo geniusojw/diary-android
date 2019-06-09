@@ -18,6 +18,7 @@ import org.jerrioh.diary.activity.main.LetterReadActivity;
 import org.jerrioh.diary.activity.adapter.LetterRecyclerViewAdapter;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.AuthorLetterApis;
+import org.jerrioh.diary.api.author.DiaryGroupApis;
 import org.jerrioh.diary.model.Author;
 import org.jerrioh.diary.model.db.LetterDao;
 import org.jerrioh.diary.model.Letter;
@@ -83,7 +84,6 @@ public class LetterFragment extends MainActivityFragment {
 
     private void getLetters(Author author, boolean lettersToMe) {
         String range = lettersToMe ? "in" : "out";
-
 
         AuthorLetterApis apis = new AuthorLetterApis(getActivity());
         apis.receive(range, new ApiCallback() {

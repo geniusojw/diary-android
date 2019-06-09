@@ -67,7 +67,7 @@ public class AccountActivity extends CommonActionBarActivity {
             ProgressBar progressBar = findViewById(R.id.progress_bar_account);
             if (progressBar.getVisibility() != View.VISIBLE) {
                 progressBar.setVisibility(View.VISIBLE);
-                AuthorUtil.syncDiaries(this, progressBar);
+                AuthorUtil.syncAccountDiaries(this, progressBar);
             }
         });
     }
