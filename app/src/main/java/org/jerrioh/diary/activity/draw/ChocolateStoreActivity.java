@@ -1,25 +1,20 @@
 package org.jerrioh.diary.activity.draw;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
-import android.text.TextUtils;
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.main.ChocolateStorePopActivity;
-import org.jerrioh.diary.activity.main.DiaryGroupPopActivity;
 import org.jerrioh.diary.api.ApiCallback;
-import org.jerrioh.diary.api.author.AuthorApis;
-import org.jerrioh.diary.api.author.DiaryGroupApis;
 import org.jerrioh.diary.api.author.AuthorStoreApis;
-import org.jerrioh.diary.model.Diary;
-import org.jerrioh.diary.model.DiaryGroup;
-import org.jerrioh.diary.model.db.DiaryGroupDao;
-import org.jerrioh.diary.util.DateUtil;
+import org.jerrioh.diary.util.FileUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,6 +39,18 @@ public class ChocolateStoreActivity extends CommonActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pattern3);
+        Bitmap bitmapFromStorage = FileUtil.getBitmapFromStorage(FileUtil.IMAGE_FOLDER, "pattern3.png", this);
+        if (bitmapFromStorage != null) {
+            bitmap = Bitmap.createScaledBitmap(bitmapFromStorage, bitmap.getWidth(), bitmap.getHeight(), false);
+        }
+
+        BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
+        bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+
+        getWindow().setBackgroundDrawable(bitmapDrawable);
+
         setContentView(R.layout.activity_chocolate_store);
         setCommonToolBar("Chocolate Store");
 
@@ -70,7 +77,6 @@ public class ChocolateStoreActivity extends CommonActionBarActivity {
                 if (httpStatus == 200) {
                     JSONObject data = jsonObject.getJSONObject("data");
                     int chocolates = data.getInt("chocolates");
-                    Log.e(TAG, "YOU HAVE + " + chocolates + " !!!!!!!!!!!!!!!!!!!!!!");
                     if (chocolates > 1) {
                         chocolateTextView.setText("You have " + chocolates + " chocolates.");
                     } else if (chocolates == 1) {

@@ -1,6 +1,10 @@
 package org.jerrioh.diary.activity.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -71,6 +75,9 @@ public class TodayFragment extends MainActivityFragment {
         }
 
         setDiaryWriteButton(true, BUTTON_TYPE_WRITE_DIARY);
+
+        setFragmentBackground(todayView, 0);
+
         return todayView;
     }
 }

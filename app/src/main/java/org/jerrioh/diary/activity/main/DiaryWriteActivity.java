@@ -1,8 +1,10 @@
 package org.jerrioh.diary.activity.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -75,9 +77,12 @@ public class DiaryWriteActivity extends AppCompatActivity {
         String today_yyyyMMdd = DateUtil.getyyyyMMdd();
         todayDiary = diaryDao.getDiary(today_yyyyMMdd);
         if (todayDiary == null) {
+            Intent intent = getIntent();
+            String title = intent.getStringExtra("title");
+
             todayDiary = new Diary();
             todayDiary.setDiaryDate(today_yyyyMMdd);
-            todayDiary.setTitle("");
+            todayDiary.setTitle(!TextUtils.isEmpty(title) ? title : "");
             todayDiary.setContent("");
             todayDiary.setAuthorDiaryStatus(Diary.DiaryStatus.UNSAVED);
             todayDiary.setAccountDiaryStatus(Diary.DiaryStatus.UNSAVED);
@@ -89,9 +94,7 @@ public class DiaryWriteActivity extends AppCompatActivity {
         titleText.setText(todayDiary.getTitle());
         contentText.setText(todayDiary.getContent());
 
-        if (contentText.getText().length() > 0) {
-            contentText.requestFocus();
-        }
+        contentText.requestFocus();
     }
 
     @Override

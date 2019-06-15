@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background ="@drawable/bg_pattern1"
     >
     <!--android:background ="@drawable/shape_gradient_background"-->
 
@@ -11,13 +10,10 @@
         android:id="@+id/relative_layout_today_anonymous_diary_group"
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:visibility="gone"
+        android:layout_margin="20dp"
         android:elevation="10dp"
         android:background="@drawable/selector_anonymous_group_button"
+        android:visibility="gone"
         >
         <ImageView
             android:layout_width="wrap_content"

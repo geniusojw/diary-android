@@ -3,6 +3,7 @@
     package="org.jerrioh.diary">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -20,6 +21,7 @@
         </activity>
         <activity android:name=".activity.main.DiaryGroupPopActivity" android:theme="@style/AnonymousDiaryTheme" />
         <activity android:name=".activity.main.ChocolateStorePopActivity" android:theme="@style/AnonymousDiaryTheme" />
+        <activity android:name=".activity.main.DiaryWriteStartPopActivity" android:theme="@style/AnonymousDiaryTheme" />
         <activity android:name=".activity.main.DiaryWriteActivity" />
         <activity android:name=".activity.main.LetterWriteActivity" />
         <activity android:name=".activity.main.DiaryGroupReadActivity" />

@@ -3,6 +3,7 @@ package org.jerrioh.diary.activity.main;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -16,10 +17,11 @@ import org.jerrioh.diary.activity.draw.ChocolateStoreActivity;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.AuthorStoreApis;
 import org.jerrioh.diary.util.AuthorUtil;
+import org.jerrioh.diary.util.FileUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ChocolateStorePopActivity extends Activity {
+public class ChocolateStorePopActivity extends CustomPopActivity {
 
     private static final String TAG = "ChocolateStorePopActivity";
     private boolean okEnabled = true;
@@ -29,7 +31,7 @@ public class ChocolateStorePopActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chocolate_store_pop);
 
-        setWindowAttribute();
+        super.setWindowAttribute(.95f, .5f);
 
         AuthorStoreApis authorStoreApis = new AuthorStoreApis(this);
 
@@ -85,8 +87,28 @@ public class ChocolateStorePopActivity extends Activity {
                     authorStoreApis.changeDiaryTheme(new ApiCallback() {
                         @Override
                         protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                            boolean success = true;
                             if (httpStatus == 200) {
-                                buySuccessBasic("새로운 스타일로 바뀌었다!");
+                                JSONObject data = jsonObject.getJSONObject("data");
+
+                                for (int index = 0; index < 4; index++) {
+                                    String patternName = "pattern" + index;
+                                    String patternBase64 = data.getString(patternName);
+
+                                    String fileName = patternName + ".png";
+                                    byte[] fileBytes = Base64.decode(patternBase64, Base64.DEFAULT);
+                                    success = FileUtil.saveToStorage(FileUtil.IMAGE_FOLDER, fileName, fileBytes, ChocolateStorePopActivity.this);
+                                    if (!success) {
+                                        break;
+                                    }
+                                }
+
+                                if (success) {
+                                    buySuccessBasic("새로운 스타일로 바뀌었다!");
+                                } else {
+                                    buySuccessBasic("실패하였다!");
+                                }
+
                             } else if (httpStatus == 402) {
                                 buyFailWithToast("not enough chocolates");
                             } else if (httpStatus == 412) {
@@ -183,23 +205,6 @@ public class ChocolateStorePopActivity extends Activity {
         noButton.setOnClickListener(v -> {
             finish();
         });
-    }
-
-    private void setWindowAttribute() {
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-        int width = metrics.widthPixels;
-        int height = metrics.heightPixels;
-
-        getWindow().setLayout((int)(width*.95), (int)(height*.5));
-
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.gravity = Gravity.CENTER;
-        params.x = 0;
-        params.y = -50;
-
-        getWindow().setAttributes(params);
     }
 
     private void buySuccessBasic(String successText) {

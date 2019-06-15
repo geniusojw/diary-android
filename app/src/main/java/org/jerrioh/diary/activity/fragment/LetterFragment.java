@@ -1,6 +1,8 @@
 package org.jerrioh.diary.activity.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -79,6 +81,9 @@ public class LetterFragment extends MainActivityFragment {
         diaryRecyclerView.setAdapter(mAdapter);
 
         setDiaryWriteButton(true, BUTTON_TYPE_WRITE_LETTER);
+
+        setFragmentBackground(letterView, 2);
+
         return letterView;
     }
 

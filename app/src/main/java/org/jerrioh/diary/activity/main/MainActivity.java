@@ -1,16 +1,27 @@
 package org.jerrioh.diary.activity.main;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,6 +36,7 @@ import org.jerrioh.diary.activity.draw.FaqActivity;
 import org.jerrioh.diary.activity.draw.SettingActivity;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.DiaryGroupApis;
+import org.jerrioh.diary.api.author.UtilApis;
 import org.jerrioh.diary.config.Constants;
 import org.jerrioh.diary.model.Property;
 import org.jerrioh.diary.model.db.PropertyDao;
@@ -41,8 +53,10 @@ import org.jerrioh.diary.util.PropertyUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -228,8 +242,43 @@ public class MainActivity extends AppCompatActivity {
             }
             //mainBannerText = DateUtil.getDateStringSkipTime(System.currentTimeMillis(), Locale.CHINA);
             mainBannerText = DateUtil.getDateStringSkipTime();
-            weatherImageResource = R.drawable.ic_wb_sunny_black_24dp;
-            //weatherButtonClickListener = v -> { System.out.println("tbd"); };
+            weatherImageResource = R.drawable.weather_sunny;
+
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            weatherButtonClickListener = v -> {
+                if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, 0);
+                } else {
+                    Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+
+                    Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                    List<Address> addresses = null;
+                    try {
+                        addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                        String cityName = addresses.get(0).getLocality();
+                        String countryCode = addresses.get(0).getCountryCode();
+                        UtilApis utilApis = new UtilApis(this);
+                        utilApis.weather(cityName, countryCode, new ApiCallback() {
+                            @Override
+                            protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                                if (httpStatus == 200) {
+                                    JSONObject data = jsonObject.getJSONObject("data");
+                                    String description = data.getString("description");
+                                    Toast.makeText(MainActivity.this, description, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(MainActivity.this, "날씨는 나가서 직접 확인해라 아가야.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+                    } catch (IOException e) {
+                        Log.e(TAG, "io exception. " + e.toString());
+                    }
+                }
+            };
             enableMonthAdjustment = false;
 
         } else if (bottomNavId == R.id.bottom_option_diary) {

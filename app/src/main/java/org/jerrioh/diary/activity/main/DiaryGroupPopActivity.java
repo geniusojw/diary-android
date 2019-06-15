@@ -26,7 +26,7 @@ import org.json.JSONObject;
 
 import java.util.concurrent.TimeUnit;
 
-public class DiaryGroupPopActivity extends Activity {
+public class DiaryGroupPopActivity extends CustomPopActivity {
     private static final String TAG = "DiaryGroupPopActivity";
 
     private JSONObject diaryGroupJsonObject;
@@ -38,7 +38,7 @@ public class DiaryGroupPopActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary_group_pop);
 
-        setWindowAttribute();
+        super.setWindowAttribute(.95f, .9f);
         setDiaryGroupContent();
     }
 
@@ -226,23 +226,5 @@ public class DiaryGroupPopActivity extends Activity {
             currentAuthorIndex = nextAuthorIndex;
             setAuthorInformation();
         });
-    }
-
-    private void setWindowAttribute() {
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-        int width = metrics.widthPixels;
-        int height = metrics.heightPixels;
-
-        getWindow().setLayout((int)(width*.95), (int)(height*.9));
-
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.gravity = Gravity.CENTER;
-        params.x = 0;
-        params.y = -20;
-
-        getWindow().setAttributes(params);
-
     }
 }
