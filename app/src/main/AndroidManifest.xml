@@ -37,6 +37,9 @@
         <activity android:name=".activity.draw.FaqActivity" />
         <activity android:name=".activity.draw.AboutApplicationActivity" />
 
+        <receiver android:name=".noti.AuthorDiaryReceiver" android:enabled="true" android:exported="true" />
+        <receiver android:name=".noti.AlarmBroadcastReceiver" android:enabled="true" android:exported="true" />
+
     </application>
 
 </manifest>

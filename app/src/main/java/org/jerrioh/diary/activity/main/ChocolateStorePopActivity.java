@@ -1,13 +1,8 @@
 package org.jerrioh.diary.activity.main;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,8 +11,11 @@ import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.draw.ChocolateStoreActivity;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.AuthorStoreApis;
+import org.jerrioh.diary.model.Music;
+import org.jerrioh.diary.model.Theme;
+import org.jerrioh.diary.model.db.MusicDao;
+import org.jerrioh.diary.model.db.ThemeDao;
 import org.jerrioh.diary.util.AuthorUtil;
-import org.jerrioh.diary.util.FileUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,7 +39,7 @@ public class ChocolateStorePopActivity extends CustomPopActivity {
 
         String descriptionText = "";
         View.OnClickListener okClickListener = null;
-        if (ChocolateStoreActivity.CHOCOLATE_STORE_ITEM_CHANGE_DESCRIPTION.equals(itemId)) {
+        if (ChocolateStoreActivity.ITEM_CHANGE_DESCRIPTION.equals(itemId)) {
             descriptionText = "초콜릿 " + price + "개로 이야기를 들을까요?";
             okClickListener = v -> {
                 if (okEnabled) {
@@ -60,7 +58,7 @@ public class ChocolateStorePopActivity extends CustomPopActivity {
                     });
                 }
             };
-        } else if (ChocolateStoreActivity.CHOCOLATE_STORE_ITEM_CHANGE_NICKNAME.equals(itemId)) {
+        } else if (ChocolateStoreActivity.ITEM_CHANGE_NICKNAME.equals(itemId)) {
             descriptionText = "초콜릿 " + price + "개로 닉네임을 바꾸시겠습니까?";
             okClickListener = v -> {
                 if (okEnabled) {
@@ -79,36 +77,32 @@ public class ChocolateStorePopActivity extends CustomPopActivity {
                     });
                 }
             };
-        } else if (ChocolateStoreActivity.CHOCOLATE_STORE_ITEM_CHANGE_DIARY_THEME.equals(itemId)) {
+        } else if (ChocolateStoreActivity.ITEM_PURCHASE_THEME.equals(itemId)) {
             descriptionText = "일기장 스타일을 바꿔드립니다.\n당신 취향은 고려하지 않고.\n가격은 초콜릿 " + price + "개";
             okClickListener = v -> {
                 if (okEnabled) {
                     okEnabled = false;
-                    authorStoreApis.changeDiaryTheme(new ApiCallback() {
+                    authorStoreApis.purchaseTheme(new ApiCallback() {
                         @Override
                         protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                             boolean success = true;
                             if (httpStatus == 200) {
                                 JSONObject data = jsonObject.getJSONObject("data");
+                                String themeName = data.getString("themeName");
 
-                                for (int index = 0; index < 4; index++) {
-                                    String patternName = "pattern" + index;
-                                    String patternBase64 = data.getString(patternName);
-
-                                    String fileName = patternName + ".png";
-                                    byte[] fileBytes = Base64.decode(patternBase64, Base64.DEFAULT);
-                                    success = FileUtil.saveToStorage(FileUtil.IMAGE_FOLDER, fileName, fileBytes, ChocolateStorePopActivity.this);
-                                    if (!success) {
-                                        break;
-                                    }
-                                }
-
-                                if (success) {
-                                    buySuccessBasic("새로운 스타일로 바뀌었다!");
+                                ThemeDao themeDao = new ThemeDao(ChocolateStorePopActivity.this);
+                                if (!themeDao.getAllThemeNames().contains(themeName)) {
+                                    Theme theme = new Theme();
+                                    theme.setThemeName(themeName);
+                                    theme.setPattern0(data.getString("pattern0"));
+                                    theme.setPattern1(data.getString("pattern1"));
+                                    theme.setPattern2(data.getString("pattern2"));
+                                    theme.setPattern3(data.getString("pattern3"));
+                                    themeDao.insertTheme(theme);
+                                    buySuccessBasic("새로운 테마를 저장하엿다!");
                                 } else {
-                                    buySuccessBasic("실패하였다!");
+                                    buySuccessBasic("이미 가지고 있는 테마!");
                                 }
-
                             } else if (httpStatus == 402) {
                                 buyFailWithToast("not enough chocolates");
                             } else if (httpStatus == 412) {
@@ -118,7 +112,39 @@ public class ChocolateStorePopActivity extends CustomPopActivity {
                     });
                 }
             };
-        } else if (ChocolateStoreActivity.CHOCOLATE_STORE_ITEM_INVITE1.equals(itemId)) {
+        } else if (ChocolateStoreActivity.ITEM_PURCHASE_MUSIC.equals(itemId)) {
+            descriptionText = "음악을 살 수 있다고?\n당신의 음악 취향은 고려하지 않고.\n가격은 초콜릿 " + price + "개";
+            okClickListener = v -> {
+                if (okEnabled) {
+                    okEnabled = false;
+                    authorStoreApis.purchaseMusic(new ApiCallback() {
+                        @Override
+                        protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                            boolean success = true;
+                            if (httpStatus == 200) {
+                                JSONObject data = jsonObject.getJSONObject("data");
+                                String musicName = data.getString("musicName");
+
+                                MusicDao musicDao = new MusicDao(ChocolateStorePopActivity.this);
+                                if (!musicDao.getAllMusicNames().contains(musicName)) {
+                                    Music music = new Music();
+                                    music.setMusicName(musicName);
+                                    music.setMusicData(data.getString("musicData"));
+                                    musicDao.insertMusic(music);
+                                    buySuccessBasic("새로운 음악을 저장하엿다!");
+                                } else {
+                                    buySuccessBasic("이미 가지고 있는 음악ㅋㅋㅋ");
+                                }
+                            } else if (httpStatus == 402) {
+                                buyFailWithToast("not enough chocolates");
+                            } else if (httpStatus == 412) {
+                                buyFailWithToast("이미 샀어요.");
+                            }
+                        }
+                    });
+                }
+            };
+        } else if (ChocolateStoreActivity.ITEM_INVITE_TICKET1.equals(itemId)) {
             descriptionText = "초대1를 하시겠습니까?";
             okClickListener = v -> {
                 if (okEnabled) {
@@ -138,7 +164,7 @@ public class ChocolateStorePopActivity extends CustomPopActivity {
                     });
                 }
             };
-        } else if (ChocolateStoreActivity.CHOCOLATE_STORE_ITEM_INVITE2.equals(itemId)) {
+        } else if (ChocolateStoreActivity.ITEM_INVITE_TICKET2.equals(itemId)) {
             descriptionText = "초대2를 하시겠습니까?";
             okClickListener = v -> {
                 authorStoreApis.inviteTicket2(new ApiCallback() {
@@ -155,7 +181,7 @@ public class ChocolateStorePopActivity extends CustomPopActivity {
                     }
                 });
             };
-        } else if (ChocolateStoreActivity.CHOCOLATE_STORE_ITEM_DONATE.equals(itemId)) {
+        } else if (ChocolateStoreActivity.ITEM_CHOCOLATE_DONATION.equals(itemId)) {
             descriptionText = "초콜릿을 기부를 하시겠습니까?";
             okClickListener = v -> {
                 if (okEnabled) {
@@ -174,7 +200,7 @@ public class ChocolateStorePopActivity extends CustomPopActivity {
                     });
                 }
             };
-        } else if (ChocolateStoreActivity.CHOCOLATE_STORE_ITEM_ALIAS_FEATURE_UNLIMITED_USE.equals(itemId)) {
+        } else if (ChocolateStoreActivity.ITEM_ALIAS_FEATURE_UNLIMITED_USE.equals(itemId)) {
             descriptionText = "가명 기능 무제한 사용권을 구매하시겠습니까?\n이 기능을 알고 싶다면 FAQ를 읽어보세요.";
             okClickListener = v -> {
                 if (okEnabled) {

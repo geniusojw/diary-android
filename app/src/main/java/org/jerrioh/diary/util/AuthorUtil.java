@@ -17,7 +17,9 @@ import org.jerrioh.diary.model.db.AuthorDao;
 import org.jerrioh.diary.model.db.DiaryDao;
 import org.jerrioh.diary.model.db.DiaryGroupDao;
 import org.jerrioh.diary.model.db.LetterDao;
+import org.jerrioh.diary.model.db.MusicDao;
 import org.jerrioh.diary.model.db.PropertyDao;
+import org.jerrioh.diary.model.db.ThemeDao;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -90,6 +92,14 @@ public class AuthorUtil {
         DiaryGroupDao diaryGroupDao = new DiaryGroupDao(context);
         diaryGroupDao.deleteDiaryGroup();
 
+        // theme 삭제
+        ThemeDao themeDao = new ThemeDao(context);
+        themeDao.deleteAllTheme();
+
+        // music 삭제
+        MusicDao musicDao = new MusicDao(context);
+        musicDao.deleteAllMusic();
+
         // setting 삭제
         PropertyDao propertyDao = new PropertyDao(context);
         propertyDao.deleteAllProperties();
@@ -121,7 +131,10 @@ public class AuthorUtil {
         DiaryGroup diaryGroup = new DiaryGroup();
         diaryGroup.setDiaryGroupId(data.getLong("diaryGroupId"));
         diaryGroup.setDiaryGroupName(data.getString("diaryGroupName"));
+        diaryGroup.setHostAuthorId(data.getString("hostAuthorId"));
         diaryGroup.setKeyword(data.getString("keyword"));
+        diaryGroup.setCurrentAuthorCount(data.getInt("currentAuthorCount"));
+        diaryGroup.setMaxAuthorCount(data.getInt("maxAuthorCount"));
         diaryGroup.setCountry(data.getString("country"));
         diaryGroup.setLanguage(data.getString("language"));
         diaryGroup.setTimeZoneId(data.getString("timeZoneId"));

@@ -8,13 +8,18 @@ public class Property implements Serializable {
 
     public enum Key {
         FONT_SIZE("FONT_SIZE", "12"), // integer (sp)
-        BACKGROUND_IMAGE("BACKGROUND_IMAGE", "no image path"), // path
         SCREEN_LOCK_USE("SCREEN_LOCK_USE", "0"), // 0 or 1
         SCREEN_LOCK_4DIGIT("SCREEN_LOCK_4DIGIT", ""), // ex: 1234
         DIARY_ALARM_USE("DIARY_ALARM_USE", "0"), // 0 or 1
         DIARY_ALARM_TIME("DIARY_ALARM_TIME", "22:00"), // ex: 22:00
         GROUP_INVITATION_USE("GROUP_INVITATION_USE", "1"), // 0 or 1
-        LATEST_INVITATION_TIME("LATEST_INVITATION_TIME", "0"); // unix milliseconds time
+
+        LATEST_INVITATION_TIME("LATEST_INVITATION_TIME", "0"), // unix milliseconds time
+        YESTERDAY_RECEIVER_ON("YESTERDAY_RECEIVER_ON", "0"), // 0 or 1
+
+        DIARY_THEME("DIARY_THEME", "default - blue square"), // default or Theme Name
+        DIARY_WRITE_MUSIC("DIARY_WRITE_MUSIC", "default - his day") // default or Music Name
+        ;
 
         Key(String key, String defaultValue) {
             this.KEY = key;

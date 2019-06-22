@@ -4,4 +4,6 @@
     <string name="my_diary">나의 일기</string>
     <string name="letter">편지</string>
     <string name="receiver">받는 사람</string>
+    <string name="diary_theme">일기장 테마</string>
+    <string name="diary_write_music">일기 쓰기 음악</string>
 </resources>

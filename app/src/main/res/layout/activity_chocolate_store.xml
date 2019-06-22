@@ -113,7 +113,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linear_layout_chocolate_store_change_diary_theme"
+            android:id="@+id/linear_layout_chocolate_store_purchase_theme"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"
@@ -133,10 +133,45 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:textColor="@color/darkCharcoal"
-                android:text="Change Diary Theme"
+                android:text="Purchase Theme"
                 />
             <TextView
-                android:id="@+id/text_view_chocolate_store_change_diary_theme_cost"
+                android:id="@+id/text_view_chocolate_store_purchase_theme_cost"
+                android:layout_weight="0.3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:textSize="15sp"
+                android:textColor="@color/darkCharcoal"
+                android:text="-"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_chocolate_store_purchase_music"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:background="@color/steelTrap"
+            android:gravity="center"
+            android:weightSum="1">
+            <ImageView
+                android:layout_weight="0.1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_audiotrack_black_24dp"
+                />
+            <TextView
+                android:layout_weight="0.6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/darkCharcoal"
+                android:text="Purchase Music"
+                />
+            <TextView
+                android:id="@+id/text_view_chocolate_store_purchase_music_cost"
                 android:layout_weight="0.3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

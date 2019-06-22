@@ -9,7 +9,10 @@ public class DiaryGroup implements Serializable {
         public static final String TABLE_NAME = "diary_group";
         public static final String COLUMN_NAME_DIARY_GROUP_ID = "diary_group_id";
         public static final String COLUMN_NAME_DIARY_GROUP_NAME = "diary_group_name";
+        public static final String COLUMN_NAME_HOST_AUTHOR_ID = "host_author_id";
         public static final String COLUMN_NAME_KEYWORD = "keyword";
+        public static final String COLUMN_NAME_CURRENT_AUTHOR_COUNT = "current_author_count";
+        public static final String COLUMN_NAME_MAX_AUTHOR_COUNT = "max_author_count";
         public static final String COLUMN_NAME_COUNTRY = "country";
         public static final String COLUMN_NAME_LANGUAGE = "language";
         public static final String COLUMN_NAME_TIME_ZONE_ID = "time_zone_id";
@@ -19,7 +22,10 @@ public class DiaryGroup implements Serializable {
 
     private long diaryGroupId;
     private String diaryGroupName;
+    private String hostAuthorId;
     private String keyword;
+    private int currentAuthorCount;
+    private int maxAuthorCount;
     private String country;
     private String language;
     private String timeZoneId;
@@ -42,12 +48,36 @@ public class DiaryGroup implements Serializable {
         this.diaryGroupName = diaryGroupName;
     }
 
+    public String getHostAuthorId() {
+        return hostAuthorId;
+    }
+
+    public void setHostAuthorId(String hostAuthorId) {
+        this.hostAuthorId = hostAuthorId;
+    }
+
     public String getKeyword() {
         return keyword;
     }
 
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+    }
+
+    public int getCurrentAuthorCount() {
+        return currentAuthorCount;
+    }
+
+    public void setCurrentAuthorCount(int currentAuthorCount) {
+        this.currentAuthorCount = currentAuthorCount;
+    }
+
+    public int getMaxAuthorCount() {
+        return maxAuthorCount;
+    }
+
+    public void setMaxAuthorCount(int maxAuthorCount) {
+        this.maxAuthorCount = maxAuthorCount;
     }
 
     public String getCountry() {

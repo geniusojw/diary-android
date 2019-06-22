@@ -1,11 +1,9 @@
 package org.jerrioh.diary.activity.fragment;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -13,23 +11,31 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import org.jerrioh.diary.activity.main.DiaryGroupPopActivity;
+import org.jerrioh.diary.model.Author;
+import org.jerrioh.diary.model.DiaryGroup;
 import org.jerrioh.diary.model.db.DiaryDao;
 import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.activity.main.DiaryReadActivity;
 import org.jerrioh.diary.activity.adapter.DiaryRecyclerViewAdapter;
 import org.jerrioh.diary.R;
+import org.jerrioh.diary.model.db.DiaryGroupDao;
+import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.util.DateUtil;
+import org.jerrioh.diary.util.ThemeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class DiaryFragment extends MainActivityFragment {
     private static final String TAG = "DiaryFragment";
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // 보여줄 해와 월
         String yyyyMM = null;
 
@@ -42,13 +48,28 @@ public class DiaryFragment extends MainActivityFragment {
         }
 
         // 일기내용을 리스트로 표시한다.
-        final List<Diary> diaryData = getDiaryData(yyyyMM);
-        final DiaryRecyclerViewAdapter mAdapter = new DiaryRecyclerViewAdapter(diaryData, pos -> {
-            Intent intent = new Intent(getActivity(), DiaryReadActivity.class);
+        DiaryGroupDao diaryGroupDao = new DiaryGroupDao(getActivity());
+        DiaryGroup diaryGroup = diaryGroupDao.getDiaryGroup();
 
-            Diary diary = diaryData.get(pos);
-            intent.putExtra("diary", diary);
-            startActivity(intent);
+        if (diaryGroup != null) {
+            long currentTime = System.currentTimeMillis();
+            if (currentTime > diaryGroup.getEndTime()) {
+                diaryGroupDao.deleteDiaryGroup();
+                diaryGroup = null;
+            }
+        }
+
+        final List<Diary> diaryData = getDiaryData(yyyyMM);
+        final DiaryRecyclerViewAdapter mAdapter = new DiaryRecyclerViewAdapter(diaryGroup, diaryData,
+                pos -> {
+                    Intent intent = new Intent(getActivity(), DiaryGroupPopActivity.class);
+                    startActivity(intent);
+                },
+                pos -> {
+                    Intent intent = new Intent(getActivity(), DiaryReadActivity.class);
+                    Diary diary = diaryData.get(pos);
+                    intent.putExtra("diary", diary);
+                    startActivity(intent);
         });
 
         View diaryView = inflater.inflate(R.layout.fragment_diary, container, false);
@@ -62,7 +83,8 @@ public class DiaryFragment extends MainActivityFragment {
 
         setDiaryWriteButton(true, BUTTON_TYPE_WRITE_DIARY);
 
-        setFragmentBackground(diaryView, 1);
+        BitmapDrawable bitmap = ThemeUtil.getBitmapDrawablePattern(this, 1);
+        diaryView.setBackgroundDrawable(bitmap);
 
         return diaryView;
     }

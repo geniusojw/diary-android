@@ -59,15 +59,13 @@ public class LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecycl
         TextView titleText = letterViewHolder.itemView.findViewById(R.id.letter_row_title);
         TextView contentText = letterViewHolder.itemView.findViewById(R.id.letter_row_expire_date);
 
-        int imageResource;
-        if (letter.getStatus() == Letter.LetterStatus.UNREAD) {
-            imageResource = R.drawable.ic_mail_black_24dp;
-        } else {
-            imageResource = R.drawable.ic_drafts_black_24dp;
-        }
+        int imageResource = R.drawable.ic_mail_black_24dp;
 
         String letterTitle = "";
         if (lettersToMe) {
+            if (letter.getStatus() != Letter.LetterStatus.UNREAD) {
+                imageResource = R.drawable.ic_drafts_black_24dp;
+            }
             letterTitle = "FROM: " + letter.getFromAuthorNickname();
         } else {
             letterTitle = "TO: " + letter.getToAuthorNickname();

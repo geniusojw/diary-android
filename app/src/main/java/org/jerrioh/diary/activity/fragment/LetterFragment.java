@@ -3,6 +3,7 @@ package org.jerrioh.diary.activity.fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,6 +26,7 @@ import org.jerrioh.diary.model.Author;
 import org.jerrioh.diary.model.db.LetterDao;
 import org.jerrioh.diary.model.Letter;
 import org.jerrioh.diary.util.AuthorUtil;
+import org.jerrioh.diary.util.ThemeUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,7 +84,8 @@ public class LetterFragment extends MainActivityFragment {
 
         setDiaryWriteButton(true, BUTTON_TYPE_WRITE_LETTER);
 
-        setFragmentBackground(letterView, 2);
+        BitmapDrawable bitmap = ThemeUtil.getBitmapDrawablePattern(this, 2);
+        letterView.setBackgroundDrawable(bitmap);
 
         return letterView;
     }

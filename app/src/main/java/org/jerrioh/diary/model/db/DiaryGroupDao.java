@@ -18,7 +18,10 @@ public class DiaryGroupDao extends AbstractDao {
     private static final String[] COLUMN_NAMES = {
             DiaryGroup.TableDesc.COLUMN_NAME_DIARY_GROUP_ID,
             DiaryGroup.TableDesc.COLUMN_NAME_DIARY_GROUP_NAME,
+            DiaryGroup.TableDesc.COLUMN_NAME_HOST_AUTHOR_ID,
             DiaryGroup.TableDesc.COLUMN_NAME_KEYWORD,
+            DiaryGroup.TableDesc.COLUMN_NAME_CURRENT_AUTHOR_COUNT,
+            DiaryGroup.TableDesc.COLUMN_NAME_MAX_AUTHOR_COUNT,
             DiaryGroup.TableDesc.COLUMN_NAME_COUNTRY,
             DiaryGroup.TableDesc.COLUMN_NAME_LANGUAGE,
             DiaryGroup.TableDesc.COLUMN_NAME_TIME_ZONE_ID,
@@ -44,7 +47,10 @@ public class DiaryGroupDao extends AbstractDao {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DiaryGroup.TableDesc.COLUMN_NAME_DIARY_GROUP_ID, diaryGroup.getDiaryGroupId());
         contentValues.put(DiaryGroup.TableDesc.COLUMN_NAME_DIARY_GROUP_NAME, diaryGroup.getDiaryGroupName());
+        contentValues.put(DiaryGroup.TableDesc.COLUMN_NAME_HOST_AUTHOR_ID, diaryGroup.getHostAuthorId());
         contentValues.put(DiaryGroup.TableDesc.COLUMN_NAME_KEYWORD, diaryGroup.getKeyword());
+        contentValues.put(DiaryGroup.TableDesc.COLUMN_NAME_CURRENT_AUTHOR_COUNT, diaryGroup.getCurrentAuthorCount());
+        contentValues.put(DiaryGroup.TableDesc.COLUMN_NAME_MAX_AUTHOR_COUNT, diaryGroup.getMaxAuthorCount());
         contentValues.put(DiaryGroup.TableDesc.COLUMN_NAME_COUNTRY, diaryGroup.getCountry());
         contentValues.put(DiaryGroup.TableDesc.COLUMN_NAME_LANGUAGE, diaryGroup.getLanguage());
         contentValues.put(DiaryGroup.TableDesc.COLUMN_NAME_TIME_ZONE_ID, diaryGroup.getTimeZoneId());
@@ -57,7 +63,10 @@ public class DiaryGroupDao extends AbstractDao {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DiaryGroup.TableDesc.COLUMN_NAME_DIARY_GROUP_ID, diaryGroup.getDiaryGroupId());
         contentValues.put(DiaryGroup.TableDesc.COLUMN_NAME_DIARY_GROUP_NAME, diaryGroup.getDiaryGroupName());
+        contentValues.put(DiaryGroup.TableDesc.COLUMN_NAME_HOST_AUTHOR_ID, diaryGroup.getHostAuthorId());
         contentValues.put(DiaryGroup.TableDesc.COLUMN_NAME_KEYWORD, diaryGroup.getKeyword());
+        contentValues.put(DiaryGroup.TableDesc.COLUMN_NAME_CURRENT_AUTHOR_COUNT, diaryGroup.getCurrentAuthorCount());
+        contentValues.put(DiaryGroup.TableDesc.COLUMN_NAME_MAX_AUTHOR_COUNT, diaryGroup.getMaxAuthorCount());
         contentValues.put(DiaryGroup.TableDesc.COLUMN_NAME_COUNTRY, diaryGroup.getCountry());
         contentValues.put(DiaryGroup.TableDesc.COLUMN_NAME_LANGUAGE, diaryGroup.getLanguage());
         contentValues.put(DiaryGroup.TableDesc.COLUMN_NAME_TIME_ZONE_ID, diaryGroup.getTimeZoneId());
@@ -74,12 +83,15 @@ public class DiaryGroupDao extends AbstractDao {
         DiaryGroup diaryGroup = new DiaryGroup();
         diaryGroup.setDiaryGroupId(cursor.getLong(0));
         diaryGroup.setDiaryGroupName(cursor.getString(1));
-        diaryGroup.setKeyword(cursor.getString(2));
-        diaryGroup.setCountry(cursor.getString(3));
-        diaryGroup.setLanguage(cursor.getString(4));
-        diaryGroup.setTimeZoneId(cursor.getString(5));
-        diaryGroup.setStartTime(cursor.getLong(6));
-        diaryGroup.setEndTime(cursor.getLong(7));
+        diaryGroup.setHostAuthorId(cursor.getString(2));
+        diaryGroup.setKeyword(cursor.getString(3));
+        diaryGroup.setCurrentAuthorCount(cursor.getInt(4));
+        diaryGroup.setMaxAuthorCount(cursor.getInt(5));
+        diaryGroup.setCountry(cursor.getString(6));
+        diaryGroup.setLanguage(cursor.getString(7));
+        diaryGroup.setTimeZoneId(cursor.getString(8));
+        diaryGroup.setStartTime(cursor.getLong(9));
+        diaryGroup.setEndTime(cursor.getLong(10));
         return diaryGroup;
     }
 }

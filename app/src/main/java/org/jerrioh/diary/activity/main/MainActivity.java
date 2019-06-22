@@ -50,6 +50,7 @@ import org.jerrioh.diary.activity.fragment.TodayFragment;
 import org.jerrioh.diary.activity.fragment.TodayNightFragment;
 import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.PropertyUtil;
+import org.jerrioh.diary.util.ReceiverUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -135,8 +136,6 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
         bottomNav.setSelectedItemId(R.id.bottom_option_today);
     }
-
-
 
     private void setDrawerNavigation() {
         ImageView imageView = findViewById(R.id.image_view_open_drawer_hamburger);
@@ -246,36 +245,40 @@ public class MainActivity extends AppCompatActivity {
 
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             weatherButtonClickListener = v -> {
-                if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, 0);
                 } else {
                     Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-                    double latitude = location.getLatitude();
-                    double longitude = location.getLongitude();
+                    if (location != null) {
+                        double latitude = location.getLatitude();
+                        double longitude = location.getLongitude();
 
-                    Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                    List<Address> addresses = null;
-                    try {
-                        addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                        String cityName = addresses.get(0).getLocality();
-                        String countryCode = addresses.get(0).getCountryCode();
-                        UtilApis utilApis = new UtilApis(this);
-                        utilApis.weather(cityName, countryCode, new ApiCallback() {
-                            @Override
-                            protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
-                                if (httpStatus == 200) {
-                                    JSONObject data = jsonObject.getJSONObject("data");
-                                    String description = data.getString("description");
-                                    Toast.makeText(MainActivity.this, description, Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(MainActivity.this, "날씨는 나가서 직접 확인해라 아가야.", Toast.LENGTH_SHORT).show();
+                        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                        List<Address> addresses = null;
+                        try {
+                            addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                            String cityName = addresses.get(0).getLocality();
+                            String countryCode = addresses.get(0).getCountryCode();
+                            UtilApis utilApis = new UtilApis(this);
+                            utilApis.weather(cityName, countryCode, new ApiCallback() {
+                                @Override
+                                protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                                    if (httpStatus == 200) {
+                                        JSONObject data = jsonObject.getJSONObject("data");
+                                        String description = data.getString("description");
+                                        Toast.makeText(MainActivity.this, description, Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(MainActivity.this, "현재 날씨는... 창밖을 보세요.", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        });
+                            });
 
-                    } catch (IOException e) {
-                        Log.e(TAG, "io exception. " + e.toString());
+                        } catch (IOException e) {
+                            Log.e(TAG, "io exception. " + e.toString());
+                        }
+                    } else {
+                        Toast.makeText(MainActivity.this, "현재 날씨는?", Toast.LENGTH_SHORT).show();
                     }
                 }
             };

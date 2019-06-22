@@ -101,7 +101,10 @@ public class DiaryGroupPopActivity extends CustomPopActivity {
 
         try {
             String diaryGroupName = diaryGroupJsonObject.getString("diaryGroupName");
+            String hostAuthorId = diaryGroupJsonObject.getString("hostAuthorId");
             String keyword = diaryGroupJsonObject.getString("keyword");
+            int currentAuthorCount = diaryGroupJsonObject.getInt("currentAuthorCount");
+            int maxAuthorCount = diaryGroupJsonObject.getInt("maxAuthorCount");
             String country = diaryGroupJsonObject.getString("country");
             String language = diaryGroupJsonObject.getString("language");
             String timeZoneId = diaryGroupJsonObject.getString("timeZoneId");

@@ -1,5 +1,7 @@
 package org.jerrioh.diary.util;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 
 import java.text.ParseException;
@@ -7,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 public class DateUtil {
     public static final String TIMEZONE_GMT_M10 = "Pacific/Honolulu";
@@ -51,6 +54,40 @@ public class DateUtil {
 
     public static String getyyyyMMdd(long timeMillis) {
         return getDateString(timeMillis, TimeZone.getDefault(), DATE_PATTERN_yyyyMMdd, Locale.ENGLISH);
+    }
+
+    public static String getTimeString(long timeMillis) {
+        long hours = TimeUnit.HOURS.convert(timeMillis, TimeUnit.MILLISECONDS);
+        long minutes = TimeUnit.MINUTES.convert(timeMillis - TimeUnit.HOURS.toMillis(hours), TimeUnit.MILLISECONDS);
+
+        String iso3Language = Locale.getDefault().getISO3Language();
+
+        String resultHours = "";
+        if (hours >= 1) {
+            if (LANGUAGE_KOREAN.equals(iso3Language)) {
+                resultHours = hours + "시간";
+            } else {
+                if (hours == 1) {
+                    resultHours = hours + "hour";
+                } else {
+                    resultHours = hours + "hours";
+                }
+            }
+        }
+        String resultMinutes = "";
+        if (minutes >= 1) {
+            if (LANGUAGE_KOREAN.equals(iso3Language)) {
+                resultMinutes = minutes + "분";
+            } else {
+                if (hours == 1) {
+                    resultMinutes = minutes + "minute";
+                } else {
+                    resultMinutes = minutes + "minutes";
+                }
+            }
+        }
+
+        return resultHours + resultMinutes;
     }
 
     public static String getDateStringFull(long timeMillis) {
@@ -157,6 +194,17 @@ public class DateUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    // 0: sunday, 6: saturday
+    public static int getDay(String yyyyMMdd) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        try {
+            return sdf.parse(yyyyMMdd).getDay();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 1;
     }
 
     public static String diffMonth(String yyyyMM, int diffMonth) {

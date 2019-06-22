@@ -20,6 +20,7 @@ import org.jerrioh.diary.activity.main.DiaryGroupPopActivity;
 import org.jerrioh.diary.model.DiaryGroup;
 import org.jerrioh.diary.model.db.DiaryGroupDao;
 import org.jerrioh.diary.util.DateUtil;
+import org.jerrioh.diary.util.ThemeUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -76,7 +77,8 @@ public class TodayFragment extends MainActivityFragment {
 
         setDiaryWriteButton(true, BUTTON_TYPE_WRITE_DIARY);
 
-        setFragmentBackground(todayView, 0);
+        BitmapDrawable bitmap = ThemeUtil.getBitmapDrawablePattern(this, 0);
+        todayView.setBackgroundDrawable(bitmap);
 
         return todayView;
     }

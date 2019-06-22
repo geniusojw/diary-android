@@ -1,9 +1,6 @@
 package org.jerrioh.diary.activity.draw;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.widget.LinearLayout;
@@ -14,7 +11,7 @@ import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.main.ChocolateStorePopActivity;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.AuthorStoreApis;
-import org.jerrioh.diary.util.FileUtil;
+import org.jerrioh.diary.util.ThemeUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,13 +19,14 @@ public class ChocolateStoreActivity extends CommonActionBarActivity {
     private static final String TAG = "ChocolateStoreActivity";
 
     // 각각의 아이템 번호는 서버와 맞춘 값이다. 변경시 서버와 동시에 변경이 필요하다.
-    public static final String CHOCOLATE_STORE_ITEM_CHANGE_DESCRIPTION = "ITEM_CHANGE_DESCRIPTION";
-    public static final String CHOCOLATE_STORE_ITEM_CHANGE_NICKNAME = "ITEM_CHANGE_NICKNAME";
-    public static final String CHOCOLATE_STORE_ITEM_CHANGE_DIARY_THEME = "ITEM_CHANGE_DIARY_THEME";
-    public static final String CHOCOLATE_STORE_ITEM_INVITE1 = "ITEM_INVITE_TICKET1";
-    public static final String CHOCOLATE_STORE_ITEM_INVITE2 = "ITEM_INVITE_TICKET2";
-    public static final String CHOCOLATE_STORE_ITEM_ALIAS_FEATURE_UNLIMITED_USE = "ITEM_ALIAS_FEATURE_UNLIMITED_USE";
-    public static final String CHOCOLATE_STORE_ITEM_DONATE = "ITEM_CHOCOLATE_DONATION";
+    public static final String ITEM_CHANGE_DESCRIPTION = "ITEM_CHANGE_DESCRIPTION";
+    public static final String ITEM_CHANGE_NICKNAME = "ITEM_CHANGE_NICKNAME";
+    public static final String ITEM_PURCHASE_THEME = "ITEM_PURCHASE_THEME";
+    public static final String ITEM_PURCHASE_MUSIC = "ITEM_PURCHASE_MUSIC";
+    public static final String ITEM_INVITE_TICKET1 = "ITEM_INVITE_TICKET1";
+    public static final String ITEM_INVITE_TICKET2 = "ITEM_INVITE_TICKET2";
+    public static final String ITEM_ALIAS_FEATURE_UNLIMITED_USE = "ITEM_ALIAS_FEATURE_UNLIMITED_USE";
+    public static final String ITEM_CHOCOLATE_DONATION = "ITEM_CHOCOLATE_DONATION";
 
     @Override
     protected void onResume() {
@@ -40,15 +38,7 @@ public class ChocolateStoreActivity extends CommonActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pattern3);
-        Bitmap bitmapFromStorage = FileUtil.getBitmapFromStorage(FileUtil.IMAGE_FOLDER, "pattern3.png", this);
-        if (bitmapFromStorage != null) {
-            bitmap = Bitmap.createScaledBitmap(bitmapFromStorage, bitmap.getWidth(), bitmap.getHeight(), false);
-        }
-
-        BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
-        bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
-
+        BitmapDrawable bitmapDrawable = ThemeUtil.getBitmapDrawablePattern(this, 3);
         getWindow().setBackgroundDrawable(bitmapDrawable);
 
         setContentView(R.layout.activity_chocolate_store);
@@ -69,7 +59,8 @@ public class ChocolateStoreActivity extends CommonActionBarActivity {
             protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                 int priceDescription = -1;
                 int priceNickname = -1;
-                int priceDiaryTheme = -1;
+                int pricePurchaseTheme = -1;
+                int pricePurchaseMusic = -1;
                 int priceInvite1 = -1;
                 int priceInvite2 = -1;
                 int priceAliasFeature = -1;
@@ -86,20 +77,22 @@ public class ChocolateStoreActivity extends CommonActionBarActivity {
                     }
 
                     JSONObject priceMap = data.getJSONObject("priceMap");
-                    priceDescription = priceMap.getInt(CHOCOLATE_STORE_ITEM_CHANGE_DESCRIPTION);
-                    priceNickname = priceMap.getInt(CHOCOLATE_STORE_ITEM_CHANGE_NICKNAME);
-                    priceDiaryTheme = priceMap.getInt(CHOCOLATE_STORE_ITEM_CHANGE_DIARY_THEME);
-                    priceInvite1 = priceMap.getInt(CHOCOLATE_STORE_ITEM_INVITE1);
-                    priceInvite2 = priceMap.getInt(CHOCOLATE_STORE_ITEM_INVITE2);
-                    priceAliasFeature = priceMap.getInt(CHOCOLATE_STORE_ITEM_ALIAS_FEATURE_UNLIMITED_USE);
-                    priceDonation = priceMap.getInt(CHOCOLATE_STORE_ITEM_DONATE);
+                    priceDescription = priceMap.getInt(ITEM_CHANGE_DESCRIPTION);
+                    priceNickname = priceMap.getInt(ITEM_CHANGE_NICKNAME);
+                    pricePurchaseTheme = priceMap.getInt(ITEM_PURCHASE_THEME);
+                    pricePurchaseMusic = priceMap.getInt(ITEM_PURCHASE_MUSIC);
+                    priceInvite1 = priceMap.getInt(ITEM_INVITE_TICKET1);
+                    priceInvite2 = priceMap.getInt(ITEM_INVITE_TICKET2);
+                    priceAliasFeature = priceMap.getInt(ITEM_ALIAS_FEATURE_UNLIMITED_USE);
+                    priceDonation = priceMap.getInt(ITEM_CHOCOLATE_DONATION);
 
                 } else {
                     chocolateTextView.setText("The store has not opened.");
                 }
                 ChocolateStoreActivity.this.setChangeDescription(priceDescription);
                 ChocolateStoreActivity.this.setChangeNickName(priceNickname);
-                ChocolateStoreActivity.this.setChangeDiaryTheme(priceDiaryTheme);
+                ChocolateStoreActivity.this.setPurchaseTheme(pricePurchaseTheme);
+                ChocolateStoreActivity.this.setPurchaseDiaryMusic(pricePurchaseMusic);
                 ChocolateStoreActivity.this.setInvitationTicket1(priceInvite1);
                 ChocolateStoreActivity.this.setInvitationTicket2(priceInvite2);
                 ChocolateStoreActivity.this.setAliasFeatureUnlimitedUse(priceAliasFeature);
@@ -109,31 +102,35 @@ public class ChocolateStoreActivity extends CommonActionBarActivity {
     }
 
     private void setChangeDescription(int price) {
-        setProductView(R.id.linear_layout_chocolate_store_change_description, R.id.text_view_chocolate_store_change_description_cost, CHOCOLATE_STORE_ITEM_CHANGE_DESCRIPTION, price);
+        setProductView(R.id.linear_layout_chocolate_store_change_description, R.id.text_view_chocolate_store_change_description_cost, ITEM_CHANGE_DESCRIPTION, price);
     }
 
     private void setChangeNickName(int price) {
-        setProductView(R.id.linear_layout_chocolate_store_change_nickname, R.id.text_view_chocolate_store_change_nickname_cost, CHOCOLATE_STORE_ITEM_CHANGE_NICKNAME, price);
+        setProductView(R.id.linear_layout_chocolate_store_change_nickname, R.id.text_view_chocolate_store_change_nickname_cost, ITEM_CHANGE_NICKNAME, price);
     }
 
-    private void setChangeDiaryTheme(int price) {
-        setProductView(R.id.linear_layout_chocolate_store_change_diary_theme, R.id.text_view_chocolate_store_change_diary_theme_cost, CHOCOLATE_STORE_ITEM_CHANGE_DIARY_THEME, price);
+    private void setPurchaseTheme(int price) {
+        setProductView(R.id.linear_layout_chocolate_store_purchase_theme, R.id.text_view_chocolate_store_purchase_theme_cost, ITEM_PURCHASE_THEME, price);
+    }
+
+    private void setPurchaseDiaryMusic(int price) {
+        setProductView(R.id.linear_layout_chocolate_store_purchase_music, R.id.text_view_chocolate_store_purchase_music_cost, ITEM_PURCHASE_MUSIC, price);
     }
 
     private void setInvitationTicket1(int price) {
-        setProductView(R.id.linear_layout_chocolate_store_invite1, R.id.text_view_chocolate_store_invite1_cost, CHOCOLATE_STORE_ITEM_INVITE1, price);
+        setProductView(R.id.linear_layout_chocolate_store_invite1, R.id.text_view_chocolate_store_invite1_cost, ITEM_INVITE_TICKET1, price);
     }
 
     private void setInvitationTicket2(int price) {
-        setProductView(R.id.linear_layout_chocolate_store_invite2, R.id.text_view_chocolate_store_invite2_cost, CHOCOLATE_STORE_ITEM_INVITE2, price);
+        setProductView(R.id.linear_layout_chocolate_store_invite2, R.id.text_view_chocolate_store_invite2_cost, ITEM_INVITE_TICKET2, price);
     }
 
     private void setAliasFeatureUnlimitedUse(int price) {
-        setProductView(R.id.linear_layout_chocolate_store_alias_feature, R.id.text_view_chocolate_store_alias_feature_cost, CHOCOLATE_STORE_ITEM_ALIAS_FEATURE_UNLIMITED_USE, price);
+        setProductView(R.id.linear_layout_chocolate_store_alias_feature, R.id.text_view_chocolate_store_alias_feature_cost, ITEM_ALIAS_FEATURE_UNLIMITED_USE, price);
     }
 
     private void setDonateChocolate(int price) {
-        setProductView(R.id.linear_layout_chocolate_store_donate, R.id.text_view_chocolate_store_donate_cost, CHOCOLATE_STORE_ITEM_DONATE, price);
+        setProductView(R.id.linear_layout_chocolate_store_donate, R.id.text_view_chocolate_store_donate_cost, ITEM_CHOCOLATE_DONATION, price);
     }
 
     private void setProductView(int productLayoutViewId, int costViewId, String itemId, int price) {
@@ -146,20 +143,14 @@ public class ChocolateStoreActivity extends CommonActionBarActivity {
             productView.setBackgroundColor(getResources().getColor(R.color.steelTrap));
             productView.setOnClickListener(v -> {
                 String message = "재고가 소진되었습니다.";
-                if (CHOCOLATE_STORE_ITEM_CHANGE_DESCRIPTION.equals(itemId) || CHOCOLATE_STORE_ITEM_CHANGE_NICKNAME.equals(itemId)) {
+                if (ITEM_CHANGE_DESCRIPTION.equals(itemId) || ITEM_CHANGE_NICKNAME.equals(itemId)) {
                     message = "일시적으로 재고가 소진되었습니다.";
                 }
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             });
 
         } else {
-            String costText;
-            if (CHOCOLATE_STORE_ITEM_DONATE.equals(itemId)) {
-                costText = "? chocolate";
-            } else {
-                costText = price + " chocolate";
-            }
-            costView.setText(costText);
+            costView.setText(price + " chocolate");
             costView.setTextSize(15.f);
             productView.setBackgroundColor(getResources().getColor(R.color.medwayMist));
             productView.setOnClickListener(v -> {

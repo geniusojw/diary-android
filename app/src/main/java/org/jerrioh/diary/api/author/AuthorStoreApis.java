@@ -36,10 +36,16 @@ public class AuthorStoreApis extends ApiCaller {
         super.post("/author/store/change-nickname", headers, json.toString(), callback);
     }
 
-    public void changeDiaryTheme(ApiCallback callback) {
+    public void purchaseTheme(ApiCallback callback) {
         Map<String, String> headers = authorHeaders();
         JSONObject json = new JSONObject();
-        super.post("/author/store/change-diary-theme", headers, json.toString(), callback);
+        super.post("/author/store/purchase-theme", headers, json.toString(), callback);
+    }
+
+    public void purchaseMusic(ApiCallback callback) {
+        Map<String, String> headers = authorHeaders();
+        JSONObject json = new JSONObject();
+        super.post("/author/store/purchase-music", headers, json.toString(), callback);
     }
 
     public void aliasFeatureUnlimitedUse(ApiCallback callback) {

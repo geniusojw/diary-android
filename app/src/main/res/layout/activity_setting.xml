@@ -45,17 +45,19 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linear_layout_setting_diary_theme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginBottom="23dp">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:textSize="17sp"
                 android:textColor="@color/darkCharcoal"
-                android:text="Diary Theme"
+                android:text="@string/diary_theme"
                 />
             <TextView
                 android:layout_width="match_parent"
@@ -64,6 +66,47 @@
                 android:textSize="12sp"
                 android:textColor="@color/blackCoffee"
                 android:text="Let's change the atmosphere of the diary"
+                />
+
+            <Spinner
+                android:id="@+id/spinner_setting_diary_theme"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:spinnerMode="dialog"
+                android:prompt="@string/diary_theme"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_setting_diary_write_music"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="23dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="17sp"
+                android:textColor="@color/darkCharcoal"
+                android:text="Diary Write Music"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="12sp"
+                android:textColor="@color/blackCoffee"
+                android:text="Change the Music"
+                />
+
+            <Spinner
+                android:id="@+id/spinner_setting_diary_diary_music"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:spinnerMode="dialog"
+                android:prompt="@string/diary_write_music"
                 />
         </LinearLayout>
 
@@ -95,29 +138,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginBottom="23dp">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textSize="17sp"
-                android:textColor="@color/darkCharcoal"
-                android:text="Background Image"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textSize="12sp"
-                android:textColor="@color/blackCoffee"
-                android:text="Change the image on the main screen"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="23dp">
             <Switch
                 android:id="@+id/switch_setting_screen_lock"
                 android:layout_width="match_parent"
@@ -125,7 +145,7 @@
                 android:gravity="center_vertical"
                 android:textSize="17sp"
                 android:textColor="@color/darkCharcoal"
-                android:text="Screen lock"
+                android:text="Screen Lock"
                 />
             <TextView
                 android:layout_width="match_parent"
@@ -149,15 +169,16 @@
                 android:gravity="center_vertical"
                 android:textSize="17sp"
                 android:textColor="@color/darkCharcoal"
-                android:text="Diary alarm"
+                android:text="Diary Alarm"
                 />
             <TextView
+                android:id="@+id/text_view_diary_alarm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:textSize="12sp"
                 android:textColor="@color/blackCoffee"
-                android:text="It helps you to remember to write diary"
+                android:text="-"
                 />
         </LinearLayout>
 
