@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import org.jerrioh.diary.config.Constants;
@@ -19,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class DiaryReadActivity extends AppCompatActivity {
+public class DiaryReadActivity extends AbstractDetailActivity {
     private static final String TAG = "DiaryReadActivity";
 
     @Override
@@ -60,5 +63,8 @@ public class DiaryReadActivity extends AppCompatActivity {
         backButton.setOnClickListener(v -> {
             finish();
         });
+
+        TextView adjustText = findViewById(R.id.text_view_detail_diary_font_size_adjust);
+        super.setUpFontMusicButton(contentEditText, adjustText, null);
     }
 }

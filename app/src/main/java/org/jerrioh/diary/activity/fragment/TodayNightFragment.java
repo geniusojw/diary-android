@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import org.jerrioh.diary.R;
 
-public class TodayNightFragment extends MainActivityFragment {
+public class TodayNightFragment extends AbstractFragment {
         private static final String TAG = "TodayNightFragment";
 
         @Nullable

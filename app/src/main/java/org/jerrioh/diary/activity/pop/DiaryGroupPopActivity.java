@@ -1,19 +1,16 @@
-package org.jerrioh.diary.activity.main;
+package org.jerrioh.diary.activity.pop;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jerrioh.diary.R;
+import org.jerrioh.diary.activity.main.DiaryGroupReadActivity;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.DiaryGroupApis;
 import org.jerrioh.diary.model.DiaryGroup;

@@ -124,14 +124,20 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
         TextView titleText = diaryViewHolder.itemView.findViewById(R.id.text_view_row_diary_title);
         TextView contentText = diaryViewHolder.itemView.findViewById(R.id.text_view_row_diary_content);
 
+        ImageView imageView = diaryViewHolder.itemView.findViewById(R.id.image_view_row_diary_calendar_image);
+        imageView.setPadding(2, 2, 2, 2);
+        imageView.setImageResource(R.drawable.ic_web_asset_black_24dp);
+
+        cardView.setCardBackgroundColor(0xCCFFFFFF);
+
         Diary diary = diaryData.get(index);
         String diaryDate = diary.getDiaryDate();
 
         int day = DateUtil.getDay(diaryDate);
         if (day == 0) {
-            calendarText1.setTextColor(Color.RED);
+            calendarText1.setTextColor(0xCCFF0000);
         } else if (day == 6) {
-            calendarText1.setTextColor(Color.BLUE);
+            calendarText1.setTextColor(0xCC0000FF);
         }
         calendarText1.setText(DateUtil.dayOfWeek(diaryDate));
         calendarText2.setText(diaryDate.substring(6, 8));
@@ -151,35 +157,58 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
         TextView contentText = diaryViewHolder.itemView.findViewById(R.id.text_view_row_diary_content);
 
         ImageView imageView = diaryViewHolder.itemView.findViewById(R.id.image_view_row_diary_calendar_image);
+        imageView.setPadding(17, 17, 17, 17);
 
         //boolean isHost = AuthorUtil.getAuthor().getAuthorId().equals(diaryGroup.getHostAuthorId());
-        String start = DateUtil.getDateStringSkipYear(diaryGroup.getStartTime());
-        String end = DateUtil.getDateStringSkipYear(diaryGroup.getEndTime() - TimeUnit.MINUTES.toMillis(1));
-        String period = start + " ~ " + end;
-
-        cardView.setCardBackgroundColor(0xCCFFFFCC);
-        imageView.setPadding(15, 15, 15, 15);
-
         long currentTime = System.currentTimeMillis();
-        if (currentTime > diaryGroup.getStartTime()) {
-            imageView.setImageResource(R.drawable.ic_people_black_24dp);
+        String title;
+        String content;
 
-            String yesterday_yyyyMMdd = DateUtil.getyyyyMMdd(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1));
-            //calendarText1.setText(DateUtil.dayOfWeek(yesterday_yyyyMMdd));
-            //calendarText2.setText(yesterday_yyyyMMdd.substring(6, 8));
-            //calendarText3.setText(yesterday_yyyyMMdd.substring(0, 4) + "." + yesterday_yyyyMMdd.substring(4, 6));
+        if (currentTime > diaryGroup.getStartTime()) { // 시작됨
+            cardView.setCardBackgroundColor(0xCCFFDDCC);
+            if (diaryGroup.getCurrentAuthorCount() <= 1) {
+                imageView.setImageResource(R.drawable.ic_person_black_24dp);
+            } else {
+                imageView.setImageResource(R.drawable.ic_people_black_24dp);
+            }
 
-        } else {
+            title = CommonUtil.defaultIfEmpty(diaryGroup.getDiaryGroupName(), "모임이름을 고민중입니다.");
+            //title = "모임이름을 고민중입니다.";
+
+            String start = DateUtil.getDateStringSkipYear(diaryGroup.getStartTime());
+            String end = DateUtil.getDateStringSkipYear(diaryGroup.getEndTime() - TimeUnit.MINUTES.toMillis(1));
+
+            String tip;
+            if (diaryGroup.getCurrentAuthorCount() >= 2) {
+                tip = CommonUtil.randomString(
+                        "현재 당신은 익명의 일기모임에 참가 중입니다.",
+                        "당신과 " + (diaryGroup.getCurrentAuthorCount() - 1) + "명의 사람이 어제의 이야기를 공유합니다.",
+                        "별칭기능으로 원하는 정보를 감출 수 있습니다.");
+            } else {
+                tip = CommonUtil.randomString(
+                        "일기모임에 초대된 사람이 없습니다.");
+            }
+            String period = "기간: " + start + " ~ " + end;
+            content = tip + "\n" + period;
+
+        } else { // 준비중
+            cardView.setCardBackgroundColor(0xCCFFFFCC);
             imageView.setImageResource(R.drawable.ic_person_add_black_24dp);
 
-            String title = "그룹 일기 준비 중 ...";
-            titleText.setText(title);
+            title = CommonUtil.randomString(
+                    "일기모임을 준비 중입니다.",
+                    "모임장소를 물색 중입니다.",
+                    "모임기간 중 날씨를 확인 중입니다.");
 
             long timeLeft = diaryGroup.getStartTime() - currentTime;
-            int diaryGroupAuthorCount = 1;
-            String content = "현재 참여자 수: " + diaryGroup.getCurrentAuthorCount() + "명"
+            content = "현재 참여자 수: " + diaryGroup.getCurrentAuthorCount() + "명"
                     + "\n시작까지 남은 시간: " + DateUtil.getTimeString(timeLeft);
-            contentText.setText(content);
         }
+
+//        content = "debug max: " + diaryGroup.getCurrentAuthorCount() + " / " + diaryGroup.getMaxAuthorCount()
+//                + "\ndebug period: " + period;
+
+        titleText.setText(title);
+        contentText.setText(content);
     }
 }

@@ -1,4 +1,4 @@
-package org.jerrioh.diary.activity.main;
+package org.jerrioh.diary.activity.pop;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.AuthorStoreApis;
 import org.jerrioh.diary.model.Music;
 import org.jerrioh.diary.model.Theme;
+import org.jerrioh.diary.model.db.AuthorDao;
 import org.jerrioh.diary.model.db.MusicDao;
 import org.jerrioh.diary.model.db.ThemeDao;
 import org.jerrioh.diary.util.AuthorUtil;
@@ -48,7 +49,15 @@ public class ChocolateStorePopActivity extends CustomPopActivity {
                         @Override
                         protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                             if (httpStatus == 200) {
-                                buySuccessBasic("좋습니다!\n당신은 멍청이예요.");
+                                JSONObject data = jsonObject.getJSONObject("data");
+                                String aboutYou = data.getString("aboutYou");
+                                String description = data.getString("description");
+
+                                AuthorDao authorDao = new AuthorDao(ChocolateStorePopActivity.this);
+                                authorDao.updateDescription(description);
+
+                                buySuccessBasic(aboutYou);
+
                             } else if (httpStatus == 402) {
                                 buyFailWithToast("not enough chocolates");
                             } else if (httpStatus == 412) {
@@ -67,7 +76,14 @@ public class ChocolateStorePopActivity extends CustomPopActivity {
                         @Override
                         protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                             if (httpStatus == 200) {
-                                buySuccessBasic("변경되었습니다!\n당신의 새로운 닉네임은 멍청이예요.");
+                                JSONObject data = jsonObject.getJSONObject("data");
+                                String nickname = data.getString("nickname");
+
+                                AuthorDao authorDao = new AuthorDao(ChocolateStorePopActivity.this);
+                                authorDao.updateNickname(nickname);
+
+                                buySuccessBasic("변경되었습니다!\n당신의 새로운 닉네임은 " + nickname + "입니다." +
+                                        "3");
                             } else if (httpStatus == 402) {
                                 buyFailWithToast("not enough chocolates");
                             } else if (httpStatus == 412) {
@@ -144,12 +160,13 @@ public class ChocolateStorePopActivity extends CustomPopActivity {
                     });
                 }
             };
-        } else if (ChocolateStoreActivity.ITEM_INVITE_TICKET1.equals(itemId)) {
-            descriptionText = "초대1를 하시겠습니까?";
+        } else if (ChocolateStoreActivity.ITEM_DIARY_GROUP_INVITATION.equals(itemId)) {
+            descriptionText = "초대를 하시겠습니까?";
             okClickListener = v -> {
                 if (okEnabled) {
                     okEnabled = false;
-                    authorStoreApis.inviteTicket1(new ApiCallback() {
+                    String keyword = null;
+                    authorStoreApis.diaryGroupInvitation(keyword, new ApiCallback() {
                         @Override
                         protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                             if (httpStatus == 200) {
@@ -164,22 +181,25 @@ public class ChocolateStorePopActivity extends CustomPopActivity {
                     });
                 }
             };
-        } else if (ChocolateStoreActivity.ITEM_INVITE_TICKET2.equals(itemId)) {
-            descriptionText = "초대2를 하시겠습니까?";
+        } else if (ChocolateStoreActivity.ITEM_DIARY_GROUP_SUPPORT.equals(itemId)) {
+            descriptionText = "지원 하시겠습니까?";
             okClickListener = v -> {
-                authorStoreApis.inviteTicket2(new ApiCallback() {
-                    @Override
-                    protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
-                        if (httpStatus == 200) {
-                            AuthorUtil.syncAuthorDiaryGroupData(ChocolateStorePopActivity.this);
-                        } else if (httpStatus == 402) {
-                            Toast.makeText(ChocolateStorePopActivity.this, "not enough chocolates", Toast.LENGTH_LONG).show();
-                        } else if (httpStatus == 409) {
-                            Toast.makeText(ChocolateStorePopActivity.this, "이미 그룹이 있다.", Toast.LENGTH_LONG).show();
+                if (okEnabled) {
+                    okEnabled = false;
+                    authorStoreApis.diaryGroupSupport("period", new ApiCallback() {
+                        @Override
+                        protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                            if (httpStatus == 200) {
+                                AuthorUtil.syncAuthorDiaryGroupData(ChocolateStorePopActivity.this);
+                            } else if (httpStatus == 402) {
+                                Toast.makeText(ChocolateStorePopActivity.this, "not enough chocolates", Toast.LENGTH_LONG).show();
+                            } else if (httpStatus == 412) {
+                                Toast.makeText(ChocolateStorePopActivity.this, "최대에 도달했다. 더는 안된다.", Toast.LENGTH_LONG).show();
+                            }
+                            finish();
                         }
-                        finish();
-                    }
-                });
+                    });
+                }
             };
         } else if (ChocolateStoreActivity.ITEM_CHOCOLATE_DONATION.equals(itemId)) {
             descriptionText = "초콜릿을 기부를 하시겠습니까?";

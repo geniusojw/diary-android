@@ -4,6 +4,21 @@
     <string name="my_diary">나의 일기</string>
     <string name="letter">편지</string>
     <string name="receiver">받는 사람</string>
+
+    <!-- 설정 -->
     <string name="diary_theme">일기장 테마</string>
-    <string name="diary_write_music">일기 쓰기 음악</string>
+    <string name="diary_music">일기 음악</string>
+    <string name="font_size">글자 크기</string>
+    <string name="alias_feature">별칭 기능</string>
+    <string name="screen_lock">화면잠금</string>
+    <string name="diary_alarm">일기시간 알림</string>
+    <string name="diary_group_invitation">일기모임 초대받기</string>
+    <string name="reset_data">일기 데이터 초기화</string>
+
+    <!-- 계정 -->
+    <string name="synchronization">동기화</string>
+    <string name="email_export">이메일 내보내기</string>
+    <string name="change_account">계정 설정</string>
+    <string name="sign_out">로그아웃</string>
+
 </resources>

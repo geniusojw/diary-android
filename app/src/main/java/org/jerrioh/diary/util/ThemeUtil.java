@@ -39,8 +39,7 @@ public class ThemeUtil {
         }
         Bitmap defaultBitmap = BitmapFactory.decodeResource(resources, drawablePattern);
 
-        PropertyDao propertyDao = new PropertyDao(context);
-        String themeName = PropertyUtil.getProperty(Property.Key.DIARY_THEME, propertyDao);
+        String themeName = PropertyUtil.getProperty(Property.Key.DIARY_THEME, context);
 
         if (!Property.Key.DIARY_THEME.DEFAULT_VALUE.equals(themeName)) {
             ThemeDao themeDao = new ThemeDao(context);

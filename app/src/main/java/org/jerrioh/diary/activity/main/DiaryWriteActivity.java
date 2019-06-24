@@ -1,8 +1,10 @@
 package org.jerrioh.diary.activity.main;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -11,6 +13,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,14 +28,15 @@ import org.jerrioh.diary.model.db.PropertyDao;
 import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.PropertyUtil;
 import org.jerrioh.diary.util.ReceiverUtil;
+import org.jerrioh.diary.util.SoftKeyboard;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
-public class DiaryWriteActivity extends AppCompatActivity {
+public class DiaryWriteActivity extends AbstractDetailActivity {
     private static final String TAG = "DiaryWriteActivity";
 
     private Diary todayDiary;
@@ -40,14 +45,21 @@ public class DiaryWriteActivity extends AppCompatActivity {
     private EditText titleText;
     private EditText contentText;
 
-    private TextView musicText;
-    private ImageView musicImage;
-
-    private MediaPlayer mediaPlayer;
-    private boolean musicOn;
-
     private String originalTitle;
     private String originalContent;
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Toast.makeText(this, "vivivi", Toast.LENGTH_SHORT).show();
+
+        // Checks whether a hardware keyboard is available
+        if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
+            Toast.makeText(this, "keyboard visible", Toast.LENGTH_SHORT).show();
+        } else if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
+            Toast.makeText(this, "keyboard hidden", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +72,12 @@ public class DiaryWriteActivity extends AppCompatActivity {
 
         contentText = findViewById(R.id.edit_text_detail_content);
         contentText.setFocusableInTouchMode(true);
+        contentText.setHint("여기에 일기를 작성하세요.");
 
-        musicText = findViewById(R.id.text_view_detail_music);
-        musicImage = findViewById(R.id.image_view_detail_music);
+        TextView emptySpaceView = findViewById(R.id.text_view_detail_empty_space);
+        emptySpaceView.setOnClickListener(v -> {
+            contentText.requestFocus();
+        });
 
         FloatingActionButton backButton = findViewById(R.id.floating_back_button);
         backButton.setEnabled(true);
@@ -70,24 +85,6 @@ public class DiaryWriteActivity extends AppCompatActivity {
         backButton.setOnClickListener(v -> {
             onBackPressed();
         });
-
-        TextView emptySpaceView = findViewById(R.id.text_view_detail_empty_space);
-        emptySpaceView.setOnClickListener(v -> {
-            contentText.requestFocus();
-        });
-
-        musicText.setVisibility(View.VISIBLE);
-        musicImage.setVisibility(View.VISIBLE);
-        View.OnClickListener musicClick = v -> {
-            if (musicOn) {
-                musicOff();
-
-            } else {
-                musicOn();
-            }
-        };
-        musicText.setOnClickListener(musicClick);
-        musicImage.setOnClickListener(musicClick);
 
         // 오늘의 일기 생성
         DiaryDao diaryDao = new DiaryDao(this);
@@ -117,65 +114,28 @@ public class DiaryWriteActivity extends AppCompatActivity {
         titleText.setText(todayDiary.getTitle());
         contentText.setText(todayDiary.getContent());
 
-        contentText.requestFocus();
-    }
+        RelativeLayout musicLayout = findViewById(R.id.relative_layout_detail_diary_music);
+        musicLayout.setVisibility(View.VISIBLE);
 
-    private void musicOn() {
-        musicOn = true;
+        TextView adjustText = findViewById(R.id.text_view_detail_diary_font_size_adjust);
+        TextView musicText = findViewById(R.id.text_view_detail_music);
 
-        musicText.setText("MUSIC OFF");
-        musicText.setTextColor(getResources().getColor(R.color.colorAccent));
+        super.setUpSoftKeyboard(R.id.relative_layout_detail_diary_main, Arrays.asList(backButton));
+        super.setUpFontMusicButton(contentText, adjustText, musicText);
 
-        PropertyDao propertyDao = new PropertyDao(this);
-        String selectMusic = PropertyUtil.getProperty(Property.Key.DIARY_WRITE_MUSIC, propertyDao);
-
-        if (Property.Key.DIARY_WRITE_MUSIC.DEFAULT_VALUE.equals(selectMusic)) {
-            mediaPlayer = MediaPlayer.create(this,R.raw.find_her);
-            mediaPlayer.setLooping(true);
-            mediaPlayer.start();
-        } else {
-            MusicDao musicDao = new MusicDao(this);
-            Music music = musicDao.getMusic(selectMusic);
-            byte[] decoded = Base64.decode(music.getMusicData(), Base64.DEFAULT);
-
-            try {
-                // create temp file that will hold byte array
-                File tempMp3 = File.createTempFile("temp_music", "mp3", getCacheDir());
-                tempMp3.deleteOnExit();
-                FileOutputStream fos = new FileOutputStream(tempMp3);
-                fos.write(decoded);
-                fos.close();
-
-                FileInputStream fis = new FileInputStream(tempMp3);
-                mediaPlayer = new MediaPlayer();
-                mediaPlayer.reset();
-                mediaPlayer.setDataSource(fis.getFD());
-                mediaPlayer.prepare();
-                mediaPlayer.setLooping(true);
-                mediaPlayer.start();
-            } catch (IOException e) {
-                Log.e(TAG, e.toString());
-                Toast.makeText(this, "music on error", Toast.LENGTH_LONG).show();
+        // softKeyboard thread가 완전히 준비가 되기전에 키보드를 오픈하면 정상적으로 동작하지 않는듯하다. 0.5초 딜레이
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                softKeyboard.openSoftKeyboard();
+                contentText.requestFocus();
             }
-        }
-    }
-
-    private void musicOff() {
-        musicOn = false;
-
-        musicText.setText("MUSIC ON");
-        musicText.setTextColor(getResources().getColor(R.color.colorPrimary));
-
-        mediaPlayer.stop();
-        mediaPlayer.reset();
-        mediaPlayer.release();
+        }, 500);
     }
 
     @Override
     public void onBackPressed() {
-        if (musicOn) {
-            musicOff();
-        }
+        musicOff();
 
         if (!titleText.getText().toString().equals(originalTitle) || !contentText.getText().toString().equals(originalContent)) {
             Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
@@ -183,11 +143,10 @@ public class DiaryWriteActivity extends AppCompatActivity {
         }
 
         // receiver 등록
-        PropertyDao propertyDao = new PropertyDao(this);
-        String value = PropertyUtil.getProperty(Property.Key.YESTERDAY_RECEIVER_ON, propertyDao);
+        String value = PropertyUtil.getProperty(Property.Key.YESTERDAY_RECEIVER_ON, this);
         if (Integer.parseInt(value) == 0) {
             ReceiverUtil.setDiaryReceiverOn(this);
-            PropertyUtil.setProperty(Property.Key.YESTERDAY_RECEIVER_ON, "1", propertyDao);
+            PropertyUtil.setProperty(Property.Key.YESTERDAY_RECEIVER_ON, "1", this);
         }
 
         super.onBackPressed();
@@ -195,9 +154,7 @@ public class DiaryWriteActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        if (musicOn) {
-            musicOff();
-        }
+        musicOff();
         super.onPause();
     }
 
@@ -208,4 +165,6 @@ public class DiaryWriteActivity extends AppCompatActivity {
         DiaryDao diaryDao = new DiaryDao(this);
         diaryDao.updateDiaryContent(todayDiary.getDiaryDate(), todayDiary.getTitle(), todayDiary.getContent());
     }
+
+
 }

@@ -8,11 +8,15 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jerrioh.diary.R;
+import org.jerrioh.diary.model.Property;
 import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.model.Author;
+import org.jerrioh.diary.util.DateUtil;
+import org.jerrioh.diary.util.PropertyUtil;
 
 public class AccountActivity extends CommonActionBarActivity {
     private static final String TAG = "AccountActivity";
@@ -62,12 +66,19 @@ public class AccountActivity extends CommonActionBarActivity {
     }
 
     private void accountDiarySync() {
+        String lastSyncTimeString = PropertyUtil.getProperty(Property.Key.SYNC_ACCOUNT_DIARY_API_REQUEST_TIME, this);
+        long lastSyncTime = Long.parseLong(lastSyncTimeString);
+        String lastSyncDescription = "마지막 동기화 시간: " + DateUtil.getDateStringFull(lastSyncTime);
+
+        TextView syncText = findViewById(R.id.text_view_account_sync);
+        syncText.setText(lastSyncDescription);
+
         LinearLayout syncLayout = findViewById(R.id.linear_layout_account_sync);
         syncLayout.setOnClickListener(v -> {
             ProgressBar progressBar = findViewById(R.id.progress_bar_account);
             if (progressBar.getVisibility() != View.VISIBLE) {
                 progressBar.setVisibility(View.VISIBLE);
-                AuthorUtil.syncAccountDiaries(this, progressBar);
+                AuthorUtil.syncAccountDiaries(this, progressBar, syncText);
             }
         });
     }

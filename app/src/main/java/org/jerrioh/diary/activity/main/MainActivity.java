@@ -35,10 +35,13 @@ import org.jerrioh.diary.activity.draw.ChocolateStoreActivity;
 import org.jerrioh.diary.activity.draw.FaqActivity;
 import org.jerrioh.diary.activity.draw.SettingActivity;
 import org.jerrioh.diary.api.ApiCallback;
+import org.jerrioh.diary.api.author.AuthorLetterApis;
 import org.jerrioh.diary.api.author.DiaryGroupApis;
 import org.jerrioh.diary.api.author.UtilApis;
 import org.jerrioh.diary.config.Constants;
+import org.jerrioh.diary.model.Letter;
 import org.jerrioh.diary.model.Property;
+import org.jerrioh.diary.model.db.LetterDao;
 import org.jerrioh.diary.model.db.PropertyDao;
 import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.model.db.DiaryDao;
@@ -48,24 +51,21 @@ import org.jerrioh.diary.activity.fragment.DiaryFragment;
 import org.jerrioh.diary.activity.fragment.LetterFragment;
 import org.jerrioh.diary.activity.fragment.TodayFragment;
 import org.jerrioh.diary.activity.fragment.TodayNightFragment;
+import org.jerrioh.diary.util.CommonUtil;
 import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.PropertyUtil;
-import org.jerrioh.diary.util.ReceiverUtil;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-
-    private static final List<String> MONTH_LEFT_ADJUST_FAIL_MESSAGES = Arrays.asList("No more diaries.", "There is no diary in the past.", "It is the first page of your diary.");
-    private static final List<String> MONTH_RIGHT_ADJUST_FAIL_MESSAGES = Arrays.asList("Do you want to know the future?", "Please keep a diary in the future.", "You can not see the diary tomorrow.");
 
     private String diaryDate_yyyyMM = null;
     private boolean lettersToMe = true;
@@ -82,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
         bottomNav.setSelectedItemId(bottomNav.getSelectedItemId());
 
-        // 초대편지 받기
-        this.getInviteLetter();
+        // 편지받기, 일기모임 초대장받기
+        this.executeGetApis();
     }
 
     @Override
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
             }
             String date_yyyyMM = DateUtil.diffMonth(diaryDate_yyyyMM, -1);
             if (Integer.parseInt(date_yyyyMM) < Integer.parseInt(firstDiaryDateMonth)) {
-                String message = MONTH_LEFT_ADJUST_FAIL_MESSAGES.get(new Random().nextInt(MONTH_LEFT_ADJUST_FAIL_MESSAGES.size()));
+                String message = CommonUtil.randomString("No more diaries.", "There is no diary in the past.", "It is the first page of your diary.");
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             } else {
                 diaryDate_yyyyMM = date_yyyyMM;
@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
             String date_yyyyMM = DateUtil.diffMonth(diaryDate_yyyyMM, 1);
             String latestDate_yyyyMM = DateUtil.getyyyyMMdd().substring(0, 6);
             if (Integer.parseInt(date_yyyyMM) > Integer.parseInt(latestDate_yyyyMM)) {
-                String message = MONTH_RIGHT_ADJUST_FAIL_MESSAGES.get(new Random().nextInt(MONTH_RIGHT_ADJUST_FAIL_MESSAGES.size()));
+                String message = CommonUtil.randomString("Do you want to know the future?", "Please keep a diary in the future.", "You can not see the diary tomorrow.");
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             } else {
                 diaryDate_yyyyMM = date_yyyyMM;
@@ -340,25 +340,40 @@ public class MainActivity extends AppCompatActivity {
 
     private void applyFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_layout_fragment_container, fragment).commit();
+        transaction.replace(R.id.frame_layout_fragment_container, fragment).commitAllowingStateLoss();
     }
 
-    private void getInviteLetter() {
-        PropertyDao propertyDao = new PropertyDao(this);
-        String groupInvitationUse = PropertyUtil.getProperty(Property.Key.GROUP_INVITATION_USE, propertyDao);
-        if (Integer.parseInt(groupInvitationUse) == 0) {
-            return;
-        }
+    private void executeGetApis() {
+        boolean timeToRequestBeInvited = false;
+        boolean timeToRequestGetLetters = false;
 
-        String latestInvitationTime = PropertyUtil.getProperty(Property.Key.LATEST_INVITATION_TIME, propertyDao);
         long currentTime = System.currentTimeMillis();
-        long invitationTime = Long.parseLong(latestInvitationTime) + TimeUnit.SECONDS.toMillis(12);
-        if (currentTime < invitationTime) {
-            return;
+
+        String groupInvitationUse = PropertyUtil.getProperty(Property.Key.GROUP_INVITATION_USE, this);
+        if (Integer.parseInt(groupInvitationUse) == 1) {
+            long latestBeInvitedTime = Long.parseLong(PropertyUtil.getProperty(Property.Key.GET_DIARY_GROUP_API_REQUEST_TIME, this));
+            if (currentTime > latestBeInvitedTime + Property.Config.GET_DIARY_GROUP_API_RETRY_MILLIS) {
+                PropertyUtil.setProperty(Property.Key.GET_DIARY_GROUP_API_REQUEST_TIME, String.valueOf(currentTime), this);
+                timeToRequestBeInvited = true;
+            }
         }
 
-        PropertyUtil.setProperty(Property.Key.LATEST_INVITATION_TIME, String.valueOf(currentTime), propertyDao);
+        long latestGetLettersTime = Long.parseLong(PropertyUtil.getProperty(Property.Key.GET_LETTERS_API_REQUEST_TIME, this));
+        if (currentTime > latestGetLettersTime + Property.Config.GET_LETTERS_API_RETRY_MILLIS) {
+            PropertyUtil.setProperty(Property.Key.GET_LETTERS_API_REQUEST_TIME, String.valueOf(currentTime), this);
+            timeToRequestGetLetters = true;
+        }
 
+        if (timeToRequestBeInvited) {
+            beInvited();
+        }
+
+        if (timeToRequestGetLetters) {
+            getLetters();
+        }
+    }
+
+    private void beInvited() {
         DiaryGroupApis diaryGroupApis = new DiaryGroupApis(this);
         diaryGroupApis.beInvited(new ApiCallback() {
             @Override
@@ -369,6 +384,53 @@ public class MainActivity extends AppCompatActivity {
                     AuthorUtil.syncAuthorDiaryGroupData(MainActivity.this);
                 } else {
                     Toast.makeText(MainActivity.this, "test invitation fail! httpStatus: " + httpStatus, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void getLetters() {
+        Author author = AuthorUtil.getAuthor();
+        AuthorLetterApis apis = new AuthorLetterApis(this);
+        apis.receive("all", new ApiCallback() {
+            @Override
+            protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                if (httpStatus == 200) {
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+                    if (jsonArray.length() > 0) {
+                        LetterDao letterDao = new LetterDao(MainActivity.this);
+
+                        List<Letter> letters = letterDao.getAllLetters();
+                        Set<String> letterIds = new HashSet<>();
+                        for (Letter letter : letters) {
+                            letterIds.add(letter.getLetterId());
+                        }
+
+                        for (int index = 0; index < jsonArray.length(); index++) {
+                            JSONObject letterResponse = jsonArray.getJSONObject(index);
+                            String letterId = letterResponse.getString("letterId");
+                            if (letterIds.contains(letterId)) {
+                                continue;
+                            }
+
+                            Letter newLetter = new Letter();
+                            newLetter.setLetterId(letterId);
+                            newLetter.setLetterType(letterResponse.getInt("letterType"));
+                            newLetter.setFromAuthorId(letterResponse.getString("fromAuthorId"));
+                            newLetter.setFromAuthorNickname(letterResponse.getString("fromAuthorNickname"));
+                            newLetter.setToAuthorId(letterResponse.getString("toAuthorId"));
+                            newLetter.setToAuthorNickname(letterResponse.getString("toAuthorNickname"));
+                            newLetter.setContent(letterResponse.getString("content"));
+                            newLetter.setWrittenTime(letterResponse.getLong("writtenTime"));
+
+                            if (newLetter.getFromAuthorId().equals(author.getAuthorId())) {
+                                newLetter.setStatus(Letter.LetterStatus.REPLIED);
+                            } else {
+                                newLetter.setStatus(Letter.LetterStatus.UNREAD);
+                            }
+                            letterDao.insertLetter(newLetter);
+                        }
+                    }
                 }
             }
         });

@@ -3,7 +3,6 @@ package org.jerrioh.diary.activity.fragment;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,11 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import org.jerrioh.diary.activity.main.DiaryGroupPopActivity;
-import org.jerrioh.diary.model.Author;
+import org.jerrioh.diary.activity.draw.ChocolateStoreActivity;
+import org.jerrioh.diary.activity.pop.ChocolateStorePopActivity;
+import org.jerrioh.diary.activity.pop.DiaryGroupPopActivity;
 import org.jerrioh.diary.model.DiaryGroup;
 import org.jerrioh.diary.model.db.DiaryDao;
 import org.jerrioh.diary.model.Diary;
@@ -23,15 +21,13 @@ import org.jerrioh.diary.activity.main.DiaryReadActivity;
 import org.jerrioh.diary.activity.adapter.DiaryRecyclerViewAdapter;
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.model.db.DiaryGroupDao;
-import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.ThemeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-public class DiaryFragment extends MainActivityFragment {
+public class DiaryFragment extends AbstractFragment {
     private static final String TAG = "DiaryFragment";
 
     @Override
@@ -49,21 +45,35 @@ public class DiaryFragment extends MainActivityFragment {
 
         // 일기내용을 리스트로 표시한다.
         DiaryGroupDao diaryGroupDao = new DiaryGroupDao(getActivity());
-        DiaryGroup diaryGroup = diaryGroupDao.getDiaryGroup();
 
+        final DiaryGroup currentDiaryGroup;
+        DiaryGroup diaryGroup = diaryGroupDao.getDiaryGroup();
         if (diaryGroup != null) {
             long currentTime = System.currentTimeMillis();
-            if (currentTime > diaryGroup.getEndTime()) {
+            if (currentTime > diaryGroup.getEndTime()) { // 종료됨
                 diaryGroupDao.deleteDiaryGroup();
-                diaryGroup = null;
+                currentDiaryGroup = null;
+            } else { // 준비 또는 시작
+                currentDiaryGroup = diaryGroup;
             }
+        } else {
+            currentDiaryGroup = null;
         }
 
         final List<Diary> diaryData = getDiaryData(yyyyMM);
-        final DiaryRecyclerViewAdapter mAdapter = new DiaryRecyclerViewAdapter(diaryGroup, diaryData,
+        final DiaryRecyclerViewAdapter mAdapter = new DiaryRecyclerViewAdapter(currentDiaryGroup, diaryData,
                 pos -> {
-                    Intent intent = new Intent(getActivity(), DiaryGroupPopActivity.class);
-                    startActivity(intent);
+                    long currentTime = System.currentTimeMillis();
+                    if (currentTime > currentDiaryGroup.getStartTime()) { // 시작됨
+                        Intent intent = new Intent(getActivity(), DiaryGroupPopActivity.class);
+                        startActivity(intent);
+                    } else { // 준비중
+                        // TODO
+                        Intent intent = new Intent(getActivity(), ChocolateStorePopActivity.class);
+                        intent.putExtra("itemId", ChocolateStoreActivity.ITEM_DIARY_GROUP_SUPPORT);
+                        intent.putExtra("itemPrice", 1);
+                        startActivity(intent);
+                    }
                 },
                 pos -> {
                     Intent intent = new Intent(getActivity(), DiaryReadActivity.class);

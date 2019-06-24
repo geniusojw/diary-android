@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="translucentWhite">#CCFFFFFF</color>
+
     <!-- https://encycolorpedia.com/126180 -->
-    <color name="colorBlack">#000000</color>
-    <color name="colorRed">#FF0000</color>
-    <color name="colorMaroon">#800000</color>
-    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#FF000000</color>
+    <color name="colorRed">#FFFF0000</color>
+    <color name="colorMaroon">#FF800000</color>
+    <color name="colorWhite">#FFFFFFFF</color>
 
-    <color name="colorPrimary">#778ba5</color> <!-- shadow blue -->
-    <color name="colorPrimaryDark">#126180</color> <!-- blue sapphire -->
-    <color name="colorAccent">#FF9800</color> <!-- coral -->
+    <color name="colorPrimary">#FF778ba5</color> <!-- shadow blue -->
+    <color name="colorPrimaryDark">#FF126180</color> <!-- blue sapphire -->
+    <color name="colorAccent">#FFFF9800</color> <!-- coral -->
+    <color name="colorIndicatorText">#FF808080</color>
 
-    <color name="penguinWhite">#f5f3ef</color>
-    <color name="beige">#f5f5dc</color>
-    <color name="eggshell">#f0ead6</color>
-    <color name="italianLeather">#635a52</color>
+    <color name="penguinWhite">#FFf5f3ef</color>
+    <color name="beige">#FFf5f5dc</color>
+    <color name="eggshell">#FFf0ead6</color>
+    <color name="italianLeather">#FF635a52</color>
 
-    <color name="medwayMist">#f5f2f0</color>
-    <color name="steelTrap">#c7c4c3</color>
-    <color name="carribeanSky">#d6e4e5</color>
-    <color name="babyBlueEyes">#a1caf1</color>
-    <color name="ultramarineBlue">#4166f5</color>
-    <color name="cobaltBlue">#00498c</color>
-    <color name="prussianBlue">#003458</color>
-    <color name="vanDyckBrown">#584630</color>
-    <color name="darkCharcoal">#333333</color>
-    <color name="blackCoffee">#3b2f2f</color>
+    <color name="medwayMist">#FFf5f2f0</color>
+    <color name="steelTrap">#FFc7c4c3</color>
+    <color name="carribeanSky">#FFd6e4e5</color>
+    <color name="babyBlueEyes">#FFa1caf1</color>
+    <color name="ultramarineBlue">#FF4166f5</color>
+    <color name="cobaltBlue">#FF00498c</color>
+    <color name="prussianBlue">#FF003458</color>
+    <color name="vanDyckBrown">#FF584630</color>
+    <color name="darkCharcoal">#FF333333</color>
+    <color name="blackCoffee">#FF3b2f2f</color>
 
 </resources>

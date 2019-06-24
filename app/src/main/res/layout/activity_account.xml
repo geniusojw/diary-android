@@ -11,36 +11,73 @@
         layout="@layout/toolbar"
         />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp"
         >
-
         <LinearLayout
-            android:id="@+id/linear_layout_account_sync"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="23dp"
-            android:weightSum="1">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            >
 
             <LinearLayout
-                android:layout_weight="0.8"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:id="@+id/linear_layout_account_sync"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="23dp"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_weight="0.8"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:textSize="17sp"
+                        android:textColor="@color/darkCharcoal"
+                        android:text="@string/synchronization"
+                        />
+                    <TextView
+                        android:id="@+id/text_view_account_sync"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:textSize="12sp"
+                        android:textColor="@color/blackCoffee"
+                        android:text="일기를 복구할 수 있도록 동기화하세요.\n마지막 동기화 시간: "
+                        />
+                </LinearLayout>
+                <ProgressBar
+                    android:id="@+id/progress_bar_account"
+                    android:layout_weight="0.2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_layout_account_export"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                >
+                android:layout_marginBottom="23dp">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:textSize="17sp"
                     android:textColor="@color/darkCharcoal"
-                    android:text="Synchronization"
+                    android:text="@string/email_export"
                     />
                 <TextView
                     android:layout_width="match_parent"
@@ -48,90 +85,59 @@
                     android:gravity="center_vertical"
                     android:textSize="12sp"
                     android:textColor="@color/blackCoffee"
-                    android:text="일기를 복구할 수 있도록 동기화하세요.\n마지막 동기화 시간: "
+                    android:text="You can get diaries by mail."
                     />
             </LinearLayout>
-            <ProgressBar
-                android:id="@+id/progress_bar_account"
-                android:layout_weight="0.2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                />
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linear_layout_account_export"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="23dp">
-            <TextView
+            <LinearLayout
+                android:id="@+id/linear_layout_account_change_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textSize="17sp"
-                android:textColor="@color/darkCharcoal"
-                android:text="Export Diary"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textSize="12sp"
-                android:textColor="@color/blackCoffee"
-                android:text="You can get diaries by mail."
-                />
-        </LinearLayout>
+                android:orientation="vertical"
+                android:layout_marginBottom="23dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textSize="17sp"
+                    android:textColor="@color/darkCharcoal"
+                    android:text="@string/change_account"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp"
+                    android:textColor="@color/blackCoffee"
+                    android:text="Change password, and delete account."
+                    />
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linear_layout_account_change_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="23dp">
-            <TextView
+            <LinearLayout
+                android:id="@+id/linear_layout_account_sign_out"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textSize="17sp"
-                android:textColor="@color/darkCharcoal"
-                android:text="Change account"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textSize="12sp"
-                android:textColor="@color/blackCoffee"
-                android:text="Change password, and delete account."
-                />
-        </LinearLayout>
+                android:orientation="vertical"
+                android:layout_marginBottom="23dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textSize="17sp"
+                    android:textColor="@color/darkCharcoal"
+                    android:text="@string/sign_out"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp"
+                    android:textColor="@color/blackCoffee"
+                    android:text="Sign out of the current device. Sync will stop."
+                    />
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linear_layout_account_sign_out"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="23dp">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textSize="17sp"
-                android:textColor="@color/darkCharcoal"
-                android:text="Sign out"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textSize="12sp"
-                android:textColor="@color/blackCoffee"
-                android:text="Sign out of the current device. Sync will stop."
-                />
         </LinearLayout>
-
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

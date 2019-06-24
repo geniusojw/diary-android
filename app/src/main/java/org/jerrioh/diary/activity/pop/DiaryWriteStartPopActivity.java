@@ -1,20 +1,15 @@
-package org.jerrioh.diary.activity.main;
+package org.jerrioh.diary.activity.pop;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.text.method.KeyListener;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.jerrioh.diary.R;
+import org.jerrioh.diary.activity.main.DiaryWriteActivity;
 import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.model.db.DiaryDao;
 import org.jerrioh.diary.util.DateUtil;

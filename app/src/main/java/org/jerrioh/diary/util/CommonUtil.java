@@ -3,6 +3,8 @@ package org.jerrioh.diary.util;
 import android.text.TextUtils;
 import android.util.Patterns;
 
+import java.util.Random;
+
 public class CommonUtil {
     public static String defaultIfEmpty(String string, String defaultString) {
         return TextUtils.isEmpty(string) ? defaultString : string;
@@ -19,5 +21,9 @@ public class CommonUtil {
             }
         }
         return false;
+    }
+    public static String randomString(String... strings) {
+        Random random = new Random();
+        return strings[random.nextInt(strings.length)];
     }
 }

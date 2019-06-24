@@ -8,7 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jerrioh.diary.R;
-import org.jerrioh.diary.activity.main.ChocolateStorePopActivity;
+import org.jerrioh.diary.activity.pop.ChocolateStorePopActivity;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.AuthorStoreApis;
 import org.jerrioh.diary.util.ThemeUtil;
@@ -23,10 +23,10 @@ public class ChocolateStoreActivity extends CommonActionBarActivity {
     public static final String ITEM_CHANGE_NICKNAME = "ITEM_CHANGE_NICKNAME";
     public static final String ITEM_PURCHASE_THEME = "ITEM_PURCHASE_THEME";
     public static final String ITEM_PURCHASE_MUSIC = "ITEM_PURCHASE_MUSIC";
-    public static final String ITEM_INVITE_TICKET1 = "ITEM_INVITE_TICKET1";
-    public static final String ITEM_INVITE_TICKET2 = "ITEM_INVITE_TICKET2";
+    public static final String ITEM_DIARY_GROUP_INVITATION = "ITEM_DIARY_GROUP_INVITATION";
     public static final String ITEM_ALIAS_FEATURE_UNLIMITED_USE = "ITEM_ALIAS_FEATURE_UNLIMITED_USE";
     public static final String ITEM_CHOCOLATE_DONATION = "ITEM_CHOCOLATE_DONATION";
+    public static final String ITEM_DIARY_GROUP_SUPPORT = "ITEM_DIARY_GROUP_SUPPORT";
 
     @Override
     protected void onResume() {
@@ -61,8 +61,7 @@ public class ChocolateStoreActivity extends CommonActionBarActivity {
                 int priceNickname = -1;
                 int pricePurchaseTheme = -1;
                 int pricePurchaseMusic = -1;
-                int priceInvite1 = -1;
-                int priceInvite2 = -1;
+                int priceInvite = -1;
                 int priceAliasFeature = -1;
                 int priceDonation = -1;
                 if (httpStatus == 200) {
@@ -81,8 +80,7 @@ public class ChocolateStoreActivity extends CommonActionBarActivity {
                     priceNickname = priceMap.getInt(ITEM_CHANGE_NICKNAME);
                     pricePurchaseTheme = priceMap.getInt(ITEM_PURCHASE_THEME);
                     pricePurchaseMusic = priceMap.getInt(ITEM_PURCHASE_MUSIC);
-                    priceInvite1 = priceMap.getInt(ITEM_INVITE_TICKET1);
-                    priceInvite2 = priceMap.getInt(ITEM_INVITE_TICKET2);
+                    priceInvite = priceMap.getInt(ITEM_DIARY_GROUP_INVITATION);
                     priceAliasFeature = priceMap.getInt(ITEM_ALIAS_FEATURE_UNLIMITED_USE);
                     priceDonation = priceMap.getInt(ITEM_CHOCOLATE_DONATION);
 
@@ -93,8 +91,7 @@ public class ChocolateStoreActivity extends CommonActionBarActivity {
                 ChocolateStoreActivity.this.setChangeNickName(priceNickname);
                 ChocolateStoreActivity.this.setPurchaseTheme(pricePurchaseTheme);
                 ChocolateStoreActivity.this.setPurchaseDiaryMusic(pricePurchaseMusic);
-                ChocolateStoreActivity.this.setInvitationTicket1(priceInvite1);
-                ChocolateStoreActivity.this.setInvitationTicket2(priceInvite2);
+                ChocolateStoreActivity.this.setInvitationTicket(priceInvite);
                 ChocolateStoreActivity.this.setAliasFeatureUnlimitedUse(priceAliasFeature);
                 ChocolateStoreActivity.this.setDonateChocolate(priceDonation);
             }
@@ -117,12 +114,8 @@ public class ChocolateStoreActivity extends CommonActionBarActivity {
         setProductView(R.id.linear_layout_chocolate_store_purchase_music, R.id.text_view_chocolate_store_purchase_music_cost, ITEM_PURCHASE_MUSIC, price);
     }
 
-    private void setInvitationTicket1(int price) {
-        setProductView(R.id.linear_layout_chocolate_store_invite1, R.id.text_view_chocolate_store_invite1_cost, ITEM_INVITE_TICKET1, price);
-    }
-
-    private void setInvitationTicket2(int price) {
-        setProductView(R.id.linear_layout_chocolate_store_invite2, R.id.text_view_chocolate_store_invite2_cost, ITEM_INVITE_TICKET2, price);
+    private void setInvitationTicket(int price) {
+        setProductView(R.id.linear_layout_chocolate_store_invitation, R.id.text_view_chocolate_store_invitation_cost, ITEM_DIARY_GROUP_INVITATION, price);
     }
 
     private void setAliasFeatureUnlimitedUse(int price) {

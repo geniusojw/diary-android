@@ -12,13 +12,13 @@ import org.jerrioh.diary.R;
 
 import java.util.List;
 
-public class SettingSpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
+public class CustomSpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
 
     private final Context context;
     private final List<String> list;
     private int selection;
 
-    public SettingSpinnerAdapter(Context context, List<String> list, int selection) {
+    public CustomSpinnerAdapter(Context context, List<String> list, int selection) {
         this.context = context;
         this.list = list;
         this.selection = selection;

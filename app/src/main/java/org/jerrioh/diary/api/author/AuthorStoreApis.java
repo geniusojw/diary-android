@@ -54,34 +54,25 @@ public class AuthorStoreApis extends ApiCaller {
         super.post("/author/store/alias-feature-unlimited-use", headers, json.toString(), callback);
     }
 
-    public void inviteTicket1(ApiCallback callback) {
+    public void diaryGroupInvitation(String keyword, ApiCallback callback) {
         Map<String, String> headers = authorHeaders();
         try {
             JSONObject json = new JSONObject();
-            json.put("diaryGroupName", "test group");
-            json.put("keyword", "test keyword");
-            json.put("language", Locale.getDefault().getISO3Language());
-            json.put("country", Locale.getDefault().getISO3Country());
-            json.put("timeZoneId", TimeZone.getDefault().getID());
+            json.put("keyword", keyword);
 
-            super.post("/author/store/invite-ticket1", headers, json.toString(), callback);
+            super.post("/author/store/diary-group-invitation", headers, json.toString(), callback);
 
         } catch (JSONException e) {
             Log.e(TAG, "JSONException, " + e.toString());
         }
     }
 
-    public void inviteTicket2(ApiCallback callback) {
+    public void diaryGroupSupport(String supportType, ApiCallback callback) {
         Map<String, String> headers = authorHeaders();
         try {
             JSONObject json = new JSONObject();
-            json.put("diaryGroupName", "test group");
-            json.put("keyword", "test keyword");
-            json.put("language", Locale.getDefault().getISO3Language());
-            json.put("country", Locale.getDefault().getISO3Country());
-            json.put("timeZoneId", TimeZone.getDefault().getID());
-
-            super.post("/author/store/invite-ticket2", headers, json.toString(), callback);
+            json.put("supportType", supportType);
+            super.post("/author/store/diary-group-support", headers, json.toString(), callback);
 
         } catch (JSONException e) {
             Log.e(TAG, "JSONException, " + e.toString());

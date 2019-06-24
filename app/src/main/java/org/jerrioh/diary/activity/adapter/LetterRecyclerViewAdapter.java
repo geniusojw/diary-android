@@ -1,6 +1,7 @@
 package org.jerrioh.diary.activity.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,6 +75,9 @@ public class LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecycl
         image.setImageResource(imageResource);
         titleText.setText(letterTitle);
         contentText.setText("편지는 36시간 후에 삭제됩니다.\n작성시간: " + new Date(letter.getWrittenTime()));
+
+        CardView cardView = letterViewHolder.itemView.findViewById(R.id.card_view_row_letter);
+        cardView.setCardBackgroundColor(0xCCFFFFFF);
     }
 
     @Override

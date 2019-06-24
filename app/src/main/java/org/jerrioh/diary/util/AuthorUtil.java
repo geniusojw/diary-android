@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.account.AccountDiaryApis;
@@ -155,7 +156,7 @@ public class AuthorUtil {
         authorDao.updateAccountEmailAndToken(accountEmail, accountToken);
 
         // sync diaries
-        syncAccountDiaries(context, null);
+        syncAccountDiaries(context, null, null);
     }
 
     public static void accountSignOut(Context context) {
@@ -173,7 +174,7 @@ public class AuthorUtil {
         propertyDao.deleteProperty(Property.Key.SCREEN_LOCK_4DIGIT);
     }
 
-    public static void syncAccountDiaries(Context context, ProgressBar progressBar) {
+    public static void syncAccountDiaries(Context context, ProgressBar progressBar, TextView syncText) {
         DiaryDao diaryDao = new DiaryDao(context);
         List<Diary> diaries = diaryDao.getAllDiariesBeforeToday(DateUtil.getyyyyMMdd());
 
@@ -210,6 +211,13 @@ public class AuthorUtil {
                                 diaryDao.updateDiaryAccountStatus(diaryDate, Diary.DiaryStatus.UNSAVED_CONFLICT);
                             }
                         }
+
+                        long lastSyncTime = System.currentTimeMillis();
+                        PropertyUtil.setProperty(Property.Key.SYNC_ACCOUNT_DIARY_API_REQUEST_TIME, String.valueOf(lastSyncTime), context);
+                        if (syncText != null) {
+                            String lastSyncDescription = "마지막 동기화 시간: " + DateUtil.getDateStringFull(lastSyncTime);
+                            syncText.setText(lastSyncDescription);
+                        }
                     }
                 }
                 if (progressBar != null) {
@@ -221,11 +229,11 @@ public class AuthorUtil {
 
     private static Author generateNewAuthor() {
         Author author = new Author();
-        author.setAuthorId("92f44a4e-09ea-4fa5-ab54-df3c10a46812");
-        author.setAuthorCode("RcDHKCZRhQXLe3Cj");
+//        author.setAuthorId("92f44a4e-09ea-4fa5-ab54-df3c10a46812");
+//        author.setAuthorCode("RcDHKCZRhQXLe3Cj");
 
-//        author.setAuthorId(generateAuthorId());
-//        author.setAuthorCode("");
+        author.setAuthorId(generateAuthorId());
+        author.setAuthorCode("");
         author.setNickname(generateNickname());
         author.setDescription(generateDescription());
         author.setAccountEmail("");

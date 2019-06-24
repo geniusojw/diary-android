@@ -68,9 +68,9 @@ public class DateUtil {
                 resultHours = hours + "시간";
             } else {
                 if (hours == 1) {
-                    resultHours = hours + "hour";
+                    resultHours = hours + " hour";
                 } else {
-                    resultHours = hours + "hours";
+                    resultHours = hours + " hours";
                 }
             }
         }
@@ -79,15 +79,36 @@ public class DateUtil {
             if (LANGUAGE_KOREAN.equals(iso3Language)) {
                 resultMinutes = minutes + "분";
             } else {
-                if (hours == 1) {
-                    resultMinutes = minutes + "minute";
+                if (minutes == 1) {
+                    resultMinutes = minutes + " minute";
                 } else {
-                    resultMinutes = minutes + "minutes";
+                    resultMinutes = minutes + " minutes";
                 }
             }
         }
 
-        return resultHours + resultMinutes;
+        String result = "";
+
+        if (!TextUtils.isEmpty(resultHours)) {
+            result += resultHours;
+        }
+
+        if (!TextUtils.isEmpty(resultMinutes)) {
+            if (!TextUtils.isEmpty(result)) {
+                result += " ";
+            }
+            result += resultMinutes;
+        }
+
+        if (TextUtils.isEmpty(result)) {
+            if (LANGUAGE_KOREAN.equals(iso3Language)) {
+                result = "0분";
+            } else {
+                result = "0 minutes";
+            }
+        }
+
+        return result;
     }
 
     public static String getDateStringFull(long timeMillis) {

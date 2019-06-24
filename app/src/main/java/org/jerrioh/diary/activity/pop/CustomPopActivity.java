@@ -1,11 +1,11 @@
-package org.jerrioh.diary.activity.main;
+package org.jerrioh.diary.activity.pop;
 
 import android.app.Activity;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.WindowManager;
 
-public class CustomPopActivity extends Activity {
+public abstract class CustomPopActivity extends Activity {
 
     protected void setWindowAttribute(float widthRatio, float heightRatio) {
         DisplayMetrics metrics = new DisplayMetrics();

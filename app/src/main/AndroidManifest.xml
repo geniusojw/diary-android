@@ -19,16 +19,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.main.DiaryGroupPopActivity" android:theme="@style/AnonymousDiaryTheme" />
-        <activity android:name=".activity.main.ChocolateStorePopActivity" android:theme="@style/AnonymousDiaryTheme" />
-        <activity android:name=".activity.main.DiaryWriteStartPopActivity" android:theme="@style/AnonymousDiaryTheme" />
-        <activity android:name=".activity.main.DiaryWriteActivity" />
-        <activity android:name=".activity.main.LetterWriteActivity" />
+        <activity android:name=".activity.pop.DiaryGroupPopActivity" android:theme="@style/AnonymousDiaryTheme" />
+        <activity android:name=".activity.pop.ChocolateStorePopActivity" android:theme="@style/AnonymousDiaryTheme" />
+        <activity android:name=".activity.pop.DiaryWriteStartPopActivity" android:theme="@style/AnonymousDiaryTheme" />
+        <activity android:name=".activity.pop.FontSizePopActivity" android:theme="@style/AnonymousDiaryTheme" />
+
+        <activity android:name=".activity.main.DiaryWriteActivity" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".activity.main.LetterWriteActivity" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".activity.main.DiaryReadActivity" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".activity.main.LetterReadActivity" android:windowSoftInputMode="adjustResize" />
+
         <activity android:name=".activity.main.DiaryGroupReadActivity" />
-
-        <activity android:name=".activity.main.DiaryReadActivity" />
-        <activity android:name=".activity.main.LetterReadActivity" />
-
         <activity android:name=".activity.draw.AccountActivity" />
         <activity android:name=".activity.draw.AccountSignUpActivity" />
         <activity android:name=".activity.draw.AccountChangePwActivity" />

@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Today Diary</string>
+    <string name="today">Today</string>
+    <string name="my_diary">My Diary</string>
+    <string name="letter">Letter</string>
+    <string name="receiver">Receiver</string>
+
+    <!-- 설정 -->
+    <string name="diary_theme">Diary Theme</string>
+    <string name="diary_music">Diary Music</string>
+    <string name="font_size">Font Size</string>
+    <string name="alias_feature">Alias Feature</string>
+    <string name="screen_lock">Screen Lock</string>
+    <string name="diary_alarm">Diary Alarm</string>
+    <string name="diary_group_invitation">Diary Group Invitation</string>
+    <string name="reset_data">Reset Data</string>
+
+    <!-- 계정 -->
+    <string name="synchronization">Synchronization</string>
+    <string name="email_export">Email Export</string>
+    <string name="change_account">Change Account</string>
+    <string name="sign_out">Sign Out</string>
+
+</resources>
