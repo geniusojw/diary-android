@@ -2,38 +2,23 @@ package org.jerrioh.diary.activity.main;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jerrioh.diary.R;
-import org.jerrioh.diary.model.Music;
 import org.jerrioh.diary.model.Property;
 import org.jerrioh.diary.model.db.DiaryDao;
 import org.jerrioh.diary.model.Diary;
-import org.jerrioh.diary.model.db.MusicDao;
-import org.jerrioh.diary.model.db.PropertyDao;
 import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.PropertyUtil;
 import org.jerrioh.diary.util.ReceiverUtil;
-import org.jerrioh.diary.util.SoftKeyboard;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Arrays;
 
 public class DiaryWriteActivity extends AbstractDetailActivity {
@@ -83,6 +68,7 @@ public class DiaryWriteActivity extends AbstractDetailActivity {
         backButton.setEnabled(true);
         backButton.setClickable(true);
         backButton.setOnClickListener(v -> {
+//            softKeyboard.openSoftKeyboard();
             onBackPressed();
         });
 
@@ -120,17 +106,15 @@ public class DiaryWriteActivity extends AbstractDetailActivity {
         TextView adjustText = findViewById(R.id.text_view_detail_diary_font_size_adjust);
         TextView musicText = findViewById(R.id.text_view_detail_music);
 
-        super.setUpSoftKeyboard(R.id.relative_layout_detail_diary_main, Arrays.asList(backButton));
         super.setUpFontMusicButton(contentText, adjustText, musicText);
+        super.setUpTransparentFloatingButton(contentText, Arrays.asList(backButton));
 
+        contentText.requestFocus();
+        contentText.setSelection(contentText.getText().length());
+
+        // super.setUpSoftKeyboard(R.id.relative_layout_detail_diary_main, Arrays.asList(backButton));
         // softKeyboard thread가 완전히 준비가 되기전에 키보드를 오픈하면 정상적으로 동작하지 않는듯하다. 0.5초 딜레이
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                softKeyboard.openSoftKeyboard();
-                contentText.requestFocus();
-            }
-        }, 500);
+        // new Handler().postDelayed(new Runnable() { @Override public void run() { softKeyboard.openSoftKeyboard(); } }, 500);
     }
 
     @Override

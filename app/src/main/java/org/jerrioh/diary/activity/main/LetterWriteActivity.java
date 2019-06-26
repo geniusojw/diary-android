@@ -81,8 +81,9 @@ public class LetterWriteActivity extends AbstractDetailActivity {
 
         TextView adjustText = findViewById(R.id.text_view_detail_letter_font_size_adjust);
 
-        super.setUpSoftKeyboard(R.id.relative_layout_detail_letter_main, Arrays.asList(sendButton, backButton));
         super.setUpFontMusicButton(letterContent, adjustText, null);
+        super.setUpTransparentFloatingButton(letterContent, Arrays.asList(sendButton, backButton));
+//        super.setUpSoftKeyboard(R.id.relative_layout_detail_letter_main, Arrays.asList(sendButton, backButton));
     }
 
     private void setSpinnerAndSendButton(FloatingActionButton sendButton, String inputLetterId) {
@@ -95,6 +96,8 @@ public class LetterWriteActivity extends AbstractDetailActivity {
             if (letter.getStatus() != Letter.LetterStatus.REPLIED) {
                 letters.add(letter);
             }
+
+
         }
 
         selectPosition = letters.size();

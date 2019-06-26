@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,8 +22,6 @@ public class DiaryWriteStartPopActivity extends CustomPopActivity {
     private LinearLayout nextLinearLayout;
     private TextView nextView;
 
-    private Diary todayDiary;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,13 +31,6 @@ public class DiaryWriteStartPopActivity extends CustomPopActivity {
         tipTextView = findViewById(R.id.text_view_diary_detail_start_tip);
         nextLinearLayout = findViewById(R.id.linear_layout_diary_detail_start_next);
         nextView = findViewById(R.id.text_view_diary_detail_start_next);
-
-        DiaryDao diaryDao = new DiaryDao(this);
-        String today_yyyyMMdd = DateUtil.getyyyyMMdd();
-        todayDiary = diaryDao.getDiary(today_yyyyMMdd);
-        if (todayDiary != null) {
-            startDiaryWriteActivity();
-        }
 
         super.setWindowAttribute(0.95f, 0.4f);
 

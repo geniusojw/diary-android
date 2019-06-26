@@ -102,8 +102,24 @@ public abstract class AbstractDetailActivity extends AppCompatActivity {
         });
     }
 
-    protected void setUpFontMusicButton(TextView contentText, View fontSizeView, TextView musicText) {
+    protected void setUpTransparentFloatingButton(TextView contentText, List<FloatingActionButton> floatingButtons) {
+        contentText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                float alpha;
+                if (hasFocus) {
+                    alpha = 0.25f;
+                } else {
+                    alpha = 1.0f;
+                }
+                for (FloatingActionButton floatingButton : floatingButtons) {
+                    floatingButton.setAlpha(alpha);
+                }
+            }
+        });
+    }
 
+    protected void setUpFontMusicButton(TextView contentText, View fontSizeView, TextView musicText) {
         // 글자 크기 조절을 위한 세팅
         this.contentText = contentText;
         fontSizeView.setOnClickListener(v -> {
@@ -126,10 +142,12 @@ public abstract class AbstractDetailActivity extends AppCompatActivity {
     }
 
     private void setContentFontSize() {
-        int fontSizeProgress = Integer.parseInt(PropertyUtil.getProperty(Property.Key.FONT_SIZE, this));
-        int fontSize = (fontSizeProgress * 2) + Property.Config.FONT_SIZE_OFFSET;
+        if (contentText != null) {
+            int fontSizeProgress = Integer.parseInt(PropertyUtil.getProperty(Property.Key.FONT_SIZE, this));
+            int fontSize = (fontSizeProgress * 2) + Property.Config.FONT_SIZE_OFFSET;
 
-        contentText.setTextSize(fontSize);
+            contentText.setTextSize(fontSize);
+        }
     }
 
     public void musicOn() {

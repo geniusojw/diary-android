@@ -6,9 +6,12 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import org.jerrioh.diary.R;
+import org.jerrioh.diary.activity.main.DiaryWriteActivity;
 import org.jerrioh.diary.activity.pop.DiaryWriteStartPopActivity;
 import org.jerrioh.diary.activity.main.LetterWriteActivity;
 import org.jerrioh.diary.config.Constants;
+import org.jerrioh.diary.model.Diary;
+import org.jerrioh.diary.model.db.DiaryDao;
 import org.jerrioh.diary.util.DateUtil;
 
 public abstract class AbstractFragment extends Fragment {
@@ -33,8 +36,17 @@ public abstract class AbstractFragment extends Fragment {
 
             if (buttonType == BUTTON_TYPE_WRITE_DIARY) {
                 writeButton.setOnClickListener(view -> {
-                    Intent intent = new Intent(getActivity(), DiaryWriteStartPopActivity.class);
-                    writeButton.setVisibility(View.GONE);
+                    DiaryDao diaryDao = new DiaryDao(getActivity());
+                    String today_yyyyMMdd = DateUtil.getyyyyMMdd();
+                    Diary todayDiary = diaryDao.getDiary(today_yyyyMMdd);
+
+                    Intent intent;
+                    if (todayDiary != null) {
+                        intent = new Intent(getActivity(), DiaryWriteActivity.class);
+                    } else {
+                        intent = new Intent(getActivity(), DiaryWriteStartPopActivity.class);
+                        writeButton.setVisibility(View.GONE);
+                    }
                     startActivity(intent);
                 });
                 ((FloatingActionButton) writeButton).setImageResource(R.drawable.ic_edit_black_48dp);
