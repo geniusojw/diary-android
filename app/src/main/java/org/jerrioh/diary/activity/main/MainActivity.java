@@ -1,27 +1,16 @@
 package org.jerrioh.diary.activity.main;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
-import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,25 +20,22 @@ import android.widget.Toast;
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.draw.AccountActivity;
 import org.jerrioh.diary.activity.draw.AboutApplicationActivity;
-import org.jerrioh.diary.activity.draw.ChocolateStoreActivity;
 import org.jerrioh.diary.activity.draw.FaqActivity;
 import org.jerrioh.diary.activity.draw.SettingActivity;
+import org.jerrioh.diary.activity.fragment.SquareFragment;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.AuthorLetterApis;
 import org.jerrioh.diary.api.author.DiaryGroupApis;
-import org.jerrioh.diary.api.author.UtilApis;
-import org.jerrioh.diary.config.Constants;
 import org.jerrioh.diary.model.Letter;
 import org.jerrioh.diary.model.Property;
 import org.jerrioh.diary.model.db.LetterDao;
-import org.jerrioh.diary.model.db.PropertyDao;
 import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.model.db.DiaryDao;
 import org.jerrioh.diary.model.Author;
 import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.activity.fragment.DiaryFragment;
 import org.jerrioh.diary.activity.fragment.LetterFragment;
-import org.jerrioh.diary.activity.fragment.TodayFragment;
+import org.jerrioh.diary.activity.fragment.StoreFragment;
 import org.jerrioh.diary.activity.fragment.TodayNightFragment;
 import org.jerrioh.diary.util.CommonUtil;
 import org.jerrioh.diary.util.DateUtil;
@@ -58,17 +44,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private String diaryDate_yyyyMM = null;
-    private boolean lettersToMe = true;
 
     private static final int REQUEST_ACCOUNT_ACTIVITY = 1;
     private static final int REQUEST_SETTING_ACTIVITY = 2;
@@ -84,22 +67,25 @@ public class MainActivity extends AppCompatActivity {
 
         // 편지받기, 일기모임 초대장받기
         this.executeGetApis();
+
+        AuthorUtil.uploadAuthorDiary(this);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == REQUEST_ACCOUNT_ACTIVITY) {
             if (resultCode == RESULT_OK) { // 회원가입, 로그인, 로그아웃 성공 시
                 diaryDate_yyyyMM = DateUtil.getyyyyMMdd().substring(0, 6);
                 BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
-                bottomNav.setSelectedItemId(R.id.bottom_option_today);
+                bottomNav.setSelectedItemId(R.id.bottom_option_store);
             }
         } else if (requestCode == REQUEST_SETTING_ACTIVITY) {
             if (resultCode == RESULT_OK) { // 데이터 초기화 성공 시
                 diaryDate_yyyyMM = DateUtil.getyyyyMMdd().substring(0, 6);
                 BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
-                bottomNav.setSelectedItemId(R.id.bottom_option_today);
+                bottomNav.setSelectedItemId(R.id.bottom_option_store);
             }
         }
     }
@@ -134,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         // 초기 fragment 세팅 (today)
         diaryDate_yyyyMM = DateUtil.getyyyyMMdd().substring(0, 6);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
-        bottomNav.setSelectedItemId(R.id.bottom_option_today);
+        bottomNav.setSelectedItemId(R.id.bottom_option_diary);
     }
 
     private void setDrawerNavigation() {
@@ -157,12 +143,10 @@ public class MainActivity extends AppCompatActivity {
         NavigationView drawerNavigationView = findViewById(R.id.navigation_view_drawer);
         drawerNavigationView.setNavigationItemSelectedListener(menu -> {
             int id = menu.getItemId();
-            if (id == R.id.drawer_option_chocolate_store) {
-                startActivity(new Intent(this, ChocolateStoreActivity.class));
+            if (id == R.id.drawer_option_account) {
+                startActivityForResult(new Intent(this, AccountActivity.class), REQUEST_ACCOUNT_ACTIVITY);
             } else if (id == R.id.drawer_option_setting) {
                 startActivityForResult(new Intent(this, SettingActivity.class), REQUEST_SETTING_ACTIVITY);
-            } else if (id == R.id.drawer_option_account) {
-                startActivityForResult(new Intent(this, AccountActivity.class), REQUEST_ACCOUNT_ACTIVITY);
             } else if (id == R.id.drawer_option_faq) {
                 startActivity(new Intent(this, FaqActivity.class));
             } else if (id == R.id.drawer_option_about_application) {
@@ -232,85 +216,42 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener weatherButtonClickListener = null;
         boolean enableMonthAdjustment = false;
 
-        if (bottomNavId == R.id.bottom_option_today) {
-            String hhMMss = DateUtil.getHHmmss().substring(0, 6);
-            if (Integer.parseInt(hhMMss) >= Constants.PROHIBIT_DIARY_WRITE_HHMMSS) {
-                fragment = new TodayFragment();
-            } else {
-                fragment = new TodayNightFragment();
-            }
-            //mainBannerText = DateUtil.getDateStringSkipTime(System.currentTimeMillis(), Locale.CHINA);
-            mainBannerText = DateUtil.getDateStringSkipTime();
-            weatherImageResource = R.drawable.weather_sunny;
-
-            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            weatherButtonClickListener = v -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, 0);
-                } else {
-                    Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-                    if (location != null) {
-                        double latitude = location.getLatitude();
-                        double longitude = location.getLongitude();
-
-                        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                        List<Address> addresses = null;
-                        try {
-                            addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                            String cityName = addresses.get(0).getLocality();
-                            String countryCode = addresses.get(0).getCountryCode();
-                            UtilApis utilApis = new UtilApis(this);
-                            utilApis.weather(cityName, countryCode, new ApiCallback() {
-                                @Override
-                                protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
-                                    if (httpStatus == 200) {
-                                        JSONObject data = jsonObject.getJSONObject("data");
-                                        String description = data.getString("description");
-                                        Toast.makeText(MainActivity.this, description, Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(MainActivity.this, "현재 날씨는... 창밖을 보세요.", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-
-                        } catch (IOException e) {
-                            Log.e(TAG, "io exception. " + e.toString());
-                        }
-                    } else {
-                        Toast.makeText(MainActivity.this, "현재 날씨는?", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            };
-            enableMonthAdjustment = false;
-
-        } else if (bottomNavId == R.id.bottom_option_diary) {
+        if (bottomNavId == R.id.bottom_option_diary) {
             Bundle args = new Bundle();
             args.putString("display_yyyyMM", diaryDate_yyyyMM);
             fragment = new DiaryFragment();
             fragment.setArguments(args);
             mainBannerText = DateUtil.getDateStringYearMonth(diaryDate_yyyyMM);
 
-            weatherImageResource = R.drawable.ic_search_black_24dp;
-            //weatherButtonClickListener = v -> { System.out.println("tbd"); };
-            enableMonthAdjustment = true;
-
-        } else if (bottomNavId == R.id.bottom_option_letter) {
-            Bundle args = new Bundle();
-            args.putBoolean("lettersToMe", lettersToMe);
-            fragment = new LetterFragment();
-            fragment.setArguments(args);
-            if (lettersToMe) {
-                mainBannerText = "내게 보내진 편지";
-            } else {
-                mainBannerText = "내가 쓴 편지";
-            }
-            weatherImageResource = R.drawable.ic_swap_horiz_black_24dp;
+            weatherImageResource = R.drawable.ic_mail_outline_black_24dp;
             weatherButtonClickListener = v -> {
-                lettersToMe = !lettersToMe;
                 BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
                 bottomNav.setSelectedItemId(R.id.bottom_option_letter);
             };
+            enableMonthAdjustment = true;
+
+        } else if (bottomNavId == R.id.bottom_option_letter) {
+            fragment = new LetterFragment();
+            mainBannerText = "LETTER";
+            weatherImageResource = R.drawable.ic_import_contacts_black_24dp;
+            weatherButtonClickListener = v -> {
+                BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
+                bottomNav.setSelectedItemId(R.id.bottom_option_diary);
+            };
+            enableMonthAdjustment = false;
+
+        } else if (bottomNavId == R.id.bottom_option_store) {
+            fragment = new StoreFragment();
+            mainBannerText = "STORE";
+            weatherImageResource = -1;
+            weatherButtonClickListener = null;
+            enableMonthAdjustment = false;
+
+        } else if (bottomNavId == R.id.bottom_option_square) {
+            fragment = new SquareFragment();
+            mainBannerText = "TODAY SQUARE";
+
+
             enableMonthAdjustment = false;
         }
 
@@ -318,12 +259,23 @@ public class MainActivity extends AppCompatActivity {
         this.applyFragment(fragment);
 
         // 배너 텍스트
-        TextView mainBannerTextView = findViewById(R.id.text_view_main_banner_mid);
-        mainBannerTextView.setText(mainBannerText);
+//        TextView mainBannerTextTopView = findViewById(R.id.text_view_main_banner_top);
+//        mainBannerTextTopView.setText("Today is " + DateUtil.getDateStringSkipTime());
+
+        TextView mainBannerTextMidView = findViewById(R.id.text_view_main_banner_mid);
+        mainBannerTextMidView.setText(mainBannerText);
+
+        TextView mainBannerTextBottomView = findViewById(R.id.text_view_main_banner_bottom);
+        mainBannerTextBottomView.setText("Today is " + DateUtil.getDateStringSkipTime());
 
         // 배너 우측 버튼 (날씨 등)
         ImageView weatherImageView = findViewById(R.id.image_view_banner_right_button);
-        weatherImageView.setImageResource(weatherImageResource);
+        if (weatherImageResource == -1) {
+            weatherImageView.setVisibility(View.INVISIBLE);
+        } else {
+            weatherImageView.setVisibility(View.VISIBLE);
+            weatherImageView.setImageResource(weatherImageResource);
+        }
         weatherImageView.setOnClickListener(weatherButtonClickListener);
 
         // 월조절 버튼 활성화/비활성화

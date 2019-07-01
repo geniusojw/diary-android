@@ -20,7 +20,7 @@ public class TodayNightFragment extends AbstractFragment {
 
 
 
-            setDiaryWriteButton(false, BUTTON_TYPE_WRITE_DIARY);
+            super.setFloatingActionButton(AbstractFragment.BUTTON_TYPE_DIARY);
             return todayView;
         }
 }

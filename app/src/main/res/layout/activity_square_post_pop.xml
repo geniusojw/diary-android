@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="30dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:weightSum="1.0"
+        >
+        <RelativeLayout
+            android:id="@+id/relative_layout_square_post_pop_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            >
+
+            <TextView
+                android:id="@+id/text_view_detail_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 chocolates"
+                android:textSize="15sp"
+                />
+
+            <RelativeLayout
+                android:id="@+id/relative_layout_square_post_pop_font_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                >
+
+                <ImageView
+                    android:id="@+id/image_view_square_post_pop_font_size"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:src="@drawable/ic_format_size_black_24dp"
+                    />
+                <TextView
+                    android:id="@+id/text_view_detail_square_post_pop_font_size_adjust"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/image_view_square_post_pop_font_size"
+                    android:text="FONT SIZE"
+                    android:textSize="10sp"
+                    />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.85"
+            >
+            <EditText
+                android:id="@+id/edit_text_square_post_pop_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:background="@android:color/transparent"
+                android:text="content"
+                android:textSize="18sp"
+                android:maxLength="2000"
+                />
+        </ScrollView>
+
+
+        <LinearLayout
+            android:id="@+id/linear_layout_square_post_ok"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_weight="0.15"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_done_black_24dp"
+                android:padding="5dp"
+                />
+            <TextView
+                android:id="@+id/text_view_font_size_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OK"
+                android:textSize="18sp"
+                android:padding="5dp"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

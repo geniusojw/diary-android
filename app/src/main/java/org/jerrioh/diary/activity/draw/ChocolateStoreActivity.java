@@ -8,7 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jerrioh.diary.R;
-import org.jerrioh.diary.activity.pop.ChocolateStorePopActivity;
+import org.jerrioh.diary.activity.pop.StorePopActivity;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.AuthorStoreApis;
 import org.jerrioh.diary.util.ThemeUtil;
@@ -147,7 +147,7 @@ public class ChocolateStoreActivity extends CommonActionBarActivity {
             costView.setTextSize(15.f);
             productView.setBackgroundColor(getResources().getColor(R.color.medwayMist));
             productView.setOnClickListener(v -> {
-                Intent intent = new Intent(this, ChocolateStorePopActivity.class);
+                Intent intent = new Intent(this, StorePopActivity.class);
                 intent.putExtra("itemId", itemId);
                 intent.putExtra("itemPrice", price);
                 startActivity(intent);

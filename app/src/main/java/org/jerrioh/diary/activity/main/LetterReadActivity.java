@@ -67,9 +67,6 @@ public class LetterReadActivity extends AbstractDetailActivity {
             finish();
         });
 
-        RelativeLayout fontSizeLayout = findViewById(R.id.relative_layout_detail_letter_font_size);
-        fontSizeLayout.setVisibility(View.VISIBLE);
-
         TextView adjustText = findViewById(R.id.text_view_detail_letter_font_size_adjust);
         super.setUpFontMusicButton(contentEditView, adjustText, null);
     }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <!--android:background ="@drawable/shape_gradient_background"-->
+
+    <!--<RelativeLayout
+        android:id="@+id/relative_layout_fragment_store_waiting"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/steelTrap"
+        >
+
+        <ProgressBar
+            android:id="@+id/progress_bar_fragment_store_waiting"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_toLeftOf="@id/text_view_fragment_store_waiting"
+            android:layout_centerVertical="true"
+            />
+        <TextView
+            android:id="@+id/text_view_fragment_store_waiting"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:text="기다리는 중이다."
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            />
+
+    </RelativeLayout>-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/today_recycler_view"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

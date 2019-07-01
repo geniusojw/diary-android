@@ -11,9 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.jerrioh.diary.activity.adapter.StoreRecyclerViewAdapter;
 import org.jerrioh.diary.activity.draw.ChocolateStoreActivity;
-import org.jerrioh.diary.activity.pop.ChocolateStorePopActivity;
+import org.jerrioh.diary.activity.pop.StorePopActivity;
 import org.jerrioh.diary.activity.pop.DiaryGroupPopActivity;
+import org.jerrioh.diary.api.ApiCallback;
+import org.jerrioh.diary.api.author.AuthorStoreApis;
 import org.jerrioh.diary.model.DiaryGroup;
 import org.jerrioh.diary.model.db.DiaryDao;
 import org.jerrioh.diary.model.Diary;
@@ -23,6 +26,8 @@ import org.jerrioh.diary.R;
 import org.jerrioh.diary.model.db.DiaryGroupDao;
 import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.ThemeUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,11 +73,23 @@ public class DiaryFragment extends AbstractFragment {
                         Intent intent = new Intent(getActivity(), DiaryGroupPopActivity.class);
                         startActivity(intent);
                     } else { // 준비중
-                        // TODO
-                        Intent intent = new Intent(getActivity(), ChocolateStorePopActivity.class);
-                        intent.putExtra("itemId", ChocolateStoreActivity.ITEM_DIARY_GROUP_SUPPORT);
-                        intent.putExtra("itemPrice", 1);
-                        startActivity(intent);
+                        AuthorStoreApis authorStoreApis = new AuthorStoreApis(getActivity());
+                        authorStoreApis.getStoreStatus(new ApiCallback() {
+                            @Override
+                            protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+
+                                if (httpStatus == 200) {
+                                    JSONObject data = jsonObject.getJSONObject("data");
+                                    int chocolates = data.getInt("chocolates");
+
+                                    Intent intent = new Intent(getActivity(), StorePopActivity.class);
+                                    intent.putExtra("itemId", ChocolateStoreActivity.ITEM_DIARY_GROUP_SUPPORT);
+                                    intent.putExtra("itemPrice", 1);
+                                    intent.putExtra("currentChocolates", chocolates);
+                                    startActivity(intent);
+                                }
+                            }
+                        });
                     }
                 },
                 pos -> {
@@ -91,9 +108,9 @@ public class DiaryFragment extends AbstractFragment {
         diaryRecyclerView.setLayoutManager(layoutManager);
         diaryRecyclerView.setAdapter(mAdapter);
 
-        setDiaryWriteButton(true, BUTTON_TYPE_WRITE_DIARY);
+        super.setFloatingActionButton(AbstractFragment.BUTTON_TYPE_DIARY);
 
-        BitmapDrawable bitmap = ThemeUtil.getBitmapDrawablePattern(this, 1);
+        BitmapDrawable bitmap = ThemeUtil.getBitmapDrawablePattern(this, 0);
         diaryView.setBackgroundDrawable(bitmap);
 
         return diaryView;

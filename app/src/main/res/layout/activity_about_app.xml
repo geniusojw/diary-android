@@ -10,6 +10,16 @@
         layout="@layout/toolbar"
         />
 
+    <ImageView
+        android:id="@+id/application_new_release"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:layout_above="@id/application_name"
+        android:src="@drawable/ic_new_releases_black_24dp"
+        />
+
     <TextView
         android:id="@+id/application_name"
         android:layout_width="wrap_content"

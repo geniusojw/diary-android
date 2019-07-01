@@ -1,6 +1,7 @@
 package org.jerrioh.diary.activity.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jerrioh.diary.R;
+import org.jerrioh.diary.activity.draw.SettingActivity;
+import org.jerrioh.diary.model.Author;
 import org.jerrioh.diary.model.Letter;
+import org.jerrioh.diary.model.Property;
+import org.jerrioh.diary.util.AuthorUtil;
+import org.jerrioh.diary.util.PropertyUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -19,7 +25,6 @@ import java.util.List;
 public class LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecyclerViewAdapter.LetterViewHolder> {
 
     private List<Letter> letterData;
-    private boolean lettersToMe;
     private OnItemClickListener callback;
 
     public interface OnItemClickListener {
@@ -38,9 +43,8 @@ public class LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecycl
         }
     }
 
-    public LetterRecyclerViewAdapter(List<Letter> letterData, boolean lettersToMe, OnItemClickListener callback) {
+    public LetterRecyclerViewAdapter(List<Letter> letterData, OnItemClickListener callback) {
         this.letterData = letterData;
-        this.lettersToMe = lettersToMe;
         this.callback = callback;
     }
 
@@ -54,27 +58,55 @@ public class LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecycl
 
     @Override
     public void onBindViewHolder(@NonNull LetterViewHolder letterViewHolder, int i) {
+        Author author = AuthorUtil.getAuthor();
+
         Letter letter = letterData.get(i);
+        boolean lettersToMe = letter.getToAuthorId().equals(author.getAuthorId());
 
         ImageView image = letterViewHolder.itemView.findViewById(R.id.letter_row_image);
         TextView titleText = letterViewHolder.itemView.findViewById(R.id.letter_row_title);
         TextView contentText = letterViewHolder.itemView.findViewById(R.id.letter_row_expire_date);
 
-        int imageResource = R.drawable.ic_mail_black_24dp;
+//        ImageView deleteImage = letterViewHolder.itemView.findViewById(R.id.image_view_letter_delete);
+//        deleteImage.setOnClickListener(v -> {
+//            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+//            alertBuilder.setTitle("Disable diary group beInvited")
+//                    .setMessage("You can decline the beInvited without disable it.\nDo you really want to disable it?")
+//                    .setPositiveButton("Disable", (dialog, which) -> {
+//                        PropertyUtil.setProperty(Property.Key.GROUP_INVITATION_USE, "0", SettingActivity.this);
+//                        switchInvitation.setChecked(false);
+//                    })
+//                    .setNegativeButton("Cancel", (dialog, which) -> {
+//                        dialog.cancel();
+//                        switchInvitation.setChecked(true);
+//                    });
+//            AlertDialog alertDialog = alertBuilder.create();
+//            alertDialog.show();
+//        });
 
-        String letterTitle = "";
+
+        int imageResource = R.drawable.ic_mail_black_24dp;
+        String letterTitle;
+        String description = "작성시간: " + new Date(letter.getWrittenTime());
+
         if (lettersToMe) {
-            if (letter.getStatus() != Letter.LetterStatus.UNREAD) {
+            if (letter.getStatus() == Letter.LetterStatus.READ) {
+                imageResource = R.drawable.ic_mail_black_24dp;
+            } else if (letter.getStatus() == Letter.LetterStatus.UNREAD) {
                 imageResource = R.drawable.ic_drafts_black_24dp;
+            } else if (letter.getStatus() == Letter.LetterStatus.REPLIED) {
+                imageResource = R.drawable.ic_reply_black_24dp;
+                description += "\n(회신된 편지입니다.)";
             }
-            letterTitle = "FROM: " + letter.getFromAuthorNickname();
+            letterTitle = "[받은편지] FROM: " + letter.getFromAuthorNickname();
         } else {
-            letterTitle = "TO: " + letter.getToAuthorNickname();
+            letterTitle = "[보낸편지] TO: " + letter.getToAuthorNickname();
+            imageResource = R.drawable.ic_mail_outline_black_24dp;
         }
 
         image.setImageResource(imageResource);
         titleText.setText(letterTitle);
-        contentText.setText("편지는 36시간 후에 삭제됩니다.\n작성시간: " + new Date(letter.getWrittenTime()));
+        contentText.setText(description);
 
         CardView cardView = letterViewHolder.itemView.findViewById(R.id.card_view_row_letter);
         cardView.setCardBackgroundColor(0xCCFFFFFF);

@@ -16,6 +16,7 @@ import org.jerrioh.diary.api.author.DiaryGroupApis;
 import org.jerrioh.diary.model.DiaryGroup;
 import org.jerrioh.diary.model.db.DiaryGroupDao;
 import org.jerrioh.diary.util.AuthorUtil;
+import org.jerrioh.diary.util.CommonUtil;
 import org.jerrioh.diary.util.DateUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -163,7 +164,10 @@ public class DiaryGroupPopActivity extends CustomPopActivity {
 
         if (TextUtils.isEmpty(content) || "null".equals(content)) {
             drawableId = R.drawable.ic_hotel_black_24dp;
-            readText = nickname + "님은 어제 일기를 쓰지 않았다."; // TODO 안쓴 것과 아직 업로드 안한 것을 구분
+            // TODO 안쓴 것과 아직 업로드 안한 것을 구분
+            readText = CommonUtil.randomString("어제 일기를 쓰지 않았다.",
+                    "일기 쓰는 일을 까먹은 듯...",
+                    "자고 있다.");
             readClickable = false;
             setOnClickListener = null;
         } else {

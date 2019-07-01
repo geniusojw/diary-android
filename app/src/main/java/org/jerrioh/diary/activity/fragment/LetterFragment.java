@@ -38,16 +38,11 @@ public class LetterFragment extends AbstractFragment {
 
         Author author = AuthorUtil.getAuthor(getActivity());
         LetterDao letterDao = new LetterDao(getActivity());
-        final List<Letter> letterData;
-        if (lettersToMe) {
-            letterData = letterDao.getLettersToMe(author.getAuthorId());
-        } else {
-            letterData = letterDao.getLettersToOthers(author.getAuthorId());
-        }
+        final List<Letter> letterData = letterDao.getAllLetters();
 
         Log.d(TAG, "letterData.size()=" + letterData.size());
 
-        final LetterRecyclerViewAdapter mAdapter = new LetterRecyclerViewAdapter(letterData, lettersToMe, pos -> {
+        final LetterRecyclerViewAdapter mAdapter = new LetterRecyclerViewAdapter(letterData, pos -> {
             Intent intent = new Intent(getActivity(), LetterReadActivity.class);
 
             Letter letter = letterData.get(pos);
@@ -64,9 +59,9 @@ public class LetterFragment extends AbstractFragment {
         diaryRecyclerView.setLayoutManager(layoutManager);
         diaryRecyclerView.setAdapter(mAdapter);
 
-        setDiaryWriteButton(true, BUTTON_TYPE_WRITE_LETTER);
+        super.setFloatingActionButton(AbstractFragment.BUTTON_TYPE_DIARY);
 
-        BitmapDrawable bitmap = ThemeUtil.getBitmapDrawablePattern(this, 2);
+        BitmapDrawable bitmap = ThemeUtil.getBitmapDrawablePattern(this, 0);
         letterView.setBackgroundDrawable(bitmap);
 
         return letterView;

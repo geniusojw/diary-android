@@ -112,6 +112,16 @@ public class DiaryDao extends AbstractDao {
         return writableDb().update(TABLE_NAME, contentValues, selection, args);
     }
 
+    public int updateDiaryAuthorStatus(String diaryDate, int accountStatus) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Diary.TableDesc.COLUMN_NAME_AUTHOR_DIARY_STATUS, accountStatus);
+
+        String selection = Diary.TableDesc.COLUMN_NAME_DIARY_DATE + "=?";
+        String[] args = { diaryDate };
+
+        return writableDb().update(TABLE_NAME, contentValues, selection, args);
+    }
+
     public int updateDiaryAccountStatus(String diaryDate, int accountStatus) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Diary.TableDesc.COLUMN_NAME_ACCOUNT_DIARY_STATUS, accountStatus);

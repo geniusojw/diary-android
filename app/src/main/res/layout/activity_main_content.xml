@@ -66,7 +66,7 @@
 
                 <ImageView
                     android:id="@+id/image_view_month_adjust_left"
-                    android:layout_width="40dp"
+                    android:layout_width="45dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
@@ -75,7 +75,7 @@
 
                 <ImageView
                     android:id="@+id/image_view_month_adjust_right"
-                    android:layout_width="40dp"
+                    android:layout_width="45dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"

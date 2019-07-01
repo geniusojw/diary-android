@@ -127,7 +127,6 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
         ImageView imageView = diaryViewHolder.itemView.findViewById(R.id.image_view_row_diary_calendar_image);
         imageView.setPadding(2, 2, 2, 2);
         imageView.setImageResource(R.drawable.ic_web_asset_black_24dp);
-
         cardView.setCardBackgroundColor(0xCCFFFFFF);
 
         Diary diary = diaryData.get(index);
@@ -138,6 +137,8 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
             calendarText1.setTextColor(0xCCFF0000);
         } else if (day == 6) {
             calendarText1.setTextColor(0xCC0000FF);
+        } else {
+            calendarText1.setTextColor(0xFF808080);
         }
         calendarText1.setText(DateUtil.dayOfWeek(diaryDate));
         calendarText2.setText(diaryDate.substring(6, 8));
@@ -152,6 +153,9 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
         TextView calendarText1 = diaryViewHolder.itemView.findViewById(R.id.text_view_row_diary_calendar_top);
         TextView calendarText2 = diaryViewHolder.itemView.findViewById(R.id.text_view_row_diary_calendar_mid);
         TextView calendarText3 = diaryViewHolder.itemView.findViewById(R.id.text_view_row_diary_calendar_bottom);
+        calendarText1.setText(null);
+        calendarText2.setText(null);
+        calendarText3.setText(null);
 
         TextView titleText = diaryViewHolder.itemView.findViewById(R.id.text_view_row_diary_title);
         TextView contentText = diaryViewHolder.itemView.findViewById(R.id.text_view_row_diary_content);

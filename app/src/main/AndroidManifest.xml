@@ -20,9 +20,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.pop.DiaryGroupPopActivity" android:theme="@style/AnonymousDiaryTheme" />
-        <activity android:name=".activity.pop.ChocolateStorePopActivity" android:theme="@style/AnonymousDiaryTheme" />
+        <activity android:name=".activity.pop.StorePopActivity" android:theme="@style/AnonymousDiaryTheme" />
         <activity android:name=".activity.pop.DiaryWriteStartPopActivity" android:theme="@style/AnonymousDiaryTheme" />
         <activity android:name=".activity.pop.FontSizePopActivity" android:theme="@style/AnonymousDiaryTheme" />
+        <activity android:name=".activity.pop.PostReadPopActivity" android:theme="@style/AnonymousDiaryTheme" />
+        <activity android:name=".activity.pop.PostWritePopActivity" android:theme="@style/AnonymousDiaryTheme" />
 
         <activity android:name=".activity.main.DiaryWriteActivity" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activity.main.LetterWriteActivity" android:windowSoftInputMode="adjustResize" />

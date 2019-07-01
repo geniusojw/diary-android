@@ -2,13 +2,16 @@ package org.jerrioh.diary.util;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.account.AccountDiaryApis;
 import org.jerrioh.diary.api.author.AuthorApis;
+import org.jerrioh.diary.api.author.AuthorDiaryApis;
 import org.jerrioh.diary.api.author.DiaryGroupApis;
 import org.jerrioh.diary.model.Author;
 import org.jerrioh.diary.model.Diary;
@@ -29,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class AuthorUtil {
     private static final String TAG = "AuthorUtil";
@@ -126,6 +130,32 @@ public class AuthorUtil {
                 }
             }
         });
+    }
+
+    public static void uploadAuthorDiary(Context context) {
+        DiaryDao diaryDao = new DiaryDao(context);
+        String today_yyyyMMdd = DateUtil.getyyyyMMdd(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1));
+        Diary diary = diaryDao.getDiary(today_yyyyMMdd);
+
+        if (diary == null) {
+            return;
+        }
+        if (diary.getAuthorDiaryStatus() == Diary.DiaryStatus.SAVED) {
+            return;
+        }
+
+        if (diary.getAuthorDiaryStatus() != Diary.DiaryStatus.SAVED) {
+            AuthorDiaryApis authorDiaryApis = new AuthorDiaryApis(context);
+            authorDiaryApis.write(diary, new ApiCallback() {
+                @Override
+                protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                    Log.d(TAG, "result = " + httpStatus);
+                    if (httpStatus == 200 || httpStatus == 409) {
+                        diaryDao.updateDiaryAuthorStatus(today_yyyyMMdd, Diary.DiaryStatus.SAVED);
+                    }
+                }
+            });
+        }
     }
 
     public static void saveDiaryGroup(JSONObject data, Context context) throws JSONException {
@@ -246,10 +276,10 @@ public class AuthorUtil {
     }
 
     private static String generateNickname() {
-        return "Someone";
+        return "누군가";
     }
 
     private static String generateDescription() {
-        return "Person who decided to write a diary";
+        return "일기를 쓰기로 결심한 사람";
     }
 }

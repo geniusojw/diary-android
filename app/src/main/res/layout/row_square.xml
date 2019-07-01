@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="1.0"
+    >
+
+    <LinearLayout
+        android:id="@+id/linear_layout_row_square_post1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:layout_weight="0.33"
+        android:visibility="invisible"
+        >
+        <TextView
+            android:id="@+id/text_view_row_square_post1"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:padding="3dp"
+            android:gravity="center"
+            android:background="@color/beige"
+            android:text="post1"
+            android:textSize="8dp"
+            android:layout_weight="0.33"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_row_square_post2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:layout_weight="0.33"
+        android:visibility="invisible"
+        >
+        <TextView
+            android:id="@+id/text_view_row_square_post2"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:padding="3dp"
+            android:gravity="center"
+            android:background="@color/beige"
+            android:text="post2"
+            android:textSize="8dp"
+            android:layout_weight="0.33"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_row_square_post3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:layout_weight="0.33"
+        android:visibility="invisible"
+        >
+        <TextView
+            android:id="@+id/text_view_row_square_post3"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:padding="3dp"
+            android:gravity="center"
+            android:background="@color/beige"
+            android:text="post3"
+            android:textSize="8dp"
+            android:layout_weight="0.33"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>

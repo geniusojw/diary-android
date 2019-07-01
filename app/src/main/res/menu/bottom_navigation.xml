@@ -2,18 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/bottom_option_today"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/today" />
-
-    <item
         android:id="@+id/bottom_option_diary"
         android:icon="@drawable/ic_import_contacts_black_24dp"
-        android:title="@string/my_diary" />
+        android:title="@string/diary" />
 
     <item
         android:id="@+id/bottom_option_letter"
-        android:icon="@drawable/ic_mail_outline_black_24dp"
-        android:title="@string/letter" />
+        android:icon="@drawable/ic_crop_square_black_24dp"
+        android:title="@string/letter"
+        android:visible="false" />
+
+    <item
+        android:id="@+id/bottom_option_store"
+        android:icon="@drawable/ic_store_black_24dp"
+        android:title="@string/store" />
+
+    <item
+        android:id="@+id/bottom_option_square"
+        android:icon="@drawable/ic_today_black_24dp"
+        android:title="@string/square" />
+
 
 </menu>
