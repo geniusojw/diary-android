@@ -14,16 +14,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.fragment.StoreFragment;
-import org.jerrioh.diary.activity.main.MainActivity;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.AuthorStoreApis;
-import org.jerrioh.diary.api.author.UtilApis;
 import org.jerrioh.diary.model.Music;
 import org.jerrioh.diary.model.Theme;
 import org.jerrioh.diary.model.db.AuthorDao;
@@ -55,6 +52,7 @@ public class StorePopActivity extends CustomPopActivity {
         String itemId = intent.getStringExtra("itemId");
         int price = intent.getIntExtra("itemPrice", -1);
         int currentChocolates = intent.getIntExtra("currentChocolates", 0);
+
         String priceText = "당신은 " + currentChocolates + "개의 초콜릿이 있습니다.";
 
         TextView priceTextView = findViewById(R.id.text_view_chocolate_pop_chocolate_count);
@@ -64,17 +62,23 @@ public class StorePopActivity extends CustomPopActivity {
             priceTextView.setTextColor(getResources().getColor(R.color.colorRed));
             TextView priceTipView = findViewById(R.id.text_view_chocolate_pop_chocolate_count_tip);
             priceTipView.setVisibility(View.VISIBLE);
-
         }
 
-        String descriptionText = "";
+        String descriptionText1 = "";
+        String descriptionText2;
+        if (price == 0) {
+            descriptionText2 = "무료입니다!";
+        } else {
+            descriptionText2 = "가격 : 초콜릿" + price + "개";
+        }
+
         View.OnClickListener okClickListener = null;
 
         if (StoreFragment.ITEM_WEATHER.equals(itemId)) {
             if (price == 0) {
-                descriptionText = "날씨 정보를 들을까요?\n무료입니다!";
+                descriptionText1 = "날씨 정보를 들을까요?";
             } else {
-                descriptionText = "\"날씨 정보\"\n가격 : 초콜릿 " + price + "개";
+                descriptionText1 = "\"날씨 정보\"";
             }
 
             okClickListener = v -> {
@@ -125,7 +129,8 @@ public class StorePopActivity extends CustomPopActivity {
             };
 
         } else if (StoreFragment.ITEM_POST_IT.equals(itemId)) {
-            descriptionText = "\"포스트잇\"\n초콜릿을 많이 지불할수록 포스트잇을 위쪽에 붙일 수 있습니다.";
+            descriptionText1 = "\"포스트잇\"";
+            descriptionText2 = "중요한 이야기는 높은 가격으로!";
             okClickListener = v -> {
                 if (okEnabled) {
                     int postItPrice = 0;
@@ -145,7 +150,7 @@ public class StorePopActivity extends CustomPopActivity {
                 }
             };
         } else if (StoreFragment.ITEM_CHANGE_DESCRIPTION.equals(itemId)) {
-            descriptionText = "\"당신에 대한 이야기\"\n가격 : 초콜릿 " + price + "개";
+            descriptionText1 = "\"당신에 대한 이야기\"";
             okClickListener = v -> {
                 if (okEnabled) {
                     okEnabled = false;
@@ -172,7 +177,7 @@ public class StorePopActivity extends CustomPopActivity {
                 }
             };
         } else if (StoreFragment.ITEM_CHANGE_NICKNAME.equals(itemId)) {
-            descriptionText = "\"닉네임 랜덤 변경\"\n가격 : 초콜릿 " + price + "개";
+            descriptionText1 = "\"닉네임 랜덤 변경\"";
             okClickListener = v -> {
                 if (okEnabled) {
                     okEnabled = false;
@@ -198,7 +203,7 @@ public class StorePopActivity extends CustomPopActivity {
                 }
             };
         } else if (StoreFragment.ITEM_PURCHASE_THEME.equals(itemId)) {
-            descriptionText = "\"일기장 테마 랜덤 뽑기\"\n가격 : 초콜릿 " + price + "개";
+            descriptionText1 = "\"일기장 테마 랜덤 뽑기\"";
             okClickListener = v -> {
                 if (okEnabled) {
                     okEnabled = false;
@@ -233,7 +238,7 @@ public class StorePopActivity extends CustomPopActivity {
                 }
             };
         } else if (StoreFragment.ITEM_PURCHASE_MUSIC.equals(itemId)) {
-            descriptionText = "\"음악 랜덤 뽑기\"\n가격 : 초콜릿 " + price + "개";
+            descriptionText1 = "\"음악 랜덤 뽑기\"";
             okClickListener = v -> {
                 if (okEnabled) {
                     okEnabled = false;
@@ -265,7 +270,7 @@ public class StorePopActivity extends CustomPopActivity {
                 }
             };
         } else if (StoreFragment.ITEM_DIARY_GROUP_INVITATION.equals(itemId)) {
-            descriptionText = "\"일기모임 주최\"\n가격 : 초콜릿 " + price + "개";
+            descriptionText1 = "\"일기모임 주최\"";
             okClickListener = v -> {
                 if (okEnabled) {
                     okEnabled = false;
@@ -286,11 +291,11 @@ public class StorePopActivity extends CustomPopActivity {
                 }
             };
         } else if (StoreFragment.ITEM_DIARY_GROUP_SUPPORT.equals(itemId)) {
-            descriptionText = "\"일기모임 지원\"\n가격 : 초콜릿 " + price + "개";
+            descriptionText1 = "\"일기모임 지원\"";
             okClickListener = v -> {
                 if (okEnabled) {
                     okEnabled = false;
-                    authorStoreApis.diaryGroupSupport("period", new ApiCallback() {
+                    authorStoreApis.diaryGroupSupport("scale", new ApiCallback() {
                         @Override
                         protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                             if (httpStatus == 200) {
@@ -306,7 +311,7 @@ public class StorePopActivity extends CustomPopActivity {
                 }
             };
         } else if (StoreFragment.ITEM_CHOCOLATE_DONATION.equals(itemId)) {
-            descriptionText = "\"초콜릿 기부\"\n가격 : 초콜릿 " + price + "개";
+            descriptionText1 = "\"초콜릿 기부\"";
             okClickListener = v -> {
                 if (okEnabled) {
                     okEnabled = false;
@@ -325,11 +330,14 @@ public class StorePopActivity extends CustomPopActivity {
                 }
             };
         } else {
-            descriptionText = "뭔가 이상하다.";
+            descriptionText1 = "뭔가 이상하다.";
         }
 
-        TextView popDescriptionView = findViewById(R.id.text_view_chocolate_pop_description);
-        popDescriptionView.setText(descriptionText);
+        TextView popDescriptionView1 = findViewById(R.id.text_view_chocolate_pop_description1);
+        popDescriptionView1.setText(descriptionText1);
+
+        TextView popDescriptionView2 = findViewById(R.id.text_view_chocolate_pop_description2);
+        popDescriptionView2.setText(descriptionText2);
 
         View okButton = findViewById(R.id.linear_layout_chocolate_pop_select1);
         View noButton = findViewById(R.id.linear_layout_chocolate_pop_select2);
@@ -343,8 +351,11 @@ public class StorePopActivity extends CustomPopActivity {
     private void buySuccessBasic(String successText) {
         //Toast.makeText(StorePopActivity.this, "success", Toast.LENGTH_LONG).show();
 
-        TextView descriptionView = findViewById(R.id.text_view_chocolate_pop_description);
+        TextView descriptionView = findViewById(R.id.text_view_chocolate_pop_description1);
         descriptionView.setText(successText);
+
+        TextView popDescriptionView2 = findViewById(R.id.text_view_chocolate_pop_description2);
+        popDescriptionView2.setVisibility(View.GONE);
 
         View okButton = findViewById(R.id.linear_layout_chocolate_pop_select1);
         View noButton = findViewById(R.id.linear_layout_chocolate_pop_select2);

@@ -79,6 +79,7 @@ public class AccountActivity extends CommonActionBarActivity {
             if (progressBar.getVisibility() != View.VISIBLE) {
                 progressBar.setVisibility(View.VISIBLE);
                 AuthorUtil.syncAccountDiaries(this, progressBar, syncText);
+                AuthorUtil.refreshAccountToken(this);
             }
         });
     }

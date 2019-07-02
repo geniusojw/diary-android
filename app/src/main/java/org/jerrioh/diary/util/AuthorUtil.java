@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jerrioh.diary.api.ApiCallback;
+import org.jerrioh.diary.api.account.AccountApis;
 import org.jerrioh.diary.api.account.AccountDiaryApis;
 import org.jerrioh.diary.api.author.AuthorApis;
 import org.jerrioh.diary.api.author.AuthorDiaryApis;
@@ -202,6 +203,23 @@ public class AuthorUtil {
         PropertyDao propertyDao = new PropertyDao(context);
         propertyDao.deleteProperty(Property.Key.SCREEN_LOCK_USE);
         propertyDao.deleteProperty(Property.Key.SCREEN_LOCK_4DIGIT);
+    }
+
+    public static void refreshAccountToken(Context context) {
+        Author author = AuthorUtil.getAuthor(context);
+
+        AccountApis accountApis = new AccountApis(context);
+        accountApis.refreshToken(new ApiCallback() {
+            @Override
+            protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                if (httpStatus == 200) {
+                    AuthorDao authorDao = new AuthorDao(context);
+                    JSONObject json = jsonObject.getJSONObject("data");
+                    String token = json.getString("token");
+                    authorDao.updateAccountEmailAndToken(author.getAccountEmail(), token);
+                }
+            }
+        });
     }
 
     public static void syncAccountDiaries(Context context, ProgressBar progressBar, TextView syncText) {

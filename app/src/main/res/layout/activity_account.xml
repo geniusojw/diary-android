@@ -35,7 +35,7 @@
                 <LinearLayout
                     android:layout_weight="0.8"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     >
                     <TextView
@@ -53,14 +53,14 @@
                         android:gravity="center_vertical"
                         android:textSize="12sp"
                         android:textColor="@color/blackCoffee"
-                        android:text="일기를 복구할 수 있도록 동기화하세요.\n마지막 동기화 시간: "
+                        android:text="마지막 동기화 시간: "
                         />
                 </LinearLayout>
                 <ProgressBar
                     android:id="@+id/progress_bar_account"
                     android:layout_weight="0.2"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="25dp"
                     android:visibility="gone"
                     />
             </LinearLayout>

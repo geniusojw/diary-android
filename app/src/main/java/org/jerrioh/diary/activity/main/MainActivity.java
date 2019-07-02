@@ -152,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
             } else if (id == R.id.drawer_option_about_application) {
                 startActivity(new Intent(this, AboutApplicationActivity.class));
             } else if (id == R.id.drawer_option_share) {
-            } else if (id == R.id.drawer_option_feedback) {
             }
 
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_main_activity);

@@ -7,36 +7,27 @@
         <item
             android:id="@+id/drawer_option_account"
             android:icon="@drawable/ic_cloud_queue_black_24dp"
-            android:title="Account" />
+            android:title="@string/account" />
         <item
             android:id="@+id/drawer_option_setting"
             android:icon="@drawable/ic_settings_black_24dp"
-            android:title="Setting" />
+            android:title="@string/setting" />
     </group>
 
     <item android:title="Information">
         <menu>
             <item
-                android:id="@+id/drawer_option_faq"
-                android:icon="@drawable/ic_help_outline_black_24dp"
-                android:title="FAQ" />
-            <item
                 android:id="@+id/drawer_option_about_application"
                 android:icon="@drawable/ic_info_outline_black_24dp"
-                android:title="About Onul Diary" />
-        </menu>
-    </item>
-
-    <item android:title="Communication">
-        <menu>
+                android:title="@string/app_version" />
+            <item
+                android:id="@+id/drawer_option_faq"
+                android:icon="@drawable/ic_help_outline_black_24dp"
+                android:title="@string/help" />
             <item
                 android:id="@+id/drawer_option_share"
                 android:icon="@drawable/ic_share_black_24dp"
-                android:title="Share" />
-            <item
-                android:id="@+id/drawer_option_feedback"
-                android:icon="@drawable/ic_send_black_24dp"
-                android:title="Feedback" />
+                android:title="@string/share_app" />
         </menu>
     </item>
 

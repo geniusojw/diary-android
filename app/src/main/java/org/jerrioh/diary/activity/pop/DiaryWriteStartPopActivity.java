@@ -4,22 +4,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.main.DiaryWriteActivity;
-import org.jerrioh.diary.model.Diary;
-import org.jerrioh.diary.model.db.DiaryDao;
 import org.jerrioh.diary.util.DateUtil;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class DiaryWriteStartPopActivity extends CustomPopActivity {
 
-    private EditText titleEditView;
+    private TextView todayView;
     private TextView tipTextView;
-    private LinearLayout nextLinearLayout;
+
+    private EditText titleEditView;
     private TextView nextView;
 
     @Override
@@ -27,12 +28,25 @@ public class DiaryWriteStartPopActivity extends CustomPopActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_diary_start);
 
-        titleEditView = findViewById(R.id.edit_text_diary_detail_start_title);
+        super.setWindowAttribute(0.95f, 0.4f);
+
+        todayView = findViewById(R.id.text_view_diary_start_today);
         tipTextView = findViewById(R.id.text_view_diary_detail_start_tip);
-        nextLinearLayout = findViewById(R.id.linear_layout_diary_detail_start_next);
+
+        titleEditView = findViewById(R.id.edit_text_diary_detail_start_title);
         nextView = findViewById(R.id.text_view_diary_detail_start_next);
 
-        super.setWindowAttribute(0.95f, 0.4f);
+        Calendar now = Calendar.getInstance();
+        now.set(Calendar.HOUR, 0);
+        now.set(Calendar.MINUTE, 0);
+        now.set(Calendar.SECOND, 0);
+        now.set(Calendar.HOUR_OF_DAY, 0);
+
+        Date date = now.getTime();
+        long timeLeft = TimeUnit.DAYS.toMillis(1) + date.getTime() - System.currentTimeMillis();
+
+        todayView.setText(DateUtil.getDateStringSkipTime());
+        tipTextView.setText("오늘의 일기를 작성할 수 있는 시간이\n" + DateUtil.getTimeString(timeLeft) + " 남았습니다.");
 
         nextView.setOnClickListener(v -> {
             startDiaryWriteActivity();

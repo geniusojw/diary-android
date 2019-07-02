@@ -1,10 +1,18 @@
 <resources>
+    <!-- 공통 -->
     <string name="app_name">오늘일기</string>
     <string name="diary">일기</string>
     <string name="letter">편지</string>
     <string name="store">상점</string>
     <string name="square">광장</string>
     <string name="receiver">받는 사람</string>
+
+    <!-- draw navigation -->
+    <string name="account">계정</string>
+    <string name="setting">설정</string>
+    <string name="help">도움말</string>
+    <string name="app_version">앱 버전</string>
+    <string name="share_app">공유</string>
 
     <!-- 설정 -->
     <string name="diary_theme">일기장 테마</string>

@@ -10,17 +10,32 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:orientation="vertical"
         >
 
-        <TextView
-            android:id="@+id/text_view_chocolate_pop_description"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/linear_layout_chocolate_pop_description"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="당신의 이야기를 들을 수 있습니다.\n초콜릿 1개를 주고 당신의 이야기를 듣겠습니까?\n"
-            android:textSize="20sp"
-            android:gravity="center"
-            />
+            android:orientation="vertical"
+            android:layout_centerHorizontal="true"
+            >
+            <TextView
+                android:id="@+id/text_view_chocolate_pop_description1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="당신의 이야기를 들을 수 있습니다."
+                android:textSize="20sp"
+                android:gravity="center"
+                />
+            <TextView
+                android:id="@+id/text_view_chocolate_pop_description2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="초콜릿 1개를 주고 당신의 이야기를 듣겠습니까?"
+                android:textSize="15sp"
+                android:gravity="center"
+                />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linear_layout_chocolate_pop_select"
@@ -28,7 +43,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/text_view_chocolate_pop_description"
+            android:layout_below="@id/linear_layout_chocolate_pop_description"
             >
 
             <LinearLayout
