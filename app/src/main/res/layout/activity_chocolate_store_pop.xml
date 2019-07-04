@@ -21,20 +21,31 @@
             >
             <TextView
                 android:id="@+id/text_view_chocolate_pop_description1"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="당신의 이야기를 들을 수 있습니다."
+                android:layout_gravity="center"
+                android:text="-"
                 android:textSize="20sp"
                 android:gravity="center"
                 />
             <TextView
                 android:id="@+id/text_view_chocolate_pop_description2"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="초콜릿 1개를 주고 당신의 이야기를 듣겠습니까?"
+                android:layout_gravity="center"
+                android:text="-"
                 android:textSize="15sp"
-                android:gravity="center"
                 />
+
+            <NumberPicker
+                android:id="@+id/number_picker_store_pop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                >
+            </NumberPicker>
+
         </LinearLayout>
 
         <LinearLayout

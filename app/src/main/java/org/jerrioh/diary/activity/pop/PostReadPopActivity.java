@@ -27,6 +27,9 @@ public class PostReadPopActivity extends CustomPopActivity {
         Intent intent = getIntent();
         PostIt postIt = (PostIt) intent.getSerializableExtra("post");
 
+        TextView chocolates = findViewById(R.id.text_view_square_post_pop_chocolates);
+        chocolates.setText(postIt.getChocolates() + " chocolates");
+
         textView = findViewById(R.id.edit_text_square_post_pop_content);
         textView.setText(postIt.getContent() + "\n\n - " + postIt.getAuthorNickname());
 

@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +45,7 @@ public class StorePopActivity extends CustomPopActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chocolate_store_pop);
 
-        super.setWindowAttribute(.95f, .5f);
+        super.setWindowAttribute(.95f, .8f);
 
         AuthorStoreApis authorStoreApis = new AuthorStoreApis(this);
 
@@ -129,26 +130,37 @@ public class StorePopActivity extends CustomPopActivity {
             };
 
         } else if (StoreFragment.ITEM_POST_IT.equals(itemId)) {
+
+            NumberPicker numberPicker = findViewById(R.id.number_picker_store_pop);
+            numberPicker.setVisibility(View.VISIBLE);
+            numberPicker.setMinValue(0);
+            numberPicker.setMaxValue(30);
+//            numberPicker.setScaleX(0.8f);
+//            numberPicker.setScaleY(0.8f);
+            numberPicker.setWrapSelectorWheel(false);
+
             descriptionText1 = "\"포스트잇\"";
             descriptionText2 = "중요한 이야기는 높은 가격으로!";
             okClickListener = v -> {
                 if (okEnabled) {
-                    int postItPrice = 0;
+                    int postItPrice = numberPicker.getValue();
                     okEnabled = false;
                     authorStoreApis.buyPostIt(postItPrice, new ApiCallback() {
                         @Override
                         protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                             if (httpStatus == 200) {
-                                buySuccessBasic("광장에 가서 글을 쓰세요!");
+                                buySuccessBasic("광장에 가서 글을 쓰세요! =>" + postItPrice);
                             } else if (httpStatus == 402) {
                                 buyFailWithToast("not enough chocolates");
                             } else if (httpStatus == 412) {
                                 buyFailWithToast("이미 포스트잇이 있네요!");
                             }
+                            numberPicker.setVisibility(View.GONE);
                         }
                     });
                 }
             };
+
         } else if (StoreFragment.ITEM_CHANGE_DESCRIPTION.equals(itemId)) {
             descriptionText1 = "\"당신에 대한 이야기\"";
             okClickListener = v -> {

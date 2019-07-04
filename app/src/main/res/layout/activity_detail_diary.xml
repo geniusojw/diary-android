@@ -32,6 +32,7 @@
                     android:textSize="13sp"
                     />
 
+
                 <RelativeLayout
                     android:id="@+id/relative_layout_detail_diary_music"
                     android:layout_width="wrap_content"
@@ -73,8 +74,6 @@
                         android:src="@drawable/ic_format_size_black_24dp"
                         />
                     <TextView
-
-
                         android:id="@+id/text_view_detail_diary_font_size_adjust"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

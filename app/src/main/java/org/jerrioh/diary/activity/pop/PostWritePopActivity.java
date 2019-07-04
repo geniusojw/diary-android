@@ -29,6 +29,12 @@ public class PostWritePopActivity extends CustomPopActivity {
 
         super.setWindowAttribute(.95f, .9f);
 
+        Intent intent = getIntent();
+        PostIt postIt = (PostIt) intent.getSerializableExtra("post");
+
+        TextView chocolates = findViewById(R.id.text_view_square_post_pop_chocolates);
+        chocolates.setText(postIt.getChocolates() + " chocolates");
+
         editText = findViewById(R.id.edit_text_square_post_pop_content);
         editText.setFocusableInTouchMode(true);
         editText.setText("");

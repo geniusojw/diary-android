@@ -15,6 +15,7 @@ import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.PostApis;
 import org.jerrioh.diary.config.Constants;
 import org.jerrioh.diary.model.Diary;
+import org.jerrioh.diary.model.PostIt;
 import org.jerrioh.diary.model.db.DiaryDao;
 import org.jerrioh.diary.util.DateUtil;
 import org.json.JSONException;
@@ -60,7 +61,17 @@ public abstract class AbstractFragment extends Fragment {
                         @Override
                         protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                             if (httpStatus == 200) {
+                                JSONObject data = jsonObject.getJSONObject("data");
+
+                                PostIt postIt = new PostIt();
+                                postIt.setPostId(data.getString("postId"));
+                                postIt.setChocolates(data.getInt("chocolates"));
+                                postIt.setAuthorNickname(data.getString("authorNickname"));
+                                postIt.setContent(data.getString("content"));
+                                postIt.setWrittenTime(data.getLong("writtenTime"));
+
                                 Intent intent = new Intent(getActivity(), PostWritePopActivity.class);
+                                intent.putExtra("post", postIt);
                                 startActivity(intent);
 
                             } else if (httpStatus == 404) {
