@@ -1,5 +1,5 @@
 <resources>
-    <!-- 공통 -->
+    <!-- bottom navigation -->
     <string name="app_name">오늘일기</string>
     <string name="diary">일기</string>
     <string name="letter">편지</string>
@@ -14,7 +14,7 @@
     <string name="app_version">앱 버전</string>
     <string name="share_app">공유</string>
 
-    <!-- 설정 -->
+    <!-- setting -->
     <string name="diary_theme">일기장 테마</string>
     <string name="diary_music">일기 음악</string>
     <string name="font_size">글자 크기</string>
@@ -24,10 +24,42 @@
     <string name="diary_group_invitation">일기모임 초대받기</string>
     <string name="reset_data">일기 데이터 초기화</string>
 
-    <!-- 계정 -->
+    <!-- account -->
     <string name="synchronization">동기화</string>
     <string name="email_export">이메일 내보내기</string>
     <string name="change_account">계정 설정</string>
     <string name="sign_out">로그아웃</string>
+
+    <!-- store -->
+    <string name="store_pop_current_money">당신은 %d \ 시간이 있습니다.</string>
+    <string name="store_pop_require_money">가격: %d 시간</string>
+    <string name="store_pop_it_is_free">공짜입니다!</string>
+    <string name="store_pop_already_bought">이미 구매하였습니다.</string>
+    <string name="store_pop_not_enough_money">시간이 충분하지 않습니다.</string>
+    <string name="store_pop_weather_title">날씨</string>
+    <string name="store_pop_weather_description">오늘의 날씨 정보를 들으세요!</string>
+    <string name="store_pop_weather_result1">현재 당신 마음의 날씨는 맑음!</string>
+    <string name="store_pop_weather_result2">현재 당신 마음의 날씨는 흐림...</string>
+    <string name="store_pop_post_title">포스트잇</string>
+    <string name="store_pop_post_description">광장에 글을 쓸 수 있습니다.</string>
+    <string name="store_pop_post_description_detail">시간과 포스트잇의 접착력은 비례함</string>
+    <string name="store_pop_about_title">이야기 듣기</string>
+    <string name="store_pop_about_description">당신에 대한 이야기</string>
+    <string name="store_pop_nickname_title">랜덤 닉네임</string>
+    <string name="store_pop_nickname_description">무작위로 닉네임이 변경됩니다.</string>
+    <string name="store_pop_theme_title">랜덤 일기장 테마</string>
+    <string name="store_pop_theme_description">무작위 일기장 테마를 구매합니다.</string>
+    <string name="store_pop_theme_description_detail">설정에서 변경 가능</string>
+    <string name="store_pop_music_title">랜덤 일기 음악</string>
+    <string name="store_pop_music_description">일기 작성시 들을 수 있는 배경음악</string>
+    <string name="store_pop_music_description_detail">설정에서 변경 가능</string>
+    <string name="store_pop_group_invite_title">일기모임 주최</string>
+    <string name="store_pop_group_invite_description">일기모임을 주최합니다.</string>
+    <string name="store_pop_group_invite_description_detail">일기모임 동안 익명의 모임사람들과 서로 일기를 공유합니다.(도움말 참조)</string>
+    <string name="store_pop_group_support_title">일기모임 지원</string>
+    <string name="store_pop_group_support_description">일기모임에 더 많은 사람이 참여할 수 있게 지원하기</string>
+    <string name="store_pop_group_donation_title">시간 기부</string>
+    <string name="store_pop_group_donation_description">혹시 시간이 넘치시나요?</string>
+
 
 </resources>

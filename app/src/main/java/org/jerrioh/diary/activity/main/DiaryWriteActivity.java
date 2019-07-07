@@ -5,9 +5,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -100,13 +98,7 @@ public class DiaryWriteActivity extends AbstractDetailActivity {
         titleText.setText(todayDiary.getTitle());
         contentText.setText(todayDiary.getContent());
 
-        RelativeLayout musicLayout = findViewById(R.id.relative_layout_detail_diary_music);
-        musicLayout.setVisibility(View.VISIBLE);
-
-        TextView adjustText = findViewById(R.id.text_view_detail_diary_font_size_adjust);
-        TextView musicText = findViewById(R.id.text_view_detail_music);
-
-        super.setUpFontMusicButton(contentText, adjustText, musicText);
+        super.setUpMoreOptionsPost(contentText, true, true, diaryDate.getText().toString());
         super.setUpTransparentFloatingButton(contentText, Arrays.asList(backButton));
 
         contentText.requestFocus();
@@ -119,8 +111,6 @@ public class DiaryWriteActivity extends AbstractDetailActivity {
 
     @Override
     public void onBackPressed() {
-        musicOff();
-
         if (!titleText.getText().toString().equals(originalTitle) || !contentText.getText().toString().equals(originalContent)) {
             Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
             saveDiary();
@@ -134,12 +124,6 @@ public class DiaryWriteActivity extends AbstractDetailActivity {
         }
 
         super.onBackPressed();
-    }
-
-    @Override
-    protected void onPause() {
-        musicOff();
-        super.onPause();
     }
 
     private void saveDiary() {

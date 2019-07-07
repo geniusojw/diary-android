@@ -33,4 +33,10 @@ public class AuthorDiaryApis extends ApiCaller {
             Log.e(TAG, "JSONException, " + e.toString());
         }
     }
+
+    public void deleteDiary(String diaryDate, ApiCallback callback) {
+        Map<String, String> headers = authorHeaders();
+        JSONObject json = new JSONObject();
+        super.delete("/author/diaries/" + diaryDate, headers, json.toString(), callback);
+    }
 }

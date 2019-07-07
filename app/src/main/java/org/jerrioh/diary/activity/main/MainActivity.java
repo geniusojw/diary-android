@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private String diaryDate_yyyyMM = null;
+    private boolean publicSquare = false;
 
     private static final int REQUEST_ACCOUNT_ACTIVITY = 1;
     private static final int REQUEST_SETTING_ACTIVITY = 2;
@@ -247,9 +248,27 @@ public class MainActivity extends AppCompatActivity {
             enableMonthAdjustment = false;
 
         } else if (bottomNavId == R.id.bottom_option_square) {
-            fragment = new SquareFragment();
-            mainBannerText = "TODAY SQUARE";
+            weatherImageResource = R.drawable.ic_swap_horiz_black_24dp;
 
+            String squareType;
+            if (publicSquare) {
+                squareType = "PUBLIC";
+                mainBannerText = "PUBLIC SQUARE";
+                fragment = new SquareFragment();
+            } else {
+                squareType = "PRIVATE";
+                mainBannerText = "PRIVATE SQUARE";
+                fragment = new SquareFragment();
+            }
+            Bundle args = new Bundle();
+            args.putString("squareType", squareType);
+            fragment.setArguments(args);
+
+            weatherButtonClickListener = v -> {
+                publicSquare = !publicSquare;
+                BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
+                bottomNav.setSelectedItemId(R.id.bottom_option_square);
+            };
 
             enableMonthAdjustment = false;
         }

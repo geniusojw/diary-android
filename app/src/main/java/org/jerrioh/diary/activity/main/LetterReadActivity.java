@@ -2,23 +2,16 @@ package org.jerrioh.diary.activity.main;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.api.ApiCallback;
-import org.jerrioh.diary.api.author.AuthorLetterApis;
 import org.jerrioh.diary.api.author.DiaryGroupApis;
 import org.jerrioh.diary.model.Author;
 import org.jerrioh.diary.model.Letter;
@@ -27,8 +20,6 @@ import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.util.DateUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Arrays;
 
 public class LetterReadActivity extends AbstractDetailActivity {
     @Override
@@ -67,8 +58,7 @@ public class LetterReadActivity extends AbstractDetailActivity {
             finish();
         });
 
-        TextView adjustText = findViewById(R.id.text_view_detail_letter_font_size_adjust);
-        super.setUpFontMusicButton(contentEditView, adjustText, null);
+        super.setUpMoreOptionsPost(contentEditView, false, false, letter.getLetterId());
     }
 
     private void setReplyButton(Letter letter) {

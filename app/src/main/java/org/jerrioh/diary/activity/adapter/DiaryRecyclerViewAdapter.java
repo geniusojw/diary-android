@@ -140,6 +140,12 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
         } else {
             calendarText1.setTextColor(0xFF808080);
         }
+        // DEBUG
+        if (diary.getAccountDiaryStatus() == Diary.DiaryStatus.UNSAVED_CONFLICT) {
+            cardView.setCardBackgroundColor(0xCCFF000F);
+        }
+
+
         calendarText1.setText(DateUtil.dayOfWeek(diaryDate));
         calendarText2.setText(diaryDate.substring(6, 8));
         calendarText3.setText(diaryDate.substring(0, 4) + "." + diaryDate.substring(4, 6));

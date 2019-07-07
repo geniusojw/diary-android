@@ -23,6 +23,7 @@ import org.jerrioh.diary.model.db.DiaryDao;
 import org.jerrioh.diary.model.db.DiaryGroupDao;
 import org.jerrioh.diary.model.db.LetterDao;
 import org.jerrioh.diary.model.db.MusicDao;
+import org.jerrioh.diary.model.db.PostDao;
 import org.jerrioh.diary.model.db.PropertyDao;
 import org.jerrioh.diary.model.db.ThemeDao;
 import org.json.JSONArray;
@@ -97,6 +98,10 @@ public class AuthorUtil {
         // group 삭제
         DiaryGroupDao diaryGroupDao = new DiaryGroupDao(context);
         diaryGroupDao.deleteDiaryGroup();
+
+        // post(private) 삭제
+        PostDao postDao = new PostDao(context);
+        postDao.deleteAllPosts();
 
         // theme 삭제
         ThemeDao themeDao = new ThemeDao(context);
@@ -251,7 +256,10 @@ public class AuthorUtil {
                             diary.setContent(content);
                             diary.setAuthorDiaryStatus(Diary.DiaryStatus.UNSAVED);
                             diary.setAccountDiaryStatus(Diary.DiaryStatus.SAVED);
-                            diaryDao.insertDiary(diary);
+
+                            if (diaryDao.getDiary(diaryDate) == null) {
+                                diaryDao.insertDiary(diary);
+                            }
                         } else {
                             if (TextUtils.equals(title, diary.getTitle()) && TextUtils.equals(content, diary.getContent())) {
                                 diaryDao.updateDiaryAccountStatus(diaryDate, Diary.DiaryStatus.SAVED);

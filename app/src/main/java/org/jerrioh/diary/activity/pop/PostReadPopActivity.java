@@ -4,14 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.jerrioh.diary.R;
-import org.jerrioh.diary.model.PostIt;
+import org.jerrioh.diary.activity.main.AbstractDetailActivity;
+import org.jerrioh.diary.model.Post;
 import org.jerrioh.diary.model.Property;
+import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.PropertyUtil;
 
-public class PostReadPopActivity extends CustomPopActivity {
+public class PostReadPopActivity extends AbstractDetailActivity {
 
     private static final String TAG = "PostReadPopActivity";
 
@@ -25,37 +28,36 @@ public class PostReadPopActivity extends CustomPopActivity {
         super.setWindowAttribute(.95f, .9f);
 
         Intent intent = getIntent();
-        PostIt postIt = (PostIt) intent.getSerializableExtra("post");
+        Post post = (Post) intent.getSerializableExtra("post");
 
+        RelativeLayout mainLayout = findViewById(R.id.relative_layout_post_pop_main);
         TextView chocolates = findViewById(R.id.text_view_square_post_pop_chocolates);
-        chocolates.setText(postIt.getChocolates() + " chocolates");
+
+        boolean isPrivate = post.getChocolates() == -1;
+        if (isPrivate) {
+            chocolates.setText("당신만 볼 수 있는 포스트입니다.");
+            mainLayout.setBackgroundColor(0x55f5f5dc);
+        } else {
+            chocolates.setText("THIS POST IS WORTH " + post.getChocolates() + " TIME MONEY");
+            mainLayout.setBackgroundColor(0x55DDEFEF);
+        }
 
         textView = findViewById(R.id.edit_text_square_post_pop_content);
-        textView.setText(postIt.getContent() + "\n\n - " + postIt.getAuthorNickname());
+        textView.setText(post.getContent());
+
+        TextView authorNick = findViewById(R.id.text_view_post_pop_author_nick);
+        TextView writtenTime = findViewById(R.id.text_view_post_pop_written_time);
+        authorNick.setVisibility(View.VISIBLE);
+        authorNick.setText("작성자: " + post.getAuthorNickname());
+        writtenTime.setVisibility(View.VISIBLE);
+        writtenTime.setText("(" + DateUtil.getDateStringFull(post.getWrittenTime()) + ")");
 
         LinearLayout okLayout = findViewById(R.id.linear_layout_square_post_ok);
         okLayout.setOnClickListener(v -> {
             finish();
         });
 
-        // 글자 크기 조절을 위한 세팅
-        TextView adjustText = findViewById(R.id.text_view_detail_square_post_pop_font_size_adjust);
-        adjustText.setOnClickListener(v -> {
-            startActivity(new Intent(this, FontSizePopActivity.class));
-        });
-        this.setContentFontSize();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setContentFontSize();
-    }
-
-    private void setContentFontSize() {
-        int fontSizeProgress = Integer.parseInt(PropertyUtil.getProperty(Property.Key.FONT_SIZE, this));
-        int fontSize = (fontSizeProgress * 2) + Property.Config.FONT_SIZE_OFFSET;
-        textView.setTextSize(fontSize);
+        setUpMoreOptionsPost(textView, post, false);
     }
 
 }

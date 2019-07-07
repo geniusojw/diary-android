@@ -105,6 +105,12 @@ public class LetterDao extends AbstractDao {
 
     }
 
+    public long deleteLetter(String letterId) {
+        String selection = Letter.TableDesc.COLUMN_NAME_LETTER_ID + "=?";
+        String[] args = { letterId };
+        return writableDb().delete(TABLE_NAME, selection, args);
+    }
+
     public long deleteAllLetters() {
         return writableDb().delete(TABLE_NAME, "1=1", new String[]{});
     }

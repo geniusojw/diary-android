@@ -2,13 +2,12 @@ package org.jerrioh.diary.activity.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.SeekBar;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import org.jerrioh.diary.config.Constants;
@@ -64,7 +63,17 @@ public class DiaryReadActivity extends AbstractDetailActivity {
             finish();
         });
 
-        TextView adjustText = findViewById(R.id.text_view_detail_diary_font_size_adjust);
-        super.setUpFontMusicButton(contentEditText, adjustText, null);
+        ImageView moreLayout = findViewById(R.id.image_view_more);
+        moreLayout.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(this, v);
+            MenuInflater inflater = popup.getMenuInflater();
+            inflater.inflate(R.menu.detail_menu_diary_write, popup.getMenu());
+            popup.show();
+        });
+
+        super.setUpMoreOptionsPost(contentEditText, true, false, diary.getDiaryDate());
+
+//        TextView adjustText = findViewById(R.id.text_view_detail_diary_font_size_adjust);
+//        super.setUpFontMusicButton(contentEditText, adjustText, null);
     }
 }

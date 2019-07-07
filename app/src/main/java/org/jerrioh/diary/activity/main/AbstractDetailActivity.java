@@ -1,6 +1,5 @@
 package org.jerrioh.diary.activity.main;
 
-import android.accessibilityservice.AccessibilityService;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -9,28 +8,45 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Layout;
+import android.text.TextUtils;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.pop.FontSizePopActivity;
+import org.jerrioh.diary.activity.pop.PostWritePopActivity;
+import org.jerrioh.diary.api.ApiCallback;
+import org.jerrioh.diary.api.account.AccountDiaryApis;
+import org.jerrioh.diary.api.author.AuthorDiaryApis;
+import org.jerrioh.diary.api.author.AuthorLetterApis;
+import org.jerrioh.diary.model.Author;
 import org.jerrioh.diary.model.Music;
+import org.jerrioh.diary.model.Post;
 import org.jerrioh.diary.model.Property;
+import org.jerrioh.diary.model.db.DiaryDao;
+import org.jerrioh.diary.model.db.LetterDao;
 import org.jerrioh.diary.model.db.MusicDao;
+import org.jerrioh.diary.model.db.PostDao;
 import org.jerrioh.diary.model.db.PropertyDao;
+import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.util.PropertyUtil;
 import org.jerrioh.diary.util.SoftKeyboard;
-import org.w3c.dom.Text;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,7 +60,6 @@ public abstract class AbstractDetailActivity extends AppCompatActivity {
 
     private TextView contentText;
 
-    private TextView musicText;
     private MediaPlayer mediaPlayer;
     private boolean musicOn;
 
@@ -66,8 +81,19 @@ public abstract class AbstractDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        super.onResume();
         setContentFontSize();
+        super.onResume();
+    }
+    @Override
+    public void onBackPressed() {
+        musicOff();
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        musicOff();
+        super.onPause();
     }
 
     protected void setUpSoftKeyboard(int mainLayoutId, List<FloatingActionButton> floatingButtons) {
@@ -119,26 +145,140 @@ public abstract class AbstractDetailActivity extends AppCompatActivity {
         });
     }
 
-    protected void setUpFontMusicButton(TextView contentText, View fontSizeView, TextView musicText) {
-        // 글자 크기 조절을 위한 세팅
+    protected void setUpMoreOptionsPost(TextView contentText, Post post, boolean isWrite) {
         this.contentText = contentText;
-        fontSizeView.setOnClickListener(v -> {
-            Intent intent = new Intent(this, FontSizePopActivity.class);
-            startActivity(intent);
-        });
         this.setContentFontSize();
 
-        // 음악 on/off 세팅 (optional)
-        this.musicText = musicText;
-        if (this.musicText != null) {
-            musicText.setOnClickListener(v -> {
-                if (musicOn) {
-                    musicOff();
-                } else {
-                    musicOn();
+        boolean isPrivate = post.getChocolates() == -1;
+
+        ImageView moreLayout = findViewById(R.id.image_view_more);
+        moreLayout.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(this, v);
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.detail_option_font:
+                            Intent fontIntent = new Intent(AbstractDetailActivity.this, FontSizePopActivity.class);
+                            startActivity(fontIntent);
+                            return true;
+
+                        case R.id.detail_option_update:
+                            Intent writeIntent = new Intent(AbstractDetailActivity.this, PostWritePopActivity.class);
+                            writeIntent.putExtra("post", post);
+                            startActivity(writeIntent);
+                            finish();
+                            return true;
+
+                        case R.id.detail_option_delete:
+                            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AbstractDetailActivity.this);
+                            alertBuilder.setTitle("포스트 삭제")
+                                    .setMessage("정말 지우시겠습니까?")
+                                    .setPositiveButton("OK", (dialog, which) -> {
+                                        new PostDao(AbstractDetailActivity.this).deletePost(post.getPostId());
+                                        Toast.makeText(AbstractDetailActivity.this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    })
+                                    .setNegativeButton("Cancel", (dialog, which) -> {
+                                        dialog.cancel();
+                                    });
+                            AlertDialog alertDialog = alertBuilder.create();
+                            alertDialog.show();
+                            return true;
+
+                        default:
+                            return false;
+                    }
                 }
             });
-        }
+
+            MenuInflater inflater = popup.getMenuInflater();
+            if (isPrivate && !isWrite) {
+                inflater.inflate(R.menu.detail_menu_post_private_read, popup.getMenu());
+            } else {
+                inflater.inflate(R.menu.detail_menu_post_read_write, popup.getMenu());
+            }
+            popup.show();
+        });
+    }
+
+    protected void setUpMoreOptionsPost(TextView contentText, boolean isDiary, boolean isWrite, String key) {
+        this.contentText = contentText;
+        this.setContentFontSize();
+
+        ImageView moreLayout = findViewById(R.id.image_view_more);
+        moreLayout.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(this, v);
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.detail_option_font:
+                            Intent intent = new Intent(AbstractDetailActivity.this, FontSizePopActivity.class);
+                            startActivity(intent);
+                            return true;
+                        case R.id.detail_option_music:
+                            if (musicOn) {
+                                musicOff();
+                            } else {
+                                musicOn();
+                            }
+                            return true;
+                        case R.id.detail_option_delete:
+                            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AbstractDetailActivity.this);
+                            alertBuilder.setTitle(isDiary? "일기 삭제" : "편지 삭제")
+                                    .setMessage("정말 지우시겠습니까?")
+                                    .setPositiveButton("OK", (dialog, which) -> {
+                                        if (key != null) {
+                                            if (isDiary) {
+                                                new DiaryDao(AbstractDetailActivity.this).deleteDiary(key);
+                                                Author author = AuthorUtil.getAuthor(AbstractDetailActivity.this);
+                                                if (!TextUtils.isEmpty(author.getAccountEmail())) {
+                                                    new AccountDiaryApis(AbstractDetailActivity.this).deleteDiary(key, new ApiCallback() {
+                                                        @Override protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {}
+                                                    });
+                                                    new AuthorDiaryApis(AbstractDetailActivity.this).deleteDiary(key, new ApiCallback() {
+                                                        @Override protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {}
+                                                    });
+                                                }
+                                            } else {
+                                                new LetterDao(AbstractDetailActivity.this).deleteLetter(key);
+                                                new AuthorLetterApis(AbstractDetailActivity.this).deleteLetter(key, new ApiCallback() {
+                                                    @Override protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {}
+                                                });
+                                            }
+                                        }
+                                        Toast.makeText(AbstractDetailActivity.this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    })
+                                    .setNegativeButton("Cancel", (dialog, which) -> {
+                                        dialog.cancel();
+                                    });
+                            AlertDialog alertDialog = alertBuilder.create();
+                            alertDialog.show();
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+            });
+
+            MenuInflater inflater = popup.getMenuInflater();
+            if (isDiary) {
+                if (isWrite) {
+                    inflater.inflate(R.menu.detail_menu_diary_write, popup.getMenu());
+                } else {
+                    inflater.inflate(R.menu.detail_menu_diary_read, popup.getMenu());
+                }
+            } else {
+                if (isWrite) {
+                    inflater.inflate(R.menu.detail_menu_letter_write, popup.getMenu());
+                } else {
+                    inflater.inflate(R.menu.detail_menu_letter_read, popup.getMenu());
+                }
+            }
+            popup.show();
+        });
     }
 
     private void setContentFontSize() {
@@ -151,13 +291,8 @@ public abstract class AbstractDetailActivity extends AppCompatActivity {
     }
 
     public void musicOn() {
-        if (this.musicText == null) {
-            return;
-        }
 
         musicOn = true;
-
-        musicText.setTextColor(getResources().getColor(R.color.colorAccent));
 
         PropertyDao propertyDao = new PropertyDao(this);
         String selectMusic = PropertyUtil.getProperty(Property.Key.DIARY_WRITE_MUSIC, this);
@@ -194,20 +329,34 @@ public abstract class AbstractDetailActivity extends AppCompatActivity {
     }
 
     public void musicOff() {
-        if (this.musicText == null) {
-            return;
-        }
-
         if (!musicOn) {
             return;
         }
 
         musicOn = false;
 
-        musicText.setTextColor(getResources().getColor(R.color.colorIndicatorText));
-
         mediaPlayer.stop();
         mediaPlayer.reset();
         mediaPlayer.release();
+    }
+
+
+    protected void setWindowAttribute(float widthRatio, float heightRatio) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+
+        getWindow().setLayout((int)(width * widthRatio), (int)(height * heightRatio));
+
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+        params.gravity = Gravity.CENTER;
+        params.x = 0;
+        params.y = -20;
+        params.dimAmount = 0.6f;
+
+        getWindow().setAttributes(params);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
     }
 }

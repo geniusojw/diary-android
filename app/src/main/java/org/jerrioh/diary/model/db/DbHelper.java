@@ -9,6 +9,7 @@ import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.model.DiaryGroup;
 import org.jerrioh.diary.model.Letter;
 import org.jerrioh.diary.model.Music;
+import org.jerrioh.diary.model.Post;
 import org.jerrioh.diary.model.Property;
 import org.jerrioh.diary.model.Theme;
 
@@ -147,6 +148,23 @@ public class DbHelper extends SQLiteOpenHelper {
                     Music.TableDesc.COLUMN_NAME_MUSIC_NAME,
                     Music.TableDesc.COLUMN_NAME_MUSIC_DATA);
 
+    public static final String SQL_CREATE_POST_TABLE =
+            String.format("CREATE TABLE IF NOT EXISTS " +
+                            "%s (" +
+                            "%s INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                            "%s STRING, " +
+                            "%s STRING, " +
+                            "%s INTEGER, " +
+                            "%s STRING, " +
+                            "%s INTEGER" + ")",
+                    Post.TableDesc.TABLE_NAME,
+                    Post.TableDesc._ID,
+                    Post.TableDesc.COLUMN_NAME_POST_ID,
+                    Post.TableDesc.COLUMN_AUTHOR_NICKNAME,
+                    Post.TableDesc.COLUMN_AUTHOR_CHOCOLATES,
+                    Post.TableDesc.COLUMN_AUTHOR_CONTENT,
+                    Post.TableDesc.COLUMN_AUTHOR_WRITTEN_TIME);
+
     public static final String SQL_DELETE_AUTHOR_TABLE =
             String.format("DROP TABLE IF EXISTS %s",
                     Author.TableDesc.TABLE_NAME);
@@ -175,6 +193,10 @@ public class DbHelper extends SQLiteOpenHelper {
             String.format("DROP TABLE IF EXISTS %s",
                     Music.TableDesc.TABLE_NAME);
 
+    public static final String SQL_DELETE_POST_TABLE =
+            String.format("DROP TABLE IF EXISTS %s",
+                    Post.TableDesc.TABLE_NAME);
+
     private DbHelper(Context context) {
         super(context, DB_NAME, null, 1);
     }
@@ -195,6 +217,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_PROPERTY_TABLE);
         db.execSQL(SQL_CREATE_THEME_TABLE);
         db.execSQL(SQL_CREATE_MUSIC_TABLE);
+        db.execSQL(SQL_CREATE_POST_TABLE);
     }
 
     @Override
@@ -205,7 +228,8 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_DELETE_DIARY_GROUP_TABLE);
         db.execSQL(SQL_DELETE_PROPERTY_TABLE);
         db.execSQL(SQL_DELETE_THEME_TABLE);
-        db.execSQL(SQL_DELETE_THEME_TABLE);
+        db.execSQL(SQL_DELETE_MUSIC_TABLE);
+        db.execSQL(SQL_DELETE_POST_TABLE);
         this.onCreate(db);
     }
 }

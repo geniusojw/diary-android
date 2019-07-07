@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     >
 
-
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,21 +19,40 @@
             android:layout_centerHorizontal="true"
             >
             <TextView
-                android:id="@+id/text_view_chocolate_pop_description1"
+                android:id="@+id/text_view_chocolate_pop_item_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="-"
+                android:textStyle="bold"
                 android:textSize="20sp"
                 android:gravity="center"
                 />
             <TextView
-                android:id="@+id/text_view_chocolate_pop_description2"
+                android:id="@+id/text_view_chocolate_pop_item_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="-"
                 android:textSize="15sp"
+                />
+            <TextView
+                android:id="@+id/text_view_chocolate_pop_item_description_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="-"
+                android:textSize="10sp"
+                android:visibility="gone"
+                />
+            <TextView
+                android:id="@+id/text_view_chocolate_pop_item_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="-"
+                android:textSize="15sp"
+                android:layout_marginTop="5dp"
                 />
 
             <NumberPicker
@@ -43,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:visibility="gone"
                 >
             </NumberPicker>
 

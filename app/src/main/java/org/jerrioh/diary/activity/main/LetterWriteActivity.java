@@ -79,9 +79,7 @@ public class LetterWriteActivity extends AbstractDetailActivity {
             alertDialog.show();
         });
 
-        TextView adjustText = findViewById(R.id.text_view_detail_letter_font_size_adjust);
-
-        super.setUpFontMusicButton(letterContent, adjustText, null);
+        super.setUpMoreOptionsPost(letterContent, false, true, null);
         super.setUpTransparentFloatingButton(letterContent, Arrays.asList(sendButton, backButton));
 //        super.setUpSoftKeyboard(R.id.relative_layout_detail_letter_main, Arrays.asList(sendButton, backButton));
     }
@@ -96,8 +94,6 @@ public class LetterWriteActivity extends AbstractDetailActivity {
             if (letter.getStatus() != Letter.LetterStatus.REPLIED) {
                 letters.add(letter);
             }
-
-
         }
 
         selectPosition = letters.size();

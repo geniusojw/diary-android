@@ -32,79 +32,13 @@
                     android:textSize="13sp"
                     />
 
-
-                <RelativeLayout
-                    android:id="@+id/relative_layout_detail_diary_music"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/relative_layout_detail_diary_font_size"
-                    android:layout_marginRight="10dp"
-                    android:visibility="gone"
-                    >
-
-                    <ImageView
-                        android:id="@+id/image_view_detail_diary_music"
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:src="@drawable/ic_audiotrack_black_24dp"
-                        />
-
-                    <TextView
-                        android:id="@+id/text_view_detail_music"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/image_view_detail_diary_music"
-                        android:text="MUSIC"
-                        android:textSize="10sp"
-                        />
-
-                </RelativeLayout>
-
-
-                <RelativeLayout
-                    android:id="@+id/relative_layout_detail_diary_font_size"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <ImageView
+                    android:id="@+id/image_view_more"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentRight="true"
-                    >
-                    <ImageView
-                        android:id="@+id/image_view_detail_diary_font_size"
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:src="@drawable/ic_format_size_black_24dp"
-                        />
-                    <TextView
-                        android:id="@+id/text_view_detail_diary_font_size_adjust"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/image_view_detail_diary_font_size"
-                        android:text="FONT SIZE"
-                        android:textSize="10sp"
-                        />
-                </RelativeLayout>
-
-                <!--RelativeLayout
-                    android:id="@+id/relative_layout_detail_diary_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
-                    >
-                    <ImageView
-                        android:id="@+id/image_view_detail_diary_more"
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:src="@drawable/ic_more_vert_black_24dp"
-                        />
-                    <TextView
-                        android:id="@+id/text_view_detail_diary_more"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/image_view_detail_diary_more"
-                        android:text="MORE"
-                        android:textSize="10sp"
-                        />
-                </RelativeLayout>-->
+                    android:src="@drawable/ic_more_vert_black_24dp"
+                    />
 
             </RelativeLayout>
 

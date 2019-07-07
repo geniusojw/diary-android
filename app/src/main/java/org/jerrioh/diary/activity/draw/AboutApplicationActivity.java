@@ -8,6 +8,10 @@ import android.util.Log;
 import android.widget.TextView;
 
 import org.jerrioh.diary.R;
+import org.jerrioh.diary.api.ApiCallback;
+import org.jerrioh.diary.api.etc.EtcApis;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class AboutApplicationActivity extends CommonActionBarActivity {
     private static final String TAG = "AccountActivity";
@@ -17,31 +21,41 @@ public class AboutApplicationActivity extends CommonActionBarActivity {
         setContentView(R.layout.activity_about_app);
         setCommonToolBar("Application information");
 
-        TextView currentVersion = findViewById(R.id.application_current_version);
-        currentVersion.setText("Current Version : " + getCurrentVersionInfo(this));
 
+        TextView currentVersionText = findViewById(R.id.application_current_version);
+        TextView latestVersionText = findViewById(R.id.application_latest_version);
 
-        TextView latestVersion = findViewById(R.id.application_latest_version);
-        latestVersion.setText("Latest Version : " + getLatestVersionInfo(this));
-    }
-
-    private String getCurrentVersionInfo(Context context) {
-        String version = "Unknown";
-        PackageInfo packageInfo;
-
+        String currentVersion = "0.0.1";
         try {
-            packageInfo = context.getApplicationContext()
+            PackageInfo packageInfo = getApplicationContext()
                     .getPackageManager()
-                    .getPackageInfo(context.getApplicationContext().getPackageName(), 0 );
-            version = packageInfo.versionName;
+                    .getPackageInfo(getApplicationContext().getPackageName(), 0 );
+            currentVersion = packageInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(TAG, "getVersionInfo : " + e.getMessage());
         }
-        return version;
+
+        EtcApis etcApis = new EtcApis(this);
+        etcApis.version(currentVersion, new ApiCallback() {
+            @Override
+            protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                String currentVersion = "?";
+                String latestVersion = "?";
+
+                if (httpStatus == 200) {
+                    JSONObject data = jsonObject.getJSONObject("data");
+                    currentVersion = data.getString("currentVersion");
+                    latestVersion = data.getString("latestVersion");
+                }
+
+                currentVersionText.setText("Current Version : " + currentVersion);
+                latestVersionText.setText("Latest Version : " + latestVersion);
+            }
+        });
+
     }
 
     private String getLatestVersionInfo(Context context) {
-        String version = "Unknown";
-        return version;
+        return "Unknown";
     }
 }

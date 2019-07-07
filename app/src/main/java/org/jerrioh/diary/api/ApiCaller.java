@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyLog;
@@ -64,7 +65,7 @@ public class ApiCaller {
     }
 
     private StringRequest volleyRequest(int method, String url, Map<String, String> headers, String body, ApiCallback callback) {
-        return new StringRequest(method, url,
+        StringRequest request = new StringRequest(method, url,
                 response -> {
                     Log.d(TAG, url + " success!");
                     Log.d(TAG, "response = " + response);
@@ -103,6 +104,13 @@ public class ApiCaller {
                 return null;
             }
         };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        ));
+
+        return request;
     }
 
     private void executeCallback(int httpStatus, String response, ApiCallback callback) {

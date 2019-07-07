@@ -1,5 +1,6 @@
 package org.jerrioh.diary.util;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Patterns;
 
@@ -25,5 +26,14 @@ public class CommonUtil {
     public static String randomString(String... strings) {
         Random random = new Random();
         return strings[random.nextInt(strings.length)];
+    }
+
+    public static String resourceString(Context context, int resourceId, Object... args) {
+        if (args.length == 0) {
+            return context.getString(resourceId);
+        } else {
+            return context.getString(resourceId, args);
+
+        }
     }
 }

@@ -13,6 +13,8 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.Map;
 
+import javax.security.auth.callback.Callback;
+
 public class AccountDiaryApis extends ApiCaller {
     private static final String TAG = "AccountDiaryApis";
 
@@ -54,5 +56,11 @@ public class AccountDiaryApis extends ApiCaller {
         } catch (JSONException e) {
             Log.e(TAG, "JSONException, " + e.toString());
         }
+    }
+
+    public void deleteDiary(String diaryDate, ApiCallback callback) {
+        Map<String, String> headers = accountHeaders();
+        JSONObject json = new JSONObject();
+        super.delete("/account/diaries/" + diaryDate, headers, json.toString(), callback);
     }
 }

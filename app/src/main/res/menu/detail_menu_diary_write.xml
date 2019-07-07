@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/detail_option_music"
+        android:title="음악 ON / OFF" />
+
+    <item
+        android:id="@+id/detail_option_font"
+        android:title="글자크기 조절" />
+
+</menu>

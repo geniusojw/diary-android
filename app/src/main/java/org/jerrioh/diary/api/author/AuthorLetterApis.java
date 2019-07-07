@@ -39,4 +39,10 @@ public class AuthorLetterApis extends ApiCaller {
             Log.e(TAG, "JSONException, " + e.toString());
         }
     }
+
+    public void deleteLetter(String letterId, ApiCallback callback) {
+        Map<String, String> headers = authorHeaders();
+        JSONObject json = new JSONObject();
+        super.delete("/author/letters/" + letterId, headers, json.toString(), callback);
+    }
 }
