@@ -119,43 +119,43 @@ public class StoreFragment extends AbstractFragment {
 
             switch (itemId) {
                 case ITEM_WEATHER:
-                    title = "Weather";
-                    description = "Weather";
+                    title = getActivity().getResources().getString(R.string.store_item_weather);
+                    description = getActivity().getResources().getString(R.string.store_item_weather_description);
                     imageResource = R.drawable.weather_sunny;
                     break;
                 case ITEM_POST_IT:
-                    title = "Post-it (SQUARE)";
-                    description = "Post-it";
+                    title = getActivity().getResources().getString(R.string.store_item_post);
+                    description = getActivity().getResources().getString(R.string.store_item_post_description);
                     imageResource = R.drawable.ic_chat_black_24dp;
                     break;
                 case ITEM_CHANGE_DESCRIPTION:
-                    title = "Talking About You";
-                    description = "Talking About You";
+                    title = getActivity().getResources().getString(R.string.store_item_about);
+                    description = getActivity().getResources().getString(R.string.store_item_about_description);
                     imageResource = R.drawable.ic_face_black_24dp;
                     break;
                 case ITEM_CHANGE_NICKNAME:
-                    title = "Change Nickname";
-                    description = "Change Nickname";
+                    title = getActivity().getResources().getString(R.string.store_item_nick);
+                    description = getActivity().getResources().getString(R.string.store_item_nick_description);
                     imageResource = R.drawable.ic_fiber_new_black_24dp;
                     break;
                 case ITEM_PURCHASE_THEME:
-                    title = "Purchase Theme";
-                    description = "Purchase Theme";
+                    title = getActivity().getResources().getString(R.string.store_item_theme);
+                    description = getActivity().getResources().getString(R.string.store_item_theme_description);
                     imageResource = R.drawable.ic_gradient_black_24dp;
                     break;
                 case ITEM_PURCHASE_MUSIC:
-                    title = "Purchase Music";
-                    description = "Purchase Music";
+                    title = getActivity().getResources().getString(R.string.store_item_music);
+                    description = getActivity().getResources().getString(R.string.store_item_music_description);
                     imageResource = R.drawable.ic_audiotrack_black_24dp;
                     break;
                 case ITEM_DIARY_GROUP_INVITATION:
-                    title = "Diary Group Invitation";
-                    description = "Diary Group Invitation";
+                    title = getActivity().getResources().getString(R.string.store_item_invitation);
+                    description = getActivity().getResources().getString(R.string.store_item_invitation_description);
                     imageResource = R.drawable.ic_mail_outline_black_24dp;
                     break;
                 case ITEM_CHOCOLATE_DONATION:
-                    title = "Donate Chocolate";
-                    description = "Donate Chocolate";
+                    title = getActivity().getResources().getString(R.string.store_item_donation);
+                    description = getActivity().getResources().getString(R.string.store_item_donation_description);
                     imageResource = R.drawable.ic_favorite_black_24dp;
                     break;
                 case ITEM_DIARY_GROUP_SUPPORT:

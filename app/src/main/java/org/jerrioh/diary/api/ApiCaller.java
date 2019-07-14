@@ -96,6 +96,7 @@ public class ApiCaller {
             public byte[] getBody() {
                 if (body != null) {
                     try {
+
                         return body.getBytes(UTF_8);
                     } catch (UnsupportedEncodingException uee) {
                         VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", body, "utf-8");

@@ -172,14 +172,14 @@ public abstract class AbstractDetailActivity extends AppCompatActivity {
 
                         case R.id.detail_option_delete:
                             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AbstractDetailActivity.this);
-                            alertBuilder.setTitle("포스트 삭제")
-                                    .setMessage("정말 지우시겠습니까?")
-                                    .setPositiveButton("OK", (dialog, which) -> {
+                            alertBuilder.setTitle(getResources().getString(R.string.post_delete))
+                                    .setMessage(getResources().getString(R.string.delete_confirm))
+                                    .setPositiveButton(getResources().getString(R.string.ok), (dialog, which) -> {
                                         new PostDao(AbstractDetailActivity.this).deletePost(post.getPostId());
-                                        Toast.makeText(AbstractDetailActivity.this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(AbstractDetailActivity.this, getResources().getString(R.string.deleted), Toast.LENGTH_SHORT).show();
                                         finish();
                                     })
-                                    .setNegativeButton("Cancel", (dialog, which) -> {
+                                    .setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> {
                                         dialog.cancel();
                                     });
                             AlertDialog alertDialog = alertBuilder.create();
@@ -226,9 +226,9 @@ public abstract class AbstractDetailActivity extends AppCompatActivity {
                             return true;
                         case R.id.detail_option_delete:
                             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AbstractDetailActivity.this);
-                            alertBuilder.setTitle(isDiary? "일기 삭제" : "편지 삭제")
-                                    .setMessage("정말 지우시겠습니까?")
-                                    .setPositiveButton("OK", (dialog, which) -> {
+                            alertBuilder.setTitle(isDiary? getResources().getString(R.string.diary_delete) : getResources().getString(R.string.letter_delete))
+                                    .setMessage(getResources().getString(R.string.delete_confirm))
+                                    .setPositiveButton(getResources().getString(R.string.ok), (dialog, which) -> {
                                         if (key != null) {
                                             if (isDiary) {
                                                 new DiaryDao(AbstractDetailActivity.this).deleteDiary(key);
@@ -248,10 +248,10 @@ public abstract class AbstractDetailActivity extends AppCompatActivity {
                                                 });
                                             }
                                         }
-                                        Toast.makeText(AbstractDetailActivity.this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(AbstractDetailActivity.this, getResources().getString(R.string.deleted), Toast.LENGTH_SHORT).show();
                                         finish();
                                     })
-                                    .setNegativeButton("Cancel", (dialog, which) -> {
+                                    .setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> {
                                         dialog.cancel();
                                     });
                             AlertDialog alertDialog = alertBuilder.create();

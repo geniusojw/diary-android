@@ -35,16 +35,16 @@ public class SettingActivity extends CommonActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        setCommonToolBar("Setting");
+        setCommonToolBar(getResources().getString(R.string.setting));
 
-        setMemberServices();
+        this.setMemberServices();
     }
 
     private void setMemberServices() {
         this.setDiaryTheme();
         this.setDiaryWriteMusic();
         this.setFontSize();
-        this.setAlias();
+        //this.setAlias();
         this.setScreenLock();
         this.setDiaryAlarm();
         this.setDiaryGroupInvitation();
@@ -74,12 +74,10 @@ public class SettingActivity extends CommonActionBarActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 PropertyUtil.setProperty(Property.Key.DIARY_THEME, themeList.get(position), SettingActivity.this);
-                Toast.makeText(SettingActivity.this,"선택된 아이템이 있따", Toast.LENGTH_SHORT).show();
                 adapter.setSelection(position);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(SettingActivity.this,"선택된 아이템이 없다", Toast.LENGTH_SHORT).show();
             }
         });
         themeSpinner.setSelection(selection);
@@ -109,11 +107,9 @@ public class SettingActivity extends CommonActionBarActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 PropertyUtil.setProperty(Property.Key.DIARY_WRITE_MUSIC, musicList.get(position), SettingActivity.this);
                 adapter.setSelection(position);
-                Toast.makeText(SettingActivity.this,"선택된 아이템이 있따", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(SettingActivity.this,"선택된 아이템이 없다", Toast.LENGTH_SHORT).show();
             }
         });
         musicSpinner.setSelection(selection);
@@ -128,12 +124,12 @@ public class SettingActivity extends CommonActionBarActivity {
         });
     }
 
-    private void setAlias() {
-        TextView aliasView = findViewById(R.id.text_view_setting_alias);
-        aliasView.setOnClickListener(v -> {
-            Toast.makeText(this, "개발이 안된 부분", Toast.LENGTH_SHORT).show();
-        });
-    }
+//    private void setAlias() {
+//        TextView aliasView = findViewById(R.id.text_view_setting_alias);
+//        aliasView.setOnClickListener(v -> {
+//            Toast.makeText(this, "TBD", Toast.LENGTH_SHORT).show();
+//        });
+//    }
 
     private void setScreenLock() {
         String screenLockUse = PropertyUtil.getProperty(Property.Key.SCREEN_LOCK_USE, this);
@@ -160,10 +156,10 @@ public class SettingActivity extends CommonActionBarActivity {
 
         if (diaryAlarmUse == 1) {
             switchDiaryAlarm.setChecked(true);
-            textDiaryAlarm.setText("설정된 알림시간 : " + diaryAlarmTime);
+            textDiaryAlarm.setText(getResources().getString(R.string.diary_alarm_description_set, diaryAlarmTime));
         } else {
             switchDiaryAlarm.setChecked(false);
-            textDiaryAlarm.setText("It helps you to remember to write diary");
+            textDiaryAlarm.setText(getResources().getString(R.string.diary_alarm_description));
         }
 
         switchDiaryAlarm.setOnClickListener(v -> {
@@ -171,10 +167,10 @@ public class SettingActivity extends CommonActionBarActivity {
             if (alarmUse == 1) {
                 PropertyUtil.setProperty(Property.Key.DIARY_ALARM_USE, "0", this);
                 switchDiaryAlarm.setChecked(false);
-                textDiaryAlarm.setText("It helps you to remember to write diary");
+                textDiaryAlarm.setText(getResources().getString(R.string.diary_alarm_description));
                 ReceiverUtil.setAlarmReceiverOff(this);
 
-                Toast.makeText(SettingActivity.this, "이제 일기알림이 동작하지 않습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SettingActivity.this, getResources().getString(R.string.diary_alarm_description_set_message0), Toast.LENGTH_SHORT).show();
 
             } else {
                 String alarmTime = PropertyUtil.getProperty(Property.Key.DIARY_ALARM_TIME, this);
@@ -189,14 +185,14 @@ public class SettingActivity extends CommonActionBarActivity {
                         PropertyUtil.setProperty(Property.Key.DIARY_ALARM_USE, "1", SettingActivity.this);
                         PropertyUtil.setProperty(Property.Key.DIARY_ALARM_TIME, time, SettingActivity.this);
                         switchDiaryAlarm.setChecked(true);
-                        textDiaryAlarm.setText("설정된 알림시간 : " + time);
+                        textDiaryAlarm.setText(getResources().getString(R.string.diary_alarm_description_set, time));
                         ReceiverUtil.setAlarmReceiverOn(SettingActivity.this, hourOfDay, minute);
 
-                        Toast.makeText(SettingActivity.this, "일기 쓸 시간에 알려드릴게요:-)", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SettingActivity.this, getResources().getString(R.string.diary_alarm_description_set_message1), Toast.LENGTH_SHORT).show();
                     }
                 }, hour, minute, false);
 
-                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "CANCEL", new DialogInterface.OnClickListener() {
+                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == DialogInterface.BUTTON_NEGATIVE) {
@@ -217,13 +213,13 @@ public class SettingActivity extends CommonActionBarActivity {
             String invitationUse = PropertyUtil.getProperty(Property.Key.GROUP_INVITATION_USE, SettingActivity.this);
             if (Integer.parseInt(invitationUse) == 1) {
                 AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-                alertBuilder.setTitle("Disable diary group beInvited")
-                        .setMessage("You can decline the beInvited without disable it.\nDo you really want to disable it?")
-                        .setPositiveButton("Disable", (dialog, which) -> {
+                alertBuilder.setTitle(getResources().getString(R.string.diary_group_invitation_pop_title))
+                        .setMessage(getResources().getString(R.string.diary_group_invitation_pop_description))
+                        .setPositiveButton(getResources().getString(R.string.disable), (dialog, which) -> {
                             PropertyUtil.setProperty(Property.Key.GROUP_INVITATION_USE, "0", SettingActivity.this);
                             switchInvitation.setChecked(false);
                         })
-                        .setNegativeButton("Cancel", (dialog, which) -> {
+                        .setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> {
                             dialog.cancel();
                             switchInvitation.setChecked(true);
                         });
@@ -240,14 +236,14 @@ public class SettingActivity extends CommonActionBarActivity {
         LinearLayout dataResetLayout = findViewById(R.id.linear_layout_setting_data_reset);
         dataResetLayout.setOnClickListener(v -> {
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-            alertBuilder.setTitle("Data Reset")
-                    .setMessage("Really? Really? Really?")
-                    .setPositiveButton("DELETE ALL", (dialog, which) -> {
+            alertBuilder.setTitle(getResources().getString(R.string.reset_data))
+                    .setMessage(getResources().getString(R.string.reset_data_description))
+                    .setPositiveButton(getResources().getString(R.string.delete_all), (dialog, which) -> {
                         AuthorUtil.resetAuthorData(this);
                         setResult(RESULT_OK);
                         finish();
                     })
-                    .setNegativeButton("Cancel", (dialog, which) -> {
+                    .setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> {
                         dialog.cancel();
                     });
             AlertDialog alertDialog = alertBuilder.create();

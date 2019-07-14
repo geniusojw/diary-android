@@ -45,7 +45,7 @@
                     android:gravity="center_vertical"
                     android:textSize="12sp"
                     android:textColor="@color/blackCoffee"
-                    android:text="Let's change the atmosphere of the diary"
+                    android:text="@string/diary_theme_description"
                     />
 
                 <Spinner
@@ -78,7 +78,7 @@
                     android:gravity="center_vertical"
                     android:textSize="12sp"
                     android:textColor="@color/blackCoffee"
-                    android:text="Change the Music"
+                    android:text="@string/diary_music_description"
                     />
 
                 <Spinner
@@ -110,11 +110,11 @@
                     android:gravity="center_vertical"
                     android:textSize="12sp"
                     android:textColor="@color/blackCoffee"
-                    android:text="You can adjust the size of your diary's text"
+                    android:text="@string/font_size_description"
                     />
             </LinearLayout>
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -134,9 +134,9 @@
                     android:gravity="center_vertical"
                     android:textSize="12sp"
                     android:textColor="@color/blackCoffee"
-                    android:text="Set the alias to use for a letter or group diary"
+                    android:text="@string/alias_feature_description"
                     />
-            </LinearLayout>
+            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -158,7 +158,7 @@
                     android:gravity="center_vertical"
                     android:textSize="12sp"
                     android:textColor="@color/blackCoffee"
-                    android:text="Recovery email is required"
+                    android:text="@string/screen_lock_description"
                     />
             </LinearLayout>
 
@@ -183,7 +183,7 @@
                     android:gravity="center_vertical"
                     android:textSize="12sp"
                     android:textColor="@color/blackCoffee"
-                    android:text="-"
+                    android:text="@string/diary_alarm_description"
                     />
             </LinearLayout>
 
@@ -208,7 +208,7 @@
                     android:gravity="center_vertical"
                     android:textSize="12sp"
                     android:textColor="@color/blackCoffee"
-                    android:text="Get a diary group invitation"
+                    android:text="@string/diary_group_invitation_description"
                     />
             </LinearLayout>
 
@@ -232,7 +232,7 @@
                     android:gravity="center_vertical"
                     android:textSize="12sp"
                     android:textColor="@color/blackCoffee"
-                    android:text="All diaries, letters and properties will be permanently deleted"
+                    android:text="@string/reset_data_description"
                     />
             </LinearLayout>
         </LinearLayout>

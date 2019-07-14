@@ -1,5 +1,6 @@
 package org.jerrioh.diary.activity.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -22,8 +23,10 @@ import org.jerrioh.diary.util.PropertyUtil;
 import java.util.Date;
 import java.util.List;
 
-public class LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecyclerViewAdapter.LetterViewHolder> {
+public class
+LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecyclerViewAdapter.LetterViewHolder> {
 
+    private final Context context;
     private List<Letter> letterData;
     private OnItemClickListener callback;
 
@@ -43,7 +46,8 @@ public class LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecycl
         }
     }
 
-    public LetterRecyclerViewAdapter(List<Letter> letterData, OnItemClickListener callback) {
+    public LetterRecyclerViewAdapter(Context context, List<Letter> letterData, OnItemClickListener callback) {
+        this.context = context;
         this.letterData = letterData;
         this.callback = callback;
     }
@@ -87,7 +91,7 @@ public class LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecycl
 
         int imageResource = R.drawable.ic_mail_black_24dp;
         String letterTitle;
-        String description = "작성시간: " + new Date(letter.getWrittenTime());
+        String description = context.getResources().getString(R.string.letter_written_time) + ": " + new Date(letter.getWrittenTime());
 
         if (lettersToMe) {
             if (letter.getStatus() == Letter.LetterStatus.READ) {
@@ -96,11 +100,11 @@ public class LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecycl
                 imageResource = R.drawable.ic_drafts_black_24dp;
             } else if (letter.getStatus() == Letter.LetterStatus.REPLIED) {
                 imageResource = R.drawable.ic_reply_black_24dp;
-                description += "\n(회신된 편지입니다.)";
+                description += "\n(" + context.getResources().getString(R.string.letter_written_time) + ")";
             }
-            letterTitle = "[받은편지] FROM: " + letter.getFromAuthorNickname();
+            letterTitle = "[" + context.getResources().getString(R.string.letter_receive_letter) + "] FROM: " + letter.getFromAuthorNickname();
         } else {
-            letterTitle = "[보낸편지] TO: " + letter.getToAuthorNickname();
+            letterTitle = "[" + context.getResources().getString(R.string.letter_send_letter) + "] TO: " + letter.getToAuthorNickname();
             imageResource = R.drawable.ic_mail_outline_black_24dp;
         }
 

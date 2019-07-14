@@ -67,12 +67,12 @@ public class LetterWriteActivity extends AbstractDetailActivity {
                 return;
             }
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-            alertBuilder.setTitle("편지 삭제")
-                    .setMessage("작성하던 편지를 삭제하시겠습니까?")
-                    .setPositiveButton("OK", (dialog, which) -> {
+            alertBuilder.setTitle(getResources().getString(R.string.letter_delete))
+                    .setMessage(getResources().getString(R.string.letter_delete_current_letter))
+                    .setPositiveButton(getResources().getString(R.string.ok), (dialog, which) -> {
                         onBackPressed();
                     })
-                    .setNegativeButton("Cancel", (dialog, which) -> {
+                    .setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> {
                         dialog.cancel();
                     });
             AlertDialog alertDialog = alertBuilder.create();
@@ -124,7 +124,6 @@ public class LetterWriteActivity extends AbstractDetailActivity {
         toAuthorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(LetterWriteActivity.this,"선택된 아이템이 있따", Toast.LENGTH_SHORT).show();
                 adapter.setSelection(position);
                 if (position < letters.size()) {
                     Letter letter = letters.get(position);

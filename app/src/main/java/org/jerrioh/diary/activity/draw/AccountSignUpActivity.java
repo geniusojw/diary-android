@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +28,9 @@ public class AccountSignUpActivity extends CommonActionBarActivity {
     private static final int SCREEN_STATUS_SIGN_IN = 1;
     private static final int SCREEN_STATUS_FIND_PASSWORD = 2;
 
+    private ImageView imageView;
     private TextView titleView;
-    private TextView decriptionView;
+    private TextView descriptionView;
 
     private TextInputLayout emailTextInput;
     private TextInputEditText emailTextInputEdit;
@@ -45,14 +46,17 @@ public class AccountSignUpActivity extends CommonActionBarActivity {
     private TextView optionView1;
     private TextView optionView2;
 
+    private boolean waitingResponse = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_sign_up);
-        setCommonToolBar("Start a diary");
+        setCommonToolBar(getResources().getString(R.string.start_a_diary));
 
+        imageView = findViewById(R.id.image_view_sign_up);
         titleView = findViewById(R.id.text_view_sign_up_title);
-        decriptionView = findViewById(R.id.text_view_sign_up_description);
+        descriptionView = findViewById(R.id.text_view_sign_up_description);
 
         emailTextInput = findViewById(R.id.text_input_layout_sign_up_email);
         emailTextInputEdit = findViewById(R.id.text_input_edit_text_sign_up_email);
@@ -82,162 +86,219 @@ public class AccountSignUpActivity extends CommonActionBarActivity {
     }
 
     private void signUpStatus() {
-        titleView.setText("Getting Started");
-        decriptionView.setText("Additional Member Services!\nEasy Recovery!");
+        imageView.setImageResource(R.drawable.ic_cloud_queue_black_24dp);
+        titleView.setText(getResources().getString(R.string.free_account));
+        descriptionView.setText(getResources().getString(R.string.free_account_description));
 
         passwordTextInput.setVisibility(View.VISIBLE);
         confirmPasswordTextInput.setVisibility(View.VISIBLE);
 
-        singUpButton.setText("Sign up for free");
+        singUpButton.setText(getResources().getString(R.string.free_account_button));
         singUpButton.setOnClickListener(v -> {
-            signUp(emailTextInputEdit.getText().toString(), passwordTextInputEdit.getText().toString(), confirmPasswordTextInputEdit.getText().toString());
+            signUp();
         });
 
-        optionView1.setText("Already have an account?");
+        optionView1.setText(getResources().getString(R.string.already_has_account));
         optionView1.setOnClickListener(v -> {
             changeScreenStatus(SCREEN_STATUS_SIGN_IN);
         });
 
-        optionView2.setText("Forgot password?");
+        optionView2.setText(getResources().getString(R.string.forgot_password));
         optionView2.setOnClickListener(v -> {
             changeScreenStatus(SCREEN_STATUS_FIND_PASSWORD);
         });
     }
 
     private void signInStatus() {
-        titleView.setText("Sign in");
-        decriptionView.setText("Sign in with a member email.");
+        imageView.setImageResource(R.drawable.ic_account_circle_black_24dp);
+        titleView.setText(getResources().getString(R.string.sign_in));
+        descriptionView.setText(getResources().getString(R.string.sign_in_description));
 
         passwordTextInput.setVisibility(View.VISIBLE);
         confirmPasswordTextInput.setVisibility(View.GONE);
 
-        singUpButton.setText("Sign in");
+        singUpButton.setText(getResources().getString(R.string.sign_in));
         singUpButton.setOnClickListener(v -> {
-            signIn(emailTextInputEdit.getText().toString(), passwordTextInputEdit.getText().toString());
+            signIn();
         });
 
-        optionView1.setText("Create an account for free.");
+        optionView1.setText(getResources().getString(R.string.create_free));
         optionView1.setOnClickListener(v -> {
             changeScreenStatus(SCREEN_STATUS_SIGN_UP);
         });
 
-        optionView2.setText("Forgot password?");
+        optionView2.setText(getResources().getString(R.string.forgot_password));
         optionView2.setOnClickListener(v -> {
             changeScreenStatus(SCREEN_STATUS_FIND_PASSWORD);
         });
     }
 
     private void findPasswordStatus() {
-        titleView.setText("Find password");
-        decriptionView.setText("You can get a new password by email.\nEnter your email address.");
+        imageView.setImageResource(R.drawable.ic_mail_outline_black_24dp);
+        titleView.setText(getResources().getString(R.string.find_password));
+        descriptionView.setText(getResources().getString(R.string.find_password_description));
 
         passwordTextInput.setVisibility(View.GONE);
         confirmPasswordTextInput.setVisibility(View.GONE);
 
-        singUpButton.setText("Get new password");
+        singUpButton.setText(getResources().getString(R.string.find_password_button));
         singUpButton.setOnClickListener(v -> {
-            findPassword(emailTextInputEdit.getText().toString());
+            findPassword();
         });
 
-        optionView1.setText("Create an account for free.");
+        optionView1.setText(getResources().getString(R.string.create_free));
         optionView1.setOnClickListener(v -> {
             changeScreenStatus(SCREEN_STATUS_SIGN_UP);
         });
 
-        optionView2.setText("Already have an account?");
+        optionView2.setText(getResources().getString(R.string.already_has_account));
         optionView2.setOnClickListener(v -> {
             changeScreenStatus(SCREEN_STATUS_SIGN_IN);
         });
     }
 
-    private void signUp(String email, String password, String passwordConfirm) {
-        if (CommonUtil.isAnyEmpty(email, password, passwordConfirm)) {
-            Toast.makeText(this, "missing parameter", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (!TextUtils.equals(password, passwordConfirm)) {
-            Toast.makeText(this, "password != passwordConfirm", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (!CommonUtil.isEmailPattern(email)) {
-            Toast.makeText(this, "check email address", Toast.LENGTH_SHORT).show();
+    private void signUp() {
+        if (waitingResponse) {
             return;
         }
 
-        ApiCallback callback = new ApiCallback() {
-            @Override
-            protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
-                if (httpStatus == 200) {
-                    signInOrSignUpComplete(email, jsonObject);
-                } else {
-                    Toast.makeText(AccountSignUpActivity.this, "Email is invalid or already taken", Toast.LENGTH_LONG).show();
+        String failMessage = null;
+        if (TextUtils.isEmpty(emailTextInputEdit.getText())) {
+            emailTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.missing_parameter);
+        } else if (TextUtils.isEmpty(passwordTextInputEdit.getText())) {
+            passwordTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.missing_parameter);
+        } else if (TextUtils.isEmpty(confirmPasswordTextInputEdit.getText())) {
+            confirmPasswordTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.missing_parameter);
+        } else if (!TextUtils.equals(passwordTextInputEdit.getText(), confirmPasswordTextInputEdit.getText())) {
+            confirmPasswordTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.confirm_password_confirm);
+        } else if (!CommonUtil.isEmailPattern(emailTextInputEdit.getText().toString())) {
+            emailTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.not_email_pattern);
+        }
+
+        if (failMessage == null) {
+            String email = emailTextInputEdit.getText().toString();
+            String password = passwordTextInputEdit.getText().toString();
+
+            ApiCallback callback = new ApiCallback() {
+                @Override
+                protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                    waitingResponse = false;
+                    if (httpStatus == 200) {
+                        signInOrSignUpComplete(email, jsonObject);
+                    } else if (httpStatus == 409) {
+                        Toast.makeText(AccountSignUpActivity.this, getResources().getString(R.string.sign_up_fail), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(AccountSignUpActivity.this, getResources().getString(R.string.network_fail), Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
-        };
+            };
 
-        Author author = AuthorUtil.getAuthor(this);
-        AccountApis accountApis = new AccountApis(this);
-        accountApis.signUp(email, password, author.getAuthorId(), callback);
+            waitingResponse = true;
+            Author author = AuthorUtil.getAuthor(this);
+            AccountApis accountApis = new AccountApis(this);
+            accountApis.signUp(email, password, author.getAuthorId(), callback);
+
+
+        } else {
+            Toast.makeText(this, failMessage, Toast.LENGTH_SHORT).show();
+        }
     }
 
-    private void signIn(String email, String password) {
-        if (CommonUtil.isAnyEmpty(email, password)) {
-            Toast.makeText(this, "missing parameter", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (!CommonUtil.isEmailPattern(email)) {
-            Toast.makeText(this, "check email address", Toast.LENGTH_SHORT).show();
+    private void signIn() {
+        if (waitingResponse) {
             return;
         }
 
-        ApiCallback callback = new ApiCallback() {
-            @Override
-            protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
-                if (httpStatus == 200) {
-                    signInOrSignUpComplete(email, jsonObject);
-                } else {
-                    Toast.makeText(AccountSignUpActivity.this, "Incorrect email or password", Toast.LENGTH_LONG).show();
+        String failMessage = null;
+        if (TextUtils.isEmpty(emailTextInputEdit.getText())) {
+            emailTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.missing_parameter);
+        } else if (TextUtils.isEmpty(passwordTextInputEdit.getText())) {
+            passwordTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.missing_parameter);
+        } else if (!CommonUtil.isEmailPattern(emailTextInputEdit.getText().toString())) {
+            emailTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.not_email_pattern);
+        }
+
+        if (failMessage == null) {
+            String email = emailTextInputEdit.getText().toString();
+            String password = passwordTextInputEdit.getText().toString();
+
+            ApiCallback callback = new ApiCallback() {
+                @Override
+                protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                    waitingResponse = false;
+                    if (httpStatus == 200) {
+                        signInOrSignUpComplete(email, jsonObject);
+                    } else if (httpStatus == 401) {
+                        Toast.makeText(AccountSignUpActivity.this, getResources().getString(R.string.sign_in_fail), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(AccountSignUpActivity.this, getResources().getString(R.string.network_fail), Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
-        };
+            };
 
-        Author author = AuthorUtil.getAuthor(this);
-        AccountApis accountApis = new AccountApis(this);
-        accountApis.signIn(email, password, author.getAuthorId(), callback);
+            waitingResponse = true;
+            Author author = AuthorUtil.getAuthor(this);
+            AccountApis accountApis = new AccountApis(this);
+            accountApis.signIn(email, password, author.getAuthorId(), callback);
+
+        } else {
+            Toast.makeText(this, failMessage, Toast.LENGTH_SHORT).show();
+        }
     }
 
-    private void findPassword(String email) {
-        if (CommonUtil.isAnyEmpty(email)) {
-            Toast.makeText(this, "missing parameter", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (!CommonUtil.isEmailPattern(email)) {
-            Toast.makeText(this, "check email address", Toast.LENGTH_SHORT).show();
+    private void findPassword() {
+        if (waitingResponse) {
             return;
         }
 
-        ApiCallback callback = new ApiCallback() {
-            @Override
-            protected void execute(int httpStatus, JSONObject jsonObject) {
-                if (httpStatus == 200) {
-                    changeScreenStatus(SCREEN_STATUS_SIGN_IN);
-                    Toast.makeText(AccountSignUpActivity.this, "Check your email for a new password.", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(AccountSignUpActivity.this, "Can't find that email, sorry", Toast.LENGTH_LONG).show();
+        String failMessage = null;
+        if (TextUtils.isEmpty(emailTextInputEdit.getText())) {
+            emailTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.missing_parameter);
+        } else if (!CommonUtil.isEmailPattern(emailTextInputEdit.getText().toString())) {
+            emailTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.not_email_pattern);
+        }
+
+        if (failMessage == null) {
+            ApiCallback callback = new ApiCallback() {
+                @Override
+                protected void execute(int httpStatus, JSONObject jsonObject) {
+                    waitingResponse = false;
+                    if (httpStatus == 200) {
+                        changeScreenStatus(SCREEN_STATUS_SIGN_IN);
+                        Toast.makeText(AccountSignUpActivity.this, getResources().getString(R.string.find_password_success), Toast.LENGTH_LONG).show();
+                    } else if (httpStatus == 404) {
+                        Toast.makeText(AccountSignUpActivity.this, getResources().getString(R.string.find_password_fail), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(AccountSignUpActivity.this, getResources().getString(R.string.network_fail), Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
-        };
+            };
 
-        Author author = AuthorUtil.getAuthor(this);
-        AccountApis accountApis = new AccountApis(this);
-        accountApis.findPassword(email, callback);
+            waitingResponse = true;
+            Author author = AuthorUtil.getAuthor(this);
+            AccountApis accountApis = new AccountApis(this);
+            accountApis.findPassword(emailTextInputEdit.getText().toString(), callback);
+
+        } else {
+            Toast.makeText(this, failMessage, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void signInOrSignUpComplete(String email, JSONObject jsonObject) throws JSONException {
         JSONObject data = jsonObject.getJSONObject("data");
         String token = data.getString("token");
         if (TextUtils.isEmpty(token)) {
-            Log.e(TAG, "token is empty.");
+            Log.e(TAG, "TOKEN IS EMPTY.");
             return;
         }
 

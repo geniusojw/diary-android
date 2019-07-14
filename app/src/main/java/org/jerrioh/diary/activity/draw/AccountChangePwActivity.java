@@ -3,9 +3,11 @@ package org.jerrioh.diary.activity.draw;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +18,7 @@ import org.jerrioh.diary.model.Author;
 import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.util.CommonUtil;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 public class AccountChangePwActivity extends CommonActionBarActivity {
     private static final String TAG = "AccountChangePwActivity";
@@ -24,6 +27,7 @@ public class AccountChangePwActivity extends CommonActionBarActivity {
     private static final int SCREEN_STATUS_FIND_PASSWORD = 1;
     private static final int SCREEN_STATUS_DELETE_ACCOUNT = 2;
 
+    private ImageView imageView;
     private TextView titleView;
     private TextView descriptionView;
 
@@ -44,12 +48,15 @@ public class AccountChangePwActivity extends CommonActionBarActivity {
     private TextView optionView1;
     private TextView optionView2;
 
+    private boolean waitingResponse = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_change_password);
-        setCommonToolBar("Change Password & Delete Account");
+        setCommonToolBar(getResources().getString(R.string.change_account));
 
+        imageView = findViewById(R.id.image_view_change_password);
         titleView = findViewById(R.id.text_view_change_password_title);
         descriptionView = findViewById(R.id.text_view_change_password_description);
 
@@ -92,138 +99,221 @@ public class AccountChangePwActivity extends CommonActionBarActivity {
     }
 
     private void changePasswordStatus() {
-        titleView.setText("Change password");
+        imageView.setImageResource(R.drawable.ic_swap_horiz_black_24dp);
+        titleView.setText(getResources().getString(R.string.change_password));
         titleView.setTextColor(getResources().getColor(R.color.prussianBlue));
 
-        descriptionView.setText("Change your password.");
+        descriptionView.setText(getResources().getString(R.string.change_password_description));
         descriptionView.setTextColor(getResources().getColor(R.color.cobaltBlue));
 
         oldPasswordTextInput.setVisibility(View.VISIBLE);
         newPasswordTextInput.setVisibility(View.VISIBLE);
         confirmNewPasswordTextInput.setVisibility(View.VISIBLE);
 
-        changPasswordButton.setText("Change password");
+        changPasswordButton.setText(getResources().getString(R.string.change_password));
         changPasswordButton.setTextColor(getResources().getColor(R.color.colorWhite));
         changPasswordButton.setOnClickListener(v -> {
-            changePassword(emailTextInputEdit.getText().toString(), oldPasswordTextInputEdit.getText().toString(), newPasswordTextInputEdit.getText().toString(), confirmNewPasswordTextInputEdit.getText().toString());
+            changePassword();
         });
 
-        optionView1.setText("Forgot password?");
+        optionView1.setText(getResources().getString(R.string.forgot_password));
         optionView1.setOnClickListener(v -> {
             changeScreenStatus(SCREEN_STATUS_FIND_PASSWORD);
         });
 
-        optionView2.setText("Delete account.");
+        optionView2.setText(getResources().getString(R.string.delete_account));
         optionView2.setOnClickListener(v -> {
             changeScreenStatus(SCREEN_STATUS_DELETE_ACCOUNT);
         });
     }
 
     private void findPasswordStatus() {
-        titleView.setText("Find password");
+        imageView.setImageResource(R.drawable.ic_mail_outline_black_24dp);
+        titleView.setText(getResources().getString(R.string.find_password));
         titleView.setTextColor(getResources().getColor(R.color.prussianBlue));
 
-        descriptionView.setText("You can get a new password by email.");
+        descriptionView.setText(getResources().getString(R.string.find_password_description));
         descriptionView.setTextColor(getResources().getColor(R.color.cobaltBlue));
 
         oldPasswordTextInput.setVisibility(View.GONE);
         newPasswordTextInput.setVisibility(View.GONE);
         confirmNewPasswordTextInput.setVisibility(View.GONE);
 
-        changPasswordButton.setText("Get new password");
+        changPasswordButton.setText(getResources().getString(R.string.find_password_button));
         changPasswordButton.setTextColor(getResources().getColor(R.color.colorWhite));
         changPasswordButton.setOnClickListener(v -> {
-            findPassword(emailTextInputEdit.getText().toString());
+            findPassword();
         });
 
-        optionView1.setText("Change password.");
+        optionView1.setText(getResources().getString(R.string.change_password));
         optionView1.setOnClickListener(v -> {
             changeScreenStatus(SCREEN_STATUS_CHANGE_PASSWORD);
         });
 
-        optionView2.setText("Delete account.");
+        optionView2.setText(getResources().getString(R.string.delete_account));
         optionView2.setOnClickListener(v -> {
             changeScreenStatus(SCREEN_STATUS_DELETE_ACCOUNT);
         });
     }
 
     private void deleteAccountStatus() {
-        titleView.setText("Delete Author");
+        imageView.setImageResource(R.drawable.ic_cloud_off_black_24dp);
+        titleView.setText(getResources().getString(R.string.delete_account));
         titleView.setTextColor(getResources().getColor(R.color.colorRed));
 
-        descriptionView.setText("Once you delete your account,\nthere is no going back.\nPlease be certain.");
+        descriptionView.setText(getResources().getString(R.string.delete_account_description));
         descriptionView.setTextColor(getResources().getColor(R.color.colorMaroon));
 
         oldPasswordTextInput.setVisibility(View.VISIBLE);
         newPasswordTextInput.setVisibility(View.GONE);
         confirmNewPasswordTextInput.setVisibility(View.GONE);
 
-        changPasswordButton.setText("Delete your account");
+        changPasswordButton.setText(getResources().getString(R.string.delete_account_button));
         changPasswordButton.setTextColor(getResources().getColor(R.color.colorRed));
         changPasswordButton.setOnClickListener(v -> {
-            deleteAccount(emailTextInputEdit.getText().toString());
+            deleteAccount();
         });
 
-        optionView1.setText("Change password.");
+        optionView1.setText(getResources().getString(R.string.change_password));
         optionView1.setOnClickListener(v -> {
             changeScreenStatus(SCREEN_STATUS_CHANGE_PASSWORD);
         });
 
-        optionView2.setText("Forgot password?");
+        optionView2.setText(getResources().getString(R.string.forgot_password));
         optionView2.setOnClickListener(v -> {
             changeScreenStatus(SCREEN_STATUS_FIND_PASSWORD);
         });
     }
 
-    private void changePassword(String email, String oldPassword, String newPassword, String newPasswordConfirm) {
-        if (CommonUtil.isAnyEmpty(email, oldPassword, newPassword, newPasswordConfirm)) {
-            Toast.makeText(this, "missing parameter", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (!TextUtils.equals(newPassword, newPasswordConfirm)) {
-            Toast.makeText(this, "password != passwordConfirm", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (!CommonUtil.isEmailPattern(email)) {
-            Toast.makeText(this, "check email address", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        //TODO API CALL
-    }
-
-    private void findPassword(String email) {
-        if (CommonUtil.isAnyEmpty(email)) {
-            Toast.makeText(this, "missing parameter", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (!CommonUtil.isEmailPattern(email)) {
-            Toast.makeText(this, "check email address", Toast.LENGTH_SHORT).show();
+    private void changePassword() {
+        if (waitingResponse) {
             return;
         }
 
-        ApiCallback callback = new ApiCallback() {
-            @Override
-            protected void execute(int httpStatus, JSONObject jsonObject) {
-                if (httpStatus == 200) {
-                    Toast.makeText(AccountChangePwActivity.this, "Check your email for a new password", Toast.LENGTH_LONG).show();
+        String failMessage = null;
+        if (TextUtils.isEmpty(emailTextInputEdit.getText())) {
+            emailTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.missing_parameter);
+        } else if (TextUtils.isEmpty(oldPasswordTextInputEdit.getText())) {
+            oldPasswordTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.missing_parameter);
+        } else if (TextUtils.isEmpty(newPasswordTextInputEdit.getText())) {
+            newPasswordTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.missing_parameter);
+        } else if (TextUtils.isEmpty(confirmNewPasswordTextInputEdit.getText())) {
+            confirmNewPasswordTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.missing_parameter);
+        } else if (!TextUtils.equals(newPasswordTextInputEdit.getText(), confirmNewPasswordTextInputEdit.getText())) {
+            confirmNewPasswordTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.confirm_password_confirm);
+        } else if (!CommonUtil.isEmailPattern(emailTextInputEdit.getText().toString())) {
+            emailTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.not_email_pattern);
+        }
+
+        if (failMessage == null) {
+            ApiCallback callback = new ApiCallback() {
+                @Override
+                protected void execute(int httpStatus, JSONObject jsonObject) {
+                    waitingResponse = false;
+                    if (httpStatus == 200) {
+                        Toast.makeText(AccountChangePwActivity.this, getResources().getString(R.string.change_password_success), Toast.LENGTH_LONG).show();
+                        finish();
+                    } else if (httpStatus == 401) {
+                        Toast.makeText(AccountChangePwActivity.this, getResources().getString(R.string.incorrect_password), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(AccountChangePwActivity.this, getResources().getString(R.string.network_fail), Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
-        };
+            };
 
-        Author author = AuthorUtil.getAuthor(this);
-        AccountApis accountApis = new AccountApis(this);
-        accountApis.findPassword(email, callback);
+            waitingResponse = true;
+            Author author = AuthorUtil.getAuthor(this);
+            AccountApis accountApis = new AccountApis(this);
+            accountApis.changePassword(oldPasswordTextInputEdit.getText().toString(), newPasswordTextInputEdit.getText().toString(), callback);
+
+        } else {
+            Toast.makeText(this, failMessage, Toast.LENGTH_SHORT).show();
+        }
     }
 
-    private void deleteAccount(String email) {
-        if (CommonUtil.isAnyEmpty(email)) {
-            Toast.makeText(this, "missing parameter", Toast.LENGTH_SHORT).show();
+    private void findPassword() {
+        if (waitingResponse) {
             return;
         }
-        if (!CommonUtil.isEmailPattern(email)) {
-            Toast.makeText(this, "check email address", Toast.LENGTH_SHORT).show();
+
+        String failMessage = null;
+        if (TextUtils.isEmpty(emailTextInputEdit.getText())) {
+            emailTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.missing_parameter);
+        } else if (!CommonUtil.isEmailPattern(emailTextInputEdit.getText().toString())) {
+            emailTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.not_email_pattern);
+        }
+
+        if (failMessage == null) {
+            ApiCallback callback = new ApiCallback() {
+                @Override
+                protected void execute(int httpStatus, JSONObject jsonObject) {
+                    waitingResponse = false;
+                    if (httpStatus == 200) {
+                        Toast.makeText(AccountChangePwActivity.this, getResources().getString(R.string.find_password_success), Toast.LENGTH_LONG).show();
+                    } else if (httpStatus == 404) {
+                        Toast.makeText(AccountChangePwActivity.this, getResources().getString(R.string.find_password_fail), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(AccountChangePwActivity.this, getResources().getString(R.string.network_fail), Toast.LENGTH_LONG).show();
+                    }
+                }
+            };
+
+            waitingResponse = true;
+            Author author = AuthorUtil.getAuthor(this);
+            AccountApis accountApis = new AccountApis(this);
+            accountApis.findPassword(emailTextInputEdit.getText().toString(), callback);
+
+        } else {
+            Toast.makeText(this, failMessage, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void deleteAccount() {
+        if (waitingResponse) {
             return;
         }
-        //TODO API CALL
+
+        String failMessage = null;
+        if (TextUtils.isEmpty(emailTextInputEdit.getText())) {
+            emailTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.missing_parameter);
+        } else if (TextUtils.isEmpty(oldPasswordTextInputEdit.getText())) {
+            oldPasswordTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.missing_parameter);
+        } else if (!CommonUtil.isEmailPattern(emailTextInputEdit.getText().toString())) {
+            emailTextInputEdit.requestFocus();
+            failMessage = getResources().getString(R.string.not_email_pattern);
+        }
+
+        if (failMessage == null) {
+            ApiCallback callback = new ApiCallback() {
+                @Override
+                protected void execute(int httpStatus, JSONObject jsonObject) {
+                    waitingResponse = false;
+                    if (httpStatus == 200) {
+                        Toast.makeText(AccountChangePwActivity.this, getResources().getString(R.string.delete_account_success), Toast.LENGTH_LONG).show();
+                    } else if (httpStatus == 401) {
+                        Toast.makeText(AccountChangePwActivity.this, getResources().getString(R.string.incorrect_password), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(AccountChangePwActivity.this, getResources().getString(R.string.network_fail), Toast.LENGTH_LONG).show();
+                    }
+                }
+            };
+
+            waitingResponse = true;
+            Author author = AuthorUtil.getAuthor(this);
+            AccountApis accountApis = new AccountApis(this);
+            accountApis.deleteAccount(author.getAccountEmail(), oldPasswordTextInputEdit.getText().toString(), callback);
+        } else {
+            Toast.makeText(this, failMessage, Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -11,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.jerrioh.diary.activity.adapter.StoreRecyclerViewAdapter;
-import org.jerrioh.diary.activity.draw.ChocolateStoreActivity;
 import org.jerrioh.diary.activity.pop.StorePopActivity;
 import org.jerrioh.diary.activity.pop.DiaryGroupPopActivity;
 import org.jerrioh.diary.api.ApiCallback;
@@ -31,6 +29,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.jerrioh.diary.activity.fragment.StoreFragment.ITEM_DIARY_GROUP_SUPPORT;
 
 public class DiaryFragment extends AbstractFragment {
     private static final String TAG = "DiaryFragment";
@@ -66,7 +66,7 @@ public class DiaryFragment extends AbstractFragment {
         }
 
         final List<Diary> diaryData = getDiaryData(yyyyMM);
-        final DiaryRecyclerViewAdapter mAdapter = new DiaryRecyclerViewAdapter(currentDiaryGroup, diaryData,
+        final DiaryRecyclerViewAdapter mAdapter = new DiaryRecyclerViewAdapter(getActivity(), currentDiaryGroup, diaryData,
                 pos -> {
                     long currentTime = System.currentTimeMillis();
                     if (currentTime > currentDiaryGroup.getStartTime()) { // 시작됨
@@ -83,7 +83,7 @@ public class DiaryFragment extends AbstractFragment {
                                     int chocolates = data.getInt("chocolates");
 
                                     Intent intent = new Intent(getActivity(), StorePopActivity.class);
-                                    intent.putExtra("itemId", ChocolateStoreActivity.ITEM_DIARY_GROUP_SUPPORT);
+                                    intent.putExtra("itemId", ITEM_DIARY_GROUP_SUPPORT);
                                     intent.putExtra("itemPrice", 1);
                                     intent.putExtra("currentChocolates", chocolates);
                                     startActivity(intent);

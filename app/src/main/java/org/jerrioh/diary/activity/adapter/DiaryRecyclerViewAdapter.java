@@ -1,6 +1,6 @@
 package org.jerrioh.diary.activity.adapter;
 
-import android.graphics.Color;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +15,6 @@ import org.jerrioh.diary.R;
 import org.jerrioh.diary.config.Constants;
 import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.model.DiaryGroup;
-import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.CommonUtil;
 
@@ -28,6 +27,7 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
         AD, GROUP_DIARY, DIARY
     }
 
+    private final Context context;
     private DiaryGroup diaryGroup;
     private List<Diary> diaryData;
 
@@ -57,7 +57,8 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
         }
     }
 
-    public DiaryRecyclerViewAdapter(DiaryGroup diaryGroup, List<Diary> diaryData, OnItemClickListener callbackDiaryGroup, OnItemClickListener callbackDiary) {
+    public DiaryRecyclerViewAdapter(Context context, DiaryGroup diaryGroup, List<Diary> diaryData, OnItemClickListener callbackDiaryGroup, OnItemClickListener callbackDiary) {
+        this.context = context;
         this.diaryGroup = diaryGroup;
         this.diaryData = diaryData;
         this.callbackDiaryGroup = callbackDiaryGroup;
@@ -182,8 +183,7 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
                 imageView.setImageResource(R.drawable.ic_people_black_24dp);
             }
 
-            title = CommonUtil.defaultIfEmpty(diaryGroup.getDiaryGroupName(), "모임이름을 고민중입니다.");
-            //title = "모임이름을 고민중입니다.";
+            title = CommonUtil.defaultIfEmpty(diaryGroup.getDiaryGroupName(), context.getResources().getString(R.string.group_started_no_group_name));
 
             String start = DateUtil.getDateStringSkipYear(diaryGroup.getStartTime());
             String end = DateUtil.getDateStringSkipYear(diaryGroup.getEndTime() - TimeUnit.MINUTES.toMillis(1));
@@ -191,14 +191,15 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
             String tip;
             if (diaryGroup.getCurrentAuthorCount() >= 2) {
                 tip = CommonUtil.randomString(
-                        "현재 당신은 익명의 일기모임에 참가 중입니다.",
-                        "당신과 " + (diaryGroup.getCurrentAuthorCount() - 1) + "명의 사람이 어제의 이야기를 공유합니다.",
-                        "별칭기능으로 원하는 정보를 감출 수 있습니다.");
+                        context.getResources().getString(R.string.group_started_tip1),
+                        context.getResources().getString(R.string.group_started_tip2),
+                        context.getResources().getString(R.string.group_started_tip3, (diaryGroup.getCurrentAuthorCount() - 1)));
             } else {
                 tip = CommonUtil.randomString(
-                        "일기모임에 초대된 사람이 없습니다.");
+                        context.getResources().getString(R.string.group_solo_tip1),
+                        context.getResources().getString(R.string.group_solo_tip2));
             }
-            String period = "기간: " + start + " ~ " + end;
+            String period = start + " ~ " + end;
             content = tip + "\n" + period;
 
         } else { // 준비중
@@ -206,13 +207,12 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
             imageView.setImageResource(R.drawable.ic_person_add_black_24dp);
 
             title = CommonUtil.randomString(
-                    "일기모임을 준비 중입니다.",
-                    "모임장소를 물색 중입니다.",
-                    "모임기간 중 날씨를 확인 중입니다.");
+                    context.getResources().getString(R.string.group_prepare_tip1),
+                    context.getResources().getString(R.string.group_prepare_tip2),
+                    context.getResources().getString(R.string.group_prepare_tip3));
 
             long timeLeft = diaryGroup.getStartTime() - currentTime;
-            content = "현재 참여자 수: " + diaryGroup.getCurrentAuthorCount() + "명"
-                    + "\n시작까지 남은 시간: " + DateUtil.getTimeString(timeLeft);
+            content = context.getResources().getString(R.string.group_prepare_content, diaryGroup.getCurrentAuthorCount(), DateUtil.getTimeString(timeLeft));
         }
 
 //        content = "debug max: " + diaryGroup.getCurrentAuthorCount() + " / " + diaryGroup.getMaxAuthorCount()

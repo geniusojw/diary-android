@@ -54,19 +54,31 @@ public class AccountApis extends ApiCaller {
         }
     }
 
+    public void changePassword(String oldPassword, String newPassword, ApiCallback callback) {
+        Map<String, String> headers = accountHeaders();
+        try {
+            JSONObject json = new JSONObject();
+            json.put("oldPassword", oldPassword);
+            json.put("newPassword", newPassword);
+
+            super.post("/account/change-password", headers, json.toString(), callback);
+        } catch (JSONException e) {
+            Log.e(TAG, "JSONException, " + e.toString());
+        }
+    }
+
     public void refreshToken(ApiCallback callback) {
         Map<String, String> headers = accountHeaders();
         JSONObject json = new JSONObject();
         super.post("/account/refresh-token", headers, json.toString(), callback);
     }
 
-    public void deleteAccount(String accountEmail, String password, String authorId, ApiCallback callback) {
+    public void deleteAccount(String accountEmail, String password, ApiCallback callback) {
         Map<String, String> headers = accountHeaders();
         try {
             JSONObject json = new JSONObject();
             json.put("accountEmail", accountEmail);
             json.put("password", password);
-            json.put("authorId", authorId);
 
             super.post("/account/delete", headers, json.toString(), callback);
         } catch (JSONException e) {

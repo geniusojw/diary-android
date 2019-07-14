@@ -53,7 +53,7 @@
                         android:gravity="center_vertical"
                         android:textSize="12sp"
                         android:textColor="@color/blackCoffee"
-                        android:text="마지막 동기화 시간: "
+                        android:text="@string/last_sync_time"
                         />
                 </LinearLayout>
                 <ProgressBar
@@ -85,7 +85,7 @@
                     android:gravity="center_vertical"
                     android:textSize="12sp"
                     android:textColor="@color/blackCoffee"
-                    android:text="You can get diaries by mail."
+                    android:text="@string/email_export_description"
                     />
             </LinearLayout>
 
@@ -109,7 +109,7 @@
                     android:gravity="center_vertical"
                     android:textSize="12sp"
                     android:textColor="@color/blackCoffee"
-                    android:text="Change password, and delete account."
+                    android:text="@string/change_account_description"
                     />
             </LinearLayout>
 
@@ -133,7 +133,7 @@
                     android:gravity="center_vertical"
                     android:textSize="12sp"
                     android:textColor="@color/blackCoffee"
-                    android:text="Sign out of the current device. Sync will stop."
+                    android:text="@string/sign_out_description"
                     />
             </LinearLayout>
 

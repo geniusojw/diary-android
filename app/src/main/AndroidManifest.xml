@@ -36,7 +36,6 @@
         <activity android:name=".activity.draw.AccountSignUpActivity" />
         <activity android:name=".activity.draw.AccountChangePwActivity" />
         <activity android:name=".activity.draw.SettingActivity" />
-        <activity android:name=".activity.draw.ChocolateStoreActivity" />
         <activity android:name=".activity.draw.FaqActivity" />
         <activity android:name=".activity.draw.AboutApplicationActivity" />
 

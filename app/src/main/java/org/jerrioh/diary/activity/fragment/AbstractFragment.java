@@ -37,7 +37,7 @@ public abstract class AbstractFragment extends Fragment {
         writeButton.setEnabled(true);
         writeButton.setClickable(true);
 
-        if (!timeToSleep()) {
+//        if (!timeToSleep()) {
             if (buttonType == BUTTON_TYPE_DIARY) {
                 writeButton.setOnClickListener(view -> {
                     DiaryDao diaryDao = new DiaryDao(getActivity());
@@ -62,7 +62,7 @@ public abstract class AbstractFragment extends Fragment {
                 writeButton.setOnClickListener(view -> {
                     int count = new PostDao(getActivity()).getAllPosts().size();
                     if (count >= 15) {
-                        Toast.makeText(getActivity(), "포스트가 너무 많습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getActivity().getString(R.string.post_too_many_post), Toast.LENGTH_SHORT).show();
                     } else {
                         Post post = new Post();
                         post.setPostId(UUID.randomUUID().toString());
@@ -99,7 +99,7 @@ public abstract class AbstractFragment extends Fragment {
                                 startActivity(intent);
 
                             } else if (httpStatus == 404) {
-                                Toast.makeText(getActivity(), "상점에서 광장발언권을 구매하세요.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), getActivity().getString(R.string.post_no_public_post_it), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -107,23 +107,23 @@ public abstract class AbstractFragment extends Fragment {
                 ((FloatingActionButton) writeButton).setImageResource(R.drawable.ic_chat_black_24dp);
             }
 
-        } else {
-            writeButton.setOnClickListener(view -> {
-                DiaryDao diaryDao = new DiaryDao(getActivity());
-                String today_yyyyMMdd = DateUtil.getyyyyMMdd();
-                Diary todayDiary = diaryDao.getDiary(today_yyyyMMdd);
-
-                Intent intent;
-                if (todayDiary != null) {
-                    intent = new Intent(getActivity(), DiaryWriteActivity.class);
-                } else {
-                    intent = new Intent(getActivity(), DiaryWriteStartPopActivity.class);
-                    writeButton.setVisibility(View.GONE);
-                }
-                startActivity(intent);
-            });
-            ((FloatingActionButton) writeButton).setImageResource(R.drawable.ic_edit_black_48dp);
-        }
+//        } else {
+//            writeButton.setOnClickListener(view -> {
+//                DiaryDao diaryDao = new DiaryDao(getActivity());
+//                String today_yyyyMMdd = DateUtil.getyyyyMMdd();
+//                Diary todayDiary = diaryDao.getDiary(today_yyyyMMdd);
+//
+//                Intent intent;
+//                if (todayDiary != null) {
+//                    intent = new Intent(getActivity(), DiaryWriteActivity.class);
+//                } else {
+//                    intent = new Intent(getActivity(), DiaryWriteStartPopActivity.class);
+//                    writeButton.setVisibility(View.GONE);
+//                }
+//                startActivity(intent);
+//            });
+//            ((FloatingActionButton) writeButton).setImageResource(R.drawable.ic_edit_black_48dp);
+//        }
     }
 
     public boolean timeToSleep() {

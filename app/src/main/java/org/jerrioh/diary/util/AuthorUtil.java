@@ -166,17 +166,17 @@ public class AuthorUtil {
 
     public static void saveDiaryGroup(JSONObject data, Context context) throws JSONException {
         DiaryGroup diaryGroup = new DiaryGroup();
-        diaryGroup.setDiaryGroupId(data.getLong("diaryGroupId"));
-        diaryGroup.setDiaryGroupName(data.getString("diaryGroupName"));
-        diaryGroup.setHostAuthorId(data.getString("hostAuthorId"));
-        diaryGroup.setKeyword(data.getString("keyword"));
-        diaryGroup.setCurrentAuthorCount(data.getInt("currentAuthorCount"));
-        diaryGroup.setMaxAuthorCount(data.getInt("maxAuthorCount"));
-        diaryGroup.setCountry(data.getString("country"));
-        diaryGroup.setLanguage(data.getString("language"));
-        diaryGroup.setTimeZoneId(data.getString("timeZoneId"));
-        diaryGroup.setStartTime(data.getLong("startTime"));
-        diaryGroup.setEndTime(data.getLong("endTime"));
+        diaryGroup.setDiaryGroupId(JsonUtil.getLong("diaryGroupId", data));
+        diaryGroup.setDiaryGroupName(JsonUtil.getString("diaryGroupName", data));
+        diaryGroup.setHostAuthorId(JsonUtil.getString("hostAuthorId", data));
+        diaryGroup.setKeyword(JsonUtil.getString("keyword", data));
+        diaryGroup.setCurrentAuthorCount(JsonUtil.getInt("currentAuthorCount", data));
+        diaryGroup.setMaxAuthorCount(JsonUtil.getInt("maxAuthorCount", data));
+        diaryGroup.setCountry(JsonUtil.getString("country", data));
+        diaryGroup.setLanguage(JsonUtil.getString("language", data));
+        diaryGroup.setTimeZoneId(JsonUtil.getString("timeZoneId", data));
+        diaryGroup.setStartTime(JsonUtil.getLong("startTime", data));
+        diaryGroup.setEndTime(JsonUtil.getLong("endTime", data));
 
         DiaryGroupDao diaryGroupDao = new DiaryGroupDao(context);
         if (diaryGroupDao.getDiaryGroup() == null) {
@@ -212,6 +212,9 @@ public class AuthorUtil {
 
     public static void refreshAccountToken(Context context) {
         Author author = AuthorUtil.getAuthor(context);
+        if (TextUtils.isEmpty(author.getAccountEmail())) {
+            return;
+        }
 
         AccountApis accountApis = new AccountApis(context);
         accountApis.refreshToken(new ApiCallback() {

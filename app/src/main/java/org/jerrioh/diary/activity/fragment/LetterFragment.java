@@ -42,7 +42,7 @@ public class LetterFragment extends AbstractFragment {
 
         Log.d(TAG, "letterData.size()=" + letterData.size());
 
-        final LetterRecyclerViewAdapter mAdapter = new LetterRecyclerViewAdapter(letterData, pos -> {
+        final LetterRecyclerViewAdapter mAdapter = new LetterRecyclerViewAdapter(getActivity(), letterData, pos -> {
             Intent intent = new Intent(getActivity(), LetterReadActivity.class);
 
             Letter letter = letterData.get(pos);

@@ -19,7 +19,7 @@ public class AboutApplicationActivity extends CommonActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_app);
-        setCommonToolBar("Application information");
+        setCommonToolBar(getResources().getString(R.string.app_version));
 
 
         TextView currentVersionText = findViewById(R.id.application_current_version);

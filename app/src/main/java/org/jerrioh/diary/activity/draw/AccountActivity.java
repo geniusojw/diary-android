@@ -68,7 +68,7 @@ public class AccountActivity extends CommonActionBarActivity {
     private void accountDiarySync() {
         String lastSyncTimeString = PropertyUtil.getProperty(Property.Key.SYNC_ACCOUNT_DIARY_API_REQUEST_TIME, this);
         long lastSyncTime = Long.parseLong(lastSyncTimeString);
-        String lastSyncDescription = "마지막 동기화 시간: " + DateUtil.getDateStringFull(lastSyncTime);
+        String lastSyncDescription = getResources().getString(R.string.last_sync_time) + ": " + DateUtil.getDateStringFull(lastSyncTime);
 
         TextView syncText = findViewById(R.id.text_view_account_sync);
         syncText.setText(lastSyncDescription);
@@ -87,7 +87,7 @@ public class AccountActivity extends CommonActionBarActivity {
     private void exportDiary() {
         LinearLayout exportLayout = findViewById(R.id.linear_layout_account_export);
         exportLayout.setOnClickListener(v -> {
-            Toast.makeText(this, "아직 개발되지 않았다.", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "TBD", Toast.LENGTH_SHORT);
         });
     }
 
@@ -103,16 +103,16 @@ public class AccountActivity extends CommonActionBarActivity {
         LinearLayout signOutLayout = findViewById(R.id.linear_layout_account_sign_out);
         signOutLayout.setOnClickListener(v -> {
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-            alertBuilder.setTitle("Sign out")
-                    .setMessage("Are you sure you want to sign out?")
-                    .setPositiveButton("Ok", (dialog, which) -> {
+            alertBuilder.setTitle(getResources().getString(R.string.sign_out))
+                    .setMessage(getResources().getString(R.string.sign_out_confirm))
+                    .setPositiveButton(getResources().getString(R.string.ok), (dialog, which) -> {
                         AuthorUtil.accountSignOut(this);
                         setResult(RESULT_OK);
                         finish();
 
-                        Toast.makeText(this, "You have been signed out.", Toast.LENGTH_SHORT);
+                        Toast.makeText(this, getResources().getString(R.string.sign_out_success), Toast.LENGTH_SHORT);
                     })
-                    .setNegativeButton("Cancel", (dialog, which) -> {
+                    .setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> {
                         dialog.cancel();
                     });
             AlertDialog alertDialog = alertBuilder.create();

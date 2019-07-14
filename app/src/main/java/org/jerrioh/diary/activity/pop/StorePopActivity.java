@@ -31,7 +31,6 @@ import org.jerrioh.diary.model.db.ThemeDao;
 import org.jerrioh.diary.util.AuthorUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.List;
@@ -78,6 +77,7 @@ public class StorePopActivity extends CustomPopActivity {
             itemPrice = getResources().getString(R.string.store_pop_require_money, price);
         }
 
+        boolean noPrice = false;
         View.OnClickListener okClickListener = null;
 
         if (StoreFragment.ITEM_WEATHER.equals(itemId)) {
@@ -110,13 +110,16 @@ public class StorePopActivity extends CustomPopActivity {
                                         if (httpStatus == 200) {
                                             JSONObject data = jsonObject.getJSONObject("data");
                                             String description = data.getString("description");
-                                            buySuccessBasic(description);
+                                            buySuccessBasic(getResources().getString(R.string.store_pop_weather_result_title), description, null);
                                         } else if (httpStatus == 402) {
                                             buyFailWithToast(getResources().getString(R.string.store_pop_not_enough_money));
                                         } else if (httpStatus == 412) {
                                             buyFailWithToast(getResources().getString(R.string.store_pop_already_bought));
                                         } else {
-                                            buySuccessBasic(getResources().getString(R.string.store_pop_weather_result2));
+                                            buySuccessBasic(
+                                                    getResources().getString(R.string.store_pop_weather_result_title),
+                                                    getResources().getString(R.string.store_pop_weather_result_description2),
+                                                    null);
                                         }
                                     }
                                 });
@@ -125,7 +128,10 @@ public class StorePopActivity extends CustomPopActivity {
                                 Log.e(TAG, "io exception. " + e.toString());
                             }
                         } else {
-                            buySuccessBasic(getResources().getString(R.string.store_pop_weather_result1));
+                            buySuccessBasic(
+                                    getResources().getString(R.string.store_pop_weather_result_title),
+                                    getResources().getString(R.string.store_pop_weather_result_description1),
+                                    null);
                         }
                     }
                 }
@@ -136,12 +142,11 @@ public class StorePopActivity extends CustomPopActivity {
             itemDescription = getResources().getString(R.string.store_pop_post_description);
             itemDescriptionDetail = getResources().getString(R.string.store_pop_post_description_detail);
 
+            noPrice = true;
             NumberPicker numberPicker = findViewById(R.id.number_picker_store_pop);
             numberPicker.setVisibility(View.VISIBLE);
             numberPicker.setMinValue(0);
-            numberPicker.setMaxValue(30);
-//            numberPicker.setScaleX(0.8f);
-//            numberPicker.setScaleY(0.8f);
+            numberPicker.setMaxValue(100);
             numberPicker.setWrapSelectorWheel(false);
 
             okClickListener = v -> {
@@ -152,11 +157,13 @@ public class StorePopActivity extends CustomPopActivity {
                         @Override
                         protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                             if (httpStatus == 200) {
-                                buySuccessBasic("광장에 가서 글을 쓰세요! =>" + postItPrice);
+                                buySuccessBasic(getResources().getString(R.string.store_pop_post_result_title),
+                                        getResources().getString(R.string.store_pop_post_result_description),
+                                        null);
                             } else if (httpStatus == 402) {
-                                buyFailWithToast("not enough chocolates");
+                                buyFailWithToast(getResources().getString(R.string.store_pop_not_enough_money));
                             } else if (httpStatus == 412) {
-                                buyFailWithToast("이미 포스트잇이 있네요!");
+                                buyFailWithToast(getResources().getString(R.string.store_pop_already_bought));
                             }
                             numberPicker.setVisibility(View.GONE);
                         }
@@ -182,12 +189,12 @@ public class StorePopActivity extends CustomPopActivity {
                                 AuthorDao authorDao = new AuthorDao(StorePopActivity.this);
                                 authorDao.updateDescription(description);
 
-                                buySuccessBasic(aboutYou);
+                                buySuccessBasic(description, aboutYou, null);
 
                             } else if (httpStatus == 402) {
-                                buyFailWithToast("not enough chocolates");
+                                buyFailWithToast(getResources().getString(R.string.store_pop_not_enough_money));
                             } else if (httpStatus == 412) {
-                                buyFailWithToast("이미 샀어요.");
+                                buyFailWithToast(getResources().getString(R.string.store_pop_already_bought));
                             }
                         }
                     });
@@ -204,18 +211,21 @@ public class StorePopActivity extends CustomPopActivity {
                         @Override
                         protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                             if (httpStatus == 200) {
+                                String originalNickname = AuthorUtil.getAuthor().getNickname();
                                 JSONObject data = jsonObject.getJSONObject("data");
                                 String nickname = data.getString("nickname");
 
                                 AuthorDao authorDao = new AuthorDao(StorePopActivity.this);
                                 authorDao.updateNickname(nickname);
 
-                                buySuccessBasic("변경되었습니다!\n당신의 새로운 닉네임은 " + nickname + "입니다." +
-                                        "3");
+                                buySuccessBasic(getResources().getString(R.string.store_pop_nickname_result_title),
+                                        getResources().getString(R.string.store_pop_nickname_result_description, originalNickname, nickname),
+                                        null);
+
                             } else if (httpStatus == 402) {
-                                buyFailWithToast("not enough chocolates");
+                                buyFailWithToast(getResources().getString(R.string.store_pop_not_enough_money));
                             } else if (httpStatus == 412) {
-                                buyFailWithToast("이미 샀어요.");
+                                buyFailWithToast(getResources().getString(R.string.store_pop_already_bought));
                             }
                         }
                     });
@@ -246,14 +256,18 @@ public class StorePopActivity extends CustomPopActivity {
                                     theme.setPattern2(data.getString("pattern2"));
                                     theme.setPattern3(data.getString("pattern3"));
                                     themeDao.insertTheme(theme);
-                                    buySuccessBasic("새로운 테마를 저장하엿다!");
+                                    buySuccessBasic(getResources().getString(R.string.store_pop_theme_result_title),
+                                            getResources().getString(R.string.store_pop_theme_result_description, themeName),
+                                            getResources().getString(R.string.store_pop_go_to_setting));
                                 } else {
-                                    buySuccessBasic("이미 가지고 있는 테마!");
+                                    buySuccessBasic(getResources().getString(R.string.store_pop_lose_the_draw),
+                                            getResources().getString(R.string.store_pop_lose_the_draw_description),
+                                            null);
                                 }
                             } else if (httpStatus == 402) {
-                                buyFailWithToast("not enough chocolates");
+                                buyFailWithToast(getResources().getString(R.string.store_pop_not_enough_money));
                             } else if (httpStatus == 412) {
-                                buyFailWithToast("이미 샀어요.");
+                                buyFailWithToast(getResources().getString(R.string.store_pop_already_bought));
                             }
                         }
                     });
@@ -281,14 +295,18 @@ public class StorePopActivity extends CustomPopActivity {
                                     music.setMusicName(musicName);
                                     music.setMusicData(data.getString("musicData"));
                                     musicDao.insertMusic(music);
-                                    buySuccessBasic("새로운 음악을 저장하엿다!");
+                                    buySuccessBasic(getResources().getString(R.string.store_pop_music_result_title),
+                                            getResources().getString(R.string.store_pop_music_result_description, musicName),
+                                            getResources().getString(R.string.store_pop_go_to_setting));
                                 } else {
-                                    buySuccessBasic("이미 가지고 있는 음악ㅋㅋㅋ");
+                                    buySuccessBasic(getResources().getString(R.string.store_pop_lose_the_draw),
+                                            getResources().getString(R.string.store_pop_lose_the_draw_description),
+                                            null);
                                 }
                             } else if (httpStatus == 402) {
-                                buyFailWithToast("not enough chocolates");
+                                buyFailWithToast(getResources().getString(R.string.store_pop_not_enough_money));
                             } else if (httpStatus == 412) {
-                                buyFailWithToast("이미 샀어요.");
+                                buyFailWithToast(getResources().getString(R.string.store_pop_already_bought));
                             }
                         }
                     });
@@ -308,12 +326,16 @@ public class StorePopActivity extends CustomPopActivity {
                         protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                             if (httpStatus == 200) {
                                 AuthorUtil.syncAuthorDiaryGroupData(StorePopActivity.this);
+                                buySuccessBasic(getResources().getString(R.string.store_pop_group_invite_result_title),
+                                        getResources().getString(R.string.store_pop_group_invite_result_description),
+                                        getResources().getString(R.string.store_pop_group_invite_result_description_detail));
                             } else if (httpStatus == 402) {
-                                Toast.makeText(StorePopActivity.this, "not enough chocolates", Toast.LENGTH_LONG).show();
+                                buyFailWithToast(getResources().getString(R.string.store_pop_not_enough_money));
                             } else if (httpStatus == 409) {
-                                Toast.makeText(StorePopActivity.this, "이미 그룹이 있다.", Toast.LENGTH_LONG).show();
+                                buyFailWithToast(getResources().getString(R.string.store_pop_group_already_exists));
+                            } else {
+                                finish();
                             }
-                            finish();
                         }
                     });
                 }
@@ -330,39 +352,54 @@ public class StorePopActivity extends CustomPopActivity {
                         protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                             if (httpStatus == 200) {
                                 AuthorUtil.syncAuthorDiaryGroupData(StorePopActivity.this);
+                                buySuccessBasic(getResources().getString(R.string.store_pop_group_support_result_title),
+                                        getResources().getString(R.string.store_pop_group_support_result_description),
+                                        getResources().getString(R.string.store_pop_group_support_result_description_detail));
                             } else if (httpStatus == 402) {
-                                Toast.makeText(StorePopActivity.this, "not enough chocolates", Toast.LENGTH_LONG).show();
+                                buyFailWithToast(getResources().getString(R.string.store_pop_not_enough_money));
                             } else if (httpStatus == 412) {
-                                Toast.makeText(StorePopActivity.this, "최대에 도달했다. 더는 안된다.", Toast.LENGTH_LONG).show();
+                                buyFailWithToast(getResources().getString(R.string.store_pop_cannot_support));
+                            } else {
+                                finish();
                             }
-                            finish();
                         }
                     });
                 }
             };
         } else if (StoreFragment.ITEM_CHOCOLATE_DONATION.equals(itemId)) {
-            itemTitle = getResources().getString(R.string.store_pop_group_donation_title);
-            itemDescription = getResources().getString(R.string.store_pop_group_donation_description);
+            itemTitle = getResources().getString(R.string.store_pop_donation_title);
+            itemDescription = getResources().getString(R.string.store_pop_donation_description);
+
+            noPrice = true;
+            NumberPicker numberPicker = findViewById(R.id.number_picker_store_pop);
+            numberPicker.setVisibility(View.VISIBLE);
+            numberPicker.setMinValue(0);
+            numberPicker.setMaxValue(100);
+            numberPicker.setWrapSelectorWheel(false);
 
             okClickListener = v -> {
                 if (okEnabled) {
+                    int donationPrice = numberPicker.getValue();
                     okEnabled = false;
-                    authorStoreApis.donate(0, new ApiCallback() {
+                    authorStoreApis.donate(donationPrice, new ApiCallback() {
                         @Override
                         protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                             if (httpStatus == 200) {
-                                buySuccessBasic("기부하였다.");
+                                buySuccessBasic(getResources().getString(R.string.store_pop_donation_result_title),
+                                        getResources().getString(R.string.store_pop_donation_result_description, donationPrice),
+                                        null);
                             } else if (httpStatus == 402) {
-                                buyFailWithToast("not enough chocolates");
+                                buyFailWithToast(getResources().getString(R.string.store_pop_not_enough_money));
                             } else if (httpStatus == 412) {
-                                buyFailWithToast("이미 샀어요.");
+                                buyFailWithToast(getResources().getString(R.string.store_pop_already_bought));
                             }
+                            numberPicker.setVisibility(View.GONE);
                         }
                     });
                 }
             };
         } else {
-            itemTitle = "뭔가 이상하다.";
+            itemTitle = "it is broken...";
         }
 
         TextView itemTitleView = findViewById(R.id.text_view_chocolate_pop_item_title);
@@ -372,7 +409,12 @@ public class StorePopActivity extends CustomPopActivity {
 
         itemTitleView.setText("\"" + itemTitle + "\"");
         itemDescriptionView.setText(itemDescription);
-        itemPriceView.setText(itemPrice);
+
+        if (noPrice) {
+            itemPriceView.setVisibility(View.GONE);
+        } else {
+            itemPriceView.setText(itemPrice);
+        }
 
         if (!TextUtils.isEmpty(itemDescriptionDetail)) {
             itemDescriptionDetailView.setVisibility(View.VISIBLE);
@@ -388,22 +430,40 @@ public class StorePopActivity extends CustomPopActivity {
         });
     }
 
-    private void buySuccessBasic(String successText) {
-        //Toast.makeText(StorePopActivity.this, "success", Toast.LENGTH_LONG).show();
+    private void buySuccessBasic(String successText, String descriptionText, String detailText) {
+        TextView titleView = findViewById(R.id.text_view_chocolate_pop_item_title);
+        TextView descriptionView = findViewById(R.id.text_view_chocolate_pop_item_description);
+        TextView descriptionDetailView = findViewById(R.id.text_view_chocolate_pop_item_description_detail);
 
-        TextView descriptionView = findViewById(R.id.text_view_chocolate_pop_item_title);
-        descriptionView.setText(successText);
+        titleView.setText(successText);
+        if (TextUtils.isEmpty(descriptionText)) {
+            descriptionView.setVisibility(View.GONE);
+        } else {
+            descriptionView.setVisibility(View.VISIBLE);
+            descriptionView.setText(descriptionText);
+        }
+        if (TextUtils.isEmpty(detailText)) {
+            descriptionDetailView.setVisibility(View.GONE);
+        } else {
+            descriptionDetailView.setVisibility(View.VISIBLE);
+            descriptionDetailView.setText(detailText);
+        }
 
-        TextView popDescriptionView2 = findViewById(R.id.text_view_chocolate_pop_item_price);
-        popDescriptionView2.setVisibility(View.GONE);
-
+        TextView priceView = findViewById(R.id.text_view_chocolate_pop_item_price);
         View okButton = findViewById(R.id.linear_layout_chocolate_pop_select1);
         View noButton = findViewById(R.id.linear_layout_chocolate_pop_select2);
+        TextView priceTextView = findViewById(R.id.text_view_chocolate_pop_chocolate_count);
+        TextView priceTipView = findViewById(R.id.text_view_chocolate_pop_chocolate_count_tip);
+
+        priceView.setVisibility(View.GONE);
         okButton.setVisibility(View.GONE);
         noButton.setVisibility(View.GONE);
+        priceTextView.setVisibility(View.GONE);
+        priceTipView.setVisibility(View.GONE);
 
         View confirmButton = findViewById(R.id.linear_layout_chocolate_pop_select3);
         confirmButton.setVisibility(View.VISIBLE);
+
         confirmButton.setOnClickListener(v -> {
             finish();
         });

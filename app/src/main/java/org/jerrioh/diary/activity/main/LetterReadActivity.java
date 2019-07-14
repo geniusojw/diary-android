@@ -71,7 +71,7 @@ public class LetterReadActivity extends AbstractDetailActivity {
             if (letter.getStatus() == Letter.LetterStatus.REPLIED) {
                 //replyButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.beige)));
                 replyButton.setOnClickListener(v -> {
-                    Toast.makeText(this, "이미 회신된 편지입니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getString(R.string.letter_replied_letter), Toast.LENGTH_SHORT).show();
                 });
 
             } else {
@@ -79,10 +79,13 @@ public class LetterReadActivity extends AbstractDetailActivity {
                     replyButton.setOnClickListener(v -> {
                         DialogInterface.OnClickListener listener = (dialog, which) -> {
                             String invitationResponseType;
+                            String successMessage;
                             if (which == DialogInterface.BUTTON_POSITIVE) {
                                 invitationResponseType = "accept";
+                                successMessage = LetterReadActivity.this.getResources().getString(R.string.accepted);
                             } else {
                                 invitationResponseType = "refuse";
+                                successMessage = LetterReadActivity.this.getResources().getString(R.string.refused);
                             }
 
                             DiaryGroupApis diaryGroupApis = new DiaryGroupApis(this);
@@ -92,19 +95,20 @@ public class LetterReadActivity extends AbstractDetailActivity {
                                     if (httpStatus == 200) {
                                         LetterDao letterDao = new LetterDao(LetterReadActivity.this);
                                         letterDao.updateLetterStatus(letter.getLetterId(), Letter.LetterStatus.REPLIED);
-                                        Toast.makeText(LetterReadActivity.this, "[debug] 성공", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LetterReadActivity.this, successMessage, Toast.LENGTH_SHORT).show();
                                     } else {
-                                        Toast.makeText(LetterReadActivity.this, "[debug] 실패", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LetterReadActivity.this, LetterReadActivity.this.getResources().getString(R.string.network_fail), Toast.LENGTH_SHORT).show();
                                     }
+
                                 }
                             });
                         };
 
                         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-                        alertBuilder.setTitle("초대 응답하기")
-                                .setMessage("일기모임에 참여 하시겠습니까?\n당신의 일기는 몇일동안 익명의 누구에게 공개되며 blah blah...")
-                                .setPositiveButton("수락", listener)
-                                .setNegativeButton("거절", listener);
+                        alertBuilder.setTitle(LetterReadActivity.this.getResources().getString(R.string.letter_group_letter_respond))
+                                .setMessage(LetterReadActivity.this.getResources().getString(R.string.letter_group_letter_respond_description))
+                                .setPositiveButton(LetterReadActivity.this.getResources().getString(R.string.accept), listener)
+                                .setNegativeButton(LetterReadActivity.this.getResources().getString(R.string.refuse), listener);
 
                         AlertDialog alertDialog = alertBuilder.create();
                         alertDialog.show();

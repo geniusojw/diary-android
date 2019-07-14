@@ -232,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (bottomNavId == R.id.bottom_option_letter) {
             fragment = new LetterFragment();
-            mainBannerText = "LETTER";
+            mainBannerText = getResources().getString(R.string.letter);
             weatherImageResource = R.drawable.ic_import_contacts_black_24dp;
             weatherButtonClickListener = v -> {
                 BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (bottomNavId == R.id.bottom_option_store) {
             fragment = new StoreFragment();
-            mainBannerText = "STORE";
+            mainBannerText = getResources().getString(R.string.store);
             weatherImageResource = -1;
             weatherButtonClickListener = null;
             enableMonthAdjustment = false;
@@ -253,11 +253,11 @@ public class MainActivity extends AppCompatActivity {
             String squareType;
             if (publicSquare) {
                 squareType = "PUBLIC";
-                mainBannerText = "PUBLIC SQUARE";
+                mainBannerText = getResources().getString(R.string.public_square);
                 fragment = new SquareFragment();
             } else {
                 squareType = "PRIVATE";
-                mainBannerText = "PRIVATE SQUARE";
+                mainBannerText = getResources().getString(R.string.square);
                 fragment = new SquareFragment();
             }
             Bundle args = new Bundle();
@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
         mainBannerTextMidView.setText(mainBannerText);
 
         TextView mainBannerTextBottomView = findViewById(R.id.text_view_main_banner_bottom);
-        mainBannerTextBottomView.setText("Today is " + DateUtil.getDateStringSkipTime());
+        mainBannerTextBottomView.setText(getResources().getString(R.string.today_is, DateUtil.getDateStringSkipTime()));
 
         // 배너 우측 버튼 (날씨 등)
         ImageView weatherImageView = findViewById(R.id.image_view_banner_right_button);
@@ -349,11 +349,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                 if (httpStatus == 200) {
-                    Toast.makeText(MainActivity.this, "test invitation success!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getResources().getString(R.string.letter_group_invited), Toast.LENGTH_SHORT).show();
                 } else if (httpStatus == 409) {
                     AuthorUtil.syncAuthorDiaryGroupData(MainActivity.this);
-                } else {
-                    Toast.makeText(MainActivity.this, "test invitation fail! httpStatus: " + httpStatus, Toast.LENGTH_SHORT).show();
                 }
             }
         });

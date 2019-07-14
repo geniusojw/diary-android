@@ -34,7 +34,6 @@ public class DiaryWriteActivity extends AbstractDetailActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        Toast.makeText(this, "vivivi", Toast.LENGTH_SHORT).show();
 
         // Checks whether a hardware keyboard is available
         if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
@@ -55,7 +54,7 @@ public class DiaryWriteActivity extends AbstractDetailActivity {
 
         contentText = findViewById(R.id.edit_text_detail_content);
         contentText.setFocusableInTouchMode(true);
-        contentText.setHint("여기에 일기를 작성하세요.");
+        contentText.setHint(getResources().getString(R.string.diary_write_here));
 
         TextView emptySpaceView = findViewById(R.id.text_view_detail_empty_space);
         emptySpaceView.setOnClickListener(v -> {
@@ -112,7 +111,7 @@ public class DiaryWriteActivity extends AbstractDetailActivity {
     @Override
     public void onBackPressed() {
         if (!titleText.getText().toString().equals(originalTitle) || !contentText.getText().toString().equals(originalContent)) {
-            Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.saved), Toast.LENGTH_SHORT).show();
             saveDiary();
         }
 
