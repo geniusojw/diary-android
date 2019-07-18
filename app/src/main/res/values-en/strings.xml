@@ -17,6 +17,7 @@
 
     <!-- bottom navigation -->
     <string name="app_name">Today Diary</string>
+    <string name="today">Today</string>
     <string name="diary">Diary</string>
     <string name="letter">Letter</string>
     <string name="store">Store</string>
@@ -169,6 +170,9 @@
     <!-- diary -->
     <string name="diary_delete">Delete Diary</string>
     <string name="diary_write_here">Write a diary here.</string>
+    <string name="diary_today_diary">TODAY\'S DIARY (Editable)</string>
+    <string name="diary_today_remain_time">You have %s to write today\'s diary</string>
+    <string name="diary_today_remain_time_short">Today\'s remaining time: %s</string>
 
     <!-- letter -->
     <string name="letter_written_time">Creation time</string>
@@ -203,5 +207,18 @@
     <string name="store_item_invitation_description">Create an anonymous diary group.</string>
     <string name="store_item_donation">Donate Time</string>
     <string name="store_item_donation_description">You can donate your time.</string>
+
+    <!-- version -->
+    <string name="version_current">Current Version : %s</string>
+    <string name="version_latest">Latest Version : %s</string>
+
+    <!-- help -->
+    <string name="help_question">Q%d</string>
+    <string name="help_question1">당신은 누구입니까?</string>
+    <string name="help_answer1">천재 오정욱</string>
+    <string name="help_question2">나는 누구입니까?</string>
+    <string name="help_answer2">그냥 병신</string>
+    <string name="help_question3">뭔 소립니까?</string>
+    <string name="help_answer3">몰라 꺼져</string>
 
 </resources>

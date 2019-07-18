@@ -1,9 +1,14 @@
 package org.jerrioh.diary.activity.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +23,8 @@ import org.jerrioh.diary.model.DiaryGroup;
 import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.CommonUtil;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -128,10 +135,30 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
         ImageView imageView = diaryViewHolder.itemView.findViewById(R.id.image_view_row_diary_calendar_image);
         imageView.setPadding(2, 2, 2, 2);
         imageView.setImageResource(R.drawable.ic_web_asset_black_24dp);
-        cardView.setCardBackgroundColor(0xCCFFFFFF);
 
         Diary diary = diaryData.get(index);
         String diaryDate = diary.getDiaryDate();
+
+        calendarText1.setText(DateUtil.dayOfWeek(diaryDate));
+        calendarText2.setText(diaryDate.substring(6, 8));
+        calendarText3.setText(diaryDate.substring(0, 4) + "." + diaryDate.substring(4, 6));
+
+        final String today_yyyyMMdd = DateUtil.getyyyyMMdd();
+        if (today_yyyyMMdd.equals(diaryDate)) {
+            long timeLeft = DateUtil.getTimeLeft();
+
+            SpannableString content = new SpannableString(context.getResources().getString(R.string.diary_today_diary));
+            content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+            //content.setSpan(new StyleSpan(Typeface.BOLD), 0, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleText.setText(content);
+            contentText.setText(context.getResources().getString(R.string.diary_today_remain_time_short, DateUtil.getTimeString(timeLeft)));
+            cardView.setCardBackgroundColor(0xCCDDEEFF);
+
+        } else {
+            titleText.setText(CommonUtil.defaultIfEmpty(diary.getTitle(), Constants.DEFAULT_TITLE));
+            contentText.setText(diary.getContent());
+            cardView.setCardBackgroundColor(0xCCFFFFFF);
+        }
 
         int day = DateUtil.getDay(diaryDate);
         if (day == 0) {
@@ -141,18 +168,11 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
         } else {
             calendarText1.setTextColor(0xFF808080);
         }
+
         // DEBUG
         if (diary.getAccountDiaryStatus() == Diary.DiaryStatus.UNSAVED_CONFLICT) {
             cardView.setCardBackgroundColor(0xCCFF000F);
         }
-
-
-        calendarText1.setText(DateUtil.dayOfWeek(diaryDate));
-        calendarText2.setText(diaryDate.substring(6, 8));
-        calendarText3.setText(diaryDate.substring(0, 4) + "." + diaryDate.substring(4, 6));
-
-        titleText.setText(CommonUtil.defaultIfEmpty(diary.getTitle(), Constants.DEFAULT_TITLE));
-        contentText.setText(diary.getContent());
     }
 
     private void setGroupDiaryRow(DiaryViewHolder diaryViewHolder) {

@@ -20,13 +20,13 @@ public class AuthorDiaryApis extends ApiCaller {
         super(context);
     }
 
-    public void write(Diary diary, ApiCallback callback) {
+    public void write(String diaryDate, String title, String content, ApiCallback callback) {
         Map<String, String> headers = authorHeaders();
         try {
             JSONObject json = new JSONObject();
-            json.put("diaryDate", diary.getDiaryDate());
-            json.put("title", diary.getTitle());
-            json.put("content", diary.getContent());
+            json.put("diaryDate", diaryDate);
+            json.put("title", title);
+            json.put("content", content);
 
             super.post("/author/diaries", headers, json.toString(), callback);
         } catch (JSONException e) {

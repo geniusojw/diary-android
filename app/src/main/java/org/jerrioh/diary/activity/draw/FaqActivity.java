@@ -13,19 +13,13 @@ import java.util.List;
 public class FaqActivity extends CommonActionBarActivity {
     private static final String TAG = "FaqActivity";
 
-    private List<Integer> questionIds;
     private List<Integer> answerIds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_faq);
-        setCommonToolBar("FAQ");
-
-        questionIds = new ArrayList<>();
-        questionIds.add(R.id.question1);
-        questionIds.add(R.id.question2);
-        questionIds.add(R.id.question3);
+        setCommonToolBar(getResources().getString(R.string.help));
 
         answerIds = new ArrayList<>();
         answerIds.add(R.id.answer1);
@@ -34,30 +28,30 @@ public class FaqActivity extends CommonActionBarActivity {
 
         this.allAnswerTextVisibilityGone();
 
-        for (int i = 0; i < questionIds.size(); i++) {
-            int qId = questionIds.get(i);
-            int aId = answerIds.get(i);
+        setQuestion(1, R.id.question1, R.id.answer1, R.string.help_question1, R.string.help_answer1);
+        setQuestion(2, R.id.question2, R.id.answer2, R.string.help_question2, R.string.help_answer2);
+        setQuestion(3, R.id.question3, R.id.answer3, R.string.help_question3, R.string.help_answer3);
+    }
 
-            TextView question = findViewById(qId);
-            TextView answer = findViewById(aId);
+    private void setQuestion(int index, int questionViewId, int answerViewId, int questionStringId, int answerStringId) {
+        TextView questionView = findViewById(questionViewId);
+        TextView answerView = findViewById(answerViewId);
+        String questionText = getResources().getString(R.string.help_question, index) + ") " + getResources().getString(questionStringId);
+        String answerText = " > " +  getResources().getString(answerStringId);
 
-            question.setText("질문 " + i);
-            answer.setText("답변 " +  i);
+        questionView.setText(questionText);
+        answerView.setText(answerText);
 
-            question.setOnClickListener(v -> {
-
-                boolean displayAnswer = false;
-                if (answer.getVisibility() != View.VISIBLE) {
-                    displayAnswer = true;
-                }
-
-                allAnswerTextVisibilityGone();
-
-                if (displayAnswer) {
-                    answer.setVisibility(View.VISIBLE);
-                }
-            });
-        }
+        questionView.setOnClickListener(v -> {
+            boolean displayAnswer = false;
+            if (answerView.getVisibility() != View.VISIBLE) {
+                displayAnswer = true;
+            }
+            allAnswerTextVisibilityGone();
+            if (displayAnswer) {
+                answerView.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private void allAnswerTextVisibilityGone() {

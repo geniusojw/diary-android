@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.jerrioh.diary.activity.main.DiaryWriteActivity;
 import org.jerrioh.diary.activity.pop.StorePopActivity;
 import org.jerrioh.diary.activity.pop.DiaryGroupPopActivity;
 import org.jerrioh.diary.api.ApiCallback;
@@ -65,19 +66,20 @@ public class DiaryFragment extends AbstractFragment {
             currentDiaryGroup = null;
         }
 
-        final List<Diary> diaryData = getDiaryData(yyyyMM);
+        final String today_yyyyMMdd = DateUtil.getyyyyMMdd();
+        final List<Diary> diaryData = getDiaryData(yyyyMM, today_yyyyMMdd);
         final DiaryRecyclerViewAdapter mAdapter = new DiaryRecyclerViewAdapter(getActivity(), currentDiaryGroup, diaryData,
                 pos -> {
                     long currentTime = System.currentTimeMillis();
                     if (currentTime > currentDiaryGroup.getStartTime()) { // 시작됨
                         Intent intent = new Intent(getActivity(), DiaryGroupPopActivity.class);
                         startActivity(intent);
+
                     } else { // 준비중
                         AuthorStoreApis authorStoreApis = new AuthorStoreApis(getActivity());
                         authorStoreApis.getStoreStatus(new ApiCallback() {
                             @Override
                             protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
-
                                 if (httpStatus == 200) {
                                     JSONObject data = jsonObject.getJSONObject("data");
                                     int chocolates = data.getInt("chocolates");
@@ -93,10 +95,15 @@ public class DiaryFragment extends AbstractFragment {
                     }
                 },
                 pos -> {
-                    Intent intent = new Intent(getActivity(), DiaryReadActivity.class);
                     Diary diary = diaryData.get(pos);
-                    intent.putExtra("diary", diary);
-                    startActivity(intent);
+
+                    if (diary.getDiaryDate().equals(today_yyyyMMdd)) {
+                        startActivity(new Intent(getActivity(), DiaryWriteActivity.class));
+                    } else {
+                        Intent intent = new Intent(getActivity(), DiaryReadActivity.class);
+                        intent.putExtra("diary", diary);
+                        startActivity(intent);
+                    }
         });
 
         View diaryView = inflater.inflate(R.layout.fragment_diary, container, false);
@@ -116,9 +123,19 @@ public class DiaryFragment extends AbstractFragment {
         return diaryView;
     }
 
-    private List<Diary> getDiaryData(String diaryDate_yyyyMM) {
+    private List<Diary> getDiaryData(String diaryDate_yyyyMM, String today_yyyyMMdd) {
         DiaryDao diaryDao = new DiaryDao(getActivity());
-        final List<Diary> diaryData = diaryDao.getMonthDiariesBeforeToday(diaryDate_yyyyMM, DateUtil.getyyyyMMdd());
+
+        final List<Diary> diaryData = new ArrayList<>();
+        Diary todayDiary = diaryDao.getDiary(today_yyyyMMdd);
+        if (todayDiary != null) {
+            diaryData.add(todayDiary);
+        }
+        List<Diary> pastDiaries = diaryDao.getMonthDiariesBeforeToday(diaryDate_yyyyMM, today_yyyyMMdd);
+        if (!pastDiaries.isEmpty()) {
+            diaryData.addAll(pastDiaries);
+        }
+
         Log.d(TAG, "diaryData.size()=" + diaryData.size());
 
         // 리스트 노출전 제목과 내용이 없는 일기 삭제 처리

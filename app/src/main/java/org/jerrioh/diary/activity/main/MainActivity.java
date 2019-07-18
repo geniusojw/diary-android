@@ -47,6 +47,7 @@ import org.json.JSONObject;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -351,6 +352,7 @@ public class MainActivity extends AppCompatActivity {
                 if (httpStatus == 200) {
                     Toast.makeText(MainActivity.this, getResources().getString(R.string.letter_group_invited), Toast.LENGTH_SHORT).show();
                 } else if (httpStatus == 409) {
+
                     AuthorUtil.syncAuthorDiaryGroupData(MainActivity.this);
                 }
             }

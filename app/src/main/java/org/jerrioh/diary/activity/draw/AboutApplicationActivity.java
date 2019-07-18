@@ -48,8 +48,8 @@ public class AboutApplicationActivity extends CommonActionBarActivity {
                     latestVersion = data.getString("latestVersion");
                 }
 
-                currentVersionText.setText("Current Version : " + currentVersion);
-                latestVersionText.setText("Latest Version : " + latestVersion);
+                currentVersionText.setText(getResources().getString(R.string.version_current, currentVersion));
+                latestVersionText.setText(getResources().getString(R.string.version_latest, latestVersion));
             }
         });
 

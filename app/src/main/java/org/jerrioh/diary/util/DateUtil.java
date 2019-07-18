@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -54,6 +55,17 @@ public class DateUtil {
 
     public static String getyyyyMMdd(long timeMillis) {
         return getDateString(timeMillis, TimeZone.getDefault(), DATE_PATTERN_yyyyMMdd, Locale.ENGLISH);
+    }
+
+
+    public static long getTimeLeft() {
+        Calendar now = Calendar.getInstance();
+        now.set(Calendar.HOUR, 0);
+        now.set(Calendar.MINUTE, 0);
+        now.set(Calendar.SECOND, 0);
+        now.set(Calendar.HOUR_OF_DAY, 0);
+        Date date = now.getTime();
+        return TimeUnit.DAYS.toMillis(1) + date.getTime() - System.currentTimeMillis();
     }
 
     public static String getTimeString(long timeMillis) {

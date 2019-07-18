@@ -1,9 +1,13 @@
 package org.jerrioh.diary.activity.pop;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -36,15 +40,20 @@ public class DiaryWriteStartPopActivity extends CustomPopActivity {
         titleEditView = findViewById(R.id.edit_text_diary_detail_start_title);
         nextView = findViewById(R.id.text_view_diary_detail_start_next);
 
-        Calendar now = Calendar.getInstance();
-        now.set(Calendar.HOUR, 0);
-        now.set(Calendar.MINUTE, 0);
-        now.set(Calendar.SECOND, 0);
-        now.set(Calendar.HOUR_OF_DAY, 0);
+        titleEditView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-        Date date = now.getTime();
-        long timeLeft = TimeUnit.DAYS.toMillis(1) + date.getTime() - System.currentTimeMillis();
+            @Override
+            public void afterTextChanged(Editable s) {}
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkTitleText();
+            }
+        });
+
+        long timeLeft = DateUtil.getTimeLeft();
         todayView.setText(DateUtil.getDateStringSkipTime());
         tipTextView.setText("오늘의 일기를 작성할 수 있는 시간이\n" + DateUtil.getTimeString(timeLeft) + " 남았습니다.");
 
@@ -60,13 +69,12 @@ public class DiaryWriteStartPopActivity extends CustomPopActivity {
         finish();
     }
 
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
+    private void checkTitleText() {
         String text;
         int colorId;
         if (TextUtils.isEmpty(titleEditView.getText())) {
             text = "SKIP";
-            colorId = R.color.colorPrimary;
+            colorId = R.color.colorIndicatorText;
         } else {
             text = "START DIARY";
             colorId = R.color.colorAccent;
@@ -74,7 +82,5 @@ public class DiaryWriteStartPopActivity extends CustomPopActivity {
 
         nextView.setText(text);
         nextView.setTextColor(getResources().getColor(colorId));
-
-        return super.onKeyUp(keyCode, event);
     }
 }

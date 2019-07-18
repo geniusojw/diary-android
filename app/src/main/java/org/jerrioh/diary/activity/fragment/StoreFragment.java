@@ -44,7 +44,6 @@ public class StoreFragment extends AbstractFragment {
     public static final String ITEM_PURCHASE_THEME = "ITEM_PURCHASE_THEME";
     public static final String ITEM_PURCHASE_MUSIC = "ITEM_PURCHASE_MUSIC";
     public static final String ITEM_DIARY_GROUP_INVITATION = "ITEM_DIARY_GROUP_INVITATION";
-    public static final String ITEM_ALIAS_FEATURE_UNLIMITED_USE = "ITEM_ALIAS_FEATURE_UNLIMITED_USE";
     public static final String ITEM_CHOCOLATE_DONATION = "ITEM_CHOCOLATE_DONATION";
     public static final String ITEM_DIARY_GROUP_SUPPORT = "ITEM_DIARY_GROUP_SUPPORT";
 

@@ -139,9 +139,10 @@ public class AuthorUtil {
     }
 
     public static void uploadAuthorDiary(Context context) {
+        String yesterday_yyyyMMdd = DateUtil.getyyyyMMdd(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1));
+
         DiaryDao diaryDao = new DiaryDao(context);
-        String today_yyyyMMdd = DateUtil.getyyyyMMdd(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1));
-        Diary diary = diaryDao.getDiary(today_yyyyMMdd);
+        Diary diary = diaryDao.getDiary(yesterday_yyyyMMdd);
 
         if (diary == null) {
             return;
@@ -152,12 +153,12 @@ public class AuthorUtil {
 
         if (diary.getAuthorDiaryStatus() != Diary.DiaryStatus.SAVED) {
             AuthorDiaryApis authorDiaryApis = new AuthorDiaryApis(context);
-            authorDiaryApis.write(diary, new ApiCallback() {
+            authorDiaryApis.write(diary.getDiaryDate(), diary.getTitle(), diary.getContent(), new ApiCallback() {
                 @Override
                 protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                     Log.d(TAG, "result = " + httpStatus);
                     if (httpStatus == 200 || httpStatus == 409) {
-                        diaryDao.updateDiaryAuthorStatus(today_yyyyMMdd, Diary.DiaryStatus.SAVED);
+                        diaryDao.updateDiaryAuthorStatus(yesterday_yyyyMMdd, Diary.DiaryStatus.SAVED);
                     }
                 }
             });

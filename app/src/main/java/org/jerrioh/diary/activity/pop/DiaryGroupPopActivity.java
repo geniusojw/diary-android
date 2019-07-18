@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.main.DiaryGroupReadActivity;
+import org.jerrioh.diary.activity.main.LetterWriteActivity;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.DiaryGroupApis;
 import org.jerrioh.diary.model.DiaryGroup;
@@ -28,7 +29,7 @@ public class DiaryGroupPopActivity extends CustomPopActivity {
     private static final String TAG = "DiaryGroupPopActivity";
 
     private JSONObject diaryGroupJsonObject;
-    private JSONArray diaryGroupAuthorJsonArray;
+    private JSONArray diaryGroupAuthorDiaries;
     private int currentAuthorIndex = 0;
 
     @Override
@@ -68,7 +69,7 @@ public class DiaryGroupPopActivity extends CustomPopActivity {
                         @Override
                         protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                             if (httpStatus == 200) {
-                                diaryGroupAuthorJsonArray = jsonObject.getJSONArray("data");
+                                diaryGroupAuthorDiaries = jsonObject.getJSONArray("data");
                                 setDiaryGroupContentByApiResult();
 
                             } else if (httpStatus == 404) {
@@ -91,8 +92,8 @@ public class DiaryGroupPopActivity extends CustomPopActivity {
     }
 
     private void setDiaryGroupContentByApiResult() {
-        if (diaryGroupJsonObject == null || diaryGroupAuthorJsonArray == null) {
-            Log.e(TAG, "no result. diaryGroupJsonObject=" + diaryGroupJsonObject + ", diaryGroupAuthorJsonArray=" + diaryGroupAuthorJsonArray);
+        if (diaryGroupJsonObject == null || diaryGroupAuthorDiaries == null) {
+            Log.e(TAG, "no result. diaryGroupJsonObject=" + diaryGroupJsonObject + ", diaryGroupAuthorDiaries=" + diaryGroupAuthorDiaries);
             finish();
             return;
         }
@@ -111,7 +112,7 @@ public class DiaryGroupPopActivity extends CustomPopActivity {
 
             // group 정보
             TextView groupNameView = findViewById(R.id.text_view_diary_group_header_group_name);
-            groupNameView.setText(diaryGroupName + " (" + diaryGroupAuthorJsonArray.length() + "인)");
+            groupNameView.setText(diaryGroupName + " (" + currentAuthorCount + "인)");
 
             String period = DateUtil.getDateStringSkipYear(startTime) + " ~ " + DateUtil.getDateStringSkipYear(endTime - TimeUnit.MINUTES.toMillis(1));
             TextView periodView = findViewById(R.id.text_view_diary_group_header_group_period);
@@ -131,19 +132,24 @@ public class DiaryGroupPopActivity extends CustomPopActivity {
     }
 
     private void setAuthorInformation() {
-        TextView currentAuthorIndexView = findViewById(R.id.text_view_diary_group_body_part1_current_author_index);
-        currentAuthorIndexView.setText((currentAuthorIndex + 1)+ " 번째 사람");
+
+        JSONObject authorGroupDiary;
 
         String authorId;
         String nickname;
-        String title;
-        String content;
+        String todayTitle;
+        String todayContent;
+        String yesterdayTitle;
+        String yesterdayContent;
         try {
-            JSONObject authorJson = diaryGroupAuthorJsonArray.getJSONObject(currentAuthorIndex);
-            authorId = authorJson.getString("authorId");
-            nickname = authorJson.getString("nickname");
-            title = authorJson.getString("title");
-            content = authorJson.getString("content");
+            authorGroupDiary = diaryGroupAuthorDiaries.getJSONObject(currentAuthorIndex);
+
+            authorId = authorGroupDiary.getString("authorId");
+            nickname = authorGroupDiary.getString("nickname");
+            todayTitle = authorGroupDiary.getString("todayTitle");
+            todayContent = authorGroupDiary.getString("todayContent");
+            yesterdayTitle = authorGroupDiary.getString("yesterdayTitle");
+            yesterdayContent = authorGroupDiary.getString("yesterdayContent");
 
         } catch (JSONException e) {
             Log.e(TAG, "JSONException. " + e.toString());
@@ -151,48 +157,68 @@ public class DiaryGroupPopActivity extends CustomPopActivity {
             return;
         }
 
-        TextView currentAuthorView = findViewById(R.id.text_view_diary_group_body_part1_current_author);
+        TextView currentAuthorIndexView = findViewById(R.id.text_view_diary_group_body_author_index);
+        TextView currentAuthorView = findViewById(R.id.text_view_diary_group_body_author);
+        currentAuthorIndexView.setText((currentAuthorIndex + 1)+ " 번째 사람");
         currentAuthorView.setText(nickname);
 
-        ImageView readDiaryImageView = findViewById(R.id.image_view_diary_group_body_part2);
-        TextView readDiaryTextView = findViewById(R.id.text_view_diary_group_body_part2);
+        TextView todayTextView = findViewById(R.id.text_view_diary_group_body_today);
+        ImageView todayImageView = findViewById(R.id.image_view_diary_group_body_today);
 
-        int drawableId;
-        String readText;
-        boolean readClickable;
-        View.OnClickListener setOnClickListener;
+        TextView yesterdayTextView = findViewById(R.id.text_view_diary_group_body_yesterday);
+        ImageView yesterdayImageView = findViewById(R.id.image_view_diary_group_body_yesterday);
 
-        if (TextUtils.isEmpty(content) || "null".equals(content)) {
-            drawableId = R.drawable.ic_hotel_black_24dp;
-            // TODO 안쓴 것과 아직 업로드 안한 것을 구분
-            readText = CommonUtil.randomString("어제 일기를 쓰지 않았다.",
-                    "일기 쓰는 일을 까먹은 듯...",
-                    "자고 있다.");
-            readClickable = false;
-            setOnClickListener = null;
+        TextView letterTextView = findViewById(R.id.text_view_diary_group_body_letter);
+        ImageView letterImageView = findViewById(R.id.image_view_diary_group_body_letter);
+
+        if ((TextUtils.isEmpty(todayTitle) || "null".equals(todayTitle))
+                && (TextUtils.isEmpty(todayContent) || "null".equals(todayContent))) {
+            todayTextView.setText(CommonUtil.randomString("그는 자고 있습니다.",
+                    "그는 쿨쿨 자고 있습니다.",
+                    "일어나지 못하고 있습니다."));
+            todayImageView.setImageResource(R.drawable.ic_hotel_black_24dp);
+            todayImageView.setOnClickListener(null);
+
         } else {
-            drawableId = R.drawable.ic_chat_black_24dp;
-            readText = nickname + "님의 일기 보기";
-            readClickable = true;
-            setOnClickListener = v -> {
+            todayTextView.setText(nickname + "님의 일기 보기");
+            todayImageView.setImageResource(R.drawable.ic_chat_black_24dp);
+            todayImageView.setOnClickListener(v -> {
                 Intent intent = new Intent(this, DiaryGroupReadActivity.class);
                 intent.putExtra("nickname", nickname);
-                intent.putExtra("title", title);
-                intent.putExtra("content", content);
+                intent.putExtra("title", todayTitle);
+                intent.putExtra("content", todayContent);
                 startActivity(intent);
-            };
+            });
         }
-        readDiaryImageView.setImageResource(drawableId);
-        readDiaryTextView.setText(readText);
-        readDiaryTextView.setClickable(readClickable);
-        readDiaryTextView.setOnClickListener(setOnClickListener);
-        readDiaryImageView.setOnClickListener(setOnClickListener);
 
-        int previousAuthorIndex = currentAuthorIndex - 1 >= 0 ? currentAuthorIndex - 1 : diaryGroupAuthorJsonArray.length() - 1;
-        int nextAuthorIndex = currentAuthorIndex + 1 < diaryGroupAuthorJsonArray.length() ? currentAuthorIndex + 1 : 0;
+        if ((TextUtils.isEmpty(yesterdayTitle) || "null".equals(yesterdayTitle))
+                && (TextUtils.isEmpty(yesterdayContent) || "null".equals(yesterdayContent))) {
+            yesterdayTextView.setText(CommonUtil.randomString("어제의 일기"));
+            yesterdayImageView.setImageResource(R.drawable.ic_hotel_black_24dp);
+            yesterdayImageView.setOnClickListener(null);
+
+        } else {
+            yesterdayTextView.setText("어제의 일기");
+            yesterdayImageView.setImageResource(R.drawable.ic_import_contacts_black_24dp);
+            yesterdayImageView.setOnClickListener(v -> {
+                Intent intent = new Intent(this, DiaryGroupReadActivity.class);
+                intent.putExtra("nickname", nickname);
+                intent.putExtra("title", yesterdayTitle);
+                intent.putExtra("content", yesterdayContent);
+                startActivity(intent);
+            });
+        }
+
+        letterImageView.setOnClickListener(v -> {
+//            Intent intent = new Intent(this, LetterWriteActivity.class);
+//            startActivity(intent);
+        });
+
+        int previousAuthorIndex = currentAuthorIndex - 1 >= 0 ? currentAuthorIndex - 1 : diaryGroupAuthorDiaries.length() - 1;
+        int nextAuthorIndex = currentAuthorIndex + 1 < diaryGroupAuthorDiaries.length() ? currentAuthorIndex + 1 : 0;
 
         try {
-            JSONObject previousAuthorJson = diaryGroupAuthorJsonArray.getJSONObject(previousAuthorIndex);
+            JSONObject previousAuthorJson = diaryGroupAuthorDiaries.getJSONObject(previousAuthorIndex);
             TextView previousAuthorView = findViewById(R.id.text_view_diary_group_previous_author);
             String previousNickname = previousAuthorJson.getString("nickname");
             String previousNicknameVertical = "";
@@ -201,7 +227,7 @@ public class DiaryGroupPopActivity extends CustomPopActivity {
             }
             previousAuthorView.setText(previousNicknameVertical);
 
-            JSONObject nextAuthorJson = diaryGroupAuthorJsonArray.getJSONObject(nextAuthorIndex);
+            JSONObject nextAuthorJson = diaryGroupAuthorDiaries.getJSONObject(nextAuthorIndex);
             TextView nextAuthorView = findViewById(R.id.text_view_diary_group_next_author);
             String nextNickname = nextAuthorJson.getString("nickname");
             String nextNicknameVertical = "";

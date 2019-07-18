@@ -5,17 +5,24 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jerrioh.diary.R;
+import org.jerrioh.diary.api.ApiCallback;
+import org.jerrioh.diary.api.author.AuthorDiaryApis;
+import org.jerrioh.diary.model.DiaryGroup;
 import org.jerrioh.diary.model.Property;
 import org.jerrioh.diary.model.db.DiaryDao;
 import org.jerrioh.diary.model.Diary;
+import org.jerrioh.diary.model.db.DiaryGroupDao;
 import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.PropertyUtil;
 import org.jerrioh.diary.util.ReceiverUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -36,11 +43,11 @@ public class DiaryWriteActivity extends AbstractDetailActivity {
         super.onConfigurationChanged(newConfig);
 
         // Checks whether a hardware keyboard is available
-        if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
-            Toast.makeText(this, "keyboard visible", Toast.LENGTH_SHORT).show();
-        } else if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
-            Toast.makeText(this, "keyboard hidden", Toast.LENGTH_SHORT).show();
-        }
+//        if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
+//            Toast.makeText(this, "keyboard visible", Toast.LENGTH_SHORT).show();
+//        } else if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
+//            Toast.makeText(this, "keyboard hidden", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     @Override
@@ -131,6 +138,22 @@ public class DiaryWriteActivity extends AbstractDetailActivity {
 
         DiaryDao diaryDao = new DiaryDao(this);
         diaryDao.updateDiaryContent(todayDiary.getDiaryDate(), todayDiary.getTitle(), todayDiary.getContent());
+
+        // 오늘의 일기 업로드(일기 상태를 변경하지 않으므로 저장할 때마다 업로드 가능)
+        DiaryGroupDao diaryGroupDao = new DiaryGroupDao(this);
+        DiaryGroup diaryGroup = diaryGroupDao.getDiaryGroup();
+        if (diaryGroup != null) {
+            long currentTime = System.currentTimeMillis();
+            if (currentTime > diaryGroup.getStartTime() && currentTime < diaryGroup.getEndTime()) {
+                AuthorDiaryApis authorDiaryApis = new AuthorDiaryApis(this);
+                authorDiaryApis.write(todayDiary.getDiaryDate(), todayDiary.getTitle(), todayDiary.getContent(), new ApiCallback() {
+                    @Override
+                    protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                        Log.d(TAG, "diary write result (group) = " + httpStatus);
+                    }
+                });
+            }
+        }
     }
 
 

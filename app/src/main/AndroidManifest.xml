@@ -12,35 +12,35 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/NoActionBarTheme">
-        <activity android:name=".activity.main.MainActivity">
+        <activity android:name=".activity.main.MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.pop.DiaryGroupPopActivity" android:theme="@style/AnonymousDiaryTheme" />
-        <activity android:name=".activity.pop.StorePopActivity" android:theme="@style/AnonymousDiaryTheme" />
-        <activity android:name=".activity.pop.DiaryWriteStartPopActivity" android:theme="@style/AnonymousDiaryTheme" />
-        <activity android:name=".activity.pop.FontSizePopActivity" android:theme="@style/AnonymousDiaryTheme" />
-        <activity android:name=".activity.pop.PostReadPopActivity" android:theme="@style/AnonymousDiaryTheme" />
-        <activity android:name=".activity.pop.PostWritePopActivity" android:theme="@style/AnonymousDiaryTheme" />
+        <activity android:name=".activity.pop.DiaryGroupPopActivity" android:theme="@style/AnonymousDiaryTheme" android:screenOrientation="portrait" />
+        <activity android:name=".activity.pop.StorePopActivity" android:theme="@style/AnonymousDiaryTheme" android:screenOrientation="portrait" />
+        <activity android:name=".activity.pop.DiaryWriteStartPopActivity" android:theme="@style/AnonymousDiaryTheme" android:screenOrientation="portrait" />
+        <activity android:name=".activity.pop.FontSizePopActivity" android:theme="@style/AnonymousDiaryTheme" android:screenOrientation="portrait" />
+        <activity android:name=".activity.pop.PostReadPopActivity" android:theme="@style/AnonymousDiaryTheme" android:screenOrientation="portrait" />
+        <activity android:name=".activity.pop.PostWritePopActivity" android:theme="@style/AnonymousDiaryTheme" android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.main.DiaryWriteActivity" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".activity.main.LetterWriteActivity" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".activity.main.DiaryReadActivity" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".activity.main.LetterReadActivity" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".activity.main.DiaryWriteActivity" android:windowSoftInputMode="adjustResize" android:screenOrientation="portrait" />
+        <activity android:name=".activity.main.LetterWriteActivity" android:windowSoftInputMode="adjustResize" android:screenOrientation="portrait" />
+        <activity android:name=".activity.main.DiaryReadActivity" android:windowSoftInputMode="adjustResize" android:screenOrientation="portrait" />
+        <activity android:name=".activity.main.LetterReadActivity" android:windowSoftInputMode="adjustResize" android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.main.DiaryGroupReadActivity" />
-        <activity android:name=".activity.draw.AccountActivity" />
-        <activity android:name=".activity.draw.AccountSignUpActivity" />
-        <activity android:name=".activity.draw.AccountChangePwActivity" />
-        <activity android:name=".activity.draw.SettingActivity" />
-        <activity android:name=".activity.draw.FaqActivity" />
-        <activity android:name=".activity.draw.AboutApplicationActivity" />
+        <activity android:name=".activity.main.DiaryGroupReadActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activity.draw.AccountActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activity.draw.AccountSignUpActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activity.draw.AccountChangePwActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activity.draw.SettingActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activity.draw.FaqActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activity.draw.AboutApplicationActivity" android:screenOrientation="portrait" />
 
-        <receiver android:name=".noti.AuthorDiaryReceiver" android:enabled="true" android:exported="true" />
-        <receiver android:name=".noti.AlarmBroadcastReceiver" android:enabled="true" android:exported="true" />
+        <receiver android:name=".noti.AuthorDiaryReceiver" android:enabled="true" android:exported="true" android:screenOrientation="portrait" />
+        <receiver android:name=".noti.AlarmBroadcastReceiver" android:enabled="true" android:exported="true" android:screenOrientation="portrait" />
 
     </application>
 
