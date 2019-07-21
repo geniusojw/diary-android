@@ -36,6 +36,7 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
 
     private final Context context;
     private DiaryGroup diaryGroup;
+    private long currentTime;
     private List<Diary> diaryData;
 
     private OnItemClickListener callbackDiaryGroup;
@@ -67,6 +68,7 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
     public DiaryRecyclerViewAdapter(Context context, DiaryGroup diaryGroup, List<Diary> diaryData, OnItemClickListener callbackDiaryGroup, OnItemClickListener callbackDiary) {
         this.context = context;
         this.diaryGroup = diaryGroup;
+        this.currentTime = System.currentTimeMillis();
         this.diaryData = diaryData;
         this.callbackDiaryGroup = callbackDiaryGroup;
         this.callbackDiary = callbackDiary;
@@ -151,8 +153,14 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
             content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
             //content.setSpan(new StyleSpan(Typeface.BOLD), 0, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleText.setText(content);
-            contentText.setText(context.getResources().getString(R.string.diary_today_remain_time_short, DateUtil.getTimeString(timeLeft)));
-            cardView.setCardBackgroundColor(0xCCDDEEFF);
+
+            if (currentTime > diaryGroup.getStartTime()) {
+                contentText.setText(context.getResources().getString(R.string.diary_share, diaryGroup.getCurrentAuthorCount()));
+                cardView.setCardBackgroundColor(0xCCFFDDCC);
+            } else {
+                contentText.setText(context.getResources().getString(R.string.diary_today_remain_time_short, DateUtil.getTimeString(timeLeft)));
+                cardView.setCardBackgroundColor(0xCCDDEEFF);
+            }
 
         } else {
             titleText.setText(CommonUtil.defaultIfEmpty(diary.getTitle(), Constants.DEFAULT_TITLE));
@@ -191,7 +199,6 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
         imageView.setPadding(17, 17, 17, 17);
 
         //boolean isHost = AuthorUtil.getAuthor().getAuthorId().equals(diaryGroup.getHostAuthorId());
-        long currentTime = System.currentTimeMillis();
         String title;
         String content;
 

@@ -170,7 +170,8 @@
     <!-- diary -->
     <string name="diary_delete">Delete Diary</string>
     <string name="diary_write_here">Write a diary here.</string>
-    <string name="diary_today_diary">TODAY\'S DIARY (Editable)</string>
+    <string name="diary_today_diary">TODAY\'S DIARY</string>
+    <string name="diary_share">Sharing with %d people</string>
     <string name="diary_today_remain_time">You have %s to write today\'s diary</string>
     <string name="diary_today_remain_time_short">Today\'s remaining time: %s</string>
 

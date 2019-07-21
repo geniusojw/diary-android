@@ -351,6 +351,8 @@ public class MainActivity extends AppCompatActivity {
             protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                 if (httpStatus == 200) {
                     Toast.makeText(MainActivity.this, getResources().getString(R.string.letter_group_invited), Toast.LENGTH_SHORT).show();
+                    getLetters();
+
                 } else if (httpStatus == 409) {
 
                     AuthorUtil.syncAuthorDiaryGroupData(MainActivity.this);

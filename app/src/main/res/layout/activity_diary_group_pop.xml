@@ -9,6 +9,13 @@
     android:paddingRight="10dp"
     >
 
+    <ProgressBar
+        android:id="@+id/progress_bar_diary_group_pop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        />
+
     <LinearLayout
         android:id="@+id/linear_layout_diary_group_header"
         android:layout_width="match_parent"
@@ -29,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="폭풍우치는 겨울밤 술집의 총잡이들 (5인)"
+                android:text=""
                 />
 
             <TextView
@@ -37,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="6/30(토) 00:00 ~ 7/2(월) 00:00"
+                android:text=""
                 android:layout_marginBottom="15dp"
                 />
 
@@ -46,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="[ 키워드 : 실패 ] "
+                android:text=""
                 />
 
         </LinearLayout>
@@ -75,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="첫 번째 사람"
+                android:text=""
                 />
 
             <TextView
@@ -84,40 +91,21 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="25sp"
-                android:text="천재 오정욱"
+                android:text="기다리는 중입니다."
                 />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linear_layout_diary_group_body_today"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="25dp"
-            >
-            <ImageView
-                android:id="@+id/image_view_diary_group_body_today"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_chat_black_24dp"
-                android:layout_marginBottom="15dp"
-                />
-            <TextView
-                android:id="@+id/text_view_diary_group_body_today"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="천재 오정욱님의 오늘의 일기"
-                />
-        </LinearLayout>
+
 
         <LinearLayout
-            android:id="@+id/linear_layout_diary_group_body_options"
+            android:visibility="invisible"
+            android:id="@+id/linear_layout_diary_group_body_options1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
             android:paddingHorizontal="50dp"
             android:orientation="horizontal"
+            android:gravity="center"
             android:weightSum="1.0">
 
             <LinearLayout
@@ -132,15 +120,72 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_import_contacts_black_24dp"
-                    android:layout_marginBottom="15dp"
+                    android:src="@drawable/ic_chat_black_24dp"
                     />
                 <TextView
                     android:id="@+id/text_view_diary_group_body_yesterday"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="어제의 일기"
+                    android:text="어제"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_layout_diary_group_body_feedback"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="vertical"
+                >
+                <ImageView
+                    android:id="@+id/image_view_diary_group_body_feedback"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_comment_black_24dp"
+                    />
+                <TextView
+                    android:id="@+id/text_view_diary_group_body_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="피드백"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="invisible"
+            android:id="@+id/linear_layout_diary_group_body_options2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="50dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="1.0">
+
+            <LinearLayout
+                android:id="@+id/linear_layout_diary_group_body_today"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="vertical"
+                >
+                <ImageView
+                    android:id="@+id/image_view_diary_group_body_today"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_feedback_black_24dp"
+                    />
+                <TextView
+                    android:id="@+id/text_view_diary_group_body_today"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="실시간"
                     />
             </LinearLayout>
 
@@ -157,14 +202,13 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_mail_black_24dp"
-                    android:layout_marginBottom="15dp"
                     />
                 <TextView
                     android:id="@+id/text_view_diary_group_body_letter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="편지 보내기"
+                    android:text="편지"
                     />
             </LinearLayout>
 
@@ -186,7 +230,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="바보 오정욱"
+            android:text=""
             android:layout_marginBottom="10dp"
             />
         <ImageView
@@ -212,7 +256,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="미친 오정욱"
+            android:text=""
             android:layout_marginBottom="10dp"
             />
         <ImageView
@@ -234,7 +278,7 @@
         android:layout_gravity="bottom"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:padding="20dp"
+        android:padding="25dp"
         android:orientation="vertical"
         >
         <TextView

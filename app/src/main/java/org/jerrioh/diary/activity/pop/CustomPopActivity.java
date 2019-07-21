@@ -7,7 +7,7 @@ import android.view.WindowManager;
 
 public abstract class CustomPopActivity extends Activity {
 
-    protected void setWindowAttribute(float widthRatio, float heightRatio) {
+    protected void setWindowAttribute(float widthRatio, float heightRatio, int xOffset, int yOffset) {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
@@ -18,11 +18,15 @@ public abstract class CustomPopActivity extends Activity {
 
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.gravity = Gravity.CENTER;
-        params.x = 0;
-        params.y = -20;
+        params.x = xOffset;
+        params.y = yOffset;
         params.dimAmount = 0.6f;
 
         getWindow().setAttributes(params);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+    }
+
+    protected void setWindowAttribute(float widthRatio, float heightRatio) {
+        setWindowAttribute(widthRatio, heightRatio, 0, -20);
     }
 }

@@ -170,7 +170,8 @@
     <!-- diary -->
     <string name="diary_delete">일기 삭제</string>
     <string name="diary_write_here">여기에 일기를 작성하세요.</string>
-    <string name="diary_today_diary">오늘의 일기 (수정가능)</string>
+    <string name="diary_today_diary">오늘의 일기</string>
+    <string name="diary_share">%d명의 사람과 일기 공유중</string>
     <string name="diary_today_remain_time">오늘의 일기를 작성할 수 있는 시간이 %s 남았습니다.</string>
     <string name="diary_today_remain_time_short">오늘 남은 시간: %s</string>
 

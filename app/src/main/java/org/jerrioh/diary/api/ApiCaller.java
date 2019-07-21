@@ -52,6 +52,14 @@ public class ApiCaller {
         }
     }
 
+    protected void put(String uri, Map<String, String> headers, String body, ApiCallback callback) {
+        if (validParameters(uri, headers, callback)) {
+            StringRequest request = volleyRequest(Request.Method.PUT, Config.get(context, "api_url") + uri, headers, body, callback);
+            RequestQueue queue = Volley.newRequestQueue(context);
+            queue.add(request);
+        }
+    }
+
     protected void delete(String uri, Map<String, String> headers, String body, ApiCallback callback) {
         if (validParameters(uri, headers, callback)) {
             StringRequest request = volleyRequest(Request.Method.DELETE, Config.get(context, "api_url") + uri, headers, body, callback);

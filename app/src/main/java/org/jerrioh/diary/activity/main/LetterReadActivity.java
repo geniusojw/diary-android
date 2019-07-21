@@ -63,65 +63,65 @@ public class LetterReadActivity extends AbstractDetailActivity {
 
     private void setReplyButton(Letter letter) {
         Author author = AuthorUtil.getAuthor(this);
+        if (author.getAuthorId().equals(letter.getFromAuthorId())) {
+            return;
+        }
+        FloatingActionButton replyButton = findViewById(R.id.floating_action_button_detail_letter_send);
+        ((View) replyButton).setVisibility(View.VISIBLE);
 
-        if (!author.getAuthorId().equals(letter.getFromAuthorId())) {
-            FloatingActionButton replyButton = findViewById(R.id.floating_action_button_detail_letter_send);
-            ((View) replyButton).setVisibility(View.VISIBLE);
+        if (letter.getStatus() == Letter.LetterStatus.REPLIED) {
+            //replyButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.beige)));
+            replyButton.setOnClickListener(v -> {
+                Toast.makeText(this, getResources().getString(R.string.letter_replied_letter), Toast.LENGTH_SHORT).show();
+            });
 
-            if (letter.getStatus() == Letter.LetterStatus.REPLIED) {
-                //replyButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.beige)));
+        } else {
+            if (letter.getLetterType() == Letter.LetterType.INVITATION) {
                 replyButton.setOnClickListener(v -> {
-                    Toast.makeText(this, getResources().getString(R.string.letter_replied_letter), Toast.LENGTH_SHORT).show();
+                    DialogInterface.OnClickListener listener = (dialog, which) -> {
+                        String invitationResponseType;
+                        String successMessage;
+                        if (which == DialogInterface.BUTTON_POSITIVE) {
+                            invitationResponseType = "accept";
+                            successMessage = LetterReadActivity.this.getResources().getString(R.string.accepted);
+                        } else {
+                            invitationResponseType = "refuse";
+                            successMessage = LetterReadActivity.this.getResources().getString(R.string.refused);
+                        }
+
+                        DiaryGroupApis diaryGroupApis = new DiaryGroupApis(this);
+                        diaryGroupApis.respond(invitationResponseType, new ApiCallback() {
+                            @Override
+                            protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                                if (httpStatus == 200) {
+                                    LetterDao letterDao = new LetterDao(LetterReadActivity.this);
+                                    letterDao.updateLetterStatus(letter.getLetterId(), Letter.LetterStatus.REPLIED);
+                                    Toast.makeText(LetterReadActivity.this, successMessage, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(LetterReadActivity.this, LetterReadActivity.this.getResources().getString(R.string.network_fail), Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        });
+                    };
+
+                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+                    alertBuilder.setTitle(LetterReadActivity.this.getResources().getString(R.string.letter_group_letter_respond))
+                            .setMessage(LetterReadActivity.this.getResources().getString(R.string.letter_group_letter_respond_description))
+                            .setPositiveButton(LetterReadActivity.this.getResources().getString(R.string.accept), listener)
+                            .setNegativeButton(LetterReadActivity.this.getResources().getString(R.string.refuse), listener);
+
+                    AlertDialog alertDialog = alertBuilder.create();
+                    alertDialog.show();
                 });
 
-            } else {
-                if (letter.getLetterType() == Letter.LetterType.INVITATION) {
-                    replyButton.setOnClickListener(v -> {
-                        DialogInterface.OnClickListener listener = (dialog, which) -> {
-                            String invitationResponseType;
-                            String successMessage;
-                            if (which == DialogInterface.BUTTON_POSITIVE) {
-                                invitationResponseType = "accept";
-                                successMessage = LetterReadActivity.this.getResources().getString(R.string.accepted);
-                            } else {
-                                invitationResponseType = "refuse";
-                                successMessage = LetterReadActivity.this.getResources().getString(R.string.refused);
-                            }
-
-                            DiaryGroupApis diaryGroupApis = new DiaryGroupApis(this);
-                            diaryGroupApis.respond(invitationResponseType, new ApiCallback() {
-                                @Override
-                                protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
-                                    if (httpStatus == 200) {
-                                        LetterDao letterDao = new LetterDao(LetterReadActivity.this);
-                                        letterDao.updateLetterStatus(letter.getLetterId(), Letter.LetterStatus.REPLIED);
-                                        Toast.makeText(LetterReadActivity.this, successMessage, Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(LetterReadActivity.this, LetterReadActivity.this.getResources().getString(R.string.network_fail), Toast.LENGTH_SHORT).show();
-                                    }
-
-                                }
-                            });
-                        };
-
-                        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-                        alertBuilder.setTitle(LetterReadActivity.this.getResources().getString(R.string.letter_group_letter_respond))
-                                .setMessage(LetterReadActivity.this.getResources().getString(R.string.letter_group_letter_respond_description))
-                                .setPositiveButton(LetterReadActivity.this.getResources().getString(R.string.accept), listener)
-                                .setNegativeButton(LetterReadActivity.this.getResources().getString(R.string.refuse), listener);
-
-                        AlertDialog alertDialog = alertBuilder.create();
-                        alertDialog.show();
-                    });
-
-                } else if (letter.getLetterType() == Letter.LetterType.NORMAL) {
-                    replyButton.setOnClickListener(v -> {
-                        Intent replyIntent = new Intent(this, LetterWriteActivity.class);
-                        replyIntent.putExtra("letterId", letter.getLetterId());
-                        startActivity(replyIntent);
-                        finish();
-                    });
-                }
+            } else if (letter.getLetterType() == Letter.LetterType.NORMAL) {
+                replyButton.setOnClickListener(v -> {
+                    Intent replyIntent = new Intent(this, LetterWriteActivity.class);
+                    replyIntent.putExtra("letterId", letter.getLetterId());
+                    startActivity(replyIntent);
+                    finish();
+                });
             }
         }
     }

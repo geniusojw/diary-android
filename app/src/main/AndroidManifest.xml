@@ -25,6 +25,8 @@
         <activity android:name=".activity.pop.FontSizePopActivity" android:theme="@style/AnonymousDiaryTheme" android:screenOrientation="portrait" />
         <activity android:name=".activity.pop.PostReadPopActivity" android:theme="@style/AnonymousDiaryTheme" android:screenOrientation="portrait" />
         <activity android:name=".activity.pop.PostWritePopActivity" android:theme="@style/AnonymousDiaryTheme" android:screenOrientation="portrait" />
+        <activity android:name=".activity.pop.DiaryGroupFeedbackActivity" android:theme="@style/AnonymousDiaryTheme" android:screenOrientation="portrait" />
+        <activity android:name=".activity.pop.SentencePopActivity" android:theme="@style/AnonymousDiaryTheme" android:screenOrientation="portrait" />
 
         <activity android:name=".activity.main.DiaryWriteActivity" android:windowSoftInputMode="adjustResize" android:screenOrientation="portrait" />
         <activity android:name=".activity.main.LetterWriteActivity" android:windowSoftInputMode="adjustResize" android:screenOrientation="portrait" />

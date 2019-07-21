@@ -30,6 +30,19 @@ public class LetterDao extends AbstractDao {
         super(context);
     }
 
+    public Letter getLetter(String letterId) {
+        String selection = Letter.TableDesc.COLUMN_NAME_LETTER_ID + "=?";
+        String[] args = { letterId };
+
+        Cursor cursor = readableDb().query(TABLE_NAME, COLUMN_NAMES, selection, args, null, null, null, "1");
+        if (cursorHasJustOne(cursor)) {
+            cursor.moveToFirst();
+            return getLetterOnCursor(cursor);
+        } else {
+            return null;
+        }
+    }
+
     public List<Letter> getAllLetters() {
         String orderBy = Letter.TableDesc.COLUMN_NAME_WRITTEN_TIME + " DESC";
 

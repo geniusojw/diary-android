@@ -22,6 +22,17 @@ public class DiaryGroupApis extends ApiCaller {
         super.get("/author/diary-group", headers, callback);
     }
 
+    public void updateDiaryGroup(String keyword, ApiCallback callback) {
+        Map<String, String> headers = authorHeaders();
+        try {
+            JSONObject json = new JSONObject();
+            json.put("keyword", keyword);
+            super.put("/author/diary-group", headers, json.toString(), callback);
+        } catch (JSONException e) {
+            Log.e(TAG, "JSONException, " + e.toString());
+        }
+    }
+
     public void beInvited(ApiCallback callback) {
         Map<String, String> headers = authorHeaders();
         JSONObject json = new JSONObject();

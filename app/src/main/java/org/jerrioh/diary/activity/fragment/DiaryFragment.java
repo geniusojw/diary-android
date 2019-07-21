@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.jerrioh.diary.activity.main.DiaryWriteActivity;
+import org.jerrioh.diary.activity.pop.SentencePopActivity;
 import org.jerrioh.diary.activity.pop.StorePopActivity;
 import org.jerrioh.diary.activity.pop.DiaryGroupPopActivity;
 import org.jerrioh.diary.api.ApiCallback;
@@ -23,6 +24,7 @@ import org.jerrioh.diary.activity.main.DiaryReadActivity;
 import org.jerrioh.diary.activity.adapter.DiaryRecyclerViewAdapter;
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.model.db.DiaryGroupDao;
+import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.ThemeUtil;
 import org.json.JSONException;
@@ -76,19 +78,27 @@ public class DiaryFragment extends AbstractFragment {
                         startActivity(intent);
 
                     } else { // 준비중
+                        String authorId = AuthorUtil.getAuthor(getActivity()).getAuthorId();
                         AuthorStoreApis authorStoreApis = new AuthorStoreApis(getActivity());
                         authorStoreApis.getStoreStatus(new ApiCallback() {
                             @Override
                             protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                                 if (httpStatus == 200) {
-                                    JSONObject data = jsonObject.getJSONObject("data");
-                                    int chocolates = data.getInt("chocolates");
+                                    if (authorId.equals(diaryGroup.getHostAuthorId())) {
+                                        Intent intent = new Intent(getActivity(), SentencePopActivity.class);
+                                        intent.putExtra("type", SentencePopActivity.TYPE_DIARY_GROUP_KEYWORD);
+                                        startActivity(intent);
 
-                                    Intent intent = new Intent(getActivity(), StorePopActivity.class);
-                                    intent.putExtra("itemId", ITEM_DIARY_GROUP_SUPPORT);
-                                    intent.putExtra("itemPrice", 1);
-                                    intent.putExtra("currentChocolates", chocolates);
-                                    startActivity(intent);
+                                    } else {
+                                        JSONObject data = jsonObject.getJSONObject("data");
+                                        int chocolates = data.getInt("chocolates");
+
+                                        Intent intent = new Intent(getActivity(), StorePopActivity.class);
+                                        intent.putExtra("itemId", ITEM_DIARY_GROUP_SUPPORT);
+                                        intent.putExtra("itemPrice", 1);
+                                        intent.putExtra("currentChocolates", chocolates);
+                                        startActivity(intent);
+                                    }
                                 }
                             }
                         });

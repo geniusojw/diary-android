@@ -28,13 +28,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LetterWriteActivity extends AbstractDetailActivity {
-    private static final String SOMEONE_UNKNOWN_ID = "UNKNOWN";
-    private static final String SOMEONE_UNKNOWN_NICKNAME = "[Someone Unknown]";
-
-    private static final String SYSTEM_AUTHOR_ID = "475a45d5-d139-4e3a-9828-e00e296c9040";
-    private static final String SYSTEM_AUTHOR_NICKNAME = "[Administrator]";
-
-    private int selectPosition = -1;
 
     private EditText letterContent;
 
@@ -46,18 +39,16 @@ public class LetterWriteActivity extends AbstractDetailActivity {
         letterContent = findViewById(R.id.edit_text_detail_letter_content);
         letterContent.setFocusableInTouchMode(true);
 
-        Author author = AuthorUtil.getAuthor(this);
-        TextView fromAuthorView = findViewById(R.id.text_view_detail_letter_from_author);
-        fromAuthorView.setText("FROM: " + author.getNickname());
-
         // 보내기 버튼
         Intent intent = getIntent();
         String letterId = intent.getStringExtra("letterId");
+        String authorId = intent.getStringExtra("authorId");
+        String nickname = intent.getStringExtra("nickname");
 
-        FloatingActionButton sendButton = findViewById(R.id.floating_action_button_detail_letter_send);
-        this.setSpinnerAndSendButton(sendButton, letterId);
+        this.setSendButton(letterId, authorId, nickname);
 
         // 뒤로가기 버튼
+        FloatingActionButton sendButton = findViewById(R.id.floating_action_button_detail_letter_send);
         FloatingActionButton backButton = findViewById(R.id.floating_action_button_detail_letter_back);
         backButton.setEnabled(true);
         backButton.setClickable(true);
@@ -84,73 +75,36 @@ public class LetterWriteActivity extends AbstractDetailActivity {
 //        super.setUpSoftKeyboard(R.id.relative_layout_detail_letter_main, Arrays.asList(sendButton, backButton));
     }
 
-    private void setSpinnerAndSendButton(FloatingActionButton sendButton, String inputLetterId) {
-        Author author = AuthorUtil.getAuthor();
+    private void setSendButton(String inputLetterId, String inputAuthorId, String inputNickname) {
+        Author author = AuthorUtil.getAuthor(this);
 
-        LetterDao letterDao = new LetterDao(this);
-        List<Letter> lettersToMe = letterDao.getLettersToMe(author.getAuthorId());
-        List<Letter> letters = new ArrayList<>();
-        for (Letter letter : lettersToMe) {
-            if (letter.getStatus() != Letter.LetterStatus.REPLIED) {
-                letters.add(letter);
-            }
+        String toAuthorId;
+        String toAuthorNickname;
+        final boolean replied;
+        if (inputLetterId != null) {
+            LetterDao letterDao = new LetterDao(this);
+            Letter letter = letterDao.getLetter(inputLetterId);
+            toAuthorId = letter.getFromAuthorId();
+            toAuthorNickname = letter.getFromAuthorNickname();
+
+            replied = letter.getStatus() == Letter.LetterStatus.REPLIED;
+
+        } else {
+            toAuthorId = inputAuthorId;
+            toAuthorNickname = inputNickname;
+            replied = false;
         }
 
-        selectPosition = letters.size();
-
-        List<String> fromAuthorNicks = new ArrayList<>();
-        for (int i = 0; i < letters.size(); i++) {
-            Letter letter = letters.get(i);
-            if (letter.getLetterId().equals(inputLetterId)) {
-                selectPosition = i;
-            }
-            fromAuthorNicks.add(i, letter.getFromAuthorNickname());
-        }
-        fromAuthorNicks.add(letters.size(), SOMEONE_UNKNOWN_NICKNAME);
-        fromAuthorNicks.add(letters.size() + 1, SYSTEM_AUTHOR_NICKNAME);
-
+        TextView fromAuthorView = findViewById(R.id.text_view_detail_letter_from_author);
         TextView toAuthor = findViewById(R.id.text_view_detail_letter_to_author);
         TextView letterTimeView = findViewById(R.id.text_view_detail_letter_time);
 
-        Spinner toAuthorSpinner = findViewById(R.id.spinner_detail_letter_receiver);
-        toAuthorSpinner.setVisibility(View.VISIBLE);
-
-        toAuthor.setOnClickListener(v -> {
-            toAuthorSpinner.performClick();
-        });
-
-        CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(this, fromAuthorNicks, selectPosition);
-        toAuthorSpinner.setAdapter(adapter);
-        toAuthorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                adapter.setSelection(position);
-                if (position < letters.size()) {
-                    Letter letter = letters.get(position);
-                    toAuthor.setText("TO: " + letter.getFromAuthorNickname());
-                    letterTimeView.setText(letter.getFromAuthorNickname() + "에게 편지를 작성합니다.");
-
-                } else if (position == letters.size()) {
-                    toAuthor.setText("TO: " + SOMEONE_UNKNOWN_NICKNAME);
-                    letterTimeView.setText("이 편지는 누군가에게 보내집니다.");
-
-                } else if (position == letters.size() + 1) {
-                    toAuthor.setText("TO: " + SYSTEM_AUTHOR_NICKNAME);
-                    letterTimeView.setText("이 편지는 개발자에게 보내집니다.");
-
-                } else {
-                    Toast.makeText(LetterWriteActivity.this,"spinner selection exception", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(LetterWriteActivity.this,"선택된 아이템이 없다", Toast.LENGTH_SHORT).show();
-            }
-        });
-        toAuthorSpinner.setSelection(selectPosition);
+        fromAuthorView.setText("FROM: " + author.getNickname());
+        toAuthor.setText("TO: " + toAuthorNickname);
+        letterTimeView.setText(toAuthorNickname + "에게 편지를 작성합니다.");
 
         // 보내기 버튼
+        FloatingActionButton sendButton = findViewById(R.id.floating_action_button_detail_letter_send);
         sendButton.setImageResource(R.drawable.ic_send_black_24dp);
         ((View) sendButton).setVisibility(View.VISIBLE);
 
@@ -159,45 +113,39 @@ public class LetterWriteActivity extends AbstractDetailActivity {
                 Toast.makeText(LetterWriteActivity.this,"편지를 작성하세요", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            String message = "";
+            if (replied) {
+                message = "이미 회신한 편지입니다. ";
+            }
+            message += "편지를 보내시겠습니까?\n받는사람: " + toAuthorNickname;
+
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
             alertBuilder.setTitle("편지 보내기")
-                    .setMessage("편지를 보내시겠습니까?\n받는사람: " + toAuthorSpinner.getSelectedItem())
+                    .setMessage(message)
                     .setPositiveButton("OK", (dialog, which) -> {
                         long writtenTime = System.currentTimeMillis();
                         String newLetterId = author.getAuthorId() + "-" + writtenTime;
 
                         AuthorLetterApis authorLetterApis = new AuthorLetterApis(this);
-                        ApiCallback callback = new ApiCallback() {
+                        authorLetterApis.send(newLetterId, toAuthorId, toAuthorNickname, letterContent.getText().toString(), new ApiCallback() {
                             @Override
                             protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                                 if (httpStatus == 200) {
-                                    if (selectPosition < letters.size()) { // 편지상태 회신완료로 업데이트
-                                        Letter letter = letters.get(selectPosition);
+                                    if (inputLetterId != null) { // 편지상태 회신완료로 업데이트
                                         LetterDao letterDao = new LetterDao(LetterWriteActivity.this);
-                                        letterDao.updateLetterStatus(letter.getLetterId(), Letter.LetterStatus.REPLIED);
+                                        letterDao.updateLetterStatus(inputLetterId, Letter.LetterStatus.REPLIED);
                                     }
+                                    Toast.makeText(LetterWriteActivity.this, "발송되었습니다.", Toast.LENGTH_SHORT).show();
                                     finish();
                                 } else if (httpStatus == 404) {
                                     Toast.makeText(LetterWriteActivity.this, "편지를 받을 사람이 없습니다.", Toast.LENGTH_SHORT).show();
                                     finish(); // 수신자 탈퇴 or 랜덤 수신자 찾지못함 등의 원인
                                 } else {
-                                    //실패 설명
+                                    Toast.makeText(LetterWriteActivity.this, LetterWriteActivity.this.getResources().getString(R.string.network_fail), Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        };
-                        if (selectPosition < letters.size()) {
-                            Letter letter = letters.get(selectPosition);
-                            authorLetterApis.send(newLetterId, letter.getFromAuthorId(), letter.getFromAuthorNickname(), letterContent.getText().toString(), callback);
-
-                        } else if (selectPosition == letters.size()) {
-                            authorLetterApis.send(newLetterId, null, null, letterContent.getText().toString(), callback);
-
-                        } else if (selectPosition == letters.size() + 1) {
-                            authorLetterApis.send(newLetterId, SYSTEM_AUTHOR_ID, SYSTEM_AUTHOR_NICKNAME, letterContent.getText().toString(), callback);
-
-                        } else {
-                            Toast.makeText(LetterWriteActivity.this,"spinner selection exception", Toast.LENGTH_SHORT).show();
-                        }
+                        });
                     })
                     .setNegativeButton("Cancel", (dialog, which) -> {
                         dialog.cancel();
