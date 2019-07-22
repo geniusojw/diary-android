@@ -19,6 +19,7 @@ import org.jerrioh.diary.api.author.DiaryGroupApis;
 import org.jerrioh.diary.model.DiaryGroup;
 import org.jerrioh.diary.model.db.DiaryGroupDao;
 import org.jerrioh.diary.util.AuthorUtil;
+import org.jerrioh.diary.util.CommonUtil;
 import org.jerrioh.diary.util.DateUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -122,7 +123,7 @@ public class DiaryGroupPopActivity extends CustomPopActivity {
 
             // group 정보
             TextView groupNameView = findViewById(R.id.text_view_diary_group_header_group_name);
-            groupNameView.setText(diaryGroupName + " (" + currentAuthorCount + "인)");
+            groupNameView.setText(diaryGroupName + " (" + getResources().getString(R.string.group_people_count, currentAuthorCount) + ")");
 
             String period = DateUtil.getDateStringSkipYear(startTime) + " ~ " + DateUtil.getDateStringSkipYear(endTime - TimeUnit.MINUTES.toMillis(1));
             TextView periodView = findViewById(R.id.text_view_diary_group_header_group_period);
@@ -132,7 +133,7 @@ public class DiaryGroupPopActivity extends CustomPopActivity {
 
             String keywordText = "";
             if (!TextUtils.isEmpty(keyword) && !"null".equals(keyword)) {
-                keywordText = "[ keyword : " + keyword + " ]";
+                keywordText = "[ " + keyword + " ]";
             }
             moreInfoView.setText(keywordText);
 
@@ -180,7 +181,7 @@ public class DiaryGroupPopActivity extends CustomPopActivity {
 
         TextView currentAuthorIndexView = findViewById(R.id.text_view_diary_group_body_author_index);
         TextView currentAuthorView = findViewById(R.id.text_view_diary_group_body_author);
-        currentAuthorIndexView.setText((currentAuthorIndex + 1)+ " 번째 사람");
+        currentAuthorIndexView.setText(CommonUtil.ordinalPeople(currentAuthorIndex + 1));
         currentAuthorView.setText(nickname);
 
         ImageView yesterdayImageView = findViewById(R.id.image_view_diary_group_body_yesterday);
@@ -191,28 +192,33 @@ public class DiaryGroupPopActivity extends CustomPopActivity {
 
         // 옵션 메뉴 (오늘, 어제 일기, 피드백, 편지)
 
+        LinearLayout yesterdayLinearLayout = findViewById(R.id.linear_layout_diary_group_body_yesterday);
+        LinearLayout feedbackLinearLayout = findViewById(R.id.linear_layout_diary_group_body_feedback);
+        LinearLayout letterLinearLayout = findViewById(R.id.linear_layout_diary_group_body_letter);
+
+        this.setDiaryReadIntent(true, authorId, nickname, todayDate, todayTitle, todayContent, todayImageView);
+
         if (isFirstDay) {
-            this.setDiaryReadIntent(true, authorId, nickname, todayDate, todayTitle, todayContent, todayImageView);
-
-            LinearLayout yesterdayLinearLayout = findViewById(R.id.linear_layout_diary_group_body_yesterday);
             yesterdayLinearLayout.setVisibility(View.GONE);
-
         } else {
-            this.setDiaryReadIntent(true, authorId, nickname, todayDate, todayTitle, todayContent, todayImageView);
+            yesterdayLinearLayout.setVisibility(View.VISIBLE);
             this.setDiaryReadIntent(false, authorId, nickname, yesterdayDate, yesterdayTitle, yesterdayContent, yesterdayImageView);
         }
 
         String myAuthorId = AuthorUtil.getAuthor(this).getAuthorId();
-        if (authorId.equals(myAuthorId)) {
-            LinearLayout feedbackLinearLayout = findViewById(R.id.linear_layout_diary_group_body_feedback);
-            LinearLayout letterLinearLayout = findViewById(R.id.linear_layout_diary_group_body_letter);
-
-            feedbackLinearLayout.setVisibility(View.GONE);
+        boolean myDiary = authorId.equals(myAuthorId);
+        if (myDiary) {
             letterLinearLayout.setVisibility(View.GONE);
-
         } else {
-            this.setFeedbackIntent(authorId, nickname, feedbackImageView);
+            letterLinearLayout.setVisibility(View.VISIBLE);
             this.setLetterIntent(authorId, nickname, letterImageView);
+        }
+
+        if (isFirstDay || myDiary) {
+            feedbackLinearLayout.setVisibility(View.GONE);
+        } else {
+            feedbackLinearLayout.setVisibility(View.VISIBLE);
+            this.setFeedbackIntent(authorId, nickname, feedbackImageView);
         }
 
         int previousAuthorIndex = currentAuthorIndex - 1 >= 0 ? currentAuthorIndex - 1 : diaryGroupAuthorDiaries.length() - 1;
@@ -263,7 +269,7 @@ public class DiaryGroupPopActivity extends CustomPopActivity {
         if ((TextUtils.isEmpty(diaryDate) || "null".equals(diaryDate))) {
             imageButtonView.setImageResource(R.drawable.ic_chat_bubble_black_24dp);
             imageButtonView.setOnClickListener(v -> {
-                Toast.makeText(this, "일기를 쓰지 않았습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.group_diary_not_written), Toast.LENGTH_SHORT).show();
             });
 
         } else {

@@ -94,9 +94,9 @@ LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecyclerViewAdapter
         String description = context.getResources().getString(R.string.letter_written_time) + ": " + new Date(letter.getWrittenTime());
 
         if (lettersToMe) {
-            if (letter.getStatus() == Letter.LetterStatus.READ) {
+            if (letter.getStatus() == Letter.LetterStatus.UNREAD) {
                 imageResource = R.drawable.ic_mail_black_24dp;
-            } else if (letter.getStatus() == Letter.LetterStatus.UNREAD) {
+            } else if (letter.getStatus() == Letter.LetterStatus.READ) {
                 imageResource = R.drawable.ic_drafts_black_24dp;
             } else if (letter.getStatus() == Letter.LetterStatus.REPLIED) {
                 imageResource = R.drawable.ic_reply_black_24dp;

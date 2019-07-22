@@ -80,19 +80,16 @@ public class LetterWriteActivity extends AbstractDetailActivity {
 
         String toAuthorId;
         String toAuthorNickname;
-        final boolean replied;
+
         if (inputLetterId != null) {
             LetterDao letterDao = new LetterDao(this);
             Letter letter = letterDao.getLetter(inputLetterId);
             toAuthorId = letter.getFromAuthorId();
             toAuthorNickname = letter.getFromAuthorNickname();
 
-            replied = letter.getStatus() == Letter.LetterStatus.REPLIED;
-
         } else {
             toAuthorId = inputAuthorId;
             toAuthorNickname = inputNickname;
-            replied = false;
         }
 
         TextView fromAuthorView = findViewById(R.id.text_view_detail_letter_from_author);
@@ -101,7 +98,7 @@ public class LetterWriteActivity extends AbstractDetailActivity {
 
         fromAuthorView.setText("FROM: " + author.getNickname());
         toAuthor.setText("TO: " + toAuthorNickname);
-        letterTimeView.setText(toAuthorNickname + "에게 편지를 작성합니다.");
+        letterTimeView.setText(getResources().getString(R.string.letter_send_to_who, toAuthorNickname));
 
         // 보내기 버튼
         FloatingActionButton sendButton = findViewById(R.id.floating_action_button_detail_letter_send);
@@ -110,20 +107,14 @@ public class LetterWriteActivity extends AbstractDetailActivity {
 
         sendButton.setOnClickListener(v -> {
             if (TextUtils.isEmpty(letterContent.getText())) {
-                Toast.makeText(LetterWriteActivity.this,"편지를 작성하세요", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LetterWriteActivity.this,getResources().getString(R.string.letter_letter_is_empty), Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            String message = "";
-            if (replied) {
-                message = "이미 회신한 편지입니다. ";
-            }
-            message += "편지를 보내시겠습니까?\n받는사람: " + toAuthorNickname;
-
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-            alertBuilder.setTitle("편지 보내기")
-                    .setMessage(message)
-                    .setPositiveButton("OK", (dialog, which) -> {
+            alertBuilder.setTitle(getResources().getString(R.string.letter_send_button_confirm_title))
+                    .setMessage(getResources().getString(R.string.letter_send_button_confirm_message, toAuthorNickname))
+                    .setPositiveButton(getResources().getString(R.string.ok), (dialog, which) -> {
                         long writtenTime = System.currentTimeMillis();
                         String newLetterId = author.getAuthorId() + "-" + writtenTime;
 
@@ -136,10 +127,10 @@ public class LetterWriteActivity extends AbstractDetailActivity {
                                         LetterDao letterDao = new LetterDao(LetterWriteActivity.this);
                                         letterDao.updateLetterStatus(inputLetterId, Letter.LetterStatus.REPLIED);
                                     }
-                                    Toast.makeText(LetterWriteActivity.this, "발송되었습니다.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LetterWriteActivity.this, getResources().getString(R.string.sent), Toast.LENGTH_SHORT).show();
                                     finish();
                                 } else if (httpStatus == 404) {
-                                    Toast.makeText(LetterWriteActivity.this, "편지를 받을 사람이 없습니다.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LetterWriteActivity.this, getResources().getString(R.string.letter_no_author), Toast.LENGTH_SHORT).show();
                                     finish(); // 수신자 탈퇴 or 랜덤 수신자 찾지못함 등의 원인
                                 } else {
                                     Toast.makeText(LetterWriteActivity.this, LetterWriteActivity.this.getResources().getString(R.string.network_fail), Toast.LENGTH_SHORT).show();
@@ -147,7 +138,7 @@ public class LetterWriteActivity extends AbstractDetailActivity {
                             }
                         });
                     })
-                    .setNegativeButton("Cancel", (dialog, which) -> {
+                    .setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> {
                         dialog.cancel();
                     });
             AlertDialog alertDialog = alertBuilder.create();

@@ -50,8 +50,6 @@ public class FileUtil {
         return BitmapFactory.decodeFile(file.getPath(), options);
     }
 
-
-
     // TODO 현재 삭제 안됨
     public static boolean deleteStorageFiles(Context context) {
         ContextWrapper contextWrapper = new ContextWrapper(context);

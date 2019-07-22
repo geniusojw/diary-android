@@ -187,7 +187,9 @@ public class MainActivity extends AppCompatActivity {
             }
             String date_yyyyMM = DateUtil.diffMonth(diaryDate_yyyyMM, -1);
             if (Integer.parseInt(date_yyyyMM) < Integer.parseInt(firstDiaryDateMonth)) {
-                String message = CommonUtil.randomString("No more diaries.", "There is no diary in the past.", "It is the first page of your diary.");
+                String message = CommonUtil.randomString(getResources().getString(R.string.diary_month_adjust_before1),
+                        getResources().getString(R.string.diary_month_adjust_before2),
+                        getResources().getString(R.string.diary_month_adjust_before3));
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             } else {
                 diaryDate_yyyyMM = date_yyyyMM;
@@ -200,7 +202,9 @@ public class MainActivity extends AppCompatActivity {
             String date_yyyyMM = DateUtil.diffMonth(diaryDate_yyyyMM, 1);
             String latestDate_yyyyMM = DateUtil.getyyyyMMdd().substring(0, 6);
             if (Integer.parseInt(date_yyyyMM) > Integer.parseInt(latestDate_yyyyMM)) {
-                String message = CommonUtil.randomString("Do you want to know the future?", "Please keep a diary in the future.", "You can not see the diary tomorrow.");
+                String message = CommonUtil.randomString(getResources().getString(R.string.diary_month_adjust_after1),
+                        getResources().getString(R.string.diary_month_adjust_after2),
+                        getResources().getString(R.string.diary_month_adjust_after3));
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             } else {
                 diaryDate_yyyyMM = date_yyyyMM;

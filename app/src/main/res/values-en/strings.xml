@@ -14,6 +14,7 @@
     <string name="refused">Refused.</string>
     <string name="public_square">Public Square</string>
     <string name="today_is">Today is %s</string>
+    <string name="sent">Sent</string>
 
     <!-- bottom navigation -->
     <string name="app_name">Today Diary</string>
@@ -22,7 +23,7 @@
     <string name="letter">Letter</string>
     <string name="store">Store</string>
     <string name="square">Square</string>
-    <string name="receiver">Receiver</string>
+    <string name="receiver">Recipient</string>
 
     <!-- draw navigation -->
     <string name="account">Account</string>
@@ -156,16 +157,20 @@
     <string name="store_pop_donation_result_description">%d 시간을 기부하였습니다.</string>
 
     <!-- group -->
-    <string name="group_started_no_group_name">모임 이름을 고민 중입니다.</string>
-    <string name="group_prepare_content">현재 참여자 수: %d명\n시작까지 남은시간: %s</string>
-    <string name="group_started_tip1">현재 당신은 익명의 일기모임에 참가 중입니다.</string>
-    <string name="group_started_tip2">다른 사람의 일상을 공감해보세요.</string>
-    <string name="group_started_tip3">당신과 %d명의 사람은 어제 이야기를 공유합니다.</string>
-    <string name="group_solo_tip1">일기모임에 초대된 사람이 없습니다.</string>
-    <string name="group_solo_tip2">어쨌든 일기모임은 진행됩니다.</string>
-    <string name="group_prepare_tip1">일기모임을 준비 중입니다.</string>
-    <string name="group_prepare_tip2">모임장소를 물색 중입니다.</string>
-    <string name="group_prepare_tip3">모임기간 중 날씨를 확인 중입니다.</string>
+    <string name="group_started_no_group_name">The meeting is going on to determine the name of the diary group.</string>
+    <string name="group_prepare_content">Current participants: %d people\nTime remaining until start: %s</string>
+    <string name="group_started_tip1">You are currently attending an anonymous diary group.</string>
+    <string name="group_started_tip2">Share your daily life with others.</string>
+    <string name="group_started_tip3">You and %d people share a story.</string>
+    <string name="group_solo_tip1">No one has been invited.</string>
+    <string name="group_solo_tip2">A diary group only for you.</string>
+    <string name="group_prepare_tip1">We are preparing hard.</string>
+    <string name="group_prepare_tip2">We are looking for a meeting place</string>
+    <string name="group_prepare_tip3">We are checking the weather during the period.</string>
+    <string name="group_yesterday_diary_of_who">%s\'s yesterday diary</string>
+    <string name="group_today_diary_of_who">%s\'s today diary</string>
+    <string name="group_people_count">%d people</string>
+    <string name="group_diary_not_written">Not written.</string>
 
     <!-- diary -->
     <string name="diary_delete">Delete Diary</string>
@@ -173,7 +178,16 @@
     <string name="diary_today_diary">TODAY\'S DIARY</string>
     <string name="diary_share">Sharing with %d people</string>
     <string name="diary_today_remain_time">You have %s to write today\'s diary</string>
+    <string name="diary_today_remain_time_new_line">You have %s\nto write today\'s diary</string>
     <string name="diary_today_remain_time_short">Today\'s remaining time: %s</string>
+    <string name="diary_month_adjust_before1">It is the first page of your diary.</string>
+    <string name="diary_month_adjust_before2">No more diaries.</string>
+    <string name="diary_month_adjust_before3">There is no diary in the past.</string>
+    <string name="diary_month_adjust_after1">This is the last page.</string>
+    <string name="diary_month_adjust_after2">Do you want to know the future?</string>
+    <string name="diary_month_adjust_after3">The future is not written in this diary.</string>
+    <string name="diary_start_topic">What is your diary topic today?</string>
+    <string name="diary_start_topic_group">Today\'s diary is shared with %d people.</string>
 
     <!-- letter -->
     <string name="letter_written_time">Creation time</string>
@@ -185,6 +199,11 @@
     <string name="letter_group_letter_respond">Respond to invitation</string>
     <string name="letter_group_letter_respond_description">Would you like to participate in a diary group?\n* If you join a diary group, you will share your diary with anonymous people for several days.</string>
     <string name="letter_group_invited">You have received a diary group invitation. Check your letter.</string>
+    <string name="letter_send_to_who">Write letter to %s.</string>
+    <string name="letter_letter_is_empty">Write the contents of the letter.</string>
+    <string name="letter_send_button_confirm_title">Send a letter</string>
+    <string name="letter_send_button_confirm_message">Would you like to send a letter?\nRecipient: %s</string>
+    <string name="letter_no_author">No one can receive the letter.</string>
 
     <!-- post -->
     <string name="post_too_many_post">Too many posts. Please delete the old post.</string>
@@ -221,5 +240,70 @@
     <string name="help_answer2">그냥 병신</string>
     <string name="help_question3">뭔 소립니까?</string>
     <string name="help_answer3">몰라 꺼져</string>
+
+    <!-- alarm -->
+    <string name="alarm_title">오늘의 일기를 작성할 시간입니다.</string>
+    <string name="alarm_tip1">오늘 어떤 일이 있었나요?</string>
+    <string name="alarm_tip2">사실 꾸준히 일기를 쓰는 것이 쉬운 일은 아닙니다.</string>
+    <string name="alarm_tip3">일기는 인생을 변화시킬 수 있는 좋은 습관입니다.</string>
+    <string name="alarm_tip4">일기는 글쓰기 능력에 도움이 됩니다.</string>
+    <string name="alarm_tip5">일기는 표현력 향상에 많은 도움이 됩니다.</string>
+    <string name="alarm_tip6">일기 쓰는 방법: 오늘의 생각과 느낌을 자세하게 쓴다.</string>
+    <string name="alarm_tip7">일기를 쓰고 부지런한 척을 해보세요.</string>
+    <string name="alarm_tip8">일기내용을 포장할 필요는 없습니다.</string>
+    <string name="alarm_tip9">자연스럽고 솔직하게 일기를 작성하세요.</string>
+    <string name="alarm_tip10">오늘의 일기는 오늘에만 작성할 수 있습니다.</string>
+
+    <!-- wise saying -->
+    <string name="wise_saying1">The best and most beautiful things in the world cannot be seen of even touched. They must be felt with the heart. - Helen Keller</string>
+    <string name="wise_saying2">Life is very short. And there\'s no time for fussing and fighting, my friends. - the beatles</string>
+    <string name="wise_saying3">We live as we dream - alone. - Joseph Conrad</string>
+    <string name="wise_saying4">A man of genius makes no mistakes. His errors are volitional and are portals of discovery. - James Joyce</string>
+    <string name="wise_saying5">Intelligence recognizes what has happened. Genius recognizes what will happen. - John Ciardi</string>
+    <string name="wise_saying6">3 O\'clock is always too early for anything you want to do. - Jean-Paul Sartre</string>
+    <string name="wise_saying7">The hardest work is to go idle. - Jewish proverb</string>
+    <string name="wise_saying8">Art produces ugly things which frequently become beautiful with time. - Jean Cocteau</string>
+    <string name="wise_saying9">Although the world is full of suffering, it is full also of the overcoming of it. - Helen Keller</string>
+    <string name="wise_saying10">Time is a great teacher, but unfortunately it kills all its pupils. - Hector Berlioz</string>
+    <string name="wise_saying11">A friend in power is a friend lost. - Henry Adams</string>
+    <string name="wise_saying12">The more you sweat in peace, the less you bleed in war. - Hyman Rickover</string>
+    <string name="wise_saying13">No human being can really understand another, and no one can arrange another\'s happiness. - Graham Greene</string>
+    <string name="wise_saying14">Who controls the past controls the future. Who controls the present controls the past. - George Orwell</string>
+    <string name="wise_saying15">First you take a drink, then the drink takes a drink, then the drink takes you. - F. Scott Fitzgerald</string>
+    <string name="wise_saying16">Since when was genius found respectable? - Elizabeth Barrett Browning</string>
+    <string name="wise_saying17">The winds and waves are always on the side of the ablest navigators. - Edward Gibbon</string>
+    <string name="wise_saying18">Only the person who has faith in himself is able to be faithful to others. - Erich Fromm</string>
+    <string name="wise_saying19">If you want to be happy for a year, plant a garden; if you want to be happy for life, plant a tree. - English Proverb</string>
+    <string name="wise_saying20">You can learn a little from victory; you can learn everything from defeat. - Christy Mathewson</string>
+    <string name="wise_saying21">If a man takes no thought about what is distant, he will find sorrow near at hand. - Confucius</string>
+    <string name="wise_saying22">Happiness is a warm puppy.- Charles M. Schulz</string>
+    <string name="wise_saying23">Anything you\'re good at contributes to happiness. - Bertrand Russell</string>
+    <string name="wise_saying24">The magic of first love is our ignorance that it can ever end. - Benjamin Disraeli</string>
+    <string name="wise_saying25">Man is born to live, not to prepare for life. Life itself, the phenomenon of life, the gift of life, is so breathtakingly serious! - Boris Pasternak</string>
+    <string name="wise_saying26">Like all great travellers, I have seen more than I remember, and remember more than I have seen. - Benjamin Disraeli</string>
+    <string name="wise_saying27">To know is nothing at all; to imagine is everything. - Anatole France</string>
+    <string name="wise_saying28">He makes no friend who never made a foe. - Alfred, Lord Tennyson</string>
+    <string name="wise_saying29">Common sense is the collection of prejudices acquired by age 18. - Albert Einstein</string>
+    <string name="wise_saying30">I never think of the future. It comes soon enough. - Albert Einstein</string>
+    <string name="wise_saying31">There is no royal road to learning. -Euclid</string>
+    <string name="wise_saying32">Only the person who has faith in himself is able to be faithful to others. - Erich Fromm</string>
+    <string name="wise_saying33">The die is cast. - Julius Caesar</string>
+    <string name="wise_saying34">Happiness and misery are not fated but self-sought. - Chinese Proverb</string>
+    <string name="wise_saying35">Money never made a man happy yet, nor will it. There is nothing in its nature to produce happiness. - Benjamin Franklin</string>
+    <string name="wise_saying36">Waste not fresh tears over old griefs. - Euripides</string>
+    <string name="wise_saying37">Time is but the stream I go a-fishing in. - Henry David Thoreau</string>
+    <string name="wise_saying38">Think like a man of action and act like man of thought. - Henri Bergson</string>
+    <string name="wise_saying39">The world is a beautiful book, but of little use to him who cannot read it. - Carlo Goldoni</string>
+    <string name="wise_saying40">The most beautiful thing in the world is, of course, the world itself. - Wallace Stevens</string>
+    <string name="wise_saying41">The difficulty in life is the choice. - George A. Moore</string>
+    <string name="wise_saying42">Nature never deceives us; it is always we who deceive ourselves. - Jean-Jacques Rousseau</string>
+    <string name="wise_saying43">Life itself is a quotation. - Jorge Luis Borges</string>
+    <string name="wise_saying44">In giving advice, seek to help, not to please, your friend. - Solon</string>
+    <string name="wise_saying45">Forgiveness is better than revenge. - Epictetus</string>
+    <string name="wise_saying46">Give me liberty, or give me death. - Patrick Henry</string>
+    <string name="wise_saying47">Error is the discipline through which we advance. - William Ellery Channing</string>
+    <string name="wise_saying48">Where there\'s a will, there\'s a way. - Proverb</string>
+    <string name="wise_saying49">No sweat, no sweet. - Proverb</string>
+    <string name="wise_saying50">Let bygones be bygones. - Proverb</string>
 
 </resources>

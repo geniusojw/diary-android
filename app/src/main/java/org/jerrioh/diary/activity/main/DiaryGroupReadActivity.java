@@ -42,7 +42,14 @@ public class DiaryGroupReadActivity extends CustomPopActivity {
         String content = intent.getStringExtra("content");
 
         TextView nicknameTextView = findViewById(R.id.text_view_group_diary_nickname);
-        nicknameTextView.setText(nickname + "님의 어제 일기");
+
+        String toNicknameText;
+        if (today) {
+            toNicknameText = getResources().getString(R.string.group_today_diary_of_who, nickname);
+        } else {
+            toNicknameText = getResources().getString(R.string.group_yesterday_diary_of_who, nickname);
+        }
+        nicknameTextView.setText(toNicknameText);
 
         EditText titleEditText = findViewById(R.id.edit_text_group_diary_title);
         titleEditText.setText(CommonUtil.defaultIfEmpty(title, Constants.DEFAULT_TITLE));
@@ -67,6 +74,7 @@ public class DiaryGroupReadActivity extends CustomPopActivity {
             goodButtonImage.setImageResource(imageResourceId);
             goodButton.setVisibility(View.VISIBLE);
             goodButton.setOnClickListener(v -> {
+                goodButton.setClickable(false);
                 FeedbackApis feedbackApis = new FeedbackApis(this);
                 feedbackApis.feedbackDiary(authorId, diaryDate, feedbackDiaryType, new ApiCallback() {
                     @Override
@@ -77,6 +85,7 @@ public class DiaryGroupReadActivity extends CustomPopActivity {
                             Toast.makeText(DiaryGroupReadActivity.this, "좋아요", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(DiaryGroupReadActivity.this, "실패", Toast.LENGTH_SHORT).show();
+                            goodButton.setClickable(true);
                         }
                     }
                 });

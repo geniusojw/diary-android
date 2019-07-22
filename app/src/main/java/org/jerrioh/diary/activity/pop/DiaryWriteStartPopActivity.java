@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.main.DiaryWriteActivity;
+import org.jerrioh.diary.model.DiaryGroup;
+import org.jerrioh.diary.model.db.DiaryGroupDao;
 import org.jerrioh.diary.util.DateUtil;
 
 import java.util.Calendar;
@@ -22,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 public class DiaryWriteStartPopActivity extends CustomPopActivity {
 
     private TextView todayView;
+    private TextView topicView;
     private TextView tipTextView;
 
     private EditText titleEditView;
@@ -35,6 +38,7 @@ public class DiaryWriteStartPopActivity extends CustomPopActivity {
         super.setWindowAttribute(0.95f, 0.4f);
 
         todayView = findViewById(R.id.text_view_diary_start_today);
+        topicView = findViewById(R.id.text_view_diary_start_topic);
         tipTextView = findViewById(R.id.text_view_diary_detail_start_tip);
 
         titleEditView = findViewById(R.id.edit_text_diary_detail_start_title);
@@ -53,9 +57,25 @@ public class DiaryWriteStartPopActivity extends CustomPopActivity {
             }
         });
 
+        DiaryGroupDao diaryGroupDao = new DiaryGroupDao(this);
+        DiaryGroup diaryGroup = diaryGroupDao.getDiaryGroup();
+
+        String topicText;
+        long currentTime = System.currentTimeMillis();
+        if (diaryGroup != null
+                && currentTime > diaryGroup.getStartTime()
+                && currentTime < diaryGroup.getEndTime()
+                && diaryGroup.getCurrentAuthorCount() > 1) {
+            topicText = getResources().getString(R.string.diary_start_topic_group, diaryGroup.getCurrentAuthorCount() - 1);
+        } else {
+            topicText = getResources().getString(R.string.diary_start_topic);
+        }
+
+
         long timeLeft = DateUtil.getTimeLeft();
         todayView.setText(DateUtil.getDateStringSkipTime());
-        tipTextView.setText("오늘의 일기를 작성할 수 있는 시간이\n" + DateUtil.getTimeString(timeLeft) + " 남았습니다.");
+        topicView.setText(topicText);
+        tipTextView.setText(getResources().getString(R.string.diary_today_remain_time_new_line, DateUtil.getTimeString(timeLeft)));
 
         nextView.setOnClickListener(v -> {
             startDiaryWriteActivity();

@@ -15,6 +15,18 @@ public class CommonUtil {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
+    public static String ordinalPeople(int i) {
+        String[] suffixes = new String[] { "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th" };
+        switch (i % 100) {
+            case 11:
+            case 12:
+            case 13:
+                return i + "th people";
+            default:
+                return i + suffixes[i % 10] + " people";
+        }
+    }
+
     public static boolean isAnyEmpty(String... texts) {
         for (String text : texts) {
             if (TextUtils.isEmpty(text)) {

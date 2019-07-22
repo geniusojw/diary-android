@@ -14,6 +14,7 @@
     <string name="refused">거절하였습니다.</string>
     <string name="public_square">퍼블릭 광장</string>
     <string name="today_is">오늘은 %s</string>
+    <string name="sent">발송되었습니다.</string>
 
     <!-- bottom navigation -->
     <string name="app_name">오늘일기</string>
@@ -156,16 +157,20 @@
     <string name="store_pop_donation_result_description">%d 시간을 기부하였습니다.</string>
 
     <!-- group -->
-    <string name="group_started_no_group_name">모임 이름을 고민 중입니다.</string>
+    <string name="group_started_no_group_name">모임 이름을 결정하기 위한 회의가 진행 중입니다.</string>
     <string name="group_prepare_content">현재 참여자 수: %d명\n시작까지 남은시간: %s</string>
     <string name="group_started_tip1">현재 당신은 익명의 일기모임에 참가 중입니다.</string>
     <string name="group_started_tip2">다른 사람의 일상을 공감해보세요.</string>
     <string name="group_started_tip3">당신과 %d명의 사람은 어제 이야기를 공유합니다.</string>
-    <string name="group_solo_tip1">일기모임에 초대된 사람이 없습니다.</string>
-    <string name="group_solo_tip2">어쨌든 일기모임은 진행됩니다.</string>
-    <string name="group_prepare_tip1">일기모임을 준비 중입니다.</string>
+    <string name="group_solo_tip1">초대된 사람이 없습니다.</string>
+    <string name="group_solo_tip2">오직 당신만을 위한 일기모임</string>
+    <string name="group_prepare_tip1">일기모임을 준비하고 있습니다.</string>
     <string name="group_prepare_tip2">모임장소를 물색 중입니다.</string>
     <string name="group_prepare_tip3">모임기간 중 날씨를 확인 중입니다.</string>
+    <string name="group_yesterday_diary_of_who">%s님의 어제일기</string>
+    <string name="group_today_diary_of_who">%s님의 오늘일기</string>
+    <string name="group_people_count">%d인</string>
+    <string name="group_diary_not_written">작성되지 않았습니다.</string>
 
     <!-- diary -->
     <string name="diary_delete">일기 삭제</string>
@@ -173,7 +178,16 @@
     <string name="diary_today_diary">오늘의 일기</string>
     <string name="diary_share">%d명의 사람과 일기 공유중</string>
     <string name="diary_today_remain_time">오늘의 일기를 작성할 수 있는 시간이 %s 남았습니다.</string>
+    <string name="diary_today_remain_time_new_line">오늘의 일기를 작성할 수 있는 시간이\n%s 남았습니다.</string>
     <string name="diary_today_remain_time_short">오늘 남은 시간: %s</string>
+    <string name="diary_month_adjust_before1">일기장의 첫번째 페이지입니다.</string>
+    <string name="diary_month_adjust_before2">더 이상 일기가 없습니다.</string>
+    <string name="diary_month_adjust_before3">더 과거에는 일기가 없습니다.</string>
+    <string name="diary_month_adjust_after1">마지막 페이지입니다.</string>
+    <string name="diary_month_adjust_after2">혹시 미래를 알고 싶나요?</string>
+    <string name="diary_month_adjust_after3">이 일기장에 미래는 적혀있지 않습니다.</string>
+    <string name="diary_start_topic">오늘 일기의 주제는?</string>
+    <string name="diary_start_topic_group">오늘의 일기는 %d명과 함께 공유합니다.</string>
 
     <!-- letter -->
     <string name="letter_written_time">작성시간</string>
@@ -185,6 +199,11 @@
     <string name="letter_group_letter_respond">일기모임 초대 응답하기</string>
     <string name="letter_group_letter_respond_description">일기모임에 참여 하시겠습니까?\n* 일기모임 참여시 몇일동안 익명의 사람들과 일기내용을 공유합니다.</string>
     <string name="letter_group_invited">일기모임 초대장을 받으셨습니다. 편지를 확인하세요.</string>
+    <string name="letter_send_to_who">%s에게 편지를 작성합니다.</string>
+    <string name="letter_letter_is_empty">편지내용을 작성하세요.</string>
+    <string name="letter_send_button_confirm_title">편지 보내기</string>
+    <string name="letter_send_button_confirm_message">편지를 보내시겠습니까?\n받는 사람: %s</string>
+    <string name="letter_no_author">편지를 받을 사람이 없습니다.</string>
 
     <!-- post -->
     <string name="post_too_many_post">포스트가 너무 많습니다. 오래된 포스트를 삭제하세요.</string>
@@ -221,5 +240,70 @@
     <string name="help_answer2">그냥 병신</string>
     <string name="help_question3">뭔 소립니까?</string>
     <string name="help_answer3">몰라 꺼져</string>
+
+    <!-- alarm -->
+    <string name="alarm_title">오늘의 일기를 작성할 시간입니다.</string>
+    <string name="alarm_tip1">오늘 어떤 일이 있었나요?</string>
+    <string name="alarm_tip2">사실 꾸준히 일기를 쓰는 것이 쉬운 일은 아닙니다.</string>
+    <string name="alarm_tip3">일기는 인생을 변화시킬 수 있는 좋은 습관입니다.</string>
+    <string name="alarm_tip4">일기는 글쓰기 능력에 도움이 됩니다.</string>
+    <string name="alarm_tip5">일기는 표현력 향상에 많은 도움이 됩니다.</string>
+    <string name="alarm_tip6">일기 쓰는 방법: 오늘의 생각과 느낌을 자세하게 쓴다.</string>
+    <string name="alarm_tip7">일기를 쓰고 부지런한 척을 해보세요.</string>
+    <string name="alarm_tip8">일기내용을 포장할 필요는 없습니다.</string>
+    <string name="alarm_tip9">자연스럽고 솔직하게 일기를 작성하세요.</string>
+    <string name="alarm_tip10">오늘의 일기는 오늘에만 작성할 수 있습니다.</string>
+
+    <!-- wise saying -->
+    <string name="wise_saying1">세상에서 가장 아름답고 소중한 것은 보이거나 만져지지 않는다. 단지 가슴으로만 느낄 수 있다. - Helen Keller</string>
+    <string name="wise_saying2">친구여, 인생은 아주 짧다. 싸우거나 말다툼할 시간이 없다. - 비틀즈</string>
+    <string name="wise_saying3">우리가 사는 것도 꿈꿀 때나 마찬가지다, 혼자이기는. - 조세프 콘라드</string>
+    <string name="wise_saying4">지성은 일어난 일을 알고 천재는 일어날 일을 안다. - 제임스 조이스</string>
+    <string name="wise_saying5">천재는 실수하지 않는다. 발견을 위해 의도적으로 할 뿐이다. - 존 치아디</string>
+    <string name="wise_saying6">3시는 하고 싶은 일을 시작하기에는 언제나 너무 이른 때이다. - 장 폴 사르트르</string>
+    <string name="wise_saying7">가장 하기 힘든 일은 아무 일도 안하는 것이다. - 유대인 격언</string>
+    <string name="wise_saying8">예술이 만드는 추한 것들은 종종 시간이 흐르면서 아름다워진다. - 장 꼭또</string>
+    <string name="wise_saying9">세상은 고통으로 가득하지만 한편 그것을 이겨내는 일로도 가득차 있다. - 헬렌 켈러</string>
+    <string name="wise_saying10">시간은 위대한 스승이기는 하지만 불행히도 자신의 모든 제자를 죽인다. - 헥토르 베를리오즈</string>
+    <string name="wise_saying11">힘 있을 때 친구는 친구가 아니다. - 헨리 애덤스</string>
+    <string name="wise_saying12">평화로울 때 땀을 더 흘리면 전쟁에서 피를 덜 흘린다. - 하이먼 리코버</string>
+    <string name="wise_saying13">사람은 아무도 다른 사람을 정말로 이해할 수 없고 아무도 다른 사람의 행복을 만들어 줄 수 없다. - 그레이엄 그린</string>
+    <string name="wise_saying14">과거를 지배하는 자가 미래를 지배하며 현재를 지배하는 자가 과거를 지배한다. - 조지 오웰</string>
+    <string name="wise_saying15">처음에는 네가 술을 마시고, 다음에는 술이 술을 마시고, 다음에는 술이 너를 마신다. - F. 소코트 피츠제랄드</string>
+    <string name="wise_saying16">언제부터 천재가 존경받았는가? - 엘리자베스 바렛 브라우닝</string>
+    <string name="wise_saying17">바람과 파도는 항상 가장 유능한 항해자의 편에 선다. - 에드워드 기본</string>
+    <string name="wise_saying18">스스로를 신뢰하는 사람만이 다른 사람들에게 성실할 수 있다. - 에릭 프롬</string>
+    <string name="wise_saying19">1년간의 행복을 위해서는 정원을 가꾸고, 평생의 행복을 원한다면 나무를 심어라. - 영국 속담</string>
+    <string name="wise_saying20">승리하면 조금 배울 수 있고 패배하면 모든 것을 배울 수 있다. - 크리스티 매튜슨</string>
+    <string name="wise_saying21">사람이 먼 일을 생각하지 않으면 바로 앞에 슬픔이 닥치는 법이다. - 공자</string>
+    <string name="wise_saying22">행복이란 포근한 강아지 한 마리다. - 찰스 M. 슐츠</string>
+    <string name="wise_saying23">당신이 잘 하는 일이라면 무엇이나 행복에 도움이 된다. - 버트랜드 러셀</string>
+    <string name="wise_saying24">첫사랑이 신비로운 것은 우리가 그것이 끝날 수 있다는 것을 모르기 때문이다. - 벤자민 디즈렐리</string>
+    <string name="wise_saying25">사람은 살려고 태어나는 것이지 인생을 준비하려고 태어나는 것은 아니다. 인생 그 자체, 인생의 현상, 인생이 가져다 주는 선물은 숨이 막히도록 진지하다! - 보리스 파스테르나크</string>
+    <string name="wise_saying26">훌륭한 여행가들이 흔히 그렇듯이 나는 내가 기억하는 것보다 많은 것을 보았고 또한 본 것보다 많은 것을 기억한다. - 벤자민 디즈렐리</string>
+    <string name="wise_saying27">안다는 것은 전혀 중요하지 않다; 상상하는 것이 가장 중요하다. - 아나톨 프랑스</string>
+    <string name="wise_saying28">원수를 만들어보지 않은 사람은 친구도 사귀지 않는다. - 알프레드 테니슨 경</string>
+    <string name="wise_saying29">상식은 18세 때까지 후천적으로 얻은 편견의 집합이다. - 앨버트 아인슈타인</string>
+    <string name="wise_saying30">나는 미래에 대해서는 결코 생각하지 않는다. 미래는 곧 오고 말것이므로. - 앨버트 아인슈타인</string>
+    <string name="wise_saying31">학문에 왕도는 없다. - 유클리드</string>
+    <string name="wise_saying32">스스로를 신뢰하는 사람만이 타인에게 성실할 수 있는 법이다. - 에리히 프롬</string>
+    <string name="wise_saying33">주사위는 던져졌도다. - 율리우스 카이사르</string>
+    <string name="wise_saying34">행복과 불행은 그 운이 정해진 것이 아니라 스스로 찾아지는 것이다. - 중국 속담</string>
+    <string name="wise_saying35">돈은 사람을 결코 행복하게 만든 바 없고, 앞으로도 그러지 않을 것이다. 그 본질상 행복을 만들어내는 요소가 전혀 없기 때문이다. - 벤저민 프랭클린</string>
+    <string name="wise_saying36">지나간 슬픔에 새 눈물을 낭비하지 말라. - 에우리피데스</string>
+    <string name="wise_saying37">시간은 내가 그 속에서 낚시질을 하는 흐름이다. - 헨리 데이비드 소로</string>
+    <string name="wise_saying38">행동하는 사람처럼 생각하고, 생각하는 사람처럼 행동하라. - 앙리 베르그손</string>
+    <string name="wise_saying39">세상은 한 권의 아름다운 책이다. 그러나 그 책을 읽을 수 없는 사람에게는 별 소용이 없다. - 카를로 골도니</string>
+    <string name="wise_saying40">세상에서 가장 아름다운 것은 물론 세상 그 자체이다. - 윌리스 스티븐스</string>
+    <string name="wise_saying41">인생에 있어서 어려운 것은 선택이다. - 조지 무어</string>
+    <string name="wise_saying42">자연은 인간을 결코 속이지 않는다. 우리를 속이는 것은 항상 우리 자신이다. - 장자크 루소</string>
+    <string name="wise_saying43">인생 그 자체가 하나의 인용이다. - 호르헤 루이스 보르헤스</string>
+    <string name="wise_saying44">친구에게 충고할 때는 즐겁게 하지 말고, 도움이 되도록 하라. - 솔론</string>
+    <string name="wise_saying45">용서는 복수보다 낫다. - 에픽테토스</string>
+    <string name="wise_saying46">자유가 아니면 죽음을 달라. - 패트릭 헨리</string>
+    <string name="wise_saying47">잘못은 그것을 통하여 우리가 발전할 수 있는 훈련이다. - 윌리엄 엘러리 채닝</string>
+    <string name="wise_saying48">뜻이 있는 곳에 길이 있다 - 속담</string>
+    <string name="wise_saying49">땀이 없으면 달콤함도 없다. - 속담</string>
+    <string name="wise_saying50">지나간일은 잊어 버리세요. - 속담</string>
 
 </resources>
