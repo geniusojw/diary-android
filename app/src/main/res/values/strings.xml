@@ -15,6 +15,8 @@
     <string name="public_square">퍼블릭 광장</string>
     <string name="today_is">오늘은 %s</string>
     <string name="sent">발송되었습니다.</string>
+    <string name="writer">작성자</string>
+    <string name="delete_soon">곧 삭제됩니다.</string>
 
     <!-- bottom navigation -->
     <string name="app_name">오늘일기</string>
@@ -52,6 +54,10 @@
     <string name="diary_group_invitation_description">일기모임 초대장을 받습니다.</string>
     <string name="diary_group_invitation_pop_title">일기모임 초대장 받지않기</string>
     <string name="diary_group_invitation_pop_description">비활성화하지 않고도 초대장을 거절할 수 있습니다.\n해당 기능을 비활성화하시겠습니다.</string>
+    <string name="auto_delete_post">포스트 자동 삭제</string>
+    <string name="auto_delete_post_description">30일이 지난 포스트를 자동으로 삭제합니다.</string>
+    <string name="auto_delete_letter">편지 자동 삭제</string>
+    <string name="auto_delete_letter_description">30일이 지난 편지를 자동으로 삭제합니다.</string>
     <string name="reset_data">일기 데이터 초기화</string>
     <string name="reset_data_description">모든 일기, 편지, 설정 등의 데이터를 삭제합니다.</string>
     <string name="reset_data_pop_description">정말로 모든 데이터를 삭제하시겟습니까?\n계정으로 동기화되지 않은 일기들은 복구할 수 없습니다.</string>
@@ -72,8 +78,12 @@
     <string name="find_password_success">새로운 비밀번호가 이메일로 발송되었습니다.</string>
     <string name="delete_account_success">당신의 성공적으로 계정이 삭제되었습니다.\n단말에 남아있는 일기를 모두 삭제하려면 설정에서 데이터 초기화 하세요.</string>
     <string name="incorrect_password">올바르지 않은 비밀번호</string>
+    <string name="invalid_password">비밀번호는 6자 이상이어야 합니다.</string>
     <string name="change_password_success">비밀번호가 성공적으로 변경되었습니다.</string>
     <string name="network_fail">네트워크 오류입니다. 나중에 다시 시도하세요.</string>
+    <string name="email_export_confirm">이메일로 일기를 받기 전에 일기가 최신으로 동기화가 되었는지 확인하세요.</string>
+    <string name="email_export_ok">내보내기</string>
+    <string name="email_export_success">일기가 이메일로 전송되었습니다.</string>
 
     <string name="email">이메일</string>
     <string name="password">비밀번호</string>
@@ -159,7 +169,7 @@
     <!-- group -->
     <string name="group_started_no_group_name">모임 이름을 결정하기 위한 회의가 진행 중입니다.</string>
     <string name="group_prepare_content">현재 참여자 수: %d명\n시작까지 남은시간: %s</string>
-    <string name="group_started_tip1">현재 당신은 익명의 일기모임에 참가 중입니다.</string>
+    <string name="group_started_tip1">익명의 일기모임에 참가 중입니다.</string>
     <string name="group_started_tip2">다른 사람의 일상을 공감해보세요.</string>
     <string name="group_started_tip3">당신과 %d명의 사람은 어제 이야기를 공유합니다.</string>
     <string name="group_solo_tip1">초대된 사람이 없습니다.</string>
@@ -171,6 +181,7 @@
     <string name="group_today_diary_of_who">%s님의 오늘일기</string>
     <string name="group_people_count">%d인</string>
     <string name="group_diary_not_written">작성되지 않았습니다.</string>
+    <string name="group_feed_back_author_description">%s님에 대한 솔직한 느낌을 선택하십시오.\n일기모임 기간 중 한번만 가능합니다.</string>
 
     <!-- diary -->
     <string name="diary_delete">일기 삭제</string>
@@ -209,12 +220,15 @@
     <string name="post_too_many_post">포스트가 너무 많습니다. 오래된 포스트를 삭제하세요.</string>
     <string name="post_no_public_post_it">상점에서 퍼블릭 광장 포스트잇 구매하세요.</string>
     <string name="post_delete">포스트 삭제</string>
+    <string name="post_for_you">당신만 볼 수 있는 포스트입니다.</string>
+    <string name="post_for_all">모두가 볼 수 있는 포스트입니다.</string>
+    <string name="post_worth">이 포스트는 %d 시간의 가치를 가집니다.</string>
 
     <!-- store -->
     <string name="store_item_weather">날씨</string>
     <string name="store_item_weather_description">날씨정보를 들으세요</string>
     <string name="store_item_post">포스트잇</string>
-    <string name="store_item_post_description">퍼블링 광장에서 1회 글을 쓸 수 있는 포스티잇</string>
+    <string name="store_item_post_description">퍼블링 광장에서 1회 글을 쓸 수 있는 포스트잇</string>
     <string name="store_item_about">당신에 대한 이야기 듣기</string>
     <string name="store_item_about_description">당신에 대한 이야기를 듣습니다. 만약 일기모임을 참가했다면 당신에 대한 의견이 있을 수 도 있습니다.</string>
     <string name="store_item_nick">닉네임 변경</string>
@@ -234,25 +248,52 @@
 
     <!-- help -->
     <string name="help_question">질문%d</string>
-    <string name="help_question1">당신은 누구입니까?</string>
-    <string name="help_answer1">천재 오정욱</string>
-    <string name="help_question2">나는 누구입니까?</string>
-    <string name="help_answer2">그냥 병신</string>
-    <string name="help_question3">뭔 소립니까?</string>
-    <string name="help_answer3">몰라 꺼져</string>
+    <string name="help_question1">어떤 앱인지 알려주세요.</string>
+    <string name="help_answer1">앱 \'오늘일기\'는 오늘의 일기를 쓸 수 있는 어플입니다.</string>
+    <string name="help_question2">일기를 어떻게 쓸 수 있습니까? (하단 메뉴 - 일기)</string>
+    <string name="help_answer2">우측 하단에 연필 모양의 둥근 일기쓰기 버튼이 있습니다. 버튼을 눌러 일기를 작성할 수 있습니다. 뒤로가기를 누르면 일기는 자동으로 저장됩니다. 당신이 기억할 것은 오직 오늘의 일기만을 쓸 수 있다는 것입니다. 24시가 지나면 작성한 일기는 어제의 일기가 되고, 당신은 새로운 오늘의 일기를 쓸 수 있습니다. 상단에 화살표로 월을 조정하여 지난 일기를 볼 수 있습니다.</string>
+    <string name="help_question3">어제의 일기를 수정하고 싶어요.</string>
+    <string name="help_answer3">과거의 일기들을 몰아 쓰거나, 내일 일기를 미리 쓰는 것은 금지입니다. 이것은 우리 모두가 과거나 미래가 아닌 현재만을 살아 갈 수 있다는 우주의 섭리가 반영된 철학적인 규칙입니다. 아시겠죠?</string>
+    <string name="help_question4">핸드폰이 분실되었을 때는 일기를 복원할 수 있나요?</string>
+    <string name="help_answer4">이메일 계정으로 로그인하여 일기를 안전하게 보관할 수 있습니다. 핸드폰을 바꾸거나 분실하였을 때, 새로운 단말에 이메일계정과 비밀번호로 로그인하면 이전에 작성한 일기들을 복원할 수 있습니다.</string>
+    <string name="help_question5">상점은 무엇인가요? (하단 메뉴 - 상점)</string>
+    <string name="help_answer5">상점에서는 \'시간\'을 지불하고 여러 아이템을 살 수 있습니다. \'시간\'을 얻을 수 있는 방법은 당신이 일기를 작성하는 것입니다. 일기를 작성하면 매일 1시간을 얻을 수 있습니다.</string>
+    <string name="help_question6">광장은 무엇인가요? (하단메뉴 - 광장)</string>
+    <string name="help_answer6">광장은 포스트잇과 같습니다. 잊어버리면 안되는 아이디어나 내용을 적어놓으세요. 우측상단에 버튼을 눌러 공개된 퍼블릭 광장으로 이동할 수 있습니다. 퍼블릭 광장에는 여러 사람들이 동시에 포스트잇은 붙일 수 있습니다.</string>
+    <string name="help_question7">일기가 다른 사람에게 노출되나요?</string>
+    <string name="help_answer7">걱정하지 마십시오. 당신의 일기는 당신만 볼 수 있습니다. 단, 당신이 일기모임에 초대되었을 때 수락을 하면 몇일동안은 모임인원 간에 일기가 공유됩니다. 물론 익명이기 때문에 서로가 누군지는 알 방법이 없습니다. 일기모임에 대한 더 자세한 내용은 아래를 참고하시기 바랍니다.</string>
+    <string name="help_question8">일기모임은 무엇인가요?</string>
+    <string name="help_answer8">일기모임은 당신이 더 일기를 잘 쓸 수 있도록 도와줍니다. 어쩌면 당신이 모르고 있었던 당신에 대해 알 수도 있을 것입니다. 일기모임의 짧은 기간동안의 소수의 익명의 사람들은 서로 일기를 공유하면서 응원하고 피드백 할 수 있습니다. 일기모임에 참여하는 방법은 2가지입니다. 상점에서 일기모임 초대장을 구매하여 주최하거나, 일기모임 초대장을 받았을 때 수락하는 것입니다.</string>
+    <string name="help_question9">일기모임은 관심이 없습니다.</string>
+    <string name="help_answer9">설정에서 일기모임 초대받기를 비활성화 시킬 수 있습니다.</string>
 
     <!-- alarm -->
     <string name="alarm_title">오늘의 일기를 작성할 시간입니다.</string>
-    <string name="alarm_tip1">오늘 어떤 일이 있었나요?</string>
-    <string name="alarm_tip2">사실 꾸준히 일기를 쓰는 것이 쉬운 일은 아닙니다.</string>
-    <string name="alarm_tip3">일기는 인생을 변화시킬 수 있는 좋은 습관입니다.</string>
-    <string name="alarm_tip4">일기는 글쓰기 능력에 도움이 됩니다.</string>
-    <string name="alarm_tip5">일기는 표현력 향상에 많은 도움이 됩니다.</string>
-    <string name="alarm_tip6">일기 쓰는 방법: 오늘의 생각과 느낌을 자세하게 쓴다.</string>
-    <string name="alarm_tip7">일기를 쓰고 부지런한 척을 해보세요.</string>
-    <string name="alarm_tip8">일기내용을 포장할 필요는 없습니다.</string>
-    <string name="alarm_tip9">자연스럽고 솔직하게 일기를 작성하세요.</string>
-    <string name="alarm_tip10">오늘의 일기는 오늘에만 작성할 수 있습니다.</string>
+    <string name="alarm_tip1">오늘은 어떤 일이 있었나요?</string>
+    <string name="alarm_tip2">일기 쓸 시간입니다.</string>
+    <string name="alarm_tip3">좋습니다.</string>
+    <string name="alarm_tip4">아까 있었던 일?</string>
+    <string name="alarm_tip5">오늘의 일기 쓸 시간</string>
+    <string name="alarm_tip6">돌아오지 않을 오늘의 시간을 글로 남기세요.</string>
+    <string name="alarm_tip7">사실 꾸준히 일기를 쓰는 일이 쉬운 것은 아닙니다.</string>
+    <string name="alarm_tip8">일기를 써볼까요?</string>
+    <string name="alarm_tip9">일기쓰기는 인생을 변화시킬 수 있는 습관입니다.</string>
+    <string name="alarm_tip10">일기는 글쓰기 능력에 도움이 됩니다.</string>
+    <string name="alarm_tip11">일기는 표현력 향상에 도움이 됩니다.</string>
+    <string name="alarm_tip12">일기는 부지런한 척하는 것에 도움이 됩니다.</string>
+    <string name="alarm_tip13">일기 예시: 나는 오늘 밥을 먹었다...</string>
+    <string name="alarm_tip14">일기 예시: 나는 오늘 TV를 보았다...</string>
+    <string name="alarm_tip15">일기 쓰는 방법: 오늘 겪은 일을 기록한다.</string>
+    <string name="alarm_tip16">일기 쓰는 방법: 생각나는대로 적는다.</string>
+    <string name="alarm_tip17">일기 쓰는 방법: 오늘의 생각과 느낌을 그대로 적는다.</string>
+    <string name="alarm_tip18">일기를 쓰고 부지런한 척을 해보세요.</string>
+    <string name="alarm_tip19">자, 부지런한 사람이 될 시간입니다.</string>
+    <string name="alarm_tip20">일기내용을 포장할 필요는 없습니다.</string>
+    <string name="alarm_tip21">자연스럽고 솔직하게 일기를 작성하세요.</string>
+    <string name="alarm_tip22">오늘의 일기는 오늘에만 작성할 수 있습니다.</string>
+    <string name="alarm_tip23">오늘은 오늘의 일기는 써봅시다.</string>
+    <string name="alarm_tip24">오늘 어땠습니까?</string>
+    <string name="alarm_tip25">당신의 생각</string>
 
     <!-- wise saying -->
     <string name="wise_saying1">세상에서 가장 아름답고 소중한 것은 보이거나 만져지지 않는다. 단지 가슴으로만 느낄 수 있다. - Helen Keller</string>

@@ -27,8 +27,10 @@ import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.AuthorLetterApis;
 import org.jerrioh.diary.api.author.DiaryGroupApis;
 import org.jerrioh.diary.model.Letter;
+import org.jerrioh.diary.model.Post;
 import org.jerrioh.diary.model.Property;
 import org.jerrioh.diary.model.db.LetterDao;
+import org.jerrioh.diary.model.db.PostDao;
 import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.model.db.DiaryDao;
 import org.jerrioh.diary.model.Author;
@@ -44,6 +46,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -69,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 편지받기, 일기모임 초대장받기
         this.executeGetApis();
+        this.executeAutoDelete();
 
         AuthorUtil.uploadAuthorDiary(this);
     }
@@ -77,19 +81,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_ACCOUNT_ACTIVITY) {
-            if (resultCode == RESULT_OK) { // 회원가입, 로그인, 로그아웃 성공 시
-                diaryDate_yyyyMM = DateUtil.getyyyyMMdd().substring(0, 6);
-                BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
-                bottomNav.setSelectedItemId(R.id.bottom_option_store);
-            }
-        } else if (requestCode == REQUEST_SETTING_ACTIVITY) {
-            if (resultCode == RESULT_OK) { // 데이터 초기화 성공 시
-                diaryDate_yyyyMM = DateUtil.getyyyyMMdd().substring(0, 6);
-                BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
-                bottomNav.setSelectedItemId(R.id.bottom_option_store);
-            }
-        }
+//        if (requestCode == REQUEST_ACCOUNT_ACTIVITY) {
+//            if (resultCode == RESULT_OK) { // 회원가입, 로그인, 로그아웃 성공 시
+//                diaryDate_yyyyMM = DateUtil.getyyyyMMdd().substring(0, 6);
+//                BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
+//                bottomNav.setSelectedItemId(R.id.bottom_option_store);
+//            }
+//        } else if (requestCode == REQUEST_SETTING_ACTIVITY) {
+//            if (resultCode == RESULT_OK) { // 데이터 초기화 성공 시
+//                diaryDate_yyyyMM = DateUtil.getyyyyMMdd().substring(0, 6);
+//                BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
+//                bottomNav.setSelectedItemId(R.id.bottom_option_store);
+//            }
+//        }
     }
 
     @Override
@@ -321,6 +325,7 @@ public class MainActivity extends AppCompatActivity {
     private void executeGetApis() {
         boolean timeToRequestBeInvited = false;
         boolean timeToRequestGetLetters = false;
+        boolean timeToSyncDiaries = false;
 
         long currentTime = System.currentTimeMillis();
 
@@ -339,12 +344,72 @@ public class MainActivity extends AppCompatActivity {
             timeToRequestGetLetters = true;
         }
 
+        long latestSyncDiariesTime = Long.parseLong(PropertyUtil.getProperty(Property.Key.SYNC_DIARIES_API_REQUEST_TIME, this));
+        if (currentTime > latestSyncDiariesTime + Property.Config.SYNC_DIARIES_API_RETRY_MILLIS) {
+            PropertyUtil.setProperty(Property.Key.SYNC_DIARIES_API_REQUEST_TIME, String.valueOf(currentTime), this);
+            timeToSyncDiaries = true;
+        }
+
         if (timeToRequestBeInvited) {
             beInvited();
         }
 
         if (timeToRequestGetLetters) {
             getLetters();
+        }
+
+        if (timeToSyncDiaries) {
+            AuthorUtil.syncAccountDiaries(this, null, null);
+            AuthorUtil.refreshAccountToken(this);
+        }
+    }
+
+    private void executeAutoDelete() {
+        long currentTime = System.currentTimeMillis();
+        String autoDeletePostUse = PropertyUtil.getProperty(Property.Key.AUTO_DELETE_POST_USE, this);
+        if (Integer.parseInt(autoDeletePostUse) == 1) {
+            PostDao postDao = new PostDao(this);
+            List<Post> allPosts = postDao.getAllPosts(false);
+
+            List<String> postIds = new ArrayList<>();
+            for (Post post : allPosts) {
+                if (currentTime > post.getWrittenTime() + Property.Config.AUTO_DELETE_MILLIS) {
+                    postIds.add(post.getPostId());
+                } else {
+                    break;
+                }
+            }
+            if (!postIds.isEmpty()) {
+                for (String postId : postIds) {
+                    postDao.deletePost(postId);
+                }
+            }
+        }
+
+        String autoDeleteLetterUse = PropertyUtil.getProperty(Property.Key.AUTO_DELETE_LETTER_USE, this);
+        if (Integer.parseInt(autoDeleteLetterUse) == 1) {
+            LetterDao letterDao = new LetterDao(this);
+            List<Letter> allLetters = letterDao.getAllLetters(false);
+
+            List<String> letterIds = new ArrayList<>();
+            for (Letter letter : allLetters) {
+                if (currentTime > letter.getWrittenTime() + Property.Config.AUTO_DELETE_MILLIS) {
+                    letterIds.add(letter.getLetterId());
+                } else {
+                    break;
+                }
+            }
+            if (!letterIds.isEmpty()) {
+                for (String letterId : letterIds) {
+                    new AuthorLetterApis(MainActivity.this).deleteLetter(letterId, new ApiCallback() {
+                        @Override protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                            if (httpStatus == 200 || httpStatus == 404) {
+                                letterDao.deleteLetter(letterId);
+                            }
+                        }
+                    });
+                }
+            }
         }
     }
 
@@ -358,7 +423,6 @@ public class MainActivity extends AppCompatActivity {
                     getLetters();
 
                 } else if (httpStatus == 409) {
-
                     AuthorUtil.syncAuthorDiaryGroupData(MainActivity.this);
                 }
             }
@@ -376,7 +440,7 @@ public class MainActivity extends AppCompatActivity {
                     if (jsonArray.length() > 0) {
                         LetterDao letterDao = new LetterDao(MainActivity.this);
 
-                        List<Letter> letters = letterDao.getAllLetters();
+                        List<Letter> letters = letterDao.getAllLetters(true);
                         Set<String> letterIds = new HashSet<>();
                         for (Letter letter : letters) {
                             letterIds.add(letter.getLetterId());

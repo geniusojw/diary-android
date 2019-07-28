@@ -63,4 +63,10 @@ public class AccountDiaryApis extends ApiCaller {
         JSONObject json = new JSONObject();
         super.delete("/account/diaries/" + diaryDate, headers, json.toString(), callback);
     }
+
+    public void exportDiaries(ApiCallback callback) {
+        Map<String, String> headers = accountHeaders();
+        JSONObject json = new JSONObject();
+        super.post("/account/diaries/export", headers, json.toString(), callback);
+    }
 }

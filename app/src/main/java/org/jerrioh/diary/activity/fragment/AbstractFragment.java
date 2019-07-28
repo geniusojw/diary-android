@@ -15,6 +15,7 @@ import org.jerrioh.diary.api.author.PostApis;
 import org.jerrioh.diary.config.Constants;
 import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.model.Post;
+import org.jerrioh.diary.model.Property;
 import org.jerrioh.diary.model.db.DiaryDao;
 import org.jerrioh.diary.model.db.PostDao;
 import org.jerrioh.diary.util.AuthorUtil;
@@ -60,8 +61,8 @@ public abstract class AbstractFragment extends Fragment {
 
             } else if (buttonType == BUTTON_TYPE_SQUARE_PRIVATE) {
                 writeButton.setOnClickListener(view -> {
-                    int count = new PostDao(getActivity()).getAllPosts().size();
-                    if (count >= 15) {
+                    int count = new PostDao(getActivity()).getAllPosts(true).size();
+                    if (count >= Property.Config.MAX_POST_COUNT) {
                         Toast.makeText(getActivity(), getActivity().getString(R.string.post_too_many_post), Toast.LENGTH_SHORT).show();
                     } else {
                         Post post = new Post();

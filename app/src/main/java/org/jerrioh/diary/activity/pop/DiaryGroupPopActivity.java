@@ -123,11 +123,17 @@ public class DiaryGroupPopActivity extends CustomPopActivity {
 
             // group 정보
             TextView groupNameView = findViewById(R.id.text_view_diary_group_header_group_name);
-            groupNameView.setText(diaryGroupName + " (" + getResources().getString(R.string.group_people_count, currentAuthorCount) + ")");
+            if ("null".equals(diaryGroupName) || TextUtils.isEmpty(diaryGroupName)) {
+                diaryGroupName = getResources().getString(R.string.group_started_no_group_name);
+            }
+            groupNameView.setText(diaryGroupName);
 
             String period = DateUtil.getDateStringSkipYear(startTime) + " ~ " + DateUtil.getDateStringSkipYear(endTime - TimeUnit.MINUTES.toMillis(1));
             TextView periodView = findViewById(R.id.text_view_diary_group_header_group_period);
             periodView.setText(period);
+
+            TextView groupCountView = findViewById(R.id.text_view_diary_group_header_group_poeple_count);
+            groupCountView.setText("(" + getResources().getString(R.string.group_people_count, currentAuthorCount) + ")");
 
             TextView moreInfoView = findViewById(R.id.text_view_diary_group_header_group_keyword);
 

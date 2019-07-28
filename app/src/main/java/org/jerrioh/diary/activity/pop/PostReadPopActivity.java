@@ -35,10 +35,10 @@ public class PostReadPopActivity extends AbstractDetailActivity {
 
         boolean isPrivate = post.getChocolates() == -1;
         if (isPrivate) {
-            chocolates.setText("당신만 볼 수 있는 포스트입니다.");
+            chocolates.setText(getResources().getString(R.string.post_for_you));
             mainLayout.setBackgroundColor(0x55f5f5dc);
         } else {
-            chocolates.setText("THIS POST IS WORTH " + post.getChocolates() + " TIME MONEY");
+            chocolates.setText(getResources().getString(R.string.post_for_all) + "\n(" + getResources().getString(R.string.post_worth, post.getChocolates()) + ")");
             mainLayout.setBackgroundColor(0x55DDEFEF);
         }
 
@@ -48,9 +48,15 @@ public class PostReadPopActivity extends AbstractDetailActivity {
         TextView authorNick = findViewById(R.id.text_view_post_pop_author_nick);
         TextView writtenTime = findViewById(R.id.text_view_post_pop_written_time);
         authorNick.setVisibility(View.VISIBLE);
-        authorNick.setText("작성자: " + post.getAuthorNickname());
+        authorNick.setText(getResources().getString(R.string.writer) + ": " + post.getAuthorNickname());
         writtenTime.setVisibility(View.VISIBLE);
-        writtenTime.setText("(" + DateUtil.getDateStringFull(post.getWrittenTime()) + ")");
+
+        long deleteTime = post.getWrittenTime() + Property.Config.AUTO_DELETE_MILLIS;
+        String writtenTimeText = "(" + DateUtil.getDateStringFull(post.getWrittenTime()) + ")";
+        if (isPrivate && System.currentTimeMillis() > deleteTime - Property.Config.AUTO_DELETE_CAUTION_MILLIS) {
+            writtenTimeText += "\n" + getResources().getString(R.string.delete_soon);
+        }
+        writtenTime.setText(writtenTimeText);
 
         LinearLayout okLayout = findViewById(R.id.linear_layout_square_post_ok);
         okLayout.setOnClickListener(v -> {

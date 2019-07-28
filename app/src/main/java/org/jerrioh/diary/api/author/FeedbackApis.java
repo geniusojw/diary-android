@@ -17,6 +17,31 @@ public class FeedbackApis extends ApiCaller {
         super(context);
     }
 
+    public void feedbackAuthorTypes(String toAuthorId, ApiCallback callback) {
+        Map<String, String> headers = authorHeaders();
+        try {
+            JSONObject json = new JSONObject();
+            json.put("toAuthorId", toAuthorId);
+            super.post("/author/feedback/author/types", headers, json.toString(), callback);
+        } catch (JSONException e) {
+            Log.e(TAG, "JSONException, " + e.toString());
+        }
+    }
+
+    public void feedbackAuthor(String toAuthorId, int feedbackAuthorType, String feedbackAuthorWrite, ApiCallback callback) {
+        Map<String, String> headers = authorHeaders();
+        try {
+            JSONObject json = new JSONObject();
+            json.put("toAuthorId", toAuthorId);
+            json.put("feedbackAuthorType", feedbackAuthorType); // 0 : 직집작성
+            json.put("feedbackAuthorWrite", feedbackAuthorWrite); // feedbackAuthorType = 0 인 경우에만 세팅
+
+            super.post("/author/feedback/author", headers, json.toString(), callback);
+        } catch (JSONException e) {
+            Log.e(TAG, "JSONException, " + e.toString());
+        }
+    }
+
     public void feedbackDiary(String toAuthorId, String diaryDate, int feedbackDiaryType, ApiCallback callback) {
         Map<String, String> headers = authorHeaders();
         try {
@@ -26,20 +51,6 @@ public class FeedbackApis extends ApiCaller {
             json.put("feedbackDiaryType", feedbackDiaryType);
 
             super.post("/author/feedback/diary", headers, json.toString(), callback);
-        } catch (JSONException e) {
-            Log.e(TAG, "JSONException, " + e.toString());
-        }
-    }
-
-    public void feedbackAuthor(String toAuthorId, int feedbackAuthorType, String feedbackWrite, ApiCallback callback) {
-        Map<String, String> headers = authorHeaders();
-        try {
-            JSONObject json = new JSONObject();
-            json.put("toAuthorId", toAuthorId);
-            json.put("feedbackAuthorType", feedbackAuthorType);
-            json.put("feedbackWrite", feedbackWrite);
-
-            super.post("/author/feedback/author", headers, json.toString(), callback);
         } catch (JSONException e) {
             Log.e(TAG, "JSONException, " + e.toString());
         }

@@ -42,7 +42,24 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 context.getResources().getString(R.string.alarm_tip5),
                 context.getResources().getString(R.string.alarm_tip6),
                 context.getResources().getString(R.string.alarm_tip7),
-                context.getResources().getString(R.string.alarm_tip8)
+                context.getResources().getString(R.string.alarm_tip8),
+                context.getResources().getString(R.string.alarm_tip9),
+                context.getResources().getString(R.string.alarm_tip10),
+                context.getResources().getString(R.string.alarm_tip11),
+                context.getResources().getString(R.string.alarm_tip12),
+                context.getResources().getString(R.string.alarm_tip13),
+                context.getResources().getString(R.string.alarm_tip14),
+                context.getResources().getString(R.string.alarm_tip15),
+                context.getResources().getString(R.string.alarm_tip16),
+                context.getResources().getString(R.string.alarm_tip17),
+                context.getResources().getString(R.string.alarm_tip18),
+                context.getResources().getString(R.string.alarm_tip19),
+                context.getResources().getString(R.string.alarm_tip20),
+                context.getResources().getString(R.string.alarm_tip21),
+                context.getResources().getString(R.string.alarm_tip22),
+                context.getResources().getString(R.string.alarm_tip23),
+                context.getResources().getString(R.string.alarm_tip24),
+                context.getResources().getString(R.string.alarm_tip25)
         };
 
         //Toast.makeText(context, "[DEBUG] onReceive - AlarmBroadcastReceiver", Toast.LENGTH_LONG).show();

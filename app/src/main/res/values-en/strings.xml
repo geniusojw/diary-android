@@ -15,6 +15,8 @@
     <string name="public_square">Public Square</string>
     <string name="today_is">Today is %s</string>
     <string name="sent">Sent</string>
+    <string name="writer">Writer</string>
+    <string name="delete_soon">It will be removed soon.</string>
 
     <!-- bottom navigation -->
     <string name="app_name">Today Diary</string>
@@ -42,7 +44,7 @@
     <string name="alias_feature">Alias Feature</string>
     <string name="alias_feature_description">Set the alias to use for a letter or group diary.</string>
     <string name="screen_lock">Screen Lock</string>
-    <string name="screen_lock_description">Set an App Lock. Account required for recovery.</string>
+    <string name="screen_lock_description">Set an app lock. Account required for recovery.</string>
     <string name="diary_alarm">Diary Alarm</string>
     <string name="diary_alarm_description">It helps you to remember to write diary.</string>
     <string name="diary_alarm_description_set">Set time : %s</string>
@@ -52,6 +54,10 @@
     <string name="diary_group_invitation_description">Get a diary group invitation.</string>
     <string name="diary_group_invitation_pop_title">Refuse diary group invitation</string>
     <string name="diary_group_invitation_pop_description">You can decline the beInvited without disable it.\nDo you really want to disable it?</string>
+    <string name="auto_delete_post">Automatically Delete Posts</string>
+    <string name="auto_delete_post_description">Automatically delete posts older than 30 days.</string>
+    <string name="auto_delete_letter">Automatically Delete Letters</string>
+    <string name="auto_delete_letter_description">Automatically deletes letters older than 30 days.</string>
     <string name="reset_data">Reset Data</string>
     <string name="reset_data_description">All diaries, letters and properties will be permanently deleted.</string>
     <string name="reset_data_pop_description">Do you really want to delete all the data?\nDiaries that are not synced to your account will not be recoverable.</string>
@@ -72,8 +78,12 @@
     <string name="find_password_success">Check your email for a new password.</string>
     <string name="delete_account_success">Your account has been deleted.\nTo clear the remaining diary on the device, RESET DATA</string>
     <string name="incorrect_password">Incorrect password</string>
+    <string name="invalid_password">Password must be at least 6 characters</string>
     <string name="change_password_success">Password changed successfully</string>
     <string name="network_fail">Network failed. Please try again later.</string>
+    <string name="email_export_confirm">Make sure your diary is synced before emailing it.</string>
+    <string name="email_export_ok">Export</string>
+    <string name="email_export_success">The diaries were emailed.</string>
 
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -159,7 +169,7 @@
     <!-- group -->
     <string name="group_started_no_group_name">The meeting is going on to determine the name of the diary group.</string>
     <string name="group_prepare_content">Current participants: %d people\nTime remaining until start: %s</string>
-    <string name="group_started_tip1">You are currently attending an anonymous diary group.</string>
+    <string name="group_started_tip1">Currently attending an anonymous diary group.</string>
     <string name="group_started_tip2">Share your daily life with others.</string>
     <string name="group_started_tip3">You and %d people share a story.</string>
     <string name="group_solo_tip1">No one has been invited.</string>
@@ -171,6 +181,7 @@
     <string name="group_today_diary_of_who">%s\'s today diary</string>
     <string name="group_people_count">%d people</string>
     <string name="group_diary_not_written">Not written.</string>
+    <string name="group_feed_back_author_description">Choose an honest feeling for %s.\nYou can only do this once during diary group period.</string>
 
     <!-- diary -->
     <string name="diary_delete">Delete Diary</string>
@@ -209,6 +220,9 @@
     <string name="post_too_many_post">Too many posts. Please delete the old post.</string>
     <string name="post_no_public_post_it">Buy a public square post-it at the store.</string>
     <string name="post_delete">Delete Post</string>
+    <string name="post_for_you">This is a post you can only see.</string>
+    <string name="post_for_all">This is a post that everyone can see.</string>
+    <string name="post_worth">This post is worth %d time money</string>
 
     <!-- store -->
     <string name="store_item_weather">Weather</string>
@@ -234,25 +248,52 @@
 
     <!-- help -->
     <string name="help_question">Q%d</string>
-    <string name="help_question1">당신은 누구입니까?</string>
-    <string name="help_answer1">천재 오정욱</string>
-    <string name="help_question2">나는 누구입니까?</string>
-    <string name="help_answer2">그냥 병신</string>
-    <string name="help_question3">뭔 소립니까?</string>
-    <string name="help_answer3">몰라 꺼져</string>
+    <string name="help_question1">어떤 앱인지 알려주세요.</string>
+    <string name="help_answer1">앱 \'오늘일기\'는 오늘의 일기를 쓸 수 있는 어플입니다.</string>
+    <string name="help_question2">일기를 어떻게 쓸 수 있습니까? (하단 메뉴 - 일기)</string>
+    <string name="help_answer2">우측 하단에 연필 모양의 둥근 일기쓰기 버튼이 있습니다. 버튼을 눌러 일기를 작성할 수 있습니다. 뒤로가기를 누르면 일기는 자동으로 저장됩니다. 당신이 기억할 것은 오직 오늘의 일기만을 쓸 수 있다는 것입니다. 24시가 지나면 작성한 일기는 어제의 일기가 되고, 당신은 새로운 오늘의 일기를 쓸 수 있습니다. 상단에 화살표로 월을 조정하여 지난 일기를 볼 수 있습니다.</string>
+    <string name="help_question3">어제의 일기를 수정하고 싶어요.</string>
+    <string name="help_answer3">과거의 일기들을 몰아 쓰거나, 내일 일기를 미리 쓰는 것은 금지입니다. 이것은 우리 모두가 과거나 미래가 아닌 현재만을 살아 갈 수 있다는 우주의 섭리가 반영된 철학적인 규칙입니다. 아시겠죠?</string>
+    <string name="help_question4">핸드폰이 분실되었을 때는 일기를 복원할 수 있나요?</string>
+    <string name="help_answer4">이메일 계정으로 로그인하여 일기를 안전하게 보관할 수 있습니다. 핸드폰을 바꾸거나 분실하였을 때, 새로운 단말에 이메일계정과 비밀번호로 로그인하면 이전에 작성한 일기들을 복원할 수 있습니다.</string>
+    <string name="help_question5">상점은 무엇인가요? (하단 메뉴 - 상점)</string>
+    <string name="help_answer5">상점에서는 \'시간\'을 지불하고 여러 아이템을 살 수 있습니다. \'시간\'을 얻을 수 있는 방법은 당신이 일기를 작성하는 것입니다. 일기를 작성하면 매일 1시간을 얻을 수 있습니다.</string>
+    <string name="help_question6">광장은 무엇인가요? (하단메뉴 - 광장)</string>
+    <string name="help_answer6">광장은 포스트잇과 같습니다. 잊어버리면 안되는 아이디어나 내용을 적어놓으세요. 우측상단에 버튼을 눌러 공개된 퍼블릭 광장으로 이동할 수 있습니다. 퍼블릭 광장에는 여러 사람들이 동시에 포스트잇은 붙일 수 있습니다.</string>
+    <string name="help_question7">일기가 다른 사람에게 노출되나요?</string>
+    <string name="help_answer7">걱정하지 마십시오. 당신의 일기는 당신만 볼 수 있습니다. 단, 당신이 일기모임에 초대되었을 때 수락을 하면 몇일동안은 모임인원 간에 일기가 공유됩니다. 물론 익명이기 때문에 서로가 누군지는 알 방법이 없습니다. 일기모임에 대한 더 자세한 내용은 아래를 참고하시기 바랍니다.</string>
+    <string name="help_question8">일기모임은 무엇인가요?</string>
+    <string name="help_answer8">일기모임은 당신이 더 일기를 잘 쓸 수 있도록 도와줍니다. 어쩌면 당신이 모르고 있었던 당신에 대해 알 수도 있을 것입니다. 일기모임의 짧은 기간동안의 소수의 익명의 사람들은 서로 일기를 공유하면서 응원하고 피드백 할 수 있습니다. 일기모임에 참여하는 방법은 2가지입니다. 상점에서 일기모임 초대장을 구매하여 주최하거나, 일기모임 초대장을 받았을 때 수락하는 것입니다.</string>
+    <string name="help_question9">일기모임은 관심이 없습니다.</string>
+    <string name="help_answer9">설정에서 일기모임 초대받기를 비활성화 시킬 수 있습니다.</string>
 
     <!-- alarm -->
     <string name="alarm_title">오늘의 일기를 작성할 시간입니다.</string>
-    <string name="alarm_tip1">오늘 어떤 일이 있었나요?</string>
-    <string name="alarm_tip2">사실 꾸준히 일기를 쓰는 것이 쉬운 일은 아닙니다.</string>
-    <string name="alarm_tip3">일기는 인생을 변화시킬 수 있는 좋은 습관입니다.</string>
-    <string name="alarm_tip4">일기는 글쓰기 능력에 도움이 됩니다.</string>
-    <string name="alarm_tip5">일기는 표현력 향상에 많은 도움이 됩니다.</string>
-    <string name="alarm_tip6">일기 쓰는 방법: 오늘의 생각과 느낌을 자세하게 쓴다.</string>
-    <string name="alarm_tip7">일기를 쓰고 부지런한 척을 해보세요.</string>
-    <string name="alarm_tip8">일기내용을 포장할 필요는 없습니다.</string>
-    <string name="alarm_tip9">자연스럽고 솔직하게 일기를 작성하세요.</string>
-    <string name="alarm_tip10">오늘의 일기는 오늘에만 작성할 수 있습니다.</string>
+    <string name="alarm_tip1">오늘은 어떤 일이 있었나요?</string>
+    <string name="alarm_tip2">일기 쓸 시간입니다.</string>
+    <string name="alarm_tip3">좋습니다.</string>
+    <string name="alarm_tip4">아까 있었던 일?</string>
+    <string name="alarm_tip5">오늘의 일기 쓸 시간</string>
+    <string name="alarm_tip6">돌아오지 않을 오늘의 시간을 글로 남기세요.</string>
+    <string name="alarm_tip7">사실 꾸준히 일기를 쓰는 일이 쉬운 것은 아닙니다.</string>
+    <string name="alarm_tip8">일기를 써볼까요?</string>
+    <string name="alarm_tip9">일기쓰기는 인생을 변화시킬 수 있는 습관입니다.</string>
+    <string name="alarm_tip10">일기는 글쓰기 능력에 도움이 됩니다.</string>
+    <string name="alarm_tip11">일기는 표현력 향상에 도움이 됩니다.</string>
+    <string name="alarm_tip12">일기는 부지런한 척하는 것에 도움이 됩니다.</string>
+    <string name="alarm_tip13">일기 예시: 나는 오늘 밥을 먹었다...</string>
+    <string name="alarm_tip14">일기 예시: 나는 오늘 TV를 보았다...</string>
+    <string name="alarm_tip15">일기 쓰는 방법: 오늘 겪은 일을 기록한다.</string>
+    <string name="alarm_tip16">일기 쓰는 방법: 생각나는대로 적는다.</string>
+    <string name="alarm_tip17">일기 쓰는 방법: 오늘의 생각과 느낌을 그대로 적는다.</string>
+    <string name="alarm_tip18">일기를 쓰고 부지런한 척을 해보세요.</string>
+    <string name="alarm_tip19">자, 부지런한 사람이 될 시간입니다.</string>
+    <string name="alarm_tip20">일기내용을 포장할 필요는 없습니다.</string>
+    <string name="alarm_tip21">자연스럽고 솔직하게 일기를 작성하세요.</string>
+    <string name="alarm_tip22">오늘의 일기는 오늘에만 작성할 수 있습니다.</string>
+    <string name="alarm_tip23">오늘은 오늘의 일기는 써봅시다.</string>
+    <string name="alarm_tip24">오늘 어땠습니까?</string>
+    <string name="alarm_tip25">당신의 생각</string>
 
     <!-- wise saying -->
     <string name="wise_saying1">The best and most beautiful things in the world cannot be seen of even touched. They must be felt with the heart. - Helen Keller</string>

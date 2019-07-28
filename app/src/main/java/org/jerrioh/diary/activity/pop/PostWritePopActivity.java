@@ -40,10 +40,10 @@ public class PostWritePopActivity extends AbstractDetailActivity {
         RelativeLayout mainLayout = findViewById(R.id.relative_layout_post_pop_main);
         TextView chocolates = findViewById(R.id.text_view_square_post_pop_chocolates);
         if (isPrivate) {
-            chocolates.setText("당신만 볼 수 있는 포스트입니다.");
+            chocolates.setText(getResources().getString(R.string.post_for_you));
             mainLayout.setBackgroundColor(0x55f5f5dc);
         } else {
-            chocolates.setText("THIS POST IS WORTH " + post.getChocolates() + " TIME MONEY");
+            chocolates.setText(getResources().getString(R.string.post_for_all) + "\n(" + getResources().getString(R.string.post_worth, post.getChocolates()) + ")");
             mainLayout.setBackgroundColor(0x55DDEFEF);
         }
 

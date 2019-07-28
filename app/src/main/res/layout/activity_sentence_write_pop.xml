@@ -32,7 +32,7 @@
             android:background="@android:color/transparent"
             android:textSize="18sp"
             android:singleLine="true"
-            android:maxLength="30"
+            android:maxLength="25"
             />
 
         <ImageView

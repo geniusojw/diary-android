@@ -38,7 +38,7 @@ public class LetterFragment extends AbstractFragment {
 
         Author author = AuthorUtil.getAuthor(getActivity());
         LetterDao letterDao = new LetterDao(getActivity());
-        final List<Letter> letterData = letterDao.getAllLetters();
+        final List<Letter> letterData = letterDao.getAllLetters(true);
 
         Log.d(TAG, "letterData.size()=" + letterData.size());
 

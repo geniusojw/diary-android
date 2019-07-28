@@ -11,8 +11,6 @@
         layout="@layout/toolbar"
         />
 
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,7 +28,7 @@
                 android:textSize="15sp"
                 android:textColor="@color/darkCharcoal"
                 android:padding="12dp"
-                android:text="질문1"
+                android:text="question"
                 />
             <TextView
                 android:id="@+id/answer1"
@@ -38,8 +36,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 android:textColor="@color/darkCharcoal"
-                android:padding="10dp"
-                android:text="답변1"
+                android:padding="12dp"
+                android:text="answer"
                 android:background="@color/medwayMist"
                 />
             <TextView
@@ -49,7 +47,7 @@
                 android:textSize="15sp"
                 android:textColor="@color/darkCharcoal"
                 android:padding="12dp"
-                android:text="질문1"
+                android:text="question"
                 />
             <TextView
                 android:id="@+id/answer2"
@@ -58,7 +56,7 @@
                 android:textSize="12sp"
                 android:textColor="@color/darkCharcoal"
                 android:padding="12dp"
-                android:text="답변1"
+                android:text="answer"
                 android:background="@color/medwayMist"
                 />
             <TextView
@@ -68,7 +66,7 @@
                 android:textSize="15sp"
                 android:textColor="@color/darkCharcoal"
                 android:padding="12dp"
-                android:text="질문1"
+                android:text="question"
                 />
             <TextView
                 android:id="@+id/answer3"
@@ -77,7 +75,121 @@
                 android:textSize="12sp"
                 android:textColor="@color/darkCharcoal"
                 android:padding="12dp"
-                android:text="답변1"
+                android:text="answer"
+                android:background="@color/medwayMist"
+                />
+            <TextView
+                android:id="@+id/question4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/darkCharcoal"
+                android:padding="12dp"
+                android:text="question"
+                />
+            <TextView
+                android:id="@+id/answer4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/darkCharcoal"
+                android:padding="12dp"
+                android:text="answer"
+                android:background="@color/medwayMist"
+                />
+            <TextView
+                android:id="@+id/question5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/darkCharcoal"
+                android:padding="12dp"
+                android:text="question"
+                />
+            <TextView
+                android:id="@+id/answer5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/darkCharcoal"
+                android:padding="12dp"
+                android:text="answer"
+                android:background="@color/medwayMist"
+                />
+            <TextView
+                android:id="@+id/question6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/darkCharcoal"
+                android:padding="12dp"
+                android:text="question"
+                />
+            <TextView
+                android:id="@+id/answer6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/darkCharcoal"
+                android:padding="12dp"
+                android:text="answer"
+                android:background="@color/medwayMist"
+                />
+            <TextView
+                android:id="@+id/question7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/darkCharcoal"
+                android:padding="12dp"
+                android:text="question"
+                />
+            <TextView
+                android:id="@+id/answer7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/darkCharcoal"
+                android:padding="12dp"
+                android:text="answer"
+                android:background="@color/medwayMist"
+                />
+            <TextView
+                android:id="@+id/question8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/darkCharcoal"
+                android:padding="12dp"
+                android:text="question"
+                />
+            <TextView
+                android:id="@+id/answer8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/darkCharcoal"
+                android:padding="12dp"
+                android:text="answer"
+                android:background="@color/medwayMist"
+                />
+            <TextView
+                android:id="@+id/question9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/darkCharcoal"
+                android:padding="12dp"
+                android:text="question"
+                />
+            <TextView
+                android:id="@+id/answer9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/darkCharcoal"
+                android:padding="12dp"
+                android:text="answer"
                 android:background="@color/medwayMist"
                 />
         </LinearLayout>

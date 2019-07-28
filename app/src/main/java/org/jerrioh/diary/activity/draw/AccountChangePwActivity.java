@@ -221,6 +221,8 @@ public class AccountChangePwActivity extends CommonActionBarActivity {
                         finish();
                     } else if (httpStatus == 401) {
                         Toast.makeText(AccountChangePwActivity.this, getResources().getString(R.string.incorrect_password), Toast.LENGTH_LONG).show();
+                    } else if (httpStatus == 412) {
+                        Toast.makeText(AccountChangePwActivity.this, getResources().getString(R.string.invalid_password), Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(AccountChangePwActivity.this, getResources().getString(R.string.network_fail), Toast.LENGTH_LONG).show();
                     }

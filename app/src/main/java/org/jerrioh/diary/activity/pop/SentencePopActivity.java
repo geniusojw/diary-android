@@ -6,10 +6,12 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.DiaryGroupApis;
+import org.jerrioh.diary.api.author.FeedbackApis;
 import org.jerrioh.diary.model.DiaryGroup;
 import org.jerrioh.diary.model.db.DiaryGroupDao;
 import org.json.JSONException;
@@ -41,7 +43,8 @@ public class SentencePopActivity extends CustomPopActivity {
             DiaryGroup diaryGroup = diaryGroupDao.getDiaryGroup();
 
             titleView.setText("일기모임 주제");
-            editView.setHint(diaryGroup.getKeyword());
+            editView.setText(diaryGroup.getKeyword());
+            editView.setHint("자유롭게 작성하세요.");
             okButton.setOnClickListener(v -> {
                 DiaryGroupApis diaryGroupApis = new DiaryGroupApis(SentencePopActivity.this);
                 diaryGroupApis.updateDiaryGroup(editView.getText().toString(), new ApiCallback() {
@@ -59,8 +62,27 @@ public class SentencePopActivity extends CustomPopActivity {
             });
 
         } else if (type == TYPE_DIARY_GROUP_AUTHOR_FEEDBACK) {
+            String authorId = intent.getStringExtra("authorId");
+            String nickname = intent.getStringExtra("nickname");
 
-            // TODO
+            titleView.setText(nickname + "님은 어떤 사람입니까?");
+            editView.setHint("솔직하게 작성하세요.");
+            okButton.setOnClickListener(v -> {
+                FeedbackApis feedbackApis = new FeedbackApis(this);
+                feedbackApis.feedbackAuthor(authorId, 0, editView.getText().toString(), new ApiCallback() {
+                    @Override
+                    protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                        if (httpStatus == 200) {
+                            Toast.makeText(SentencePopActivity.this, "성공했습니다. 굳. 시간도 받았습니다.", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else if (httpStatus == 409) {
+                            Toast.makeText(SentencePopActivity.this, "이미 피드백 하였습니다.", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }
+                });
+                finish();
+            });
 
         } else {
             finish();

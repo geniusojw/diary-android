@@ -123,10 +123,22 @@ public class LetterWriteActivity extends AbstractDetailActivity {
                             @Override
                             protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                                 if (httpStatus == 200) {
+                                    LetterDao letterDao = new LetterDao(LetterWriteActivity.this);
                                     if (inputLetterId != null) { // 편지상태 회신완료로 업데이트
-                                        LetterDao letterDao = new LetterDao(LetterWriteActivity.this);
                                         letterDao.updateLetterStatus(inputLetterId, Letter.LetterStatus.REPLIED);
                                     }
+                                    Letter newLetter = new Letter();
+                                    newLetter.setLetterId(newLetterId);
+                                    newLetter.setFromAuthorId(author.getAuthorId());
+                                    newLetter.setFromAuthorNickname(author.getNickname());
+                                    newLetter.setToAuthorId(toAuthorId);
+                                    newLetter.setToAuthorNickname(toAuthorNickname);
+                                    newLetter.setLetterType(Letter.LetterType.NORMAL);
+                                    newLetter.setContent(letterContent.getText().toString());
+                                    newLetter.setStatus(Letter.LetterStatus.REPLIED);
+                                    newLetter.setWrittenTime(System.currentTimeMillis()); // 서버에 편지발송시간과 약간 차이가 있을 수 있다.
+                                    letterDao.insertLetter(newLetter);
+
                                     Toast.makeText(LetterWriteActivity.this, getResources().getString(R.string.sent), Toast.LENGTH_SHORT).show();
                                     finish();
                                 } else if (httpStatus == 404) {

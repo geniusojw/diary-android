@@ -1,109 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background ="@color/penguinWhite"
-    android:weightSum="1.0"
-    android:padding="10dp">
+    >
+
+    <ProgressBar
+        android:id="@+id/progress_bar_diary_group_feedback_pop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        />
 
     <LinearLayout
+        android:id="@+id/linear_layout_diary_group_feedback_pop"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="0.2">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="홍길동님에 대한 솔직한 느낌을 선택하십시오."
-            android:layout_gravity="center"
-            android:paddingLeft="20dp"
-            />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1.0"
+        android:padding="10dp"
+        android:visibility="invisible"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.2">
+            <TextView
+                android:id="@+id/text_view_diary_group_feedback_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="홍길동님에 대한 솔직한 느낌을 선택하십시오."
+                android:layout_gravity="center"
+                android:paddingLeft="20dp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.2">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_star_black_24dp"
+                android:layout_gravity="center"
+                android:padding="20dp"
+                />
+            <TextView
+                android:id="@+id/text_view_diary_group_feedback_type0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="지혜로운 사람"
+                android:textSize="18dp"
+                android:layout_gravity="center"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.2">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_star_black_24dp"
+                android:layout_gravity="center"
+                android:padding="20dp"
+                />
+            <TextView
+                android:id="@+id/text_view_diary_group_feedback_type1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="강인한 사람"
+                android:textSize="18dp"
+                android:layout_gravity="center"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.2">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_star_black_24dp"
+                android:layout_gravity="center"
+                android:padding="20dp"
+                />
+            <TextView
+                android:id="@+id/text_view_diary_group_feedback_type2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="솔직한 사람"
+                android:textSize="18dp"
+                android:layout_gravity="center"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.2">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit_black_24dp"
+                android:layout_gravity="center"
+                android:padding="20dp"
+                />
+            <TextView
+                android:id="@+id/text_view_diary_group_feedback_type_write"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="직접 작성"
+                android:textSize="18dp"
+                android:layout_gravity="center"
+                />
+        </LinearLayout>
+
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="0.2">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_comment_black_24dp"
-            android:layout_gravity="center"
-            android:padding="20dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="강인한 사람"
-            android:textSize="18dp"
-            android:layout_gravity="center"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="0.2">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_comment_black_24dp"
-            android:layout_gravity="center"
-            android:padding="20dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="솔직한 사람"
-            android:textSize="18dp"
-            android:layout_gravity="center"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="0.2">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_comment_black_24dp"
-            android:layout_gravity="center"
-            android:padding="20dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="지혜로운 사람"
-            android:textSize="18dp"
-            android:layout_gravity="center"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="0.2">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_comment_black_24dp"
-            android:layout_gravity="center"
-            android:padding="20dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="직접 작성"
-            android:textSize="18dp"
-            android:layout_gravity="center"
-            />
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

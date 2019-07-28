@@ -40,8 +40,8 @@ public class PostDao extends AbstractDao {
         }
     }
 
-    public List<Post> getAllPosts() {
-        String orderBy = Post.TableDesc.COLUMN_AUTHOR_WRITTEN_TIME + " DESC";
+    public List<Post> getAllPosts(boolean descending) {
+        String orderBy = Post.TableDesc.COLUMN_AUTHOR_WRITTEN_TIME + " " + (descending ? "DESC" : "ASC");
 
         Cursor cursor = readableDb().query(TABLE_NAME, COLUMN_NAMES, "1=1", new String[]{}, null, null, orderBy);
         List<Post> posts = new ArrayList<>();

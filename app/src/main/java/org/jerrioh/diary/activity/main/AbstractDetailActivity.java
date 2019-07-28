@@ -231,24 +231,38 @@ public abstract class AbstractDetailActivity extends AppCompatActivity {
                                     .setPositiveButton(getResources().getString(R.string.ok), (dialog, which) -> {
                                         if (key != null) {
                                             if (isDiary) {
-                                                new DiaryDao(AbstractDetailActivity.this).deleteDiary(key);
                                                 Author author = AuthorUtil.getAuthor(AbstractDetailActivity.this);
+                                                new AuthorDiaryApis(AbstractDetailActivity.this).deleteDiary(key, new ApiCallback() {
+                                                    @Override protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {}
+                                                });
                                                 if (!TextUtils.isEmpty(author.getAccountEmail())) {
                                                     new AccountDiaryApis(AbstractDetailActivity.this).deleteDiary(key, new ApiCallback() {
-                                                        @Override protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {}
+                                                        @Override protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                                                            if (httpStatus == 200 || httpStatus == 404) {
+                                                                new DiaryDao(AbstractDetailActivity.this).deleteDiary(key);
+                                                                Toast.makeText(AbstractDetailActivity.this, getResources().getString(R.string.deleted), Toast.LENGTH_SHORT).show();
+                                                            } else {
+                                                                Toast.makeText(AbstractDetailActivity.this, getResources().getString(R.string.network_fail), Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }
                                                     });
-                                                    new AuthorDiaryApis(AbstractDetailActivity.this).deleteDiary(key, new ApiCallback() {
-                                                        @Override protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {}
-                                                    });
+                                                } else {
+                                                    new DiaryDao(AbstractDetailActivity.this).deleteDiary(key);
+                                                    Toast.makeText(AbstractDetailActivity.this, getResources().getString(R.string.deleted), Toast.LENGTH_SHORT).show();
                                                 }
                                             } else {
-                                                new LetterDao(AbstractDetailActivity.this).deleteLetter(key);
                                                 new AuthorLetterApis(AbstractDetailActivity.this).deleteLetter(key, new ApiCallback() {
-                                                    @Override protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {}
+                                                    @Override protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                                                        if (httpStatus == 200 || httpStatus == 404) {
+                                                            new LetterDao(AbstractDetailActivity.this).deleteLetter(key);
+                                                            Toast.makeText(AbstractDetailActivity.this, getResources().getString(R.string.deleted), Toast.LENGTH_SHORT).show();
+                                                        } else {
+                                                            Toast.makeText(AbstractDetailActivity.this, getResources().getString(R.string.network_fail), Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
                                                 });
                                             }
                                         }
-                                        Toast.makeText(AbstractDetailActivity.this, getResources().getString(R.string.deleted), Toast.LENGTH_SHORT).show();
                                         finish();
                                     })
                                     .setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> {

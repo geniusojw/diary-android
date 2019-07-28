@@ -38,9 +38,15 @@
                 android:gravity="center"
                 android:text=""
                 />
-
             <TextView
                 android:id="@+id/text_view_diary_group_header_group_period"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""
+                />
+            <TextView
+                android:id="@+id/text_view_diary_group_header_group_poeple_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -54,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text=""
+                android:textStyle="bold"
                 />
 
         </LinearLayout>

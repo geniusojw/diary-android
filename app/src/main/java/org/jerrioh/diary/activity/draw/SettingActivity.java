@@ -48,6 +48,7 @@ public class SettingActivity extends CommonActionBarActivity {
         this.setScreenLock();
         this.setDiaryAlarm();
         this.setDiaryGroupInvitation();
+        this.setAutoDelete();
         this.setDataReset();
     }
 
@@ -207,6 +208,7 @@ public class SettingActivity extends CommonActionBarActivity {
 
     private void setDiaryGroupInvitation() {
         String groupInvitationUse = PropertyUtil.getProperty(Property.Key.GROUP_INVITATION_USE, this);
+
         Switch switchInvitation = findViewById(R.id.switch_setting_group_invitation);
         switchInvitation.setChecked(Integer.parseInt(groupInvitationUse) == 1);
         switchInvitation.setOnClickListener(v -> {
@@ -229,6 +231,28 @@ public class SettingActivity extends CommonActionBarActivity {
                 PropertyUtil.setProperty(Property.Key.GROUP_INVITATION_USE, "1", SettingActivity.this);
                 switchInvitation.setChecked(true);
             }
+        });
+    }
+
+    private void setAutoDelete() {
+        String autoDeletePostUse = PropertyUtil.getProperty(Property.Key.AUTO_DELETE_POST_USE, this);
+        Switch switchPost = findViewById(R.id.switch_setting_auto_delete_post);
+        switchPost.setChecked(Integer.parseInt(autoDeletePostUse) == 1);
+        switchPost.setOnClickListener(v -> {
+            String autoDeleteUse = PropertyUtil.getProperty(Property.Key.AUTO_DELETE_POST_USE, SettingActivity.this);
+            String newValue = String.valueOf((Integer.parseInt(autoDeleteUse) + 1) % 2);
+            PropertyUtil.setProperty(Property.Key.AUTO_DELETE_POST_USE, newValue, SettingActivity.this);
+            switchPost.setChecked(Integer.parseInt(newValue) == 1);
+        });
+
+        String autoDeleteLetter = PropertyUtil.getProperty(Property.Key.AUTO_DELETE_LETTER_USE, this);
+        Switch switchLetter = findViewById(R.id.switch_setting_auto_delete_letter);
+        switchLetter.setChecked(Integer.parseInt(autoDeleteLetter) == 1);
+        switchLetter.setOnClickListener(v -> {
+            String autoDeleteUse = PropertyUtil.getProperty(Property.Key.AUTO_DELETE_POST_USE, SettingActivity.this);
+            String newValue = String.valueOf((Integer.parseInt(autoDeleteUse) + 1) % 2);
+            PropertyUtil.setProperty(Property.Key.AUTO_DELETE_POST_USE, newValue, SettingActivity.this);
+            switchLetter.setChecked(Integer.parseInt(newValue) == 1);
         });
     }
 

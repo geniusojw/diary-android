@@ -67,7 +67,7 @@ public class SquareFragment extends AbstractFragment {
 
     private void getPrivatePosts() {
         PostDao postDao = new PostDao(getActivity());
-        List<Post> allPosts = postDao.getAllPosts();
+        List<Post> allPosts = postDao.getAllPosts(true);
 
         List<List<Post>> postIts = new ArrayList<>();
 

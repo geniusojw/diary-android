@@ -18,10 +18,12 @@ import org.jerrioh.diary.model.Author;
 import org.jerrioh.diary.model.Letter;
 import org.jerrioh.diary.model.Property;
 import org.jerrioh.diary.util.AuthorUtil;
+import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.PropertyUtil;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class
 LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecyclerViewAdapter.LetterViewHolder> {
@@ -91,7 +93,7 @@ LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecyclerViewAdapter
 
         int imageResource = R.drawable.ic_mail_black_24dp;
         String letterTitle;
-        String description = context.getResources().getString(R.string.letter_written_time) + ": " + new Date(letter.getWrittenTime());
+        String description = context.getResources().getString(R.string.letter_written_time) + ": " + DateUtil.getDateStringSkipYear(letter.getWrittenTime());
 
         if (lettersToMe) {
             if (letter.getStatus() == Letter.LetterStatus.UNREAD) {
@@ -100,12 +102,17 @@ LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecyclerViewAdapter
                 imageResource = R.drawable.ic_drafts_black_24dp;
             } else if (letter.getStatus() == Letter.LetterStatus.REPLIED) {
                 imageResource = R.drawable.ic_reply_black_24dp;
-                description += "\n(" + context.getResources().getString(R.string.letter_written_time) + ")";
             }
             letterTitle = "[" + context.getResources().getString(R.string.letter_receive_letter) + "] FROM: " + letter.getFromAuthorNickname();
         } else {
             letterTitle = "[" + context.getResources().getString(R.string.letter_send_letter) + "] TO: " + letter.getToAuthorNickname();
             imageResource = R.drawable.ic_mail_outline_black_24dp;
+        }
+
+        long deleteTime = letter.getWrittenTime() + Property.Config.AUTO_DELETE_MILLIS;
+
+        if (System.currentTimeMillis() > deleteTime - Property.Config.AUTO_DELETE_CAUTION_MILLIS) {
+            description += "\n" + context.getResources().getString(R.string.delete_soon);
         }
 
         image.setImageResource(imageResource);

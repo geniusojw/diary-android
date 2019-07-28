@@ -154,7 +154,7 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
             //content.setSpan(new StyleSpan(Typeface.BOLD), 0, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleText.setText(content);
 
-            if (currentTime > diaryGroup.getStartTime()) {
+            if (diaryGroup != null && currentTime > diaryGroup.getStartTime()) {
                 contentText.setText("* " + context.getResources().getString(R.string.diary_share, diaryGroup.getCurrentAuthorCount() - 1));
                 cardView.setCardBackgroundColor(0xCCFFDDCC);
             } else {

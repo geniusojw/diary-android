@@ -6,6 +6,7 @@ import android.database.Cursor;
 
 import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.model.Letter;
+import org.jerrioh.diary.model.Post;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +44,8 @@ public class LetterDao extends AbstractDao {
         }
     }
 
-    public List<Letter> getAllLetters() {
-        String orderBy = Letter.TableDesc.COLUMN_NAME_WRITTEN_TIME + " DESC";
+    public List<Letter> getAllLetters(boolean descending) {
+        String orderBy = Letter.TableDesc.COLUMN_NAME_WRITTEN_TIME + " " + (descending ? "DESC" : "ASC");
 
         Cursor cursor = readableDb().query(TABLE_NAME, COLUMN_NAMES, "1=1", new String[]{}, null, null, orderBy);
         List<Letter> letters = new ArrayList<>();

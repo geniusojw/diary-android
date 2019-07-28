@@ -25,12 +25,24 @@ public class FaqActivity extends CommonActionBarActivity {
         answerIds.add(R.id.answer1);
         answerIds.add(R.id.answer2);
         answerIds.add(R.id.answer3);
+        answerIds.add(R.id.answer4);
+        answerIds.add(R.id.answer5);
+        answerIds.add(R.id.answer6);
+        answerIds.add(R.id.answer7);
+        answerIds.add(R.id.answer8);
+        answerIds.add(R.id.answer9);
 
         this.allAnswerTextVisibilityGone();
 
         setQuestion(1, R.id.question1, R.id.answer1, R.string.help_question1, R.string.help_answer1);
         setQuestion(2, R.id.question2, R.id.answer2, R.string.help_question2, R.string.help_answer2);
         setQuestion(3, R.id.question3, R.id.answer3, R.string.help_question3, R.string.help_answer3);
+        setQuestion(4, R.id.question4, R.id.answer4, R.string.help_question4, R.string.help_answer4);
+        setQuestion(5, R.id.question5, R.id.answer5, R.string.help_question5, R.string.help_answer5);
+        setQuestion(6, R.id.question6, R.id.answer6, R.string.help_question6, R.string.help_answer6);
+        setQuestion(7, R.id.question7, R.id.answer7, R.string.help_question7, R.string.help_answer7);
+        setQuestion(8, R.id.question8, R.id.answer8, R.string.help_question8, R.string.help_answer8);
+        setQuestion(9, R.id.question9, R.id.answer9, R.string.help_question9, R.string.help_answer9);
     }
 
     private void setQuestion(int index, int questionViewId, int answerViewId, int questionStringId, int answerStringId) {

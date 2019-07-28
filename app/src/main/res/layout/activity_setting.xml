@@ -213,6 +213,56 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="23dp">
+
+                <Switch
+                    android:id="@+id/switch_setting_auto_delete_post"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textSize="17sp"
+                    android:textColor="@color/darkCharcoal"
+                    android:text="@string/auto_delete_post"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp"
+                    android:textColor="@color/blackCoffee"
+                    android:text="@string/auto_delete_post_description"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="23dp">
+
+                <Switch
+                    android:id="@+id/switch_setting_auto_delete_letter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textSize="17sp"
+                    android:textColor="@color/darkCharcoal"
+                    android:text="@string/auto_delete_letter"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp"
+                    android:textColor="@color/blackCoffee"
+                    android:text="@string/auto_delete_letter_description"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/linear_layout_setting_data_reset"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -12,11 +12,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jerrioh.diary.R;
+import org.jerrioh.diary.api.ApiCallback;
+import org.jerrioh.diary.api.account.AccountDiaryApis;
 import org.jerrioh.diary.model.Property;
 import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.model.Author;
 import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.PropertyUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class AccountActivity extends CommonActionBarActivity {
     private static final String TAG = "AccountActivity";
@@ -68,26 +72,51 @@ public class AccountActivity extends CommonActionBarActivity {
     private void accountDiarySync() {
         String lastSyncTimeString = PropertyUtil.getProperty(Property.Key.SYNC_ACCOUNT_DIARY_API_REQUEST_TIME, this);
         long lastSyncTime = Long.parseLong(lastSyncTimeString);
-        String lastSyncDescription = getResources().getString(R.string.last_sync_time) + ": " + DateUtil.getDateStringFull(lastSyncTime);
 
         TextView syncText = findViewById(R.id.text_view_account_sync);
-        syncText.setText(lastSyncDescription);
+        syncText.setText(getResources().getString(R.string.last_sync_time) + ": " + DateUtil.getDateStringFull(lastSyncTime));
 
         LinearLayout syncLayout = findViewById(R.id.linear_layout_account_sync);
         syncLayout.setOnClickListener(v -> {
-            ProgressBar progressBar = findViewById(R.id.progress_bar_account);
-            if (progressBar.getVisibility() != View.VISIBLE) {
-                progressBar.setVisibility(View.VISIBLE);
-                AuthorUtil.syncAccountDiaries(this, progressBar, syncText);
-                AuthorUtil.refreshAccountToken(this);
-            }
+            syncStart();
         });
+    }
+
+    private void syncStart() {
+        TextView syncText = findViewById(R.id.text_view_account_sync);
+        ProgressBar progressBar = findViewById(R.id.progress_bar_account);
+
+        if (progressBar.getVisibility() != View.VISIBLE) {
+            progressBar.setVisibility(View.VISIBLE);
+            AuthorUtil.syncAccountDiaries(this, progressBar, syncText);
+            AuthorUtil.refreshAccountToken(this);
+        }
     }
 
     private void exportDiary() {
         LinearLayout exportLayout = findViewById(R.id.linear_layout_account_export);
         exportLayout.setOnClickListener(v -> {
-            Toast.makeText(this, "TBD", Toast.LENGTH_SHORT);
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+            alertBuilder.setTitle(getResources().getString(R.string.email_export))
+                    .setMessage(getResources().getString(R.string.email_export_confirm))
+                    .setPositiveButton(getResources().getString(R.string.email_export_ok), (dialog, which) -> {
+                        AccountDiaryApis accountDiaryApis = new AccountDiaryApis(this);
+                        accountDiaryApis.exportDiaries(new ApiCallback() {
+                            @Override
+                            protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                                if (httpStatus == 200) {
+                                    Toast.makeText(AccountActivity.this, getResources().getString(R.string.email_export_success), Toast.LENGTH_SHORT);
+                                } else {
+                                    Toast.makeText(AccountActivity.this, getResources().getString(R.string.network_fail), Toast.LENGTH_SHORT);
+                                }
+                            }
+                        });
+                    })
+                    .setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> {
+                        dialog.cancel();
+                    });
+            AlertDialog alertDialog = alertBuilder.create();
+            alertDialog.show();;
         });
     }
 
