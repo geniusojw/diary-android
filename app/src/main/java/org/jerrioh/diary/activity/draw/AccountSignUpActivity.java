@@ -20,7 +20,7 @@ import org.jerrioh.diary.util.CommonUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AccountSignUpActivity extends CommonActionBarActivity {
+public class AccountSignUpActivity extends AbstractDiaryToolbarActivity {
 
     public static final String TAG = "AccountSignUpActivity";
 

@@ -2,11 +2,15 @@ package org.jerrioh.diary.activity.main;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.LinearGradient;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,9 +35,11 @@ public class DiaryWriteActivity extends AbstractDetailActivity {
 
     private Diary todayDiary;
 
+    private LinearLayout diaryDetail;
     private TextView diaryDate;
     private EditText titleText;
     private EditText contentText;
+    private TextView shareText;
 
     private String originalTitle;
     private String originalContent;
@@ -55,13 +61,32 @@ public class DiaryWriteActivity extends AbstractDetailActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_diary);
 
+        diaryDetail = findViewById(R.id.linear_layout_detail_diary);
         diaryDate = findViewById(R.id.text_view_detail_date);
         titleText = findViewById(R.id.edit_text_detail_title);
         titleText.setFocusableInTouchMode(true);
 
+        diaryDetail.setBackgroundColor(getResources().getColor(R.color.colorBlack));
+        diaryDate.setTextColor(getResources().getColor(R.color.colorWhite));
+        titleText.setTextColor(getResources().getColor(R.color.colorWhite));
+        titleText.setHintTextColor(getResources().getColor(R.color.colorWhite));
+
+        ImageView moreImage = findViewById(R.id.image_view_more);
+        moreImage.setImageResource(R.drawable.ic_more_vert_white_24dp);
+
         contentText = findViewById(R.id.edit_text_detail_content);
         contentText.setFocusableInTouchMode(true);
         contentText.setHint(getResources().getString(R.string.diary_write_here));
+
+        DiaryGroupDao diaryGroupDao = new DiaryGroupDao(this);
+        DiaryGroup diaryGroup = diaryGroupDao.getDiaryGroup();
+        if (diaryGroup != null) {
+            long currentTime = System.currentTimeMillis();
+            if (currentTime > diaryGroup.getStartTime() && currentTime < diaryGroup.getEndTime()) {
+                shareText = findViewById(R.id.text_view_detail_share_diary_group);
+                shareText.setVisibility(View.VISIBLE);
+            }
+        };
 
         TextView emptySpaceView = findViewById(R.id.text_view_detail_empty_space);
         emptySpaceView.setOnClickListener(v -> {
@@ -98,7 +123,7 @@ public class DiaryWriteActivity extends AbstractDetailActivity {
             originalTitle = todayDiary.getTitle();
             originalContent = todayDiary.getContent();
         }
-        String diaryDateString = DateUtil.getDateStringSkipTime();
+        String diaryDateString = DateUtil.getDateStringSkipTime() + " (" + getResources().getString(R.string.today) + ")";
 
         diaryDate.setText(diaryDateString);
         titleText.setText(todayDiary.getTitle());

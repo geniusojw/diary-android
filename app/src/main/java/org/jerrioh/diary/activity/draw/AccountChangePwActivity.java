@@ -3,7 +3,6 @@ package org.jerrioh.diary.activity.draw;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -18,9 +17,8 @@ import org.jerrioh.diary.model.Author;
 import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.util.CommonUtil;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-public class AccountChangePwActivity extends CommonActionBarActivity {
+public class AccountChangePwActivity extends AbstractDiaryToolbarActivity {
     private static final String TAG = "AccountChangePwActivity";
 
     private static final int SCREEN_STATUS_CHANGE_PASSWORD = 0;

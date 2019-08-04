@@ -22,7 +22,7 @@ import org.jerrioh.diary.util.PropertyUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AccountActivity extends CommonActionBarActivity {
+public class AccountActivity extends AbstractDiaryToolbarActivity {
     private static final String TAG = "AccountActivity";
 
     private static final int REQUEST_ACCOUNT_SIGN_IN_ACTIVITY = 1;

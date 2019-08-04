@@ -6,14 +6,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jerrioh.diary.R;
-import org.jerrioh.diary.activity.adapter.CustomSpinnerAdapter;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.AuthorLetterApis;
 import org.jerrioh.diary.model.Author;
@@ -23,9 +20,7 @@ import org.jerrioh.diary.util.AuthorUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class LetterWriteActivity extends AbstractDetailActivity {
 

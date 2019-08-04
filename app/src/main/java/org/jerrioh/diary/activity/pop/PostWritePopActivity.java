@@ -14,15 +14,14 @@ import org.jerrioh.diary.activity.main.AbstractDetailActivity;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.PostApis;
 import org.jerrioh.diary.model.Post;
-import org.jerrioh.diary.model.Property;
 import org.jerrioh.diary.model.db.PostDao;
-import org.jerrioh.diary.util.PropertyUtil;
+import org.jerrioh.diary.util.AuthorUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PostWritePopActivity extends AbstractDetailActivity {
 
-    private static final String TAG = "PostReadPopActivity";
+    private static final String TAG = "PostWritePopActivity";
 
     private EditText editText;
 
@@ -54,10 +53,11 @@ public class PostWritePopActivity extends AbstractDetailActivity {
         LinearLayout okLayout = findViewById(R.id.linear_layout_square_post_ok);
         okLayout.setOnClickListener(v -> {
             if (TextUtils.isEmpty(editText.getText())) {
-                Toast.makeText(this, "내용을 작성하세요.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.post_no_content), Toast.LENGTH_SHORT).show();
             } else {
                 if (isPrivate) {
                     PostDao postDao = new PostDao(this);
+                    post.setAuthorNickname(AuthorUtil.getAuthor(this).getNickname());
                     post.setContent(editText.getText().toString());
                     post.setWrittenTime(System.currentTimeMillis());
 
@@ -66,7 +66,7 @@ public class PostWritePopActivity extends AbstractDetailActivity {
                     } else {
                         postDao.updatePost(post);
                     }
-                    Toast.makeText(PostWritePopActivity.this, "포스트가 작성되었습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PostWritePopActivity.this, getResources().getString(R.string.post_write_success), Toast.LENGTH_SHORT).show();
 
                 } else {
                     PostApis postApis = new PostApis(this);
@@ -74,7 +74,7 @@ public class PostWritePopActivity extends AbstractDetailActivity {
                         @Override
                         protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                             if (httpStatus == 200) {
-                                Toast.makeText(PostWritePopActivity.this, "포스트가 작성되었습니다.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PostWritePopActivity.this, getResources().getString(R.string.post_write_success), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

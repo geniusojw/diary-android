@@ -64,9 +64,13 @@ public class AuthorUtil {
                     if (httpStatus == 200) {
                         JSONObject data = jsonObject.getJSONObject("data");
                         String authorCode = data.getString("authorCode");
+                        String nickname = data.getString("nickname");
+                        String description = data.getString("description");
 
                         AuthorDao authorDao = new AuthorDao(context);
                         authorDao.updateAuthorCode(authorCode);
+                        authorDao.updateNickname(nickname);
+                        authorDao.updateDescription(description);
                     }
                 }
             });
@@ -271,13 +275,13 @@ public class AuthorUtil {
                                 diaryDao.updateDiaryAccountStatus(diaryDate, Diary.DiaryStatus.UNSAVED_CONFLICT);
                             }
                         }
+                    }
 
-                        long lastSyncTime = System.currentTimeMillis();
-                        PropertyUtil.setProperty(Property.Key.SYNC_ACCOUNT_DIARY_API_REQUEST_TIME, String.valueOf(lastSyncTime), context);
-                        if (syncText != null) {
-                            String lastSyncDescription = "마지막 동기화 시간: " + DateUtil.getDateStringFull(lastSyncTime);
-                            syncText.setText(lastSyncDescription);
-                        }
+                    long lastSyncTime = System.currentTimeMillis();
+                    PropertyUtil.setProperty(Property.Key.SYNC_ACCOUNT_DIARY_API_REQUEST_TIME, String.valueOf(lastSyncTime), context);
+                    if (syncText != null) {
+                        String lastSyncDescription = "마지막 동기화 시간: " + DateUtil.getDateStringFull(lastSyncTime);
+                        syncText.setText(lastSyncDescription);
                     }
                 }
                 if (progressBar != null) {

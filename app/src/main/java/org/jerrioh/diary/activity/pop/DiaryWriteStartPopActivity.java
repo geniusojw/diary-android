@@ -1,13 +1,10 @@
 package org.jerrioh.diary.activity.pop;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,11 +14,7 @@ import org.jerrioh.diary.model.DiaryGroup;
 import org.jerrioh.diary.model.db.DiaryGroupDao;
 import org.jerrioh.diary.util.DateUtil;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
-public class DiaryWriteStartPopActivity extends CustomPopActivity {
+public class DiaryWriteStartPopActivity extends AbstractDiaryPopActivity {
 
     private TextView todayView;
     private TextView topicView;
@@ -35,7 +28,7 @@ public class DiaryWriteStartPopActivity extends CustomPopActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_diary_start);
 
-        super.setWindowAttribute(0.95f, 0.4f);
+        super.setWindowAttribute(0.95f, 0.4f, 0, -100);
 
         todayView = findViewById(R.id.text_view_diary_start_today);
         topicView = findViewById(R.id.text_view_diary_start_topic);

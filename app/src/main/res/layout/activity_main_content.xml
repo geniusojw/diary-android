@@ -33,7 +33,21 @@
             android:clickable="true"
             android:padding="10dp" />
 
+        <TextView
+            android:id="@+id/text_view_banner_right_button_new"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:layout_above="@id/image_view_banner_right_button"
+            android:text="NEW"
+            android:textSize="10sp"
+            android:textColor="@color/colorRed"
+            android:visibility="gone"
+            />
+
         <LinearLayout
+            android:id="@+id/linear_layout_main_banner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"

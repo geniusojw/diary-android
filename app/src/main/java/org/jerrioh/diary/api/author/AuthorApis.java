@@ -22,6 +22,7 @@ public class AuthorApis extends ApiCaller {
         try {
             JSONObject json = new JSONObject();
             json.put("authorId", authorId);
+            json.put("nicknameType", 0);
             super.post("/author/start", headers, json.toString(), callback);
         } catch (JSONException e) {
             Log.e(TAG, "JSONException, " + e.toString());

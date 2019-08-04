@@ -97,6 +97,10 @@ public class LetterReadActivity extends AbstractDetailActivity {
                                     LetterDao letterDao = new LetterDao(LetterReadActivity.this);
                                     letterDao.updateLetterStatus(letter.getLetterId(), Letter.LetterStatus.REPLIED);
                                     Toast.makeText(LetterReadActivity.this, successMessage, Toast.LENGTH_SHORT).show();
+                                    replyButton.setOnClickListener(v -> {
+                                        Toast.makeText(LetterReadActivity.this, getResources().getString(R.string.letter_replied_letter), Toast.LENGTH_SHORT).show();
+                                    });
+                                    AuthorUtil.syncAuthorDiaryGroupData(LetterReadActivity.this);
                                 } else {
                                     Toast.makeText(LetterReadActivity.this, LetterReadActivity.this.getResources().getString(R.string.network_fail), Toast.LENGTH_SHORT).show();
                                 }

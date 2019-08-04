@@ -95,7 +95,7 @@ public class DiaryFragment extends AbstractFragment {
 
                                         Intent intent = new Intent(getActivity(), StorePopActivity.class);
                                         intent.putExtra("itemId", ITEM_DIARY_GROUP_SUPPORT);
-                                        intent.putExtra("itemPrice", 1);
+                                        intent.putExtra("itemPrice", 3);
                                         intent.putExtra("currentChocolates", chocolates);
                                         startActivity(intent);
                                     }

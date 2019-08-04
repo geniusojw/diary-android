@@ -76,6 +76,24 @@ public class LetterDao extends AbstractDao {
         return letters;
     }
 
+    public List<Letter> getLettersToMeUnread(String authorId) {
+        String selection = Letter.TableDesc.COLUMN_NAME_TO_AUTHOR_ID + "=?"
+                + " AND " + Letter.TableDesc.COLUMN_NAME_STATUS + "=?";
+        String[] args = { authorId, String.valueOf(Letter.LetterStatus.UNREAD) };
+        String orderBy = Letter.TableDesc.COLUMN_NAME_WRITTEN_TIME + " DESC";
+
+        Cursor cursor = readableDb().query(TABLE_NAME, COLUMN_NAMES, selection, args, null, null, orderBy);
+        List<Letter> letters = new ArrayList<>();
+        if (cursorIsNotNull(cursor)) {
+            if (cursor.moveToFirst()) {
+                do {
+                    letters.add(getLetterOnCursor(cursor));
+                } while (cursor.moveToNext());
+            }
+        }
+        return letters;
+    }
+
     public List<Letter> getLettersToOthers(String authorId) {
         String selection = Letter.TableDesc.COLUMN_NAME_TO_AUTHOR_ID + "!=?";
         String[] args = { authorId };

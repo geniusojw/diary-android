@@ -1,8 +1,7 @@
-package org.jerrioh.diary.activity.main;
+package org.jerrioh.diary.activity.pop;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -11,18 +10,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jerrioh.diary.R;
-import org.jerrioh.diary.activity.pop.CustomPopActivity;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.FeedbackApis;
 import org.jerrioh.diary.config.Constants;
-import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.util.CommonUtil;
-import org.jerrioh.diary.util.DateUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class DiaryGroupReadActivity extends CustomPopActivity {
+public class DiaryGroupReadActivity extends AbstractDiaryPopActivity {
 
     public static final int GOOD = 0;
     public static final int LIKE = 1;

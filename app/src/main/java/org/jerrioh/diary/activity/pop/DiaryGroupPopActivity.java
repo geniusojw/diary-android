@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jerrioh.diary.R;
-import org.jerrioh.diary.activity.main.DiaryGroupReadActivity;
 import org.jerrioh.diary.activity.main.LetterWriteActivity;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.DiaryGroupApis;
@@ -27,7 +26,7 @@ import org.json.JSONObject;
 
 import java.util.concurrent.TimeUnit;
 
-public class DiaryGroupPopActivity extends CustomPopActivity {
+public class DiaryGroupPopActivity extends AbstractDiaryPopActivity {
     private static final String TAG = "DiaryGroupPopActivity";
 
     private JSONObject diaryGroupJsonObject;

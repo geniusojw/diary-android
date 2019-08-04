@@ -1,7 +1,6 @@
 package org.jerrioh.diary.activity.pop;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -10,9 +9,7 @@ import org.jerrioh.diary.R;
 import org.jerrioh.diary.model.Property;
 import org.jerrioh.diary.util.PropertyUtil;
 
-import java.util.Random;
-
-public class FontSizePopActivity extends CustomPopActivity {
+public class FontSizePopActivity extends AbstractDiaryPopActivity {
 
     private static final String TAG = "FontSizePopActivity";
 

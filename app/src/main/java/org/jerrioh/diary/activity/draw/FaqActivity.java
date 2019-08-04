@@ -5,12 +5,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.jerrioh.diary.R;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FaqActivity extends CommonActionBarActivity {
+public class FaqActivity extends AbstractDiaryToolbarActivity {
     private static final String TAG = "FaqActivity";
 
     private List<Integer> answerIds;

@@ -18,7 +18,8 @@ public class ThemeDao extends AbstractDao {
             Theme.TableDesc.COLUMN_NAME_PATTERN0,
             Theme.TableDesc.COLUMN_NAME_PATTERN1,
             Theme.TableDesc.COLUMN_NAME_PATTERN2,
-            Theme.TableDesc.COLUMN_NAME_PATTERN3
+            Theme.TableDesc.COLUMN_NAME_PATTERN3,
+            Theme.TableDesc.COLUMN_NAME_BANNER_COLOR
     };
 
     public ThemeDao(Context context) {
@@ -61,6 +62,7 @@ public class ThemeDao extends AbstractDao {
         contentValues.put(Theme.TableDesc.COLUMN_NAME_PATTERN1, theme.getPattern1());
         contentValues.put(Theme.TableDesc.COLUMN_NAME_PATTERN2, theme.getPattern2());
         contentValues.put(Theme.TableDesc.COLUMN_NAME_PATTERN3, theme.getPattern3());
+        contentValues.put(Theme.TableDesc.COLUMN_NAME_BANNER_COLOR, theme.getBannerColor());
 
         return writableDb().insert(TABLE_NAME, null, contentValues);
     }
@@ -82,6 +84,7 @@ public class ThemeDao extends AbstractDao {
         theme.setPattern1(cursor.getString(2));
         theme.setPattern2(cursor.getString(3));
         theme.setPattern3(cursor.getString(4));
+        theme.setBannerColor(cursor.getString(5));
         return theme;
     }
 }

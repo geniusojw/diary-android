@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:background="#112233"
+    android:background="@color/darkCharcoal"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingBottom="10dp"
@@ -12,25 +12,30 @@
     android:paddingTop="10dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
+    <TextView
         android:id="@+id/userIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="0dp"
-        app:srcCompat="@mipmap/ic_launcher_round" />
+        android:text="T O D A Y  D I A R Y"
+        android:textSize="15sp"
+        android:typeface="monospace"
+        android:paddingBottom="30dp"
+        android:textColor="@color/colorWhite"
+        />
 
     <TextView
         android:id="@+id/text_view_drawer_header_nickname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="0dp"
-        android:text="Unknown"
+        android:text="-"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/text_view_drawer_header_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Unknown" />
+        android:text="-"
+        />
 
 </LinearLayout>

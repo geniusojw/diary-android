@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -42,6 +41,7 @@ import org.jerrioh.diary.activity.fragment.TodayNightFragment;
 import org.jerrioh.diary.util.CommonUtil;
 import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.PropertyUtil;
+import org.jerrioh.diary.util.ThemeUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,9 +50,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AbstractDiaryActivity {
     private static final String TAG = "MainActivity";
 
     private String diaryDate_yyyyMM = null;
@@ -64,6 +63,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        int bannerColor = ThemeUtil.getBannerColor(this);
+
+        View mainBannerView1 = findViewById(R.id.main_banner);
+        View mainBannerView2 = findViewById(R.id.linear_layout_main_banner);
+        View mainBannerView3 = findViewById(R.id.relative_layout_main_banner_mid);
+        mainBannerView1.setBackgroundColor(bannerColor);
+        mainBannerView2.setBackgroundColor(bannerColor);
+        mainBannerView3.setBackgroundColor(bannerColor);
+
         if (TextUtils.isEmpty(diaryDate_yyyyMM)) {
             this.diaryDate_yyyyMM = DateUtil.getyyyyMMdd().substring(0, 6);
         }
@@ -222,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = new TodayNightFragment();
         String mainBannerText = "";
         int weatherImageResource = 0;
+        boolean newTag = false;
         View.OnClickListener weatherButtonClickListener = null;
         boolean enableMonthAdjustment = false;
 
@@ -238,6 +248,13 @@ public class MainActivity extends AppCompatActivity {
                 bottomNav.setSelectedItemId(R.id.bottom_option_letter);
             };
             enableMonthAdjustment = true;
+
+            String authorId = AuthorUtil.getAuthor(this).getAuthorId();
+            LetterDao letterDao = new LetterDao(this);
+            List<Letter> unreadLetters = letterDao.getLettersToMeUnread(authorId);
+            if (!unreadLetters.isEmpty()) {
+                newTag = true;
+            }
 
         } else if (bottomNavId == R.id.bottom_option_letter) {
             fragment = new LetterFragment();
@@ -297,6 +314,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 배너 우측 버튼 (날씨 등)
         ImageView weatherImageView = findViewById(R.id.image_view_banner_right_button);
+        TextView newTagView = findViewById(R.id.text_view_banner_right_button_new);
         if (weatherImageResource == -1) {
             weatherImageView.setVisibility(View.INVISIBLE);
         } else {
@@ -304,6 +322,12 @@ public class MainActivity extends AppCompatActivity {
             weatherImageView.setImageResource(weatherImageResource);
         }
         weatherImageView.setOnClickListener(weatherButtonClickListener);
+
+        if (newTag) {
+            newTagView.setVisibility(View.VISIBLE);
+        } else {
+            newTagView.setVisibility(View.GONE);
+        }
 
         // 월조절 버튼 활성화/비활성화
         View leftButton = findViewById(R.id.image_view_month_adjust_left);

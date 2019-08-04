@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.app.ActivityCompat;
@@ -66,5 +67,18 @@ public class ThemeUtil {
         BitmapDrawable bitmapDrawable = new BitmapDrawable(resources, defaultBitmap);
         bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
         return bitmapDrawable;
+    }
+
+    public static int getBannerColor(Context context) {
+        String themeName = PropertyUtil.getProperty(Property.Key.DIARY_THEME, context);
+
+        if (Property.Key.DIARY_THEME.DEFAULT_VALUE.equals(themeName)) {
+            return context.getResources().getColor(R.color.carribeanSky);
+        } else {
+            ThemeDao themeDao = new ThemeDao(context);
+            Theme theme = themeDao.getTheme(themeName);
+            String bannerColor = theme.getBannerColor();
+            return Color.parseColor(bannerColor);
+        }
     }
 }

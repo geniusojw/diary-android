@@ -114,30 +114,6 @@
                     />
             </LinearLayout>
 
-            <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="23dp">
-                <TextView
-                    android:id="@+id/text_view_setting_alias"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:textSize="17sp"
-                    android:textColor="@color/darkCharcoal"
-                    android:text="@string/alias_feature"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:textSize="12sp"
-                    android:textColor="@color/blackCoffee"
-                    android:text="@string/alias_feature_description"
-                    />
-            </LinearLayout>-->
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

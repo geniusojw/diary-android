@@ -17,6 +17,7 @@
     <string name="sent">Sent</string>
     <string name="writer">Writer</string>
     <string name="delete_soon">It will be removed soon.</string>
+    <string name="time">Time</string>
 
     <!-- bottom navigation -->
     <string name="app_name">Today Diary</string>
@@ -162,9 +163,11 @@
     <string name="store_pop_group_support_result_description">추가 초대장이 발송되었습니다.</string>
     <string name="store_pop_group_support_result_description_detail">이제 더 많은 사람이 모임에 참여할 수 있습니다.</string>
     <string name="store_pop_donation_title">시간 기부</string>
-    <string name="store_pop_donation_description">혹시 시간이 남아도시나요?</string>
+    <string name="store_pop_donation_description">혹시 시간이 넘치시나요?</string>
     <string name="store_pop_donation_result_title">당신은 좋은 사람입니다.</string>
-    <string name="store_pop_donation_result_description">%d 시간을 기부하였습니다.</string>
+    <string name="store_pop_donation_result_description">%d 시간이 기부되었습니다.</string>
+    <string name="store_pop_donation_result_description_0">당신의 착한 마음이 기부되었습니다.</string>
+    <string name="store_pop_donation_result_description_detail">당신의 총 기부금액 : %d 시간</string>
 
     <!-- group -->
     <string name="group_started_no_group_name">The meeting is going on to determine the name of the diary group.</string>
@@ -199,6 +202,7 @@
     <string name="diary_month_adjust_after3">The future is not written in this diary.</string>
     <string name="diary_start_topic">What is your diary topic today?</string>
     <string name="diary_start_topic_group">Today\'s diary is shared with %d people.</string>
+    <string name="diary_share_description">This diary is shared with people.</string>
 
     <!-- letter -->
     <string name="letter_written_time">Creation time</string>
@@ -208,7 +212,7 @@
     <string name="letter_delete">Delete Letter</string>
     <string name="letter_delete_current_letter">Are you sure you want to delete this letter?</string>
     <string name="letter_group_letter_respond">Respond to invitation</string>
-    <string name="letter_group_letter_respond_description">Would you like to participate in a diary group?\n* If you join a diary group, you will share your diary with anonymous people for several days.</string>
+    <string name="letter_group_letter_respond_description">Would you like to participate in a diary group?\nIf you join a diary group, you will share your diary with anonymous people for several days.</string>
     <string name="letter_group_invited">You have received a diary group invitation. Check your letter.</string>
     <string name="letter_send_to_who">Write letter to %s.</string>
     <string name="letter_letter_is_empty">Write the contents of the letter.</string>
@@ -223,6 +227,9 @@
     <string name="post_for_you">This is a post you can only see.</string>
     <string name="post_for_all">This is a post that everyone can see.</string>
     <string name="post_worth">This post is worth %d time money</string>
+    <string name="post_last_modified">Last modified</string>
+    <string name="post_no_content">Write the post content.</string>
+    <string name="post_write_success">Post created.</string>
 
     <!-- store -->
     <string name="store_item_weather">Weather</string>
@@ -241,6 +248,15 @@
     <string name="store_item_invitation_description">Create an anonymous diary group.</string>
     <string name="store_item_donation">Donate Time</string>
     <string name="store_item_donation_description">You can donate your time.</string>
+
+    <!-- lock -->
+    <string name="lock_input_password">화면잠금 비밀번호 입력</string>
+    <string name="lock_find_password">화면잠금 비밀번호 찾기</string>
+    <string name="lock_find_password_description">화면잠금 비밀번호를 전송합니다.\n이메일: %s</string>
+    <string name="lock_find_password_check">이메일에서 잠금 비밀번호를 확인하세요.</string>
+    <string name="lock_input_new_password">새 비밀번호 입력</string>
+    <string name="lock_input_new_password_confirm">새 비밀번호 확인</string>
+    <string name="lock_input_new_password_confirm_fail">비밀번호가 일치하지 않습니다. 다시 설정하세요.</string>
 
     <!-- version -->
     <string name="version_current">Current Version : %s</string>
@@ -274,25 +290,25 @@
     <string name="alarm_tip3">좋습니다.</string>
     <string name="alarm_tip4">아까 있었던 일?</string>
     <string name="alarm_tip5">오늘의 일기 쓸 시간</string>
-    <string name="alarm_tip6">돌아오지 않을 오늘의 시간을 글로 남기세요.</string>
-    <string name="alarm_tip7">사실 꾸준히 일기를 쓰는 일이 쉬운 것은 아닙니다.</string>
-    <string name="alarm_tip8">일기를 써볼까요?</string>
+    <string name="alarm_tip6">오늘의 시간을 글로 남기세요.</string>
+    <string name="alarm_tip7">꾸준히 일기를 쓰는 것이 쉬운 일은 아닙니다.</string>
+    <string name="alarm_tip8">일기 써볼까요?</string>
     <string name="alarm_tip9">일기쓰기는 인생을 변화시킬 수 있는 습관입니다.</string>
     <string name="alarm_tip10">일기는 글쓰기 능력에 도움이 됩니다.</string>
     <string name="alarm_tip11">일기는 표현력 향상에 도움이 됩니다.</string>
     <string name="alarm_tip12">일기는 부지런한 척하는 것에 도움이 됩니다.</string>
-    <string name="alarm_tip13">일기 예시: 나는 오늘 밥을 먹었다...</string>
-    <string name="alarm_tip14">일기 예시: 나는 오늘 TV를 보았다...</string>
-    <string name="alarm_tip15">일기 쓰는 방법: 오늘 겪은 일을 기록한다.</string>
-    <string name="alarm_tip16">일기 쓰는 방법: 생각나는대로 적는다.</string>
-    <string name="alarm_tip17">일기 쓰는 방법: 오늘의 생각과 느낌을 그대로 적는다.</string>
-    <string name="alarm_tip18">일기를 쓰고 부지런한 척을 해보세요.</string>
+    <string name="alarm_tip13">일기 예시: 점심밥이 너무 맛있었다.</string>
+    <string name="alarm_tip14">일기 예시: 집에 오는 길은 때론 너무 길어</string>
+    <string name="alarm_tip15">일기 쓰는 방법: 겪은 일을 기록한다.</string>
+    <string name="alarm_tip16">일기 쓰는 방법: 생각나는 내용을 적는다.</string>
+    <string name="alarm_tip17">일기 쓰는 방법: 오늘의 생각과 느낌을 적는다.</string>
+    <string name="alarm_tip18">일기를 쓰고 부지런한 사람이 되세요!</string>
     <string name="alarm_tip19">자, 부지런한 사람이 될 시간입니다.</string>
-    <string name="alarm_tip20">일기내용을 포장할 필요는 없습니다.</string>
-    <string name="alarm_tip21">자연스럽고 솔직하게 일기를 작성하세요.</string>
-    <string name="alarm_tip22">오늘의 일기는 오늘에만 작성할 수 있습니다.</string>
+    <string name="alarm_tip20">내용을 포장할 필요는 없습니다.</string>
+    <string name="alarm_tip21">자연스럽고 솔직하게 작성하세요.</string>
+    <string name="alarm_tip22">오늘의 일기는 오늘만 작성할 수 있습니다.</string>
     <string name="alarm_tip23">오늘은 오늘의 일기는 써봅시다.</string>
-    <string name="alarm_tip24">오늘 어땠습니까?</string>
+    <string name="alarm_tip24">오늘 어땠나요?</string>
     <string name="alarm_tip25">당신의 생각</string>
 
     <!-- wise saying -->

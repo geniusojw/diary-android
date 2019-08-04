@@ -9,11 +9,12 @@ public class Property implements Serializable {
 
     public static class Config {
         public static final int FONT_SIZE_OFFSET = 10;
-        public static final Long GET_DIARY_GROUP_API_RETRY_MILLIS = TimeUnit.MINUTES.toMillis(1);
-        public static final Long GET_LETTERS_API_RETRY_MILLIS = TimeUnit.MINUTES.toMillis(1);
-        public static final Long SYNC_DIARIES_API_RETRY_MILLIS = TimeUnit.DAYS.toMillis(1);
-        public static final Long AUTO_DELETE_MILLIS = TimeUnit.DAYS.toMillis(5);
-        public static final Long AUTO_DELETE_CAUTION_MILLIS = TimeUnit.HOURS.toMillis(48);
+        public static final long SCREEN_LOCK_LOCK_MILLIS = TimeUnit.MINUTES.toMillis(1);
+        public static final long GET_DIARY_GROUP_API_RETRY_MILLIS = TimeUnit.MINUTES.toMillis(1);
+        public static final long GET_LETTERS_API_RETRY_MILLIS = TimeUnit.MINUTES.toMillis(1);
+        public static final long SYNC_DIARIES_API_RETRY_MILLIS = TimeUnit.DAYS.toMillis(1);
+        public static final long AUTO_DELETE_MILLIS = TimeUnit.DAYS.toMillis(30);
+        public static final long AUTO_DELETE_CAUTION_MILLIS = TimeUnit.HOURS.toMillis(48);
         public static final int MAX_POST_COUNT = 30;
     }
 
@@ -21,6 +22,7 @@ public class Property implements Serializable {
         FONT_SIZE("FONT_SIZE", "3"), // 0 ~ 9
         SCREEN_LOCK_USE("SCREEN_LOCK_USE", "0"), // 0 or 1
         SCREEN_LOCK_4DIGIT("SCREEN_LOCK_4DIGIT", ""), // ex: 1234
+        SCREEN_LOCK_LAST_USE_TIME("SCREEN_LOCK_LAST_USE_TIME", "0"), // ex: unix milliseconds time
         DIARY_ALARM_USE("DIARY_ALARM_USE", "0"), // 0 or 1
         DIARY_ALARM_TIME("DIARY_ALARM_TIME", "22:00"), // ex: 22:00
         GROUP_INVITATION_USE("GROUP_INVITATION_USE", "1"), // 0 or 1

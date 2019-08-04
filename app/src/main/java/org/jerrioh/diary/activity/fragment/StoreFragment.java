@@ -21,6 +21,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -55,7 +57,7 @@ public class StoreFragment extends AbstractFragment {
 
         this.checkConnectionToStore(todayView);
 
-        super.setFloatingActionButton(AbstractFragment.BUTTON_TYPE_STORE);
+        super.setFloatingActionButton(AbstractFragment.BUTTON_TYPE_INVISIBLE);
 
         BitmapDrawable bitmap = ThemeUtil.getBitmapDrawablePattern(this, 1);
         todayView.setBackgroundDrawable(bitmap);
@@ -78,6 +80,13 @@ public class StoreFragment extends AbstractFragment {
                     JSONObject priceMap = data.getJSONObject("priceMap");
 
                     List<Item> items = getItems(priceMap);
+
+                    Collections.sort(items, new Comparator<Item>() {
+                        @Override
+                        public int compare(Item o1, Item o2) {
+                            return o1.price - o2.price;
+                        }
+                    });
 
                     final StoreRecyclerViewAdapter mAdapter = new StoreRecyclerViewAdapter(items, pos -> {
                         Item item = items.get(pos);

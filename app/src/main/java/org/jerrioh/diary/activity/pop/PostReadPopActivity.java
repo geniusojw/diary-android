@@ -12,7 +12,6 @@ import org.jerrioh.diary.activity.main.AbstractDetailActivity;
 import org.jerrioh.diary.model.Post;
 import org.jerrioh.diary.model.Property;
 import org.jerrioh.diary.util.DateUtil;
-import org.jerrioh.diary.util.PropertyUtil;
 
 public class PostReadPopActivity extends AbstractDetailActivity {
 
@@ -52,7 +51,7 @@ public class PostReadPopActivity extends AbstractDetailActivity {
         writtenTime.setVisibility(View.VISIBLE);
 
         long deleteTime = post.getWrittenTime() + Property.Config.AUTO_DELETE_MILLIS;
-        String writtenTimeText = "(" + DateUtil.getDateStringFull(post.getWrittenTime()) + ")";
+        String writtenTimeText = "(" + getResources().getString(R.string.post_last_modified) + ": " + DateUtil.getDateStringFull(post.getWrittenTime()) + ")";
         if (isPrivate && System.currentTimeMillis() > deleteTime - Property.Config.AUTO_DELETE_CAUTION_MILLIS) {
             writtenTimeText += "\n" + getResources().getString(R.string.delete_soon);
         }

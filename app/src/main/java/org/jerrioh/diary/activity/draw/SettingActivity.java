@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -16,11 +17,12 @@ import android.widget.Toast;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.adapter.CustomSpinnerAdapter;
+import org.jerrioh.diary.activity.lock.LockSettingActivity;
 import org.jerrioh.diary.activity.pop.FontSizePopActivity;
+import org.jerrioh.diary.model.Author;
 import org.jerrioh.diary.model.db.MusicDao;
 import org.jerrioh.diary.model.db.ThemeDao;
 import org.jerrioh.diary.model.Property;
-import org.jerrioh.diary.model.db.PropertyDao;
 import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.util.PropertyUtil;
 import org.jerrioh.diary.util.ReceiverUtil;
@@ -28,16 +30,20 @@ import org.jerrioh.diary.util.ReceiverUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingActivity extends CommonActionBarActivity {
+public class SettingActivity extends AbstractDiaryToolbarActivity {
     private static final String TAG = "SettingActivity";
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.setMemberServices();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         setCommonToolBar(getResources().getString(R.string.setting));
-
-        this.setMemberServices();
     }
 
     private void setMemberServices() {
@@ -142,8 +148,18 @@ public class SettingActivity extends CommonActionBarActivity {
                 PropertyUtil.setProperty(Property.Key.SCREEN_LOCK_USE, "0", this);
                 switchScreenLock.setChecked(false);
             } else {
-                PropertyUtil.setProperty(Property.Key.SCREEN_LOCK_USE, "1", this);
-                switchScreenLock.setChecked(true);
+                Author author = AuthorUtil.getAuthor(SettingActivity.this);
+                if (TextUtils.isEmpty(author.getAccountEmail())) {
+                    Toast.makeText(SettingActivity.this, "앱을 잠그기 위해서는 로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Intent lockIntent = new Intent(this, LockSettingActivity.class);
+                lockIntent.putExtra("accountEmail", author.getAccountEmail());
+                startActivity(lockIntent);
+
+//                PropertyUtil.setProperty(Property.Key.SCREEN_LOCK_USE, "1", this);
+//                switchScreenLock.setChecked(true);
             }
         });
     }

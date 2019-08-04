@@ -13,6 +13,7 @@ public class Theme implements Serializable {
         public static final String COLUMN_NAME_PATTERN1 = "pattern1";
         public static final String COLUMN_NAME_PATTERN2 = "pattern2";
         public static final String COLUMN_NAME_PATTERN3 = "pattern3";
+        public static final String COLUMN_NAME_BANNER_COLOR = "banner_color";
     }
 
     private String themeName;
@@ -20,6 +21,7 @@ public class Theme implements Serializable {
     private String pattern1;
     private String pattern2;
     private String pattern3;
+    private String bannerColor;
 
     public String getThemeName() {
         return themeName;
@@ -59,5 +61,13 @@ public class Theme implements Serializable {
 
     public void setPattern3(String pattern3) {
         this.pattern3 = pattern3;
+    }
+
+    public String getBannerColor() {
+        return bannerColor;
+    }
+
+    public void setBannerColor(String bannerColor) {
+        this.bannerColor = bannerColor;
     }
 }

@@ -17,7 +17,7 @@ import org.jerrioh.diary.model.db.DiaryGroupDao;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SentencePopActivity extends CustomPopActivity {
+public class SentencePopActivity extends AbstractDiaryPopActivity {
 
     public static final int TYPE_DIARY_GROUP_KEYWORD = 1;
     public static final int TYPE_DIARY_GROUP_AUTHOR_FEEDBACK = 2;

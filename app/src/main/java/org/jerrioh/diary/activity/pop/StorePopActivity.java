@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,10 +38,31 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class StorePopActivity extends CustomPopActivity {
+public class StorePopActivity extends AbstractDiaryPopActivity {
 
     private static final String TAG = "StorePopActivity";
     private boolean okEnabled = true;
+
+    private final LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            updateWithNewLocation(location);
+        }
+
+        public void onProviderDisabled(String provider) {
+            updateWithNewLocation(null);
+        }
+
+        public void onProviderEnabled(String provider) {}
+        public void onStatusChanged(String provider,int status,Bundle extras){}
+    };
+
+    private void updateWithNewLocation(Location location) {
+        if (location != null) {
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            Log.i(TAG, "latitude: " + latitude + ", longitude: " + longitude);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,46 +114,17 @@ public class StorePopActivity extends CustomPopActivity {
                         ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, 0);
                     } else {
                         okEnabled = false;
-                        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000L, 500.0f, locationListener);
+                        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
                         if (location != null) {
-                            double latitude = location.getLatitude();
-                            double longitude = location.getLongitude();
+                            this.callWeatherApiByLatitudeLongitude(location.getLatitude(), location.getLongitude());
 
-                            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                            List<Address> addresses = null;
-                            try {
-                                addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                                String cityName = addresses.get(0).getLocality();
-                                String countryCode = addresses.get(0).getCountryCode();
-
-                                authorStoreApis.weather(cityName, countryCode, new ApiCallback() {
-                                    @Override
-                                    protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
-                                        if (httpStatus == 200) {
-                                            JSONObject data = jsonObject.getJSONObject("data");
-                                            String description = data.getString("description");
-                                            buySuccessBasic(getResources().getString(R.string.store_pop_weather_result_title), description, null);
-                                        } else if (httpStatus == 402) {
-                                            buyFailWithToast(getResources().getString(R.string.store_pop_not_enough_money));
-                                        } else if (httpStatus == 412) {
-                                            buyFailWithToast(getResources().getString(R.string.store_pop_already_bought));
-                                        } else {
-                                            buySuccessBasic(
-                                                    getResources().getString(R.string.store_pop_weather_result_title),
-                                                    getResources().getString(R.string.store_pop_weather_result_description2),
-                                                    null);
-                                        }
-                                    }
-                                });
-
-                            } catch (IOException e) {
-                                Log.e(TAG, "io exception. " + e.toString());
-                            }
                         } else {
                             buySuccessBasic(
                                     getResources().getString(R.string.store_pop_weather_result_title),
-                                    getResources().getString(R.string.store_pop_weather_result_description1),
+                                    getResources().getString(R.string.store_pop_weather_result_description2),
                                     null);
                         }
                     }
@@ -255,6 +249,7 @@ public class StorePopActivity extends CustomPopActivity {
                                     theme.setPattern1(data.getString("pattern1"));
                                     theme.setPattern2(data.getString("pattern2"));
                                     theme.setPattern3(data.getString("pattern3"));
+                                    theme.setBannerColor(data.getString("bannerColor"));
                                     themeDao.insertTheme(theme);
                                     buySuccessBasic(getResources().getString(R.string.store_pop_theme_result_title),
                                             getResources().getString(R.string.store_pop_theme_result_description, themeName),
@@ -385,13 +380,25 @@ public class StorePopActivity extends CustomPopActivity {
                         @Override
                         protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                             if (httpStatus == 200) {
+                                JSONObject data = jsonObject.getJSONObject("data");
+                                int totalDonations = data.getInt("totalDonations");
+
+                                String resultMessage;
+                                if (donationPrice == 0) {
+                                    resultMessage = getResources().getString(R.string.store_pop_donation_result_description_0);
+                                } else {
+                                    resultMessage = getResources().getString(R.string.store_pop_donation_result_description, donationPrice);
+                                }
+                                String resultMessageDetail = getResources().getString(R.string.store_pop_donation_result_description_detail, totalDonations);
+
                                 buySuccessBasic(getResources().getString(R.string.store_pop_donation_result_title),
-                                        getResources().getString(R.string.store_pop_donation_result_description, donationPrice),
-                                        null);
+                                        resultMessage, resultMessageDetail);
                             } else if (httpStatus == 402) {
                                 buyFailWithToast(getResources().getString(R.string.store_pop_not_enough_money));
                             } else if (httpStatus == 412) {
                                 buyFailWithToast(getResources().getString(R.string.store_pop_already_bought));
+                            } else {
+                                finish();
                             }
                             numberPicker.setVisibility(View.GONE);
                         }
@@ -428,6 +435,49 @@ public class StorePopActivity extends CustomPopActivity {
         noButton.setOnClickListener(v -> {
             finish();
         });
+    }
+
+    private void callWeatherApiByLatitudeLongitude(double latitude, double longitude) {
+        List<Address> addresses;
+        Geocoder geocoder = new Geocoder(this, Locale.US);
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1);
+
+            if (addresses.isEmpty()) {
+                buySuccessBasic(
+                        getResources().getString(R.string.store_pop_weather_result_title),
+                        getResources().getString(R.string.store_pop_weather_result_description1),
+                        null);
+                return;
+            }
+
+            String countryCode = addresses.get(0).getCountryCode();
+            String cityName = addresses.get(0).getAdminArea();
+
+            AuthorStoreApis authorStoreApis = new AuthorStoreApis(this);
+            authorStoreApis.weather(cityName, countryCode, new ApiCallback() {
+                @Override
+                protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                    if (httpStatus == 200) {
+                        JSONObject data = jsonObject.getJSONObject("data");
+                        String description = data.getString("description");
+                        buySuccessBasic(getResources().getString(R.string.store_pop_weather_result_title), description, null);
+                    } else if (httpStatus == 402) {
+                        buyFailWithToast(getResources().getString(R.string.store_pop_not_enough_money));
+                    } else if (httpStatus == 412) {
+                        buyFailWithToast(getResources().getString(R.string.store_pop_already_bought));
+                    } else {
+                        buySuccessBasic(
+                                getResources().getString(R.string.store_pop_weather_result_title),
+                                getResources().getString(R.string.store_pop_weather_result_description2),
+                                null);
+                    }
+                }
+            });
+
+        } catch (IOException e) {
+            Log.e(TAG, "io exception. " + e.toString());
+        }
     }
 
     private void buySuccessBasic(String successText, String descriptionText, String detailText) {

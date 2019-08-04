@@ -3,22 +3,18 @@ package org.jerrioh.diary.activity.pop;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jerrioh.diary.R;
-import org.jerrioh.diary.activity.pop.CustomPopActivity;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.FeedbackApis;
-import org.jerrioh.diary.config.Constants;
-import org.jerrioh.diary.util.CommonUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class DiaryGroupFeedbackActivity extends CustomPopActivity {
+public class DiaryGroupFeedbackActivity extends AbstractDiaryPopActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

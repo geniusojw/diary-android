@@ -1,11 +1,20 @@
 package org.jerrioh.diary.activity.pop;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.WindowManager;
 
-public abstract class CustomPopActivity extends Activity {
+import org.jerrioh.diary.activity.lock.UnlockActivity;
+import org.jerrioh.diary.model.Author;
+import org.jerrioh.diary.model.Property;
+import org.jerrioh.diary.util.AuthorUtil;
+import org.jerrioh.diary.util.LockUtil;
+import org.jerrioh.diary.util.PropertyUtil;
+
+public abstract class AbstractDiaryPopActivity extends Activity {
 
     protected void setWindowAttribute(float widthRatio, float heightRatio, int xOffset, int yOffset) {
         DisplayMetrics metrics = new DisplayMetrics();
@@ -28,5 +37,17 @@ public abstract class CustomPopActivity extends Activity {
 
     protected void setWindowAttribute(float widthRatio, float heightRatio) {
         setWindowAttribute(widthRatio, heightRatio, 0, -20);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LockUtil.setLastUseTime(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LockUtil.lockIfTimeTo(this);
     }
 }

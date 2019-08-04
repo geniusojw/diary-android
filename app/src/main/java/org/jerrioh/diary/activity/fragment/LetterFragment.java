@@ -59,7 +59,7 @@ public class LetterFragment extends AbstractFragment {
         diaryRecyclerView.setLayoutManager(layoutManager);
         diaryRecyclerView.setAdapter(mAdapter);
 
-        super.setFloatingActionButton(AbstractFragment.BUTTON_TYPE_DIARY);
+        super.setFloatingActionButton(AbstractFragment.BUTTON_TYPE_INVISIBLE);
 
         BitmapDrawable bitmap = ThemeUtil.getBitmapDrawablePattern(this, 0);
         letterView.setBackgroundDrawable(bitmap);

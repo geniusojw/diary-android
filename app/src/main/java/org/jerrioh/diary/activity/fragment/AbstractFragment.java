@@ -27,8 +27,8 @@ import java.util.UUID;
 
 public abstract class AbstractFragment extends Fragment {
 
-    public static final int BUTTON_TYPE_DIARY = 0;
-    public static final int BUTTON_TYPE_STORE = 1;
+    public static final int BUTTON_TYPE_INVISIBLE = 0;
+    public static final int BUTTON_TYPE_DIARY = 1;
     public static final int BUTTON_TYPE_SQUARE_PRIVATE = 2;
     public static final int BUTTON_TYPE_SQUARE_PUBLIC = 3;
 
@@ -39,7 +39,9 @@ public abstract class AbstractFragment extends Fragment {
         writeButton.setClickable(true);
 
 //        if (!timeToSleep()) {
-            if (buttonType == BUTTON_TYPE_DIARY) {
+            if (buttonType == BUTTON_TYPE_INVISIBLE) {
+                writeButton.setVisibility(View.GONE);
+            } else if (buttonType == BUTTON_TYPE_DIARY) {
                 writeButton.setOnClickListener(view -> {
                     DiaryDao diaryDao = new DiaryDao(getActivity());
                     String today_yyyyMMdd = DateUtil.getyyyyMMdd();
@@ -55,9 +57,6 @@ public abstract class AbstractFragment extends Fragment {
                     startActivity(intent);
                 });
                 ((FloatingActionButton) writeButton).setImageResource(R.drawable.ic_edit_black_48dp);
-
-            } else if (buttonType == BUTTON_TYPE_STORE) {
-                writeButton.setVisibility(View.GONE);
 
             } else if (buttonType == BUTTON_TYPE_SQUARE_PRIVATE) {
                 writeButton.setOnClickListener(view -> {

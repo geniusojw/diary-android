@@ -34,6 +34,7 @@ import org.jerrioh.diary.api.account.AccountDiaryApis;
 import org.jerrioh.diary.api.author.AuthorDiaryApis;
 import org.jerrioh.diary.api.author.AuthorLetterApis;
 import org.jerrioh.diary.model.Author;
+import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.model.Music;
 import org.jerrioh.diary.model.Post;
 import org.jerrioh.diary.model.Property;
@@ -54,7 +55,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-public abstract class AbstractDetailActivity extends AppCompatActivity {
+public abstract class AbstractDetailActivity extends AbstractDiaryActivity {
 
     private static final String TAG = "AbstractDetailActivity";
 
@@ -63,7 +64,7 @@ public abstract class AbstractDetailActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private boolean musicOn;
 
-    protected SoftKeyboard softKeyboard;
+//    protected SoftKeyboard softKeyboard;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,9 +75,9 @@ public abstract class AbstractDetailActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        if (softKeyboard != null) {
-            softKeyboard.unRegisterSoftKeyboardCallback(); // Prevent memory leaks
-        }
+//        if (softKeyboard != null) {
+//            softKeyboard.unRegisterSoftKeyboardCallback(); // Prevent memory leaks
+//        }
     }
 
     @Override
@@ -96,37 +97,37 @@ public abstract class AbstractDetailActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    protected void setUpSoftKeyboard(int mainLayoutId, List<FloatingActionButton> floatingButtons) {
-        RelativeLayout mainLayout = findViewById(mainLayoutId);
-
-        InputMethodManager controlManager = (InputMethodManager) getSystemService(Service.INPUT_METHOD_SERVICE);
-        softKeyboard = new SoftKeyboard(mainLayout, controlManager);
-        softKeyboard.setSoftKeyboardCallback(new SoftKeyboard.SoftKeyboardChanged() {
-            @Override
-            public void onSoftKeyboardHide() {
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (FloatingActionButton floatingButton : floatingButtons) {
-                            floatingButton.setAlpha(1.0f);
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void onSoftKeyboardShow() {
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (FloatingActionButton floatingButton : floatingButtons) {
-                            floatingButton.setAlpha(0.25f);
-                        }
-                    }
-                });
-            }
-        });
-    }
+//    protected void setUpSoftKeyboard(int mainLayoutId, List<FloatingActionButton> floatingButtons) {
+//        RelativeLayout mainLayout = findViewById(mainLayoutId);
+//
+//        InputMethodManager controlManager = (InputMethodManager) getSystemService(Service.INPUT_METHOD_SERVICE);
+//        softKeyboard = new SoftKeyboard(mainLayout, controlManager);
+//        softKeyboard.setSoftKeyboardCallback(new SoftKeyboard.SoftKeyboardChanged() {
+//            @Override
+//            public void onSoftKeyboardHide() {
+//                new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        for (FloatingActionButton floatingButton : floatingButtons) {
+//                            floatingButton.setAlpha(1.0f);
+//                        }
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onSoftKeyboardShow() {
+//                new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        for (FloatingActionButton floatingButton : floatingButtons) {
+//                            floatingButton.setAlpha(0.25f);
+//                        }
+//                    }
+//                });
+//            }
+//        });
+//    }
 
     protected void setUpTransparentFloatingButton(TextView contentText, List<FloatingActionButton> floatingButtons) {
         contentText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -235,19 +236,24 @@ public abstract class AbstractDetailActivity extends AppCompatActivity {
                                                 new AuthorDiaryApis(AbstractDetailActivity.this).deleteDiary(key, new ApiCallback() {
                                                     @Override protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {}
                                                 });
+
+                                                DiaryDao diaryDao = new DiaryDao(AbstractDetailActivity.this);
                                                 if (!TextUtils.isEmpty(author.getAccountEmail())) {
-                                                    new AccountDiaryApis(AbstractDetailActivity.this).deleteDiary(key, new ApiCallback() {
-                                                        @Override protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
-                                                            if (httpStatus == 200 || httpStatus == 404) {
-                                                                new DiaryDao(AbstractDetailActivity.this).deleteDiary(key);
-                                                                Toast.makeText(AbstractDetailActivity.this, getResources().getString(R.string.deleted), Toast.LENGTH_SHORT).show();
-                                                            } else {
-                                                                Toast.makeText(AbstractDetailActivity.this, getResources().getString(R.string.network_fail), Toast.LENGTH_SHORT).show();
+                                                    Diary diary = diaryDao.getDiary(key);
+                                                    if (diary.getAccountDiaryStatus() == Diary.DiaryStatus.SAVED) {
+                                                        new AccountDiaryApis(AbstractDetailActivity.this).deleteDiary(key, new ApiCallback() {
+                                                            @Override protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                                                                if (httpStatus == 200 || httpStatus == 404) {
+                                                                    diaryDao.deleteDiary(key);
+                                                                    Toast.makeText(AbstractDetailActivity.this, getResources().getString(R.string.deleted), Toast.LENGTH_SHORT).show();
+                                                                } else {
+                                                                    Toast.makeText(AbstractDetailActivity.this, getResources().getString(R.string.network_fail), Toast.LENGTH_SHORT).show();
+                                                                }
                                                             }
-                                                        }
-                                                    });
+                                                        });
+                                                    }
                                                 } else {
-                                                    new DiaryDao(AbstractDetailActivity.this).deleteDiary(key);
+                                                    diaryDao.deleteDiary(key);
                                                     Toast.makeText(AbstractDetailActivity.this, getResources().getString(R.string.deleted), Toast.LENGTH_SHORT).show();
                                                 }
                                             } else {

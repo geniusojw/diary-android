@@ -54,6 +54,17 @@ public class AccountApis extends ApiCaller {
         }
     }
 
+    public void findLockPassword(String lockPassword, ApiCallback callback) {
+        Map<String, String> headers = accountHeaders();
+        try {
+            JSONObject json = new JSONObject();
+            json.put("lock", lockPassword);
+            super.post("/account/find-lock-password", headers, json.toString(), callback);
+        } catch (JSONException e) {
+            Log.e(TAG, "JSONException, " + e.toString());
+        }
+    }
+
     public void changePassword(String oldPassword, String newPassword, ApiCallback callback) {
         Map<String, String> headers = accountHeaders();
         try {

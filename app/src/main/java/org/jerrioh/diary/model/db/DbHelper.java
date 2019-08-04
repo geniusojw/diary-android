@@ -128,6 +128,7 @@ public class DbHelper extends SQLiteOpenHelper {
                             "%s STRING, " +
                             "%s STRING, " +
                             "%s STRING, " +
+                            "%s STRING, " +
                             "%s STRING" + ")",
                     Theme.TableDesc.TABLE_NAME,
                     Theme.TableDesc._ID,
@@ -135,7 +136,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     Theme.TableDesc.COLUMN_NAME_PATTERN0,
                     Theme.TableDesc.COLUMN_NAME_PATTERN1,
                     Theme.TableDesc.COLUMN_NAME_PATTERN2,
-                    Theme.TableDesc.COLUMN_NAME_PATTERN3);
+                    Theme.TableDesc.COLUMN_NAME_PATTERN3,
+                    Theme.TableDesc.COLUMN_NAME_BANNER_COLOR);
 
     public static final String SQL_CREATE_MUSIC_TABLE =
             String.format("CREATE TABLE IF NOT EXISTS " +

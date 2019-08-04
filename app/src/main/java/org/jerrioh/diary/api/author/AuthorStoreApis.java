@@ -62,6 +62,18 @@ public class AuthorStoreApis extends ApiCaller {
         super.post("/author/store/change-nickname", headers, json.toString(), callback);
     }
 
+    public void changeNicknameType(int nicknameType, ApiCallback callback) {
+        Map<String, String> headers = authorHeaders();
+        try {
+            JSONObject json = new JSONObject();
+            json.put("price", nicknameType);
+            super.post("/author/store/change-nickname-type", headers, json.toString(), callback);
+
+        } catch (JSONException e) {
+            Log.e(TAG, "JSONException, " + e.toString());
+        }
+    }
+
     public void purchaseTheme(ApiCallback callback) {
         Map<String, String> headers = authorHeaders();
         JSONObject json = new JSONObject();

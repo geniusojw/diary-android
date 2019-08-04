@@ -17,6 +17,7 @@
     <string name="sent">발송되었습니다.</string>
     <string name="writer">작성자</string>
     <string name="delete_soon">곧 삭제됩니다.</string>
+    <string name="time">시간</string>
 
     <!-- bottom navigation -->
     <string name="app_name">오늘일기</string>
@@ -162,9 +163,11 @@
     <string name="store_pop_group_support_result_description">추가 초대장이 발송되었습니다.</string>group_started_no_group_name
     <string name="store_pop_group_support_result_description_detail">이제 더 많은 사람이 모임에 참여할 수 있습니다.</string>
     <string name="store_pop_donation_title">시간 기부</string>
-    <string name="store_pop_donation_description">혹시 시간이 남아도시나요?</string>
+    <string name="store_pop_donation_description">혹시 시간이 넘치시나요?</string>
     <string name="store_pop_donation_result_title">당신은 좋은 사람입니다.</string>
-    <string name="store_pop_donation_result_description">%d 시간을 기부하였습니다.</string>
+    <string name="store_pop_donation_result_description">%d 시간이 기부되었습니다.</string>
+    <string name="store_pop_donation_result_description_0">당신의 착한 마음이 기부되었습니다.</string>
+    <string name="store_pop_donation_result_description_detail">당신의 총 기부금액 : %d 시간</string>
 
     <!-- group -->
     <string name="group_started_no_group_name">모임 이름을 결정하기 위한 회의가 진행 중입니다.</string>
@@ -199,6 +202,7 @@
     <string name="diary_month_adjust_after3">이 일기장에 미래는 적혀있지 않습니다.</string>
     <string name="diary_start_topic">오늘 일기의 주제는?</string>
     <string name="diary_start_topic_group">오늘의 일기는 %d명과 함께 공유합니다.</string>
+    <string name="diary_share_description">이 일기는 사람들과 공유합니다.</string>
 
     <!-- letter -->
     <string name="letter_written_time">작성시간</string>
@@ -208,7 +212,7 @@
     <string name="letter_delete">편지 삭제</string>
     <string name="letter_delete_current_letter">작성하던 편지를 삭제하시겠습니까?</string>
     <string name="letter_group_letter_respond">일기모임 초대 응답하기</string>
-    <string name="letter_group_letter_respond_description">일기모임에 참여 하시겠습니까?\n* 일기모임 참여시 몇일동안 익명의 사람들과 일기내용을 공유합니다.</string>
+    <string name="letter_group_letter_respond_description">일기모임에 참여 하시겠습니까?\n일기모임 참여시 몇일동안 익명의 사람들과 일기내용을 공유합니다.</string>
     <string name="letter_group_invited">일기모임 초대장을 받으셨습니다. 편지를 확인하세요.</string>
     <string name="letter_send_to_who">%s에게 편지를 작성합니다.</string>
     <string name="letter_letter_is_empty">편지내용을 작성하세요.</string>
@@ -223,6 +227,9 @@
     <string name="post_for_you">당신만 볼 수 있는 포스트입니다.</string>
     <string name="post_for_all">모두가 볼 수 있는 포스트입니다.</string>
     <string name="post_worth">이 포스트는 %d 시간의 가치를 가집니다.</string>
+    <string name="post_last_modified">마지막 수정일</string>
+    <string name="post_no_content">내용을 작성하세요.</string>
+    <string name="post_write_success">포스트가 작성되었습니다.</string>
 
     <!-- store -->
     <string name="store_item_weather">날씨</string>
@@ -241,6 +248,15 @@
     <string name="store_item_invitation_description">익명의 일기모임 주최합니다.</string>
     <string name="store_item_donation">시간기부</string>
     <string name="store_item_donation_description">시간을 기부합니다.</string>
+
+    <!-- lock -->
+    <string name="lock_input_password">화면잠금 비밀번호 입력</string>
+    <string name="lock_find_password">화면잠금 비밀번호 찾기</string>
+    <string name="lock_find_password_description">화면잠금 비밀번호를 전송합니다.\n이메일: %s</string>
+    <string name="lock_find_password_check">이메일에서 잠금 비밀번호를 확인하세요.</string>
+    <string name="lock_input_new_password">새 비밀번호 입력</string>
+    <string name="lock_input_new_password_confirm">새 비밀번호 확인</string>
+    <string name="lock_input_new_password_confirm_fail">비밀번호가 일치하지 않습니다. 다시 설정하세요.</string>
 
     <!-- version -->
     <string name="version_current">현재 버전: %s</string>
@@ -274,25 +290,25 @@
     <string name="alarm_tip3">좋습니다.</string>
     <string name="alarm_tip4">아까 있었던 일?</string>
     <string name="alarm_tip5">오늘의 일기 쓸 시간</string>
-    <string name="alarm_tip6">돌아오지 않을 오늘의 시간을 글로 남기세요.</string>
-    <string name="alarm_tip7">사실 꾸준히 일기를 쓰는 일이 쉬운 것은 아닙니다.</string>
-    <string name="alarm_tip8">일기를 써볼까요?</string>
+    <string name="alarm_tip6">오늘의 시간을 글로 남기세요.</string>
+    <string name="alarm_tip7">꾸준히 일기를 쓰는 것이 쉬운 일은 아닙니다.</string>
+    <string name="alarm_tip8">일기 써볼까요?</string>
     <string name="alarm_tip9">일기쓰기는 인생을 변화시킬 수 있는 습관입니다.</string>
     <string name="alarm_tip10">일기는 글쓰기 능력에 도움이 됩니다.</string>
     <string name="alarm_tip11">일기는 표현력 향상에 도움이 됩니다.</string>
     <string name="alarm_tip12">일기는 부지런한 척하는 것에 도움이 됩니다.</string>
-    <string name="alarm_tip13">일기 예시: 나는 오늘 밥을 먹었다...</string>
-    <string name="alarm_tip14">일기 예시: 나는 오늘 TV를 보았다...</string>
-    <string name="alarm_tip15">일기 쓰는 방법: 오늘 겪은 일을 기록한다.</string>
-    <string name="alarm_tip16">일기 쓰는 방법: 생각나는대로 적는다.</string>
-    <string name="alarm_tip17">일기 쓰는 방법: 오늘의 생각과 느낌을 그대로 적는다.</string>
-    <string name="alarm_tip18">일기를 쓰고 부지런한 척을 해보세요.</string>
+    <string name="alarm_tip13">일기 예시: 점심밥이 너무 맛있었다.</string>
+    <string name="alarm_tip14">일기 예시: 집에 오는 길은 때론 너무 길어</string>
+    <string name="alarm_tip15">일기 쓰는 방법: 겪은 일을 기록한다.</string>
+    <string name="alarm_tip16">일기 쓰는 방법: 생각나는 내용을 적는다.</string>
+    <string name="alarm_tip17">일기 쓰는 방법: 오늘의 생각과 느낌을 적는다.</string>
+    <string name="alarm_tip18">일기를 쓰고 부지런한 사람이 되세요!</string>
     <string name="alarm_tip19">자, 부지런한 사람이 될 시간입니다.</string>
-    <string name="alarm_tip20">일기내용을 포장할 필요는 없습니다.</string>
-    <string name="alarm_tip21">자연스럽고 솔직하게 일기를 작성하세요.</string>
-    <string name="alarm_tip22">오늘의 일기는 오늘에만 작성할 수 있습니다.</string>
+    <string name="alarm_tip20">내용을 포장할 필요는 없습니다.</string>
+    <string name="alarm_tip21">자연스럽고 솔직하게 작성하세요.</string>
+    <string name="alarm_tip22">오늘의 일기는 오늘만 작성할 수 있습니다.</string>
     <string name="alarm_tip23">오늘은 오늘의 일기는 써봅시다.</string>
-    <string name="alarm_tip24">오늘 어땠습니까?</string>
+    <string name="alarm_tip24">오늘 어땠나요?</string>
     <string name="alarm_tip25">당신의 생각</string>
 
     <!-- wise saying -->
