@@ -70,7 +70,7 @@ public class DiaryGroupFeedbackActivity extends AbstractDiaryPopActivity {
                     });
 
                 } else if (httpStatus == 409) {
-                    Toast.makeText(DiaryGroupFeedbackActivity.this, "이미 피드백했습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DiaryGroupFeedbackActivity.this, getResources().getString(R.string.group_feed_back_already), Toast.LENGTH_SHORT).show();
                     finish();
 
                 } else {
@@ -87,10 +87,13 @@ public class DiaryGroupFeedbackActivity extends AbstractDiaryPopActivity {
             @Override
             protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                 if (httpStatus == 200) {
-                    Toast.makeText(DiaryGroupFeedbackActivity.this, "성공했습니다. 굳. 시간도 받았습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DiaryGroupFeedbackActivity.this, getResources().getString(R.string.group_feed_back), Toast.LENGTH_SHORT).show();
                     finish();
                 } else if (httpStatus == 409) {
-                    Toast.makeText(DiaryGroupFeedbackActivity.this, "이미 피드백 하였습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DiaryGroupFeedbackActivity.this, getResources().getString(R.string.group_feed_back_already), Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(DiaryGroupFeedbackActivity.this, getResources().getString(R.string.network_fail), Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }

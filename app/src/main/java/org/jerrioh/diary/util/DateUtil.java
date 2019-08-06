@@ -147,6 +147,15 @@ public class DateUtil {
         }
     }
 
+    public static String getTodayMark() {
+        String iso3Language = Locale.getDefault().getISO3Language();
+        if (LANGUAGE_KOREAN.equals(iso3Language)) {
+            return ", 오늘";
+        } else {
+            return "(Today)";
+        }
+    }
+
     public static String getDateStringSkipYear(long timeMillis) {
         String iso3Language = Locale.getDefault().getISO3Language();
         if (LANGUAGE_KOREAN.equals(iso3Language)) {

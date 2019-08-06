@@ -131,7 +131,7 @@ public class DiaryGroupPopActivity extends AbstractDiaryPopActivity {
             TextView periodView = findViewById(R.id.text_view_diary_group_header_group_period);
             periodView.setText(period);
 
-            TextView groupCountView = findViewById(R.id.text_view_diary_group_header_group_poeple_count);
+            TextView groupCountView = findViewById(R.id.text_view_diary_group_header_group_people_count);
             groupCountView.setText("(" + getResources().getString(R.string.group_people_count, currentAuthorCount) + ")");
 
             TextView moreInfoView = findViewById(R.id.text_view_diary_group_header_group_keyword);
@@ -187,6 +187,7 @@ public class DiaryGroupPopActivity extends AbstractDiaryPopActivity {
         TextView currentAuthorIndexView = findViewById(R.id.text_view_diary_group_body_author_index);
         TextView currentAuthorView = findViewById(R.id.text_view_diary_group_body_author);
         currentAuthorIndexView.setText(CommonUtil.ordinalPeople(currentAuthorIndex + 1));
+
         currentAuthorView.setText(nickname);
 
         ImageView yesterdayImageView = findViewById(R.id.image_view_diary_group_body_yesterday);
@@ -233,15 +234,22 @@ public class DiaryGroupPopActivity extends AbstractDiaryPopActivity {
             JSONObject previousAuthorJson = diaryGroupAuthorDiaries.getJSONObject(previousAuthorIndex);
             TextView previousAuthorView = findViewById(R.id.text_view_diary_group_previous_author);
             String previousNickname = previousAuthorJson.getString("nickname");
+            if (previousNickname.length() > 20) {
+                previousNickname = previousNickname.substring(0, 20) + "..";
+            }
             String previousNicknameVertical = "";
             for (char ch : previousNickname.toCharArray()) {
                 if (ch != ' ') previousNicknameVertical += ("\n" + ch);
             }
+
             previousAuthorView.setText(previousNicknameVertical);
 
             JSONObject nextAuthorJson = diaryGroupAuthorDiaries.getJSONObject(nextAuthorIndex);
             TextView nextAuthorView = findViewById(R.id.text_view_diary_group_next_author);
             String nextNickname = nextAuthorJson.getString("nickname");
+            if (nextNickname.length() > 20) {
+                nextNickname = nextNickname.substring(0, 20) + "..";
+            }
             String nextNicknameVertical = "";
             for (char ch : nextNickname.toCharArray()) {
                 if (ch != ' ') nextNicknameVertical += ("\n" + ch);

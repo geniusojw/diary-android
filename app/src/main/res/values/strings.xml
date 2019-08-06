@@ -18,6 +18,10 @@
     <string name="writer">작성자</string>
     <string name="delete_soon">곧 삭제됩니다.</string>
     <string name="time">시간</string>
+    <string name="back">뒤로가기</string>
+    <string name="waiting">기다리는 중입니다.</string>
+    <string name="feedback">피드백</string>
+    <string name="yesterday">어제</string>
 
     <!-- bottom navigation -->
     <string name="app_name">오늘일기</string>
@@ -185,6 +189,19 @@
     <string name="group_people_count">%d인</string>
     <string name="group_diary_not_written">작성되지 않았습니다.</string>
     <string name="group_feed_back_author_description">%s님에 대한 솔직한 느낌을 선택하십시오.\n일기모임 기간 중 한번만 가능합니다.</string>
+    <string name="group_good_diary_button">좋은 일기입니다.</string>
+    <string name="group_good_diary">%s님의 일기를 칭찬하였습니다!</string>
+    <string name="group_good_diary_already">이미 칭찬하였습니다!</string>
+    <string name="group_cheer_up_button">응원합니다.</string>
+    <string name="group_cheer_up">%s님을 응원하였습니다.</string>
+    <string name="group_cheer_up_already">이미 응원하였습니다.</string>
+    <string name="group_write_directly">직접 쓰기</string>
+    <string name="group_feed_back">피드백하였습니다! 보상으로 시간을 받았습니다.</string>
+    <string name="group_feed_back_already">이미 피드백했습니다.</string>
+    <string name="group_keyword">일기모임 주제</string>
+    <string name="group_free_write">자유롭게 작성하세요.</string>
+    <string name="group_honest_write">솔직하게 작성하세요.</string>
+    <string name="group_who_are_you">%s님은 어떤 사람일까요?</string>
 
     <!-- diary -->
     <string name="diary_delete">일기 삭제</string>
@@ -203,6 +220,8 @@
     <string name="diary_start_topic">오늘 일기의 주제는?</string>
     <string name="diary_start_topic_group">오늘의 일기는 %d명과 함께 공유합니다.</string>
     <string name="diary_share_description">이 일기는 사람들과 공유합니다.</string>
+    <string name="diary_no_title">무제</string>
+    <string name="diary_no_content">내용이 없습니다.</string>
 
     <!-- letter -->
     <string name="letter_written_time">작성시간</string>

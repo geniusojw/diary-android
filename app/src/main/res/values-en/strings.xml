@@ -18,6 +18,10 @@
     <string name="writer">Writer</string>
     <string name="delete_soon">It will be removed soon.</string>
     <string name="time">Time</string>
+    <string name="back">Back</string>
+    <string name="waiting">Waiting</string>
+    <string name="feedback">Feedback</string>
+    <string name="yesterday">Yesterday</string>
 
     <!-- bottom navigation -->
     <string name="app_name">Today Diary</string>
@@ -185,6 +189,19 @@
     <string name="group_people_count">%d people</string>
     <string name="group_diary_not_written">Not written.</string>
     <string name="group_feed_back_author_description">Choose an honest feeling for %s.\nYou can only do this once during diary group period.</string>
+    <string name="group_good_diary_button">Good diary</string>
+    <string name="group_good_diary">Checked %s\'s good diary</string>
+    <string name="group_good_diary_already">Already checked!</string>
+    <string name="group_cheer_up_button">Cheer up</string>
+    <string name="group_cheer_up">Cheer up %s</string>
+    <string name="group_cheer_up_already">Already cheer up</string>
+    <string name="group_write_directly">Write directly</string>
+    <string name="group_feed_back">Feedback success! Received time as a reward.</string>
+    <string name="group_feed_back_already">Already feedback</string>
+    <string name="group_keyword">Diary group keyword</string>
+    <string name="group_free_write">Write freely</string>
+    <string name="group_honest_write">Write honestly</string>
+    <string name="group_who_are_you">What kind of person is %s?</string>
 
     <!-- diary -->
     <string name="diary_delete">Delete Diary</string>
@@ -203,6 +220,8 @@
     <string name="diary_start_topic">What is your diary topic today?</string>
     <string name="diary_start_topic_group">Today\'s diary is shared with %d people.</string>
     <string name="diary_share_description">This diary is shared with people.</string>
+    <string name="diary_no_title">NO TITLE</string>
+    <string name="diary_no_content">NO CONTENT</string>
 
     <!-- letter -->
     <string name="letter_written_time">Creation time</string>

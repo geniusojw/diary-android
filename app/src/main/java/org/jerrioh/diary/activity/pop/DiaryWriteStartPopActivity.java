@@ -28,7 +28,7 @@ public class DiaryWriteStartPopActivity extends AbstractDiaryPopActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_diary_start);
 
-        super.setWindowAttribute(0.95f, 0.4f, 0, -100);
+        super.setWindowAttribute(0.95f, 0.4f, 0, -120);
 
         todayView = findViewById(R.id.text_view_diary_start_today);
         topicView = findViewById(R.id.text_view_diary_start_topic);

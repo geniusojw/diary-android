@@ -42,9 +42,9 @@ public class SentencePopActivity extends AbstractDiaryPopActivity {
             DiaryGroupDao diaryGroupDao = new DiaryGroupDao(this);
             DiaryGroup diaryGroup = diaryGroupDao.getDiaryGroup();
 
-            titleView.setText("일기모임 주제");
+            titleView.setText(getResources().getString(R.string.group_keyword));
             editView.setText(diaryGroup.getKeyword());
-            editView.setHint("자유롭게 작성하세요.");
+            editView.setHint(getResources().getString(R.string.group_free_write));
             okButton.setOnClickListener(v -> {
                 DiaryGroupApis diaryGroupApis = new DiaryGroupApis(SentencePopActivity.this);
                 diaryGroupApis.updateDiaryGroup(editView.getText().toString(), new ApiCallback() {
@@ -65,18 +65,18 @@ public class SentencePopActivity extends AbstractDiaryPopActivity {
             String authorId = intent.getStringExtra("authorId");
             String nickname = intent.getStringExtra("nickname");
 
-            titleView.setText(nickname + "님은 어떤 사람입니까?");
-            editView.setHint("솔직하게 작성하세요.");
+            titleView.setText(getResources().getString(R.string.group_who_are_you,  nickname));
+            editView.setHint(getResources().getString(R.string.group_honest_write));
             okButton.setOnClickListener(v -> {
                 FeedbackApis feedbackApis = new FeedbackApis(this);
                 feedbackApis.feedbackAuthor(authorId, 0, editView.getText().toString(), new ApiCallback() {
                     @Override
                     protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                         if (httpStatus == 200) {
-                            Toast.makeText(SentencePopActivity.this, "성공했습니다. 굳. 시간도 받았습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SentencePopActivity.this, getResources().getString(R.string.group_feed_back), Toast.LENGTH_SHORT).show();
                             finish();
                         } else if (httpStatus == 409) {
-                            Toast.makeText(SentencePopActivity.this, "이미 피드백 하였습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SentencePopActivity.this, getResources().getString(R.string.group_feed_back_already), Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     }

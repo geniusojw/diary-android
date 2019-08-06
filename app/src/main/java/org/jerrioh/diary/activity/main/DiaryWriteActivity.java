@@ -123,7 +123,7 @@ public class DiaryWriteActivity extends AbstractDetailActivity {
             originalTitle = todayDiary.getTitle();
             originalContent = todayDiary.getContent();
         }
-        String diaryDateString = DateUtil.getDateStringSkipTime() + " (" + getResources().getString(R.string.today) + ")";
+        String diaryDateString = DateUtil.getDateStringSkipTime() + DateUtil.getTodayMark();
 
         diaryDate.setText(diaryDateString);
         titleText.setText(todayDiary.getTitle());

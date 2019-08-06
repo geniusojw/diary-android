@@ -57,17 +57,29 @@ public class DiaryGroupReadActivity extends AbstractDiaryPopActivity {
 
         if (!authorId.equals(AuthorUtil.getAuthor(this).getAuthorId())) {
             ImageView goodButtonImage = findViewById(R.id.image_view_group_diary_detail_good_button);
+            TextView goodButtonText = findViewById(R.id.text_view_group_diary_detail_good_button);
+
             int feedbackDiaryType;
             int imageResourceId;
+            String goodText;
+            String successMessage;
+            String alreadyDoneMessage;
             if (today) {
                 feedbackDiaryType = LIKE;
                 imageResourceId = R.drawable.ic_favorite_black_24dp;
+                goodText = getResources().getString(R.string.group_cheer_up_button);
+                successMessage = getResources().getString(R.string.group_cheer_up, nickname);
+                alreadyDoneMessage = getResources().getString(R.string.group_cheer_up_already);
             } else {
                 feedbackDiaryType = GOOD;
-                imageResourceId = R.drawable.ic_favorite_black_24dp;
+                imageResourceId = R.drawable.ic_thumb_up_black_24dp;
+                goodText = getResources().getString(R.string.group_good_diary_button);
+                successMessage = getResources().getString(R.string.group_good_diary, nickname);
+                alreadyDoneMessage = getResources().getString(R.string.group_good_diary_already);
             }
 
             goodButtonImage.setImageResource(imageResourceId);
+            goodButtonText.setText(goodText);
             goodButton.setVisibility(View.VISIBLE);
             goodButton.setOnClickListener(v -> {
                 goodButton.setClickable(false);
@@ -76,11 +88,11 @@ public class DiaryGroupReadActivity extends AbstractDiaryPopActivity {
                     @Override
                     protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                         if (httpStatus == 200) {
-                            Toast.makeText(DiaryGroupReadActivity.this, "성공", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DiaryGroupReadActivity.this, successMessage, Toast.LENGTH_SHORT).show();
                         } else if (httpStatus == 409) {
-                            Toast.makeText(DiaryGroupReadActivity.this, "좋아요", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DiaryGroupReadActivity.this, alreadyDoneMessage, Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(DiaryGroupReadActivity.this, "실패", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DiaryGroupReadActivity.this, getResources().getString(R.string.network_fail), Toast.LENGTH_SHORT).show();
                             goodButton.setClickable(true);
                         }
                     }

@@ -31,7 +31,7 @@
                 android:id="@+id/text_view_diary_group_feedback_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="홍길동님에 대한 솔직한 느낌을 선택하십시오."
+                android:text="Choose an honest feeling"
                 android:layout_gravity="center"
                 android:paddingLeft="20dp"
                 />
@@ -53,7 +53,7 @@
                 android:id="@+id/text_view_diary_group_feedback_type0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="지혜로운 사람"
+                android:text="description1"
                 android:textSize="18dp"
                 android:layout_gravity="center"
                 />
@@ -75,7 +75,7 @@
                 android:id="@+id/text_view_diary_group_feedback_type1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="강인한 사람"
+                android:text="description2"
                 android:textSize="18dp"
                 android:layout_gravity="center"
                 />
@@ -97,7 +97,7 @@
                 android:id="@+id/text_view_diary_group_feedback_type2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="솔직한 사람"
+                android:text="description3"
                 android:textSize="18dp"
                 android:layout_gravity="center"
                 />
@@ -119,7 +119,7 @@
                 android:id="@+id/text_view_diary_group_feedback_type_write"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="직접 작성"
+                android:text="@string/group_write_directly"
                 android:textSize="18dp"
                 android:layout_gravity="center"
                 />

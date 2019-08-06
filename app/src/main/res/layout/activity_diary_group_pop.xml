@@ -21,7 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="20dp"
         android:orientation="vertical"
         >
 
@@ -29,7 +28,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="20dp"
             >
             <TextView
                 android:id="@+id/text_view_diary_group_header_group_name"
@@ -46,7 +44,7 @@
                 android:text=""
                 />
             <TextView
-                android:id="@+id/text_view_diary_group_header_group_poeple_count"
+                android:id="@+id/text_view_diary_group_header_group_people_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -78,30 +76,32 @@
         <LinearLayout
             android:id="@+id/linear_layout_diary_group_body_author"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:orientation="vertical"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginHorizontal="30dp"
             >
 
             <TextView
                 android:id="@+id/text_view_diary_group_body_author_index"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:text=""
+                android:textSize="13sp"
                 />
 
             <TextView
                 android:id="@+id/text_view_diary_group_body_author"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center"
                 android:layout_gravity="center"
-                android:textSize="25sp"
-                android:text="기다리는 중입니다."
+                android:textSize="23sp"
+                android:text="@string/waiting"
                 />
         </LinearLayout>
-
 
 
         <LinearLayout
@@ -134,7 +134,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="어제"
+                    android:text="@string/yesterday"
                     />
             </LinearLayout>
 
@@ -157,7 +157,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="피드백"
+                    android:text="@string/feedback"
                     />
             </LinearLayout>
 
@@ -192,7 +192,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="실시간"
+                    android:text="@string/today"
                     />
             </LinearLayout>
 
@@ -215,7 +215,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="편지"
+                    android:text="@string/letter"
                     />
             </LinearLayout>
 
@@ -292,7 +292,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="돌아가기"
+            android:text="@string/back"
             />
     </LinearLayout>
 
