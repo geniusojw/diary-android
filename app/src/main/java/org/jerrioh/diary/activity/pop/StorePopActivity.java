@@ -245,11 +245,11 @@ public class StorePopActivity extends AbstractDiaryPopActivity {
                                 if (!themeDao.getAllThemeNames().contains(themeName)) {
                                     Theme theme = new Theme();
                                     theme.setThemeName(themeName);
-                                    theme.setPattern0(data.getString("pattern0"));
-                                    theme.setPattern1(data.getString("pattern1"));
-                                    theme.setPattern2(data.getString("pattern2"));
-                                    theme.setPattern3(data.getString("pattern3"));
-                                    theme.setBannerColor(data.getString("bannerColor"));
+                                    theme.setPattern0(null);
+                                    theme.setPattern1(null);
+                                    theme.setPattern2(null);
+                                    theme.setPattern3(null);
+                                    theme.setBannerColor(null);
                                     themeDao.insertTheme(theme);
                                     buySuccessBasic(getResources().getString(R.string.store_pop_theme_result_title),
                                             getResources().getString(R.string.store_pop_theme_result_description, themeName),
@@ -288,7 +288,7 @@ public class StorePopActivity extends AbstractDiaryPopActivity {
                                 if (!musicDao.getAllMusicNames().contains(musicName)) {
                                     Music music = new Music();
                                     music.setMusicName(musicName);
-                                    music.setMusicData(data.getString("musicData"));
+                                    music.setMusicData(null);
                                     musicDao.insertMusic(music);
                                     buySuccessBasic(getResources().getString(R.string.store_pop_music_result_title),
                                             getResources().getString(R.string.store_pop_music_result_description, musicName),
@@ -381,7 +381,7 @@ public class StorePopActivity extends AbstractDiaryPopActivity {
                         protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                             if (httpStatus == 200) {
                                 JSONObject data = jsonObject.getJSONObject("data");
-                                int totalDonations = data.getInt("totalDonations");
+                                int totalDonations = data.getInt("totalDonations") + donationPrice;
 
                                 String resultMessage;
                                 if (donationPrice == 0) {

@@ -60,6 +60,16 @@ public class MusicDao extends AbstractDao {
         return writableDb().insert(TABLE_NAME, null, contentValues);
     }
 
+    public long updateMusic(String musicName, String musicData) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Music.TableDesc.COLUMN_NAME_MUSIC_DATA, musicData);
+
+        String selection = Music.TableDesc.COLUMN_NAME_MUSIC_NAME + "=?";
+        String[] args = { musicName };
+
+        return writableDb().update(TABLE_NAME, contentValues, selection, args);
+    }
+
     public long deleteMusic(String musicName) {
         String selection = Music.TableDesc.COLUMN_NAME_MUSIC_NAME + "=?";
         String[] args = { musicName };

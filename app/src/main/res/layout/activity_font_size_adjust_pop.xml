@@ -7,7 +7,7 @@
         android:id="@+id/text_view_font_size_sample_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="&quot;You are so cute.&quot;"
+        android:text= "@string/front_size_sample_text"
         android:layout_above="@id/linear_layout_font_size_size"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"

@@ -80,10 +80,22 @@ public class AuthorStoreApis extends ApiCaller {
         super.post("/author/store/purchase-theme", headers, json.toString(), callback);
     }
 
+    public void downloadTheme(String themeName, ApiCallback callback) {
+        Map<String, String> headers = authorHeaders();
+        JSONObject json = new JSONObject();
+        super.post("/author/store/download-theme/" + themeName, headers, json.toString(), callback);
+    }
+
     public void purchaseMusic(ApiCallback callback) {
         Map<String, String> headers = authorHeaders();
         JSONObject json = new JSONObject();
         super.post("/author/store/purchase-music", headers, json.toString(), callback);
+    }
+
+    public void downloadMusic(String musicName, ApiCallback callback) {
+        Map<String, String> headers = authorHeaders();
+        JSONObject json = new JSONObject();
+        super.post("/author/store/download-music/" + musicName, headers, json.toString(), callback);
     }
 
     public void aliasFeatureUnlimitedUse(ApiCallback callback) {

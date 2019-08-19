@@ -42,10 +42,13 @@
     <!-- setting -->
     <string name="diary_theme">Diary Theme</string>
     <string name="diary_theme_description">You can change the diary theme.</string>
+    <string name="diary_theme_download">Preparing a new diary theme.</string>
     <string name="diary_music">Diary Music</string>
     <string name="diary_music_description">You can change the diary music.</string>
+    <string name="diary_music_download">Preparing a new diary music.</string>
     <string name="font_size">Font Size</string>
     <string name="font_size_description">You can adjust the size of your diary\'s text.</string>
+    <string name="front_size_sample_text">&quot;I feel good today.&quot;</string>
     <string name="alias_feature">Alias Feature</string>
     <string name="alias_feature_description">Set the alias to use for a letter or group diary.</string>
     <string name="screen_lock">Screen Lock</string>
@@ -222,6 +225,9 @@
     <string name="diary_share_description">This diary is shared with people.</string>
     <string name="diary_no_title">NO TITLE</string>
     <string name="diary_no_content">NO CONTENT</string>
+    <string name="diary_write_first_diary">Write your first diary!</string>
+    <string name="diary_diaries_of_year">Diaries written in %s</string>
+    <string name="diary_written_total">The total number of diaries you have written is %d.</string>
 
     <!-- letter -->
     <string name="letter_written_time">Creation time</string>

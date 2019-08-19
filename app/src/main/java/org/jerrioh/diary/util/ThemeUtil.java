@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
 
@@ -46,21 +47,24 @@ public class ThemeUtil {
             ThemeDao themeDao = new ThemeDao(context);
             Theme theme = themeDao.getTheme(themeName);
 
-            byte[] data = null;
-            if (patternIndex == 0) {
-                data = Base64.decode(theme.getPattern0(), Base64.DEFAULT);
-            } else if (patternIndex == 1) {
-                data = Base64.decode(theme.getPattern1(), Base64.DEFAULT);
-            } else if (patternIndex == 2) {
-                data = Base64.decode(theme.getPattern2(), Base64.DEFAULT);
-            } else if (patternIndex == 3) {
-                data = Base64.decode(theme.getPattern3(), Base64.DEFAULT); // logically dead code
-            }
+            // 실제 데이터가 다운로드 되어 있는 경우
+            if (!TextUtils.isEmpty(theme.getPattern0())) {
+                byte[] data = null;
+                if (patternIndex == 0) {
+                    data = Base64.decode(theme.getPattern0(), Base64.DEFAULT);
+                } else if (patternIndex == 1) {
+                    data = Base64.decode(theme.getPattern1(), Base64.DEFAULT);
+                } else if (patternIndex == 2) {
+                    data = Base64.decode(theme.getPattern2(), Base64.DEFAULT);
+                } else if (patternIndex == 3) {
+                    data = Base64.decode(theme.getPattern3(), Base64.DEFAULT); // logically dead code
+                }
 
-            if (data != null) {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                Bitmap otherThemeBitmap = BitmapFactory.decodeByteArray(data, 0, data.length, options);
-                defaultBitmap = Bitmap.createScaledBitmap(otherThemeBitmap, defaultBitmap.getWidth(), defaultBitmap.getHeight(), false);
+                if (data != null) {
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    Bitmap otherThemeBitmap = BitmapFactory.decodeByteArray(data, 0, data.length, options);
+                    defaultBitmap = Bitmap.createScaledBitmap(otherThemeBitmap, defaultBitmap.getWidth(), defaultBitmap.getHeight(), false);
+                }
             }
         }
 
@@ -72,13 +76,16 @@ public class ThemeUtil {
     public static int getBannerColor(Context context) {
         String themeName = PropertyUtil.getProperty(Property.Key.DIARY_THEME, context);
 
-        if (Property.Key.DIARY_THEME.DEFAULT_VALUE.equals(themeName)) {
-            return context.getResources().getColor(R.color.carribeanSky);
-        } else {
+        if (!Property.Key.DIARY_THEME.DEFAULT_VALUE.equals(themeName)) {
             ThemeDao themeDao = new ThemeDao(context);
             Theme theme = themeDao.getTheme(themeName);
-            String bannerColor = theme.getBannerColor();
-            return Color.parseColor(bannerColor);
+
+            // 실제 데이터가 다운로드 되어 있는 경우
+            if (!TextUtils.isEmpty(theme.getPattern0())) {
+                String bannerColor = theme.getBannerColor();
+                return Color.parseColor(bannerColor);
+            }
         }
+        return context.getResources().getColor(R.color.carribeanSky);
     }
 }

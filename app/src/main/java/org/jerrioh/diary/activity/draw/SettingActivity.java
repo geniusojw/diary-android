@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.telecom.Call;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,13 +20,19 @@ import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.adapter.CustomSpinnerAdapter;
 import org.jerrioh.diary.activity.lock.LockSettingActivity;
 import org.jerrioh.diary.activity.pop.FontSizePopActivity;
+import org.jerrioh.diary.api.ApiCallback;
+import org.jerrioh.diary.api.author.AuthorStoreApis;
 import org.jerrioh.diary.model.Author;
+import org.jerrioh.diary.model.Music;
+import org.jerrioh.diary.model.Theme;
 import org.jerrioh.diary.model.db.MusicDao;
 import org.jerrioh.diary.model.db.ThemeDao;
 import org.jerrioh.diary.model.Property;
 import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.util.PropertyUtil;
 import org.jerrioh.diary.util.ReceiverUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,8 +87,36 @@ public class SettingActivity extends AbstractDiaryToolbarActivity {
         themeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                PropertyUtil.setProperty(Property.Key.DIARY_THEME, themeList.get(position), SettingActivity.this);
+                String themeName = themeList.get(position);
+                PropertyUtil.setProperty(Property.Key.DIARY_THEME, themeName, SettingActivity.this);
                 adapter.setSelection(position);
+
+                if (!Property.Key.DIARY_THEME.DEFAULT_VALUE.equals(themeName)) {
+                    Theme theme = themeDao.getTheme(themeName);
+                    if (TextUtils.isEmpty(theme.getPattern0())) {
+                        Toast.makeText(SettingActivity.this, getResources().getString(R.string.diary_theme_download), Toast.LENGTH_SHORT).show();
+
+                        AuthorStoreApis authorStoreApis = new AuthorStoreApis(SettingActivity.this);
+                        authorStoreApis.downloadTheme(themeName, new ApiCallback() {
+                            @Override
+                            protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                                if (httpStatus == 200) {
+                                    JSONObject data = jsonObject.getJSONObject("data");
+
+                                    theme.setPattern0(data.getString("pattern0"));
+                                    theme.setPattern1(data.getString("pattern1"));
+                                    theme.setPattern2(data.getString("pattern2"));
+                                    theme.setPattern3(data.getString("pattern3"));
+                                    theme.setBannerColor(data.getString("bannerColor"));
+
+                                    themeDao.updateTheme(theme);
+                                } else {
+                                    Toast.makeText(SettingActivity.this, getResources().getString(R.string.network_fail), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -112,8 +147,30 @@ public class SettingActivity extends AbstractDiaryToolbarActivity {
         musicSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                PropertyUtil.setProperty(Property.Key.DIARY_WRITE_MUSIC, musicList.get(position), SettingActivity.this);
+                String musicName = musicList.get(position);
+                PropertyUtil.setProperty(Property.Key.DIARY_WRITE_MUSIC, musicName, SettingActivity.this);
                 adapter.setSelection(position);
+
+                if (!Property.Key.DIARY_WRITE_MUSIC.DEFAULT_VALUE.equals(musicName)) {
+                    Music music = musicDao.getMusic(musicName);
+                    if (TextUtils.isEmpty(music.getMusicData())) {
+                        Toast.makeText(SettingActivity.this, getResources().getString(R.string.diary_music_download), Toast.LENGTH_SHORT).show();
+
+                        AuthorStoreApis authorStoreApis = new AuthorStoreApis(SettingActivity.this);
+                        authorStoreApis.downloadMusic(musicName, new ApiCallback() {
+                            @Override
+                            protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                                if (httpStatus == 200) {
+                                    JSONObject data = jsonObject.getJSONObject("data");
+                                    String musicData = data.getString("musicData");
+                                    musicDao.updateMusic(musicName, musicData);
+                                } else {
+                                    Toast.makeText(SettingActivity.this, getResources().getString(R.string.network_fail), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -151,6 +208,7 @@ public class SettingActivity extends AbstractDiaryToolbarActivity {
                 Author author = AuthorUtil.getAuthor(SettingActivity.this);
                 if (TextUtils.isEmpty(author.getAccountEmail())) {
                     Toast.makeText(SettingActivity.this, "앱을 잠그기 위해서는 로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
+                    switchScreenLock.setChecked(false);
                     return;
                 }
 

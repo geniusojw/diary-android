@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:id="@+id/relative_layout_diary_fragment_pop_title"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <ImageView
+            android:id="@+id/image_view_year_adjust_left"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_chevron_left_black_24dp"
+            android:background ="@null" />
+
+        <ImageView
+            android:id="@+id/image_view_year_adjust_right"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_chevron_right_black_24dp"
+            android:background ="@null" />
+
+        <TextView
+            android:id="@+id/text_view_diary_fragment_pop_title"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="2019년의 일기들"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:layout_alignParentTop="true"
+            />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/text_view_diary_fragment_pop_description"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="* description"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        />
+
+    <com.github.mikephil.charting.charts.HorizontalBarChart
+        android:id="@+id/horizontal_bar_chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/relative_layout_diary_fragment_pop_title"
+        android:layout_above="@id/text_view_diary_fragment_pop_description"
+        />
+
+</RelativeLayout>

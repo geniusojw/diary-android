@@ -22,6 +22,9 @@ import org.jerrioh.diary.activity.draw.AboutApplicationActivity;
 import org.jerrioh.diary.activity.draw.FaqActivity;
 import org.jerrioh.diary.activity.draw.SettingActivity;
 import org.jerrioh.diary.activity.fragment.SquareFragment;
+import org.jerrioh.diary.activity.pop.DiaryBannerPopActivity;
+import org.jerrioh.diary.activity.pop.SquareBannerPopActivity;
+import org.jerrioh.diary.activity.pop.StoreBannerPopActivity;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.AuthorLetterApis;
 import org.jerrioh.diary.api.author.DiaryGroupApis;
@@ -59,6 +62,7 @@ public class MainActivity extends AbstractDiaryActivity {
 
     private static final int REQUEST_ACCOUNT_ACTIVITY = 1;
     private static final int REQUEST_SETTING_ACTIVITY = 2;
+    private static final int REQUEST_DIARY_FRAGMENT_POP_ACTIVITY = 3;
 
     @Override
     protected void onResume() {
@@ -90,19 +94,19 @@ public class MainActivity extends AbstractDiaryActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-//        if (requestCode == REQUEST_ACCOUNT_ACTIVITY) {
-//            if (resultCode == RESULT_OK) { // 회원가입, 로그인, 로그아웃 성공 시
-//                diaryDate_yyyyMM = DateUtil.getyyyyMMdd().substring(0, 6);
-//                BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
-//                bottomNav.setSelectedItemId(R.id.bottom_option_store);
-//            }
-//        } else if (requestCode == REQUEST_SETTING_ACTIVITY) {
-//            if (resultCode == RESULT_OK) { // 데이터 초기화 성공 시
-//                diaryDate_yyyyMM = DateUtil.getyyyyMMdd().substring(0, 6);
-//                BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
-//                bottomNav.setSelectedItemId(R.id.bottom_option_store);
-//            }
-//        }
+        if (requestCode == REQUEST_ACCOUNT_ACTIVITY) {
+            if (resultCode == RESULT_OK) { // 회원가입, 로그인, 로그아웃 성공 시
+                diaryDate_yyyyMM = DateUtil.getyyyyMMdd().substring(0, 6);
+            }
+        } else if (requestCode == REQUEST_SETTING_ACTIVITY) {
+            if (resultCode == RESULT_OK) { // 데이터 초기화 성공 시
+                diaryDate_yyyyMM = DateUtil.getyyyyMMdd().substring(0, 6);
+            }
+        } else if (requestCode == REQUEST_DIARY_FRAGMENT_POP_ACTIVITY) {
+            if (resultCode > 197001 && resultCode < 209901) { // 그래프에서 월 선택 시
+                diaryDate_yyyyMM = String.valueOf(resultCode);
+            }
+        }
     }
 
     @Override
@@ -191,7 +195,7 @@ public class MainActivity extends AbstractDiaryActivity {
         ImageView monthLeft = findViewById(R.id.image_view_month_adjust_left);
         ImageView monthRight = findViewById(R.id.image_view_month_adjust_right);
         monthLeft.setOnClickListener(v -> {
-            Diary firstDiary = new DiaryDao(this).getFirstDiary();
+            Diary firstDiary = new DiaryDao(this).getOneDiary(false);
             String firstDiaryDateMonth;
             if (firstDiary != null) {
                 firstDiaryDateMonth = firstDiary.getDiaryDate().substring(0, 6);
@@ -233,6 +237,7 @@ public class MainActivity extends AbstractDiaryActivity {
         int weatherImageResource = 0;
         boolean newTag = false;
         View.OnClickListener weatherButtonClickListener = null;
+        View.OnClickListener mainBannerClickListener = null;
         boolean enableMonthAdjustment = false;
 
         if (bottomNavId == R.id.bottom_option_diary) {
@@ -247,6 +252,18 @@ public class MainActivity extends AbstractDiaryActivity {
                 BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
                 bottomNav.setSelectedItemId(R.id.bottom_option_letter);
             };
+            mainBannerClickListener = v -> {
+                DiaryDao diaryDao = new DiaryDao(this);
+                Diary lastDiary = diaryDao.getOneDiary(false);
+                if (lastDiary != null) {
+                    Intent intent = new Intent(this, DiaryBannerPopActivity.class);
+                    intent.putExtra("yyyy", lastDiary.getDiaryDate().substring(0, 4));
+                    startActivityForResult(intent, REQUEST_DIARY_FRAGMENT_POP_ACTIVITY);
+                } else {
+                    Toast.makeText(this, getResources().getString(R.string.diary_write_first_diary), Toast.LENGTH_SHORT).show();
+                }
+            };
+
             enableMonthAdjustment = true;
 
             String authorId = AuthorUtil.getAuthor(this).getAuthorId();
@@ -264,6 +281,7 @@ public class MainActivity extends AbstractDiaryActivity {
                 BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
                 bottomNav.setSelectedItemId(R.id.bottom_option_diary);
             };
+            mainBannerClickListener = null;
             enableMonthAdjustment = false;
 
         } else if (bottomNavId == R.id.bottom_option_store) {
@@ -271,6 +289,10 @@ public class MainActivity extends AbstractDiaryActivity {
             mainBannerText = getResources().getString(R.string.store);
             weatherImageResource = -1;
             weatherButtonClickListener = null;
+            mainBannerClickListener = v -> {
+                Intent intent = new Intent(this, StoreBannerPopActivity.class);
+                startActivity(intent);
+            };
             enableMonthAdjustment = false;
 
         } else if (bottomNavId == R.id.bottom_option_square) {
@@ -295,7 +317,10 @@ public class MainActivity extends AbstractDiaryActivity {
                 BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
                 bottomNav.setSelectedItemId(R.id.bottom_option_square);
             };
-
+            mainBannerClickListener = v -> {
+                Intent intent = new Intent(this, SquareBannerPopActivity.class);
+                startActivity(intent);
+            };
             enableMonthAdjustment = false;
         }
 
@@ -303,9 +328,6 @@ public class MainActivity extends AbstractDiaryActivity {
         this.applyFragment(fragment);
 
         // 배너 텍스트
-//        TextView mainBannerTextTopView = findViewById(R.id.text_view_main_banner_top);
-//        mainBannerTextTopView.setText("Today is " + DateUtil.getDateStringSkipTime());
-
         TextView mainBannerTextMidView = findViewById(R.id.text_view_main_banner_mid);
         mainBannerTextMidView.setText(mainBannerText);
 
@@ -322,6 +344,9 @@ public class MainActivity extends AbstractDiaryActivity {
             weatherImageView.setImageResource(weatherImageResource);
         }
         weatherImageView.setOnClickListener(weatherButtonClickListener);
+
+        TextView mainBannerTextMidButton = findViewById(R.id.text_view_main_banner_mid_button);
+        mainBannerTextMidButton.setOnClickListener(mainBannerClickListener);
 
         if (newTag) {
             newTagView.setVisibility(View.VISIBLE);

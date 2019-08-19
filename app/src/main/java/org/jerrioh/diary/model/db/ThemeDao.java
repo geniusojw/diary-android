@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import org.jerrioh.diary.model.Music;
 import org.jerrioh.diary.model.Theme;
 
 import java.util.ArrayList;
@@ -65,6 +66,20 @@ public class ThemeDao extends AbstractDao {
         contentValues.put(Theme.TableDesc.COLUMN_NAME_BANNER_COLOR, theme.getBannerColor());
 
         return writableDb().insert(TABLE_NAME, null, contentValues);
+    }
+
+    public long updateTheme(Theme theme) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Theme.TableDesc.COLUMN_NAME_PATTERN0, theme.getPattern0());
+        contentValues.put(Theme.TableDesc.COLUMN_NAME_PATTERN1, theme.getPattern1());
+        contentValues.put(Theme.TableDesc.COLUMN_NAME_PATTERN2, theme.getPattern2());
+        contentValues.put(Theme.TableDesc.COLUMN_NAME_PATTERN3, theme.getPattern3());
+        contentValues.put(Theme.TableDesc.COLUMN_NAME_BANNER_COLOR, theme.getBannerColor());
+
+        String selection = Theme.TableDesc.COLUMN_NAME_THEME_NAME + "=?";
+        String[] args = { theme.getThemeName() };
+
+        return writableDb().update(TABLE_NAME, contentValues, selection, args);
     }
 
     public long deleteTheme(String themeName) {

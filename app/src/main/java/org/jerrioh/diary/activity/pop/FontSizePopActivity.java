@@ -16,8 +16,6 @@ public class FontSizePopActivity extends AbstractDiaryPopActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        String sampleString = "\"YOU ARE SO CUTE.\"";
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_font_size_adjust_pop);
 

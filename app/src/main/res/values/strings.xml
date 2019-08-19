@@ -42,10 +42,13 @@
     <!-- setting -->
     <string name="diary_theme">일기장 테마</string>
     <string name="diary_theme_description">일기장 테마를 선택합니다.</string>
+    <string name="diary_theme_download">새로운 일기장 테마를 준비하고 있습니다.</string>
     <string name="diary_music">일기 음악</string>
-    <string name="diary_music_description">일기작성 배경음악을 선택합니다.</string>
+    <string name="diary_music_description">일기 배경음악을 선택합니다.</string>
+    <string name="diary_music_download">새로운 일기 배경음악을 준비하고 있습니다.</string>
     <string name="font_size">글자 크기</string>
     <string name="font_size_description">글자 크기를 조절합니다.</string>
+    <string name="front_size_sample_text">&quot;오늘은 기분이 좋다.&quot;</string>
     <string name="alias_feature">별칭 기능</string>
     <string name="alias_feature_description">일기모임이나 편지에서 사용할 별칭을 설정합니다.</string>
     <string name="screen_lock">화면잠금</string>
@@ -222,6 +225,9 @@
     <string name="diary_share_description">이 일기는 사람들과 공유합니다.</string>
     <string name="diary_no_title">무제</string>
     <string name="diary_no_content">내용이 없습니다.</string>
+    <string name="diary_write_first_diary">첫번째 일기를 작성하세요!</string>
+    <string name="diary_diaries_of_year">%s년의 일기들</string>
+    <string name="diary_written_total">당신은 총 %d개의 일기를 작성했습니다.</string>
 
     <!-- letter -->
     <string name="letter_written_time">작성시간</string>

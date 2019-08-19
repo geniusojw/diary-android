@@ -38,8 +38,8 @@ public class DiaryDao extends AbstractDao {
         }
     }
 
-    public Diary getFirstDiary() {
-        String orderBy = Diary.TableDesc.COLUMN_NAME_DIARY_DATE + " ASC";
+    public Diary getOneDiary(boolean descend) {
+        String orderBy = Diary.TableDesc.COLUMN_NAME_DIARY_DATE + (descend ? " DSC" : " ASC");
 
         Cursor cursor = readableDb().query(TABLE_NAME, COLUMN_NAMES, "1=1", new String[]{}, null, null, orderBy, "1");
         if (cursorHasJustOne(cursor)) {

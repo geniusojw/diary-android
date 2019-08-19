@@ -314,38 +314,39 @@ public abstract class AbstractDetailActivity extends AbstractDiaryActivity {
 
         musicOn = true;
 
-        PropertyDao propertyDao = new PropertyDao(this);
         String selectMusic = PropertyUtil.getProperty(Property.Key.DIARY_WRITE_MUSIC, this);
 
-        if (Property.Key.DIARY_WRITE_MUSIC.DEFAULT_VALUE.equals(selectMusic)) {
-            mediaPlayer = MediaPlayer.create(this,R.raw.find_her);
-            mediaPlayer.setLooping(true);
-            mediaPlayer.start();
-        } else {
+        if (!Property.Key.DIARY_WRITE_MUSIC.DEFAULT_VALUE.equals(selectMusic)) {
             MusicDao musicDao = new MusicDao(this);
             Music music = musicDao.getMusic(selectMusic);
-            byte[] decoded = Base64.decode(music.getMusicData(), Base64.DEFAULT);
+            if (!TextUtils.isEmpty(music.getMusicData())) {
+                byte[] decoded = Base64.decode(music.getMusicData(), Base64.DEFAULT);
+                try {
+                    // create temp file that will hold byte array
+                    File tempMp3 = File.createTempFile("temp_music", "mp3", getCacheDir());
+                    tempMp3.deleteOnExit();
+                    FileOutputStream fos = new FileOutputStream(tempMp3);
+                    fos.write(decoded);
+                    fos.close();
 
-            try {
-                // create temp file that will hold byte array
-                File tempMp3 = File.createTempFile("temp_music", "mp3", getCacheDir());
-                tempMp3.deleteOnExit();
-                FileOutputStream fos = new FileOutputStream(tempMp3);
-                fos.write(decoded);
-                fos.close();
-
-                FileInputStream fis = new FileInputStream(tempMp3);
-                mediaPlayer = new MediaPlayer();
-                mediaPlayer.reset();
-                mediaPlayer.setDataSource(fis.getFD());
-                mediaPlayer.prepare();
-                mediaPlayer.setLooping(true);
-                mediaPlayer.start();
-            } catch (IOException e) {
-                Log.e(TAG, e.toString());
-                Toast.makeText(this, "music on error", Toast.LENGTH_LONG).show();
+                    FileInputStream fis = new FileInputStream(tempMp3);
+                    mediaPlayer = new MediaPlayer();
+                    mediaPlayer.reset();
+                    mediaPlayer.setDataSource(fis.getFD());
+                    mediaPlayer.prepare();
+                    mediaPlayer.setLooping(true);
+                    mediaPlayer.start();
+                    return;
+                } catch (IOException e) {
+                    Log.e(TAG, e.toString());
+                    Toast.makeText(this, "music on error", Toast.LENGTH_LONG).show();
+                }
             }
         }
+
+        mediaPlayer = MediaPlayer.create(this,R.raw.find_her);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
     }
 
     public void musicOff() {

@@ -1,12 +1,15 @@
 package org.jerrioh.diary.activity.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +69,13 @@ public class StoreFragment extends AbstractFragment {
     }
 
     private void checkConnectionToStore(View todayView) {
-        AuthorStoreApis authorStoreApis = new AuthorStoreApis(getActivity());
+        FragmentActivity activity = getActivity();
+        if (activity == null) {
+            Log.e(TAG, "activity is null !!");
+            return;
+        }
+
+        AuthorStoreApis authorStoreApis = new AuthorStoreApis(activity);
         authorStoreApis.getStoreStatus(new ApiCallback() {
             @Override
             protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
@@ -79,7 +88,7 @@ public class StoreFragment extends AbstractFragment {
                     int chocolates = data.getInt("chocolates");
                     JSONObject priceMap = data.getJSONObject("priceMap");
 
-                    List<Item> items = getItems(priceMap);
+                    List<Item> items = getItems(priceMap, activity);
 
                     Collections.sort(items, new Comparator<Item>() {
                         @Override
@@ -90,7 +99,7 @@ public class StoreFragment extends AbstractFragment {
 
                     final StoreRecyclerViewAdapter mAdapter = new StoreRecyclerViewAdapter(items, pos -> {
                         Item item = items.get(pos);
-                        Intent intent = new Intent(getActivity(), StorePopActivity.class);
+                        Intent intent = new Intent(activity, StorePopActivity.class);
                         intent.putExtra("itemId", item.itemId);
                         intent.putExtra("itemPrice", item.price);
                         intent.putExtra("currentChocolates", chocolates);
@@ -107,7 +116,7 @@ public class StoreFragment extends AbstractFragment {
         });
     }
 
-    private List<Item> getItems(JSONObject priceMap) throws JSONException {
+    private List<Item> getItems(JSONObject priceMap, Context context) throws JSONException {
         List<Item> items = new ArrayList<>();
         Iterator<String> iterator = priceMap.keys();
 
@@ -127,43 +136,43 @@ public class StoreFragment extends AbstractFragment {
 
             switch (itemId) {
                 case ITEM_WEATHER:
-                    title = getActivity().getResources().getString(R.string.store_item_weather);
-                    description = getActivity().getResources().getString(R.string.store_item_weather_description);
+                    title = context.getResources().getString(R.string.store_item_weather);
+                    description = context.getResources().getString(R.string.store_item_weather_description);
                     imageResource = R.drawable.weather_sunny;
                     break;
                 case ITEM_POST_IT:
-                    title = getActivity().getResources().getString(R.string.store_item_post);
-                    description = getActivity().getResources().getString(R.string.store_item_post_description);
+                    title = context.getResources().getString(R.string.store_item_post);
+                    description = context.getResources().getString(R.string.store_item_post_description);
                     imageResource = R.drawable.ic_chat_black_24dp;
                     break;
                 case ITEM_CHANGE_DESCRIPTION:
-                    title = getActivity().getResources().getString(R.string.store_item_about);
-                    description = getActivity().getResources().getString(R.string.store_item_about_description);
+                    title = context.getResources().getString(R.string.store_item_about);
+                    description = context.getResources().getString(R.string.store_item_about_description);
                     imageResource = R.drawable.ic_face_black_24dp;
                     break;
                 case ITEM_CHANGE_NICKNAME:
-                    title = getActivity().getResources().getString(R.string.store_item_nick);
-                    description = getActivity().getResources().getString(R.string.store_item_nick_description);
+                    title = context.getResources().getString(R.string.store_item_nick);
+                    description = context.getResources().getString(R.string.store_item_nick_description);
                     imageResource = R.drawable.ic_fiber_new_black_24dp;
                     break;
                 case ITEM_PURCHASE_THEME:
-                    title = getActivity().getResources().getString(R.string.store_item_theme);
-                    description = getActivity().getResources().getString(R.string.store_item_theme_description);
+                    title = context.getResources().getString(R.string.store_item_theme);
+                    description = context.getResources().getString(R.string.store_item_theme_description);
                     imageResource = R.drawable.ic_gradient_black_24dp;
                     break;
                 case ITEM_PURCHASE_MUSIC:
-                    title = getActivity().getResources().getString(R.string.store_item_music);
-                    description = getActivity().getResources().getString(R.string.store_item_music_description);
+                    title = context.getResources().getString(R.string.store_item_music);
+                    description = context.getResources().getString(R.string.store_item_music_description);
                     imageResource = R.drawable.ic_audiotrack_black_24dp;
                     break;
                 case ITEM_DIARY_GROUP_INVITATION:
-                    title = getActivity().getResources().getString(R.string.store_item_invitation);
-                    description = getActivity().getResources().getString(R.string.store_item_invitation_description);
+                    title = context.getResources().getString(R.string.store_item_invitation);
+                    description = context.getResources().getString(R.string.store_item_invitation_description);
                     imageResource = R.drawable.ic_mail_outline_black_24dp;
                     break;
                 case ITEM_CHOCOLATE_DONATION:
-                    title = getActivity().getResources().getString(R.string.store_item_donation);
-                    description = getActivity().getResources().getString(R.string.store_item_donation_description);
+                    title = context.getResources().getString(R.string.store_item_donation);
+                    description = context.getResources().getString(R.string.store_item_donation_description);
                     imageResource = R.drawable.ic_favorite_black_24dp;
                     break;
                 case ITEM_DIARY_GROUP_SUPPORT:
