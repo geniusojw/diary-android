@@ -410,6 +410,7 @@ public class MainActivity extends AbstractDiaryActivity {
         if (timeToSyncDiaries) {
             AuthorUtil.syncAccountDiaries(this, null, null);
             AuthorUtil.refreshAccountToken(this);
+            AuthorUtil.syncAuthorInfo(this);
         }
     }
 

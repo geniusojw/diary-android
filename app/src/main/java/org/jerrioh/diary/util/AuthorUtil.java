@@ -291,6 +291,25 @@ public class AuthorUtil {
         });
     }
 
+    public static void syncAuthorInfo(Context context) {
+        AuthorApis authorApis = new AuthorApis(context);
+        authorApis.authorInfo(new ApiCallback() {
+            @Override
+            protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                if (httpStatus == 200) {
+                    JSONObject data = jsonObject.getJSONObject("data");
+
+                    String nickname = data.getString("nickname");
+                    String description = data.getString("description");
+
+                    AuthorDao authorDao = new AuthorDao(context);
+                    authorDao.updateNickname(nickname);
+                    authorDao.updateDescription(description);
+                }
+            }
+        });
+    }
+
     private static Author generateNewAuthor() {
         Author author = new Author();
 //        author.setAuthorId("92f44a4e-09ea-4fa5-ab54-df3c10a46812");

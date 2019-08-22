@@ -3,6 +3,7 @@ package org.jerrioh.diary.activity.pop;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,11 +37,20 @@ public class StoreBannerPopActivity extends AbstractDiaryPopActivity {
 
     private static final String TAG = "StoreBannerPopActivity";
 
+    public static int currentChocolates = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_fragment_pop);
         super.setWindowAttribute(.95f, .9f, 0, -20);
+
+        TextView chocolatesHave = findViewById(R.id.text_view_store_fragment_pop_title_chocolates);
+
+        String desc = "";
+        if (currentChocolates != -1) {
+            desc = getResources().getString(R.string.store_fragment_pop_title_time, currentChocolates);
+        }
+        chocolatesHave.setText(desc);
     }
 }

@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:text="2019년의 일기들"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:gravity="center"
             android:layout_alignParentTop="true"
             />

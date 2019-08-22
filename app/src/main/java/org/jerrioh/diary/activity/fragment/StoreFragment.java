@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.adapter.StoreRecyclerViewAdapter;
+import org.jerrioh.diary.activity.pop.StoreBannerPopActivity;
 import org.jerrioh.diary.activity.pop.StorePopActivity;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.AuthorStoreApis;
@@ -87,6 +88,8 @@ public class StoreFragment extends AbstractFragment {
                     JSONObject data = jsonObject.getJSONObject("data");
                     int chocolates = data.getInt("chocolates");
                     JSONObject priceMap = data.getJSONObject("priceMap");
+
+                    StoreBannerPopActivity.currentChocolates = chocolates;
 
                     List<Item> items = getItems(priceMap, activity);
 

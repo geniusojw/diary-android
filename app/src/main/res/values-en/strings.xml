@@ -12,6 +12,8 @@
     <string name="refuse">Refuse</string>
     <string name="accepted">Accepted.</string>
     <string name="refused">Refused.</string>
+    <string name="sign_in_success">Now, your diary is stored safely.</string>
+    <string name="sign_up_success">Welcome! You have been successfully joined.</string>
     <string name="public_square">Public Square</string>
     <string name="today_is">Today is %s</string>
     <string name="sent">Sent</string>
@@ -209,7 +211,7 @@
     <!-- diary -->
     <string name="diary_delete">Delete Diary</string>
     <string name="diary_write_here">Write a diary here.</string>
-    <string name="diary_today_diary">TODAY\'S DIARY</string>
+    <string name="diary_today_diary">(TODAY)</string>
     <string name="diary_share">Sharing with %d people</string>
     <string name="diary_today_remain_time">You have %s to write today\'s diary</string>
     <string name="diary_today_remain_time_new_line">You have %s\nto write today\'s diary</string>
@@ -227,7 +229,7 @@
     <string name="diary_no_content">NO CONTENT</string>
     <string name="diary_write_first_diary">Write your first diary!</string>
     <string name="diary_diaries_of_year">Diaries written in %s</string>
-    <string name="diary_written_total">The total number of diaries you have written is %d.</string>
+    <string name="diary_written_total">You have written a total of %d diaries.</string>
 
     <!-- letter -->
     <string name="letter_written_time">Creation time</string>
@@ -255,6 +257,14 @@
     <string name="post_last_modified">Last modified</string>
     <string name="post_no_content">Write the post content.</string>
     <string name="post_write_success">Post created.</string>
+    <string name="post_fragment_pop_title">광장 이용설명서</string>
+    <string name="post_fragment_pop_manual_1">1. 마음대로 글을 쓸 수 있습니다.</string>
+    <string name="post_fragment_pop_manual_2">2. 글을 수정하고 삭제할 수 있습니다.</string>
+    <string name="post_fragment_pop_manual_3">3. 광장에 쓴 글은 당신만 볼 수 있습니다.</string>
+    <string name="post_fragment_pop_manual_4">4. 너무 오래된 글은 자동 삭제됩니다.\n    (설정에서 삭제되지 않게 변경 가능)</string>
+    <string name="post_fragment_pop_manual_5">5. 퍼블릭 광장에 글을 쓰려면 상점에서 포스트잇을 사세요.\n   (무료로 살 수 있습니다.)</string>
+    <string name="post_fragment_pop_manual_6">6. 퍼블릭 광장의 글은 모두가 볼 수 있습니다.</string>
+    <string name="post_fragment_pop_manual_7">7. 더 많은 시간의 포스트잇이 더 위에 노출됩니다.</string>
 
     <!-- store -->
     <string name="store_item_weather">Weather</string>
@@ -273,6 +283,12 @@
     <string name="store_item_invitation_description">Create an anonymous diary group.</string>
     <string name="store_item_donation">Donate Time</string>
     <string name="store_item_donation_description">You can donate your time.</string>
+    <string name="store_fragment_pop_title">상점 이용설명서</string>
+    <string name="store_fragment_pop_title_time">현재 당신이 가진 시간 : %d 시간</string>
+    <string name="store_fragment_pop_manual_1">1. 시간과 상품을 바꿀 수 있습니다.</string>
+    <string name="store_fragment_pop_manual_2">2. 시간은 돈으로 살 수 없습니다.</string>
+    <string name="store_fragment_pop_manual_3">3. 일기를 쓰면 시간을 얻을 수 있습니다.</string>
+    <string name="store_fragment_pop_manual_4">4. 더 자세한 내용은 도움말을 참조.</string>
 
     <!-- lock -->
     <string name="lock_input_password">화면잠금 비밀번호 입력</string>

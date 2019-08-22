@@ -5,12 +5,102 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-
-    <TextView
+    <RelativeLayout
+        android:id="@+id/relative_layout_square_fragment_pop_title"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:text="square!!!"
-        android:gravity="center"
-        />
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/text_view_square_fragment_pop_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/post_fragment_pop_title"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:textSize="20sp"
+            />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_below="@id/relative_layout_square_fragment_pop_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/post_fragment_pop_manual_1"
+                android:textSize="13sp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/post_fragment_pop_manual_2"
+                android:textSize="13sp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/post_fragment_pop_manual_3"
+                android:textSize="13sp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/post_fragment_pop_manual_4"
+                android:textSize="13sp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/post_fragment_pop_manual_5"
+                android:textSize="13sp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/post_fragment_pop_manual_6"
+                android:textSize="13sp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/post_fragment_pop_manual_7"
+                android:textSize="13sp"
+
+                android:gravity="center_vertical"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
+                />
+        </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

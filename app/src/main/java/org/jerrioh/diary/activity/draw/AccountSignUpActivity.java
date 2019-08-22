@@ -189,7 +189,7 @@ public class AccountSignUpActivity extends AbstractDiaryToolbarActivity {
                 protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                     waitingResponse = false;
                     if (httpStatus == 200) {
-                        signInOrSignUpComplete(email, jsonObject);
+                        signInOrSignUpComplete(email, jsonObject, true);
                     } else if (httpStatus == 409) {
                         Toast.makeText(AccountSignUpActivity.this, getResources().getString(R.string.sign_up_fail), Toast.LENGTH_LONG).show();
                     } else {
@@ -235,7 +235,7 @@ public class AccountSignUpActivity extends AbstractDiaryToolbarActivity {
                 protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                     waitingResponse = false;
                     if (httpStatus == 200) {
-                        signInOrSignUpComplete(email, jsonObject);
+                        signInOrSignUpComplete(email, jsonObject, false);
                     } else if (httpStatus == 401) {
                         Toast.makeText(AccountSignUpActivity.this, getResources().getString(R.string.sign_in_fail), Toast.LENGTH_LONG).show();
                     } else {
@@ -294,7 +294,7 @@ public class AccountSignUpActivity extends AbstractDiaryToolbarActivity {
         }
     }
 
-    private void signInOrSignUpComplete(String email, JSONObject jsonObject) throws JSONException {
+    private void signInOrSignUpComplete(String email, JSONObject jsonObject, boolean isNew) throws JSONException {
         JSONObject data = jsonObject.getJSONObject("data");
         String token = data.getString("token");
         if (TextUtils.isEmpty(token)) {
@@ -302,7 +302,13 @@ public class AccountSignUpActivity extends AbstractDiaryToolbarActivity {
             return;
         }
 
-        AuthorUtil.accountSignIn(this, email, token);
+        AuthorUtil.accountSignIn(this, email.toLowerCase(), token);
+
+        if (isNew) {
+            Toast.makeText(AccountSignUpActivity.this, getResources().getString(R.string.sign_up_success), Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(AccountSignUpActivity.this, getResources().getString(R.string.sign_in_success), Toast.LENGTH_LONG).show();
+        }
 
         super.setResult(RESULT_OK);
         super.finish();

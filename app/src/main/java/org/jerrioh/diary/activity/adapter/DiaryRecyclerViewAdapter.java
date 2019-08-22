@@ -146,10 +146,12 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
         calendarText3.setText(diaryDate.substring(0, 4) + "." + diaryDate.substring(4, 6));
 
         final String today_yyyyMMdd = DateUtil.getyyyyMMdd();
+        String title = CommonUtil.defaultIfEmpty(diary.getTitle(), Constants.DEFAULT_TITLE);
+
         if (today_yyyyMMdd.equals(diaryDate)) {
             long timeLeft = DateUtil.getTimeLeft();
 
-            SpannableString content = new SpannableString(context.getResources().getString(R.string.diary_today_diary));
+            SpannableString content = new SpannableString(title + context.getResources().getString(R.string.diary_today_diary));
             content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
             //content.setSpan(new StyleSpan(Typeface.BOLD), 0, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleText.setText(content);
@@ -163,7 +165,7 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
             }
 
         } else {
-            titleText.setText(CommonUtil.defaultIfEmpty(diary.getTitle(), Constants.DEFAULT_TITLE));
+            titleText.setText(title);
             contentText.setText(diary.getContent());
             cardView.setCardBackgroundColor(0xCCFFFFFF);
         }

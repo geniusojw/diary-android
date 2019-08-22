@@ -5,18 +5,37 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-
-    <TextView
-        android:id="@+id/store_fragment_pop_title"
+    <RelativeLayout
+        android:id="@+id/relative_layout_store_fragment_pop_title"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:text="상점 이용설명서"
-        android:gravity="center"
-        android:textSize="18sp"
-        />
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/text_view_store_fragment_pop_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/store_fragment_pop_title"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:id="@+id/text_view_store_fragment_pop_title_chocolates"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="@string/store_fragment_pop_title_time"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:layout_below="@id/text_view_store_fragment_pop_title"
+            />
+
+    </RelativeLayout>
 
     <ScrollView
-        android:layout_below="@id/store_fragment_pop_title"
+        android:layout_below="@id/relative_layout_store_fragment_pop_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
@@ -28,24 +47,39 @@
             >
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="1. ㅋㅋㅋㅋㅋㅋ"
-                android:textSize="15sp"
+                android:layout_height="wrap_content"
+                android:text="@string/store_fragment_pop_manual_1"
+                android:textSize="13sp"
                 android:gravity="center_vertical"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
                 />
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="1. ㅋㅋㅋㅋㅋㅋ"
-                android:textSize="15sp"
+                android:layout_height="wrap_content"
+                android:text="@string/store_fragment_pop_manual_2"
+                android:textSize="13sp"
                 android:gravity="center_vertical"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
                 />
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="1. ㅋㅋㅋㅋㅋㅋ"
-                android:textSize="15sp"
+                android:layout_height="wrap_content"
+                android:text="@string/store_fragment_pop_manual_3"
+                android:textSize="13sp"
                 android:gravity="center_vertical"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/store_fragment_pop_manual_4"
+                android:textSize="13sp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
                 />
         </LinearLayout>
 
