@@ -11,6 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -31,6 +32,7 @@ import org.jerrioh.diary.model.db.AuthorDao;
 import org.jerrioh.diary.model.db.MusicDao;
 import org.jerrioh.diary.model.db.ThemeDao;
 import org.jerrioh.diary.util.AuthorUtil;
+import org.jerrioh.diary.util.DateUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,8 +42,30 @@ import java.util.Locale;
 
 public class StorePopActivity extends AbstractDiaryPopActivity {
 
+    private static final int REQUEST_SENTENCE_POP_CREATE_WISE_SAYING_ACTIVITY = 1;
+
     private static final String TAG = "StorePopActivity";
     private boolean okEnabled = true;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_SENTENCE_POP_CREATE_WISE_SAYING_ACTIVITY) {
+            if (resultCode == 200) {
+                buySuccessBasic(getResources().getString(R.string.store_pop_create_wise_saying_result_title),
+                        getResources().getString(R.string.store_pop_create_wise_saying_result_description),
+                        getResources().getString(R.string.store_pop_create_wise_saying_result_description_detail));
+
+            } else if (resultCode == 402) {
+                buyFailWithToast(getResources().getString(R.string.store_pop_not_enough_money));
+            } else if (resultCode == 412) {
+                buyFailWithToast(getResources().getString(R.string.store_pop_already_bought));
+            } else {
+                finish();
+            }
+        }
+    }
 
     private final LocationListener locationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
@@ -103,7 +127,50 @@ public class StorePopActivity extends AbstractDiaryPopActivity {
         boolean noPrice = false;
         View.OnClickListener okClickListener = null;
 
-        if (StoreFragment.ITEM_WEATHER.equals(itemId)) {
+        if (StoreFragment.ITEM_WISE_SAYING.equals(itemId)) {
+            itemTitle = getResources().getString(R.string.store_pop_wise_saying_title);
+            itemDescription = getResources().getString(R.string.store_pop_wise_saying_description);
+            itemDescriptionDetail = getResources().getString(R.string.store_pop_wise_saying_description_detail);
+
+            okClickListener = v -> {
+                if (okEnabled) {
+                    okEnabled = false;
+                    authorStoreApis.getWiseSaying(new ApiCallback() {
+                        @Override
+                        protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
+                            if (httpStatus == 200) {
+                                JSONObject data = jsonObject.getJSONObject("data");
+                                String source = "- " + data.getString("source");
+                                String wiseSaying = data.getString("wiseSaying");
+
+                                buySuccessBasic(wiseSaying, source, null);
+
+                            } else if (httpStatus == 402) {
+                                buyFailWithToast(getResources().getString(R.string.store_pop_not_enough_money));
+                            } else if (httpStatus == 412) {
+                                buyFailWithToast(getResources().getString(R.string.store_pop_already_bought));
+                            }
+                        }
+                    });
+                }
+            };
+
+        } else if (StoreFragment.ITEM_CREATE_WISE_SAYING.equals(itemId)) {
+            itemTitle = getResources().getString(R.string.store_pop_create_wise_saying_title);
+            itemDescription = getResources().getString(R.string.store_pop_create_wise_saying_description);
+            itemDescriptionDetail = getResources().getString(R.string.store_pop_create_wise_saying_description_detail);
+
+            okClickListener = v -> {
+                if (okEnabled) {
+                    okEnabled = false;
+
+                    Intent wiseSayingPop = new Intent(StorePopActivity.this, SentencePopActivity.class);
+                    wiseSayingPop.putExtra("type", SentencePopActivity.TYPE_STORE_CREATE_WISE_SAYING);
+                    startActivityForResult(wiseSayingPop, REQUEST_SENTENCE_POP_CREATE_WISE_SAYING_ACTIVITY);
+                }
+            };
+
+        } else if (StoreFragment.ITEM_WEATHER.equals(itemId)) {
             itemTitle = getResources().getString(R.string.store_pop_weather_title);
             itemDescription = getResources().getString(R.string.store_pop_weather_description);
 
@@ -158,6 +225,8 @@ public class StorePopActivity extends AbstractDiaryPopActivity {
                                 buyFailWithToast(getResources().getString(R.string.store_pop_not_enough_money));
                             } else if (httpStatus == 412) {
                                 buyFailWithToast(getResources().getString(R.string.store_pop_already_bought));
+                            } else {
+                                finish();
                             }
                             numberPicker.setVisibility(View.GONE);
                         }
@@ -168,6 +237,7 @@ public class StorePopActivity extends AbstractDiaryPopActivity {
         } else if (StoreFragment.ITEM_CHANGE_DESCRIPTION.equals(itemId)) {
             itemTitle = getResources().getString(R.string.store_pop_about_title);
             itemDescription = getResources().getString(R.string.store_pop_about_description);
+            itemDescriptionDetail = getResources().getString(R.string.store_pop_about_description_detail);
 
             okClickListener = v -> {
                 if (okEnabled) {
@@ -189,6 +259,8 @@ public class StorePopActivity extends AbstractDiaryPopActivity {
                                 buyFailWithToast(getResources().getString(R.string.store_pop_not_enough_money));
                             } else if (httpStatus == 412) {
                                 buyFailWithToast(getResources().getString(R.string.store_pop_already_bought));
+                            } else {
+                                finish();
                             }
                         }
                     });
@@ -220,6 +292,8 @@ public class StorePopActivity extends AbstractDiaryPopActivity {
                                 buyFailWithToast(getResources().getString(R.string.store_pop_not_enough_money));
                             } else if (httpStatus == 412) {
                                 buyFailWithToast(getResources().getString(R.string.store_pop_already_bought));
+                            } else {
+                                finish();
                             }
                         }
                     });
@@ -263,6 +337,8 @@ public class StorePopActivity extends AbstractDiaryPopActivity {
                                 buyFailWithToast(getResources().getString(R.string.store_pop_not_enough_money));
                             } else if (httpStatus == 412) {
                                 buyFailWithToast(getResources().getString(R.string.store_pop_already_bought));
+                            } else {
+                                finish();
                             }
                         }
                     });
@@ -302,6 +378,8 @@ public class StorePopActivity extends AbstractDiaryPopActivity {
                                 buyFailWithToast(getResources().getString(R.string.store_pop_not_enough_money));
                             } else if (httpStatus == 412) {
                                 buyFailWithToast(getResources().getString(R.string.store_pop_already_bought));
+                            } else {
+                                finish();
                             }
                         }
                     });

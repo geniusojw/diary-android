@@ -1,13 +1,10 @@
 package org.jerrioh.diary.activity.adapter;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,14 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jerrioh.diary.R;
-import org.jerrioh.diary.config.Constants;
 import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.model.DiaryGroup;
 import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.CommonUtil;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -146,7 +140,7 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
         calendarText3.setText(diaryDate.substring(0, 4) + "." + diaryDate.substring(4, 6));
 
         final String today_yyyyMMdd = DateUtil.getyyyyMMdd();
-        String title = CommonUtil.defaultIfEmpty(diary.getTitle(), Constants.DEFAULT_TITLE);
+        String title = CommonUtil.defaultIfEmpty(diary.getTitle(), context.getResources().getString(R.string.diary_no_title));
 
         if (today_yyyyMMdd.equals(diaryDate)) {
             long timeLeft = DateUtil.getTimeLeft();

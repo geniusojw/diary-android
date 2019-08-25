@@ -53,10 +53,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AbstractDiaryActivity {
     private static final String TAG = "MainActivity";
 
+    private long backPressTime = 0L;
     private String diaryDate_yyyyMM = null;
     private boolean publicSquare = false;
 
@@ -115,7 +117,13 @@ public class MainActivity extends AbstractDiaryActivity {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            long currentTime = System.currentTimeMillis();
+            if (TimeUnit.MILLISECONDS.toSeconds(currentTime - backPressTime) < 3) {
+                super.onBackPressed();
+            } else {
+                backPressTime = currentTime;
+                Toast.makeText(this, "confirm", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

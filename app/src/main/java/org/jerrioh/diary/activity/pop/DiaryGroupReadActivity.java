@@ -12,7 +12,6 @@ import android.widget.Toast;
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.FeedbackApis;
-import org.jerrioh.diary.config.Constants;
 import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.util.CommonUtil;
 import org.json.JSONException;
@@ -48,7 +47,7 @@ public class DiaryGroupReadActivity extends AbstractDiaryPopActivity {
         nicknameTextView.setText(toNicknameText);
 
         EditText titleEditText = findViewById(R.id.edit_text_group_diary_title);
-        titleEditText.setText(CommonUtil.defaultIfEmpty(title, Constants.DEFAULT_TITLE));
+        titleEditText.setText(CommonUtil.defaultIfEmpty(title, getResources().getString(R.string.diary_no_title)));
 
         EditText contentEditText = findViewById(R.id.edit_text_group_diary_content);
         contentEditText.setText(content);

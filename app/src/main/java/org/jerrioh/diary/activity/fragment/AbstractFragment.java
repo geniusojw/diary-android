@@ -12,7 +12,6 @@ import org.jerrioh.diary.activity.pop.DiaryWriteStartPopActivity;
 import org.jerrioh.diary.activity.pop.PostWritePopActivity;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.PostApis;
-import org.jerrioh.diary.config.Constants;
 import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.model.Post;
 import org.jerrioh.diary.model.Property;
@@ -126,7 +125,9 @@ public abstract class AbstractFragment extends Fragment {
 //        }
     }
 
-    public boolean timeToSleep() {
-        return !(Integer.parseInt(DateUtil.getHHmmss()) >= Constants.PROHIBIT_DIARY_WRITE_HHMMSS);
-    }
+//    public static final int PROHIBIT_DIARY_WRITE_HHMMSS = 10000;
+//
+//    public boolean timeToSleep() {
+//        return !(Integer.parseInt(DateUtil.getHHmmss()) >= PROHIBIT_DIARY_WRITE_HHMMSS);
+//    }
 }

@@ -24,6 +24,24 @@ public class AuthorStoreApis extends ApiCaller {
         super.get("/author/store/status", headers, callback);
     }
 
+    public void getWiseSaying(ApiCallback callback) {
+        Map<String, String> headers = authorHeaders();
+        JSONObject json = new JSONObject();
+        super.post("/author/store/wise-saying", headers, json.toString(), callback);
+    }
+
+    public void createWiseSaying(String wiseSaying, ApiCallback callback) {
+        Map<String, String> headers = authorHeaders();
+        try {
+            JSONObject json = new JSONObject();
+            json.put("saying", wiseSaying);
+            super.post("/author/store/create-wise-saying", headers, json.toString(), callback);
+
+        } catch (JSONException e) {
+            Log.e(TAG, "JSONException, " + e.toString());
+        }
+    }
+
     public void weather(String city, String country, ApiCallback callback) {
         Map<String, String> headers = authorHeaders();
         try {

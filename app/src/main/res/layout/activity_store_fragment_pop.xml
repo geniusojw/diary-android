@@ -81,6 +81,70 @@
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="10dp"
                 />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/store_fragment_pop_manual_group"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="15dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="10dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/store_fragment_pop_manual_group_1"
+                    android:textSize="13sp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="5dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/store_fragment_pop_manual_group_2"
+                    android:textSize="13sp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="5dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/store_fragment_pop_manual_group_3"
+                    android:textSize="13sp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="5dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/store_fragment_pop_manual_group_4"
+                    android:textSize="13sp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="5dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/store_fragment_pop_manual_group_5"
+                    android:textSize="13sp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="5dp"
+                    />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </ScrollView>

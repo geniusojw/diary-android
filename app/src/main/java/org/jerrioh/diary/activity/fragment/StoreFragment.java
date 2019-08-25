@@ -43,6 +43,8 @@ public class StoreFragment extends AbstractFragment {
     private static final String TAG = "StoreFragment";
 
     // 각각의 아이템 번호는 서버와 맞춘 값이다. 변경시 서버와 동시에 변경이 필요하다.
+    public static final String ITEM_WISE_SAYING = "ITEM_WISE_SAYING";
+    public static final String ITEM_CREATE_WISE_SAYING = "ITEM_CREATE_WISE_SAYING";
     public static final String ITEM_WEATHER = "ITEM_WEATHER";
     public static final String ITEM_POST_IT = "ITEM_POST_IT";
     public static final String ITEM_CHANGE_DESCRIPTION = "ITEM_CHANGE_DESCRIPTION";
@@ -138,6 +140,16 @@ public class StoreFragment extends AbstractFragment {
             }
 
             switch (itemId) {
+                case ITEM_WISE_SAYING:
+                    title = context.getResources().getString(R.string.store_item_wise_saying);
+                    description = context.getResources().getString(R.string.store_item_wise_saying_description);
+                    imageResource = R.drawable.ic_comment_black_24dp;
+                    break;
+                case ITEM_CREATE_WISE_SAYING:
+                    title = context.getResources().getString(R.string.store_item_create_wise_saying);
+                    description = context.getResources().getString(R.string.store_item_create_wise_saying_description);
+                    imageResource = R.drawable.ic_edit_black_24dp;
+                    break;
                 case ITEM_WEATHER:
                     title = context.getResources().getString(R.string.store_item_weather);
                     description = context.getResources().getString(R.string.store_item_weather_description);

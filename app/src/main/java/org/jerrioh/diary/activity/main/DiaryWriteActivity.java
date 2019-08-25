@@ -68,6 +68,8 @@ public class DiaryWriteActivity extends AbstractDetailActivity {
 
         diaryDetail.setBackgroundColor(getResources().getColor(R.color.colorBlack));
         diaryDate.setTextColor(getResources().getColor(R.color.colorWhite));
+
+        titleText.setHint(getResources().getString(R.string.diary_no_title));
         titleText.setTextColor(getResources().getColor(R.color.colorWhite));
         titleText.setHintTextColor(getResources().getColor(R.color.colorWhite));
 

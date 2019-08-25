@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="-"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:visibility="gone"
                 />
             <TextView

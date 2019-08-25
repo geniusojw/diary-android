@@ -65,40 +65,68 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/post_fragment_pop_manual_4"
+                android:text="@string/post_fragment_pop_manual_public"
                 android:textSize="13sp"
+                android:textStyle="bold"
                 android:gravity="center_vertical"
                 android:paddingHorizontal="15dp"
-                android:paddingVertical="10dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="10dp"
                 />
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/post_fragment_pop_manual_5"
-                android:textSize="13sp"
-                android:gravity="center_vertical"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="10dp"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/post_fragment_pop_manual_6"
-                android:textSize="13sp"
-                android:gravity="center_vertical"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="10dp"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/post_fragment_pop_manual_7"
-                android:textSize="13sp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/post_fragment_pop_manual_public_1"
+                    android:textSize="13sp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="5dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/post_fragment_pop_manual_public_2"
+                    android:textSize="13sp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="5dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/post_fragment_pop_manual_public_3"
+                    android:textSize="13sp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="5dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/post_fragment_pop_manual_public_4"
+                    android:textSize="13sp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="5dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/post_fragment_pop_manual_public_5"
+                    android:textSize="13sp"
 
-                android:gravity="center_vertical"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="10dp"
-                />
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="5dp"
+                    />
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </ScrollView>

@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import org.jerrioh.diary.config.Constants;
 import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.util.DateUtil;
@@ -51,7 +50,7 @@ public class DiaryReadActivity extends AbstractDetailActivity {
         dateTextView.setText(diaryDate);
 
         EditText titleEditText = findViewById(R.id.edit_text_detail_title);
-        titleEditText.setText(CommonUtil.defaultIfEmpty(diary.getTitle(), Constants.DEFAULT_TITLE));
+        titleEditText.setText(CommonUtil.defaultIfEmpty(diary.getTitle(), getResources().getString(R.string.diary_no_title)));
 
         EditText contentEditText = findViewById(R.id.edit_text_detail_content);
         contentEditText.setText(diary.getContent());
