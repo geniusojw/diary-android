@@ -2,9 +2,7 @@ package org.jerrioh.diary.activity.main;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.LinearGradient;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -14,13 +12,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.api.ApiCallback;
 import org.jerrioh.diary.api.author.AuthorDiaryApis;
+import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.model.DiaryGroup;
 import org.jerrioh.diary.model.Property;
 import org.jerrioh.diary.model.db.DiaryDao;
-import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.model.db.DiaryGroupDao;
 import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.PropertyUtil;
@@ -40,6 +40,7 @@ public class DiaryWriteActivity extends AbstractDetailActivity {
     private EditText titleText;
     private EditText contentText;
     private TextView shareText;
+    private TextView cheerText;
 
     private String originalTitle;
     private String originalContent;
@@ -87,6 +88,9 @@ public class DiaryWriteActivity extends AbstractDetailActivity {
             if (currentTime > diaryGroup.getStartTime() && currentTime < diaryGroup.getEndTime()) {
                 shareText = findViewById(R.id.text_view_detail_share_diary_group);
                 shareText.setVisibility(View.VISIBLE);
+
+//                cheerText = findViewById(R.id.text_view_detail_share_diary_group_cheer_up);
+//                cheerText.setVisibility(View.VISIBLE);
             }
         };
 

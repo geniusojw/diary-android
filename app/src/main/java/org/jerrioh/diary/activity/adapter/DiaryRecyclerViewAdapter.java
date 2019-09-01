@@ -1,9 +1,6 @@
 package org.jerrioh.diary.activity.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
@@ -13,11 +10,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.model.Diary;
 import org.jerrioh.diary.model.DiaryGroup;
-import org.jerrioh.diary.util.DateUtil;
 import org.jerrioh.diary.util.CommonUtil;
+import org.jerrioh.diary.util.DateUtil;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

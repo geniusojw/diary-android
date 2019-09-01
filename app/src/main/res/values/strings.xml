@@ -63,7 +63,7 @@
     <string name="diary_group_invitation">일기모임 초대받기</string>
     <string name="diary_group_invitation_description">일기모임 초대장을 받습니다.</string>
     <string name="diary_group_invitation_pop_title">일기모임 초대장 받지않기</string>
-    <string name="diary_group_invitation_pop_description">비활성화하지 않고도 초대장을 거절할 수 있습니다.\n해당 기능을 비활성화하시겠습니다.</string>
+    <string name="diary_group_invitation_pop_description">비활성화하지 않아도 초대장을 거절할 수 있습니다.\n해당 기능을 비활성화하시겠습니까?</string>
     <string name="auto_delete_post">포스트 자동 삭제</string>
     <string name="auto_delete_post_description">30일이 지난 포스트를 자동으로 삭제합니다.</string>
     <string name="auto_delete_letter">편지 자동 삭제</string>
@@ -107,7 +107,7 @@
     <string name="email_export">이메일 내보내기</string>
     <string name="email_export_description">일기를 이메일로 받을 수 있습니다.</string>
     <string name="change_account">계정 변경</string>
-    <string name="forgot_password">Forgot password?</string>
+    <string name="forgot_password">비밀번호 찾기</string>
     <string name="change_password">비밀번호 변경</string>
     <string name="change_account_description">비빌번호 변경, 계정삭제</string>
     <string name="change_password_description">오래된 비밀번호를 변경할 수 있습니다.</string>
@@ -133,7 +133,7 @@
     <string name="store_item_post">포스트잇</string>
     <string name="store_item_post_description">퍼블링 광장에 붙일 수 있는 포스트잇\n가격은 부르는 대로.</string>
     <string name="store_item_about">당신 이야기</string>
-    <string name="store_item_about_description">일기모임에 참여한 적이 있나요?\n당신에 대해 말해드립니다.</string>
+    <string name="store_item_about_description">고성능 컴퓨터 로봇 OJ가 당신을 분석합니다.</string>
     <string name="store_item_nick">닉네임 변경</string>
     <string name="store_item_nick_description">닉네임을 변경합니다.\n어떤 닉네임으로 변경될지는 누구도 모릅니다.</string>
     <string name="store_item_theme">일기장 테마</string>
@@ -189,8 +189,8 @@
     <string name="store_pop_post_result_title">구매하였습니다.</string>
     <string name="store_pop_post_result_description">퍼블릭 광장에서 글을 작성하세요!</string>
     <string name="store_pop_about_title">당신 이야기</string>
-    <string name="store_pop_about_description">당신이 어떤 사람인지에 대한 이야기</string>
-    <string name="store_pop_about_description_detail">일기모임에 일정수 이상 참여했어야 합니다.</string>
+    <string name="store_pop_about_description">로봇에게 당신에 대한 분석을 맡겨보세요!</string>
+    <string name="store_pop_about_description_detail">당신에 대한 설명글이 바뀝니다.</string>
     <string name="store_pop_nickname_title">랜덤 닉네임</string>
     <string name="store_pop_nickname_description">무작위로 닉네임이 변경됩니다.</string>
     <string name="store_pop_nickname_result_title">닉네임이 바뀌었습니다!</string>
@@ -252,6 +252,15 @@
     <string name="group_free_write">자유롭게 작성하세요.</string>
     <string name="group_honest_write">솔직하게 작성하세요.</string>
     <string name="group_who_are_you">%s님은 어떤 사람일까요?</string>
+    <string name="group_like_you1">%s님이 당신의 오늘을 응원합니다.</string>
+    <string name="group_like_you2">%s님이 당신에게 힘내라고 합니다.</string>
+    <string name="group_like_you3">%s님이 당신의 오늘을 관심있게 지켜봅니다.</string>
+    <string name="group_good_you1">%s님이 당신의 어제 일기를 읽고, 감동해버렸습니다.</string>
+    <string name="group_good_you2">%s님이 당신의 어제 일기를 읽고, 좋은 일기라 하였습니다.</string>
+    <string name="group_good_you3">%s님이 당신의 어제 일기를 읽고, 따봉을 치켜세웠습니다.</string>
+    <string name="group_like_good_you1">%s님이 당신의 어제와 오늘을 응원합니다.</string>
+    <string name="group_like_good_you2">%s님이 당신의 어제와 오늘의 일기를 보고 감동의 눈물을 흘렸습니다.</string>
+    <string name="group_like_good_you3">%s님은 당신의 팬이 되버린 것 같습니다.</string>
 
     <!-- diary -->
     <string name="diary_delete">일기 삭제</string>
@@ -269,7 +278,7 @@
     <string name="diary_month_adjust_after3">이 일기장에 미래는 적혀있지 않습니다.</string>
     <string name="diary_start_topic">오늘 일기의 주제는?</string>
     <string name="diary_start_topic_group">오늘의 일기는 %d명과 함께 공유합니다.</string>
-    <string name="diary_share_description">이 일기는 사람들과 공유합니다.</string>
+    <string name="diary_share_description">* 이 일기는 사람들과 공유합니다.</string>
     <string name="diary_no_title">무제</string>
     <string name="diary_no_content">내용이 없습니다.</string>
     <string name="diary_write_first_diary">첫번째 일기를 작성하세요!</string>
@@ -291,6 +300,7 @@
     <string name="letter_send_button_confirm_title">편지 보내기</string>
     <string name="letter_send_button_confirm_message">편지를 보내시겠습니까?\n받는 사람: %s</string>
     <string name="letter_no_author">편지를 받을 사람이 없습니다.</string>
+    <string name="letter_content_hint">하고 싶은 이야기를 쓰세요.</string>
 
     <!-- post -->
     <string name="post_too_many_post">포스트가 너무 많습니다. 오래된 포스트를 삭제하세요.</string>

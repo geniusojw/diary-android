@@ -28,7 +28,7 @@
                     android:id="@+id/text_view_detail_letter_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="작성된 편지"
+                    android:text="written letter"
                     android:textSize="13sp"
                     />
 
@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:background="@android:color/transparent"
-                    android:hint="What you want to say"
+                    android:hint="@string/letter_content_hint"
                     android:textSize="18sp"
                     android:maxLength="2000"
                     android:layout_marginBottom="20dp"
@@ -108,7 +108,7 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_action_button_detail_letter_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -122,7 +122,7 @@
         android:visibility="gone"
         />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_action_button_detail_letter_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

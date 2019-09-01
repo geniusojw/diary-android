@@ -114,6 +114,16 @@
                     android:textColor="@color/colorWhite"
                     android:visibility="gone"
                     />
+                <TextView
+                    android:id="@+id/text_view_detail_share_diary_group_cheer_up"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="14sp"
+                    android:paddingHorizontal="7dp"
+                    android:textColor="@color/colorWhite"
+                    android:visibility="gone"
+                    />
 
                 <TextView
                     android:id="@+id/text_view_detail_empty_space"
@@ -131,7 +141,7 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

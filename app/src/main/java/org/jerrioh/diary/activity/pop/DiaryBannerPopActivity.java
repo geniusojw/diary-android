@@ -1,32 +1,13 @@
 package org.jerrioh.diary.activity.pop;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.RectF;
 import android.graphics.Typeface;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -38,33 +19,18 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.MPPointF;
 
 import org.jerrioh.diary.R;
-import org.jerrioh.diary.activity.fragment.StoreFragment;
-import org.jerrioh.diary.api.ApiCallback;
-import org.jerrioh.diary.api.author.AuthorStoreApis;
 import org.jerrioh.diary.model.Diary;
-import org.jerrioh.diary.model.Music;
-import org.jerrioh.diary.model.Theme;
-import org.jerrioh.diary.model.db.AuthorDao;
 import org.jerrioh.diary.model.db.DiaryDao;
-import org.jerrioh.diary.model.db.MusicDao;
-import org.jerrioh.diary.model.db.ThemeDao;
-import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.util.DateUtil;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.IOException;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.function.BiFunction;
 
 public class DiaryBannerPopActivity extends AbstractDiaryPopActivity implements OnChartValueSelectedListener {
 

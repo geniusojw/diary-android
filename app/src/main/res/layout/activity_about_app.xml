@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/logo"
+        android:src="@drawable/logo256x256"
         />
 
     <TextView

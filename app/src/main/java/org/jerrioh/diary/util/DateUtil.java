@@ -1,7 +1,5 @@
 package org.jerrioh.diary.util;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 
 import java.text.ParseException;

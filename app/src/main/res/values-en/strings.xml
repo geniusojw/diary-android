@@ -133,7 +133,7 @@
     <string name="store_item_post">Post-it</string>
     <string name="store_item_post_description">You can write post once in public square.</string>
     <string name="store_item_about">Talking About You</string>
-    <string name="store_item_about_description">If you participate in a diary group, there will be some feedback for you.</string>
+    <string name="store_item_about_description">High performance computer robot analyzes you.</string>
     <string name="store_item_nick">Change Nickname</string>
     <string name="store_item_nick_description">Change your nickname randomly</string>
     <string name="store_item_theme">Purchase Diary Theme</string>
@@ -178,7 +178,7 @@
     <string name="store_pop_create_wise_saying_result_title">Quote registration success</string>
     <string name="store_pop_create_wise_saying_result_description">Your saying will inspire someone.</string>
     <string name="store_pop_create_wise_saying_result_description_detail">* Inappropriate sayings will be removed.</string>
-    <string name="store_pop_weather_title">Weather</string>
+    <string name="store_pop_weather_title">Weatherstore_item_about_description</string>
     <string name="store_pop_weather_description">Get weather information for today!</string>
     <string name="store_pop_weather_result_title">Get weather information.</string>
     <string name="store_pop_weather_result_description1">The weather is clear in your heart.</string>
@@ -189,8 +189,8 @@
     <string name="store_pop_post_result_title">Purchased.</string>
     <string name="store_pop_post_result_description">Write in the Public Square!</string>
     <string name="store_pop_about_title">About you</string>
-    <string name="store_pop_about_description">About who you are.</string>
-    <string name="store_pop_about_description_detail">Have you been to the diary group many times?</string>
+    <string name="store_pop_about_description">Give your robots an analysis of you!</string>
+    <string name="store_pop_about_description_detail">Your description will change.</string>
     <string name="store_pop_nickname_title">Random nickname</string>
     <string name="store_pop_nickname_description">The nickname will change randomly.</string>
     <string name="store_pop_nickname_result_title">Nickname changed!</string>
@@ -252,6 +252,15 @@
     <string name="group_free_write">Write freely</string>
     <string name="group_honest_write">Write honestly</string>
     <string name="group_who_are_you">What kind of person is %s?</string>
+    <string name="group_like_you1">%s님이 당신의 오늘을 응원합니다.</string>
+    <string name="group_like_you2">%s님이 당신에게 힘내라고 합니다.</string>
+    <string name="group_like_you3">%s님이 당신의 오늘을 관심있게 지켜봅니다.</string>
+    <string name="group_good_you1">%s님이 당신의 어제 일기를 읽고, 감동해버렸습니다.</string>
+    <string name="group_good_you2">%s님이 당신의 어제 일기를 읽고, 좋은 일기라 하였습니다.</string>
+    <string name="group_good_you3">%s님이 당신의 어제 일기를 읽고, 따봉을 치켜세웠습니다.</string>
+    <string name="group_like_good_you1">%s님이 당신의 어제와 오늘을 응원합니다.</string>
+    <string name="group_like_good_you2">%s님이 당신의 어제와 오늘의 일기를 보고 감동의 눈물을 흘렸습니다.</string>
+    <string name="group_like_good_you3">%s님은 당신의 팬이 되버린 것 같습니다.</string>
 
     <!-- diary -->
     <string name="diary_delete">Delete Diary</string>
@@ -269,7 +278,7 @@
     <string name="diary_month_adjust_after3">The future is not written in this diary.</string>
     <string name="diary_start_topic">What is your diary topic today?</string>
     <string name="diary_start_topic_group">Today\'s diary is shared with %d people.</string>
-    <string name="diary_share_description">This diary is shared with people.</string>
+    <string name="diary_share_description">* This diary is shared with people.</string>
     <string name="diary_no_title">NO TITLE</string>
     <string name="diary_no_content">NO CONTENT</string>
     <string name="diary_write_first_diary">Write your first diary!</string>
@@ -291,6 +300,7 @@
     <string name="letter_send_button_confirm_title">Send a letter</string>
     <string name="letter_send_button_confirm_message">Would you like to send a letter?\nRecipient: %s</string>
     <string name="letter_no_author">No one can receive the letter.</string>
+    <string name="letter_content_hint">What you want to say</string>
 
     <!-- post -->
     <string name="post_too_many_post">Too many posts. Please delete the old post.</string>

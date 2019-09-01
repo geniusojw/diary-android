@@ -30,7 +30,7 @@ public class DiaryGroupPopActivity extends AbstractDiaryPopActivity {
     private static final String TAG = "DiaryGroupPopActivity";
 
     private JSONObject diaryGroupJsonObject;
-    private JSONArray diaryGroupAuthorDiaries;
+    private JSONObject yesterdayDiariesObject;
     private int currentAuthorIndex = 0;
 
     @Override
@@ -70,7 +70,7 @@ public class DiaryGroupPopActivity extends AbstractDiaryPopActivity {
                         @Override
                         protected void execute(int httpStatus, JSONObject jsonObject) throws JSONException {
                             if (httpStatus == 200) {
-                                diaryGroupAuthorDiaries = jsonObject.getJSONArray("data");
+                                yesterdayDiariesObject = jsonObject.getJSONObject("data");
                                 setDiaryGroupContentByApiResult();
 
                             } else if (httpStatus == 404) {
@@ -94,8 +94,8 @@ public class DiaryGroupPopActivity extends AbstractDiaryPopActivity {
     }
 
     private void setDiaryGroupContentByApiResult() {
-        if (diaryGroupJsonObject == null || diaryGroupAuthorDiaries == null) {
-            Log.e(TAG, "no result. diaryGroupJsonObject=" + diaryGroupJsonObject + ", diaryGroupAuthorDiaries=" + diaryGroupAuthorDiaries);
+        if (diaryGroupJsonObject == null || yesterdayDiariesObject == null) {
+            Log.e(TAG, "no result. diaryGroupJsonObject=" + diaryGroupJsonObject + ", diaryGroupAuthorDiaries=" + yesterdayDiariesObject);
             finish();
             return;
         }
@@ -165,23 +165,50 @@ public class DiaryGroupPopActivity extends AbstractDiaryPopActivity {
         String yesterdayDate;
         String yesterdayTitle;
         String yesterdayContent;
-        try {
-            authorGroupDiary = diaryGroupAuthorDiaries.getJSONObject(currentAuthorIndex);
 
+        boolean todayLike;
+        boolean yesterdayGood;
+
+        JSONArray diaryGroupAuthorDiaries;
+        try {
+            isFirstDay = yesterdayDiariesObject.getBoolean("firstDay");
+            todayDate = yesterdayDiariesObject.getString("todayDate");
+            yesterdayDate = yesterdayDiariesObject.getString("yesterdayDate");
+
+            diaryGroupAuthorDiaries = yesterdayDiariesObject.getJSONArray("authorDiaries");
+            authorGroupDiary = diaryGroupAuthorDiaries.getJSONObject(currentAuthorIndex);
             authorId = authorGroupDiary.getString("authorId");
             nickname = authorGroupDiary.getString("nickname");
-            isFirstDay = authorGroupDiary.getBoolean("firstDay");
-            todayDate = authorGroupDiary.getString("todayDate");
             todayTitle = authorGroupDiary.getString("todayTitle");
             todayContent = authorGroupDiary.getString("todayContent");
-            yesterdayDate = authorGroupDiary.getString("yesterdayDate");
             yesterdayTitle = authorGroupDiary.getString("yesterdayTitle");
             yesterdayContent = authorGroupDiary.getString("yesterdayContent");
+
+            todayLike = authorGroupDiary.getBoolean("todayLike");
+            yesterdayGood = authorGroupDiary.getBoolean("yesterdayGood");
 
         } catch (JSONException e) {
             Log.e(TAG, "JSONException. " + e.toString());
             finish();
             return;
+        }
+
+        if (todayLike) {
+            if (yesterdayGood) {
+                Toast.makeText(this, CommonUtil.randomString(getResources().getString(R.string.group_like_good_you1, nickname),
+                        getResources().getString(R.string.group_like_good_you2, nickname),
+                        getResources().getString(R.string.group_like_good_you3, nickname)), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, CommonUtil.randomString(getResources().getString(R.string.group_like_you1, nickname),
+                        getResources().getString(R.string.group_like_you2, nickname),
+                        getResources().getString(R.string.group_like_you3, nickname)), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            if (yesterdayGood) {
+                Toast.makeText(this, CommonUtil.randomString(getResources().getString(R.string.group_good_you1, nickname),
+                        getResources().getString(R.string.group_good_you2, nickname),
+                        getResources().getString(R.string.group_good_you3, nickname)), Toast.LENGTH_SHORT).show();
+            }
         }
 
         TextView currentAuthorIndexView = findViewById(R.id.text_view_diary_group_body_author_index);
@@ -279,25 +306,39 @@ public class DiaryGroupPopActivity extends AbstractDiaryPopActivity {
     }
 
     private void setDiaryReadIntent(boolean today, String authorId, String nickname, String diaryDate, String title, String content, ImageView imageButtonView) {
-        if ((TextUtils.isEmpty(diaryDate) || "null".equals(diaryDate))) {
+        String titleText;
+        String contentText;
+
+        if (!TextUtils.isEmpty(title) && !"null".equals(title)) {
+            titleText = title;
+        } else {
+            titleText = "";
+        }
+        if (!TextUtils.isEmpty(content) && !"null".equals(content)) {
+            contentText = content;
+        } else {
+            contentText = "";
+        }
+
+        if (TextUtils.isEmpty(titleText) && TextUtils.isEmpty(contentText)) {
             imageButtonView.setImageResource(R.drawable.ic_chat_bubble_black_24dp);
             imageButtonView.setOnClickListener(v -> {
                 Toast.makeText(this, getResources().getString(R.string.group_diary_not_written), Toast.LENGTH_SHORT).show();
             });
-
-        } else {
-            imageButtonView.setImageResource(R.drawable.ic_chat_black_24dp);
-            imageButtonView.setOnClickListener(v -> {
-                Intent intent = new Intent(this, DiaryGroupReadActivity.class);
-                intent.putExtra("today", today);
-                intent.putExtra("authorId", authorId);
-                intent.putExtra("nickname", nickname);
-                intent.putExtra("diaryDate", diaryDate);
-                intent.putExtra("title", title);
-                intent.putExtra("content", content);
-                startActivity(intent);
-            });
+            return;
         }
+
+        imageButtonView.setImageResource(R.drawable.ic_chat_black_24dp);
+        imageButtonView.setOnClickListener(v -> {
+            Intent intent = new Intent(this, DiaryGroupReadActivity.class);
+            intent.putExtra("today", today);
+            intent.putExtra("authorId", authorId);
+            intent.putExtra("nickname", nickname);
+            intent.putExtra("diaryDate", diaryDate);
+            intent.putExtra("title", titleText);
+            intent.putExtra("content", contentText);
+            startActivity(intent);
+        });
     }
 
     private void setFeedbackIntent(String authorId, String nickname, ImageView feedbackImageView) {

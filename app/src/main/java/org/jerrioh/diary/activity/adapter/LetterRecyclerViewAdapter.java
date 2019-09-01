@@ -1,10 +1,6 @@
 package org.jerrioh.diary.activity.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +8,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
 import org.jerrioh.diary.R;
-import org.jerrioh.diary.activity.draw.SettingActivity;
 import org.jerrioh.diary.model.Author;
 import org.jerrioh.diary.model.Letter;
 import org.jerrioh.diary.model.Property;
 import org.jerrioh.diary.util.AuthorUtil;
 import org.jerrioh.diary.util.DateUtil;
-import org.jerrioh.diary.util.PropertyUtil;
 
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class
 LetterRecyclerViewAdapter extends RecyclerView.Adapter<LetterRecyclerViewAdapter.LetterViewHolder> {

@@ -1,7 +1,6 @@
 package org.jerrioh.diary.activity.draw;
 
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.widget.Toolbar;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.main.AbstractDiaryActivity;

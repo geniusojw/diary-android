@@ -1,10 +1,12 @@
 package org.jerrioh.diary.activity.fragment;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.main.DiaryWriteActivity;

@@ -1,20 +1,25 @@
 package org.jerrioh.diary.activity.main;
 
 import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.draw.AccountActivity;
@@ -66,6 +71,8 @@ public class MainActivity extends AbstractDiaryActivity {
     private static final int REQUEST_SETTING_ACTIVITY = 2;
     private static final int REQUEST_DIARY_FRAGMENT_POP_ACTIVITY = 3;
 
+    private InterstitialAd mInterstitialAd;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -90,6 +97,10 @@ public class MainActivity extends AbstractDiaryActivity {
         this.executeAutoDelete();
 
         AuthorUtil.uploadAuthorDiary(this);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
     }
 
     @Override
@@ -117,13 +128,20 @@ public class MainActivity extends AbstractDiaryActivity {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            long currentTime = System.currentTimeMillis();
-            if (TimeUnit.MILLISECONDS.toSeconds(currentTime - backPressTime) < 3) {
-                super.onBackPressed();
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
             } else {
-                backPressTime = currentTime;
-                Toast.makeText(this, "confirm", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "The interstitial wasn't loaded yet.");
             }
+            super.onBackPressed();
+
+//            long currentTime = System.currentTimeMillis();
+//            if (TimeUnit.MILLISECONDS.toSeconds(currentTime - backPressTime) < 3) {
+//                super.onBackPressed();
+//            } else {
+//                backPressTime = currentTime;
+//                Toast.makeText(this, "confirm", Toast.LENGTH_SHORT).show();
+//            }
         }
     }
 

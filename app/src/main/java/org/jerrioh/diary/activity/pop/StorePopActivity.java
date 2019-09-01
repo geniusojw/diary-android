@@ -11,16 +11,16 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.NumberPicker;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.fragment.StoreFragment;
@@ -32,7 +32,6 @@ import org.jerrioh.diary.model.db.AuthorDao;
 import org.jerrioh.diary.model.db.MusicDao;
 import org.jerrioh.diary.model.db.ThemeDao;
 import org.jerrioh.diary.util.AuthorUtil;
-import org.jerrioh.diary.util.DateUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 

@@ -10,18 +10,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.Build;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
-import android.widget.Toast;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import org.jerrioh.diary.R;
 import org.jerrioh.diary.activity.main.MainActivity;
 import org.jerrioh.diary.util.CommonUtil;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
@@ -85,7 +81,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentTitle(context.getResources().getString(R.string.alarm_title))
                 .setContentText(CommonUtil.randomString(alarmTips))
-                .setSmallIcon(R.drawable.ic_launcher)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)) // Notification.DEFAULT_SOUND
                 .setAutoCancel(true)
@@ -97,56 +93,3 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         notificationManagerCompat.notify(NOTIFICATION_ID, notification);
     }
 }
-
-//    String[] wiseSayings = new String[]{
-//            context.getResources().getString(R.string.alarm_wise_saying1),
-//            context.getResources().getString(R.string.alarm_wise_saying2),
-//            context.getResources().getString(R.string.alarm_wise_saying3),
-//            context.getResources().getString(R.string.alarm_wise_saying4),
-//            context.getResources().getString(R.string.alarm_wise_saying5),
-//            context.getResources().getString(R.string.alarm_wise_saying6),
-//            context.getResources().getString(R.string.alarm_wise_saying7),
-//            context.getResources().getString(R.string.alarm_wise_saying8),
-//            context.getResources().getString(R.string.alarm_wise_saying9),
-//            context.getResources().getString(R.string.alarm_wise_saying10),
-//            context.getResources().getString(R.string.alarm_wise_saying11),
-//            context.getResources().getString(R.string.alarm_wise_saying12),
-//            context.getResources().getString(R.string.alarm_wise_saying13),
-//            context.getResources().getString(R.string.alarm_wise_saying14),
-//            context.getResources().getString(R.string.alarm_wise_saying15),
-//            context.getResources().getString(R.string.alarm_wise_saying16),
-//            context.getResources().getString(R.string.alarm_wise_saying17),
-//            context.getResources().getString(R.string.alarm_wise_saying18),
-//            context.getResources().getString(R.string.alarm_wise_saying19),
-//            context.getResources().getString(R.string.alarm_wise_saying20),
-//            context.getResources().getString(R.string.alarm_wise_saying21),
-//            context.getResources().getString(R.string.alarm_wise_saying22),
-//            context.getResources().getString(R.string.alarm_wise_saying23),
-//            context.getResources().getString(R.string.alarm_wise_saying24),
-//            context.getResources().getString(R.string.alarm_wise_saying25),
-//            context.getResources().getString(R.string.alarm_wise_saying26),
-//            context.getResources().getString(R.string.alarm_wise_saying27),
-//            context.getResources().getString(R.string.alarm_wise_saying28),
-//            context.getResources().getString(R.string.alarm_wise_saying29),
-//            context.getResources().getString(R.string.alarm_wise_saying30),
-//            context.getResources().getString(R.string.alarm_wise_saying31),
-//            context.getResources().getString(R.string.alarm_wise_saying32),
-//            context.getResources().getString(R.string.alarm_wise_saying33),
-//            context.getResources().getString(R.string.alarm_wise_saying34),
-//            context.getResources().getString(R.string.alarm_wise_saying35),
-//            context.getResources().getString(R.string.alarm_wise_saying36),
-//            context.getResources().getString(R.string.alarm_wise_saying37),
-//            context.getResources().getString(R.string.alarm_wise_saying38),
-//            context.getResources().getString(R.string.alarm_wise_saying39),
-//            context.getResources().getString(R.string.alarm_wise_saying40),
-//            context.getResources().getString(R.string.alarm_wise_saying41),
-//            context.getResources().getString(R.string.alarm_wise_saying42),
-//            context.getResources().getString(R.string.alarm_wise_saying43),
-//            context.getResources().getString(R.string.alarm_wise_saying44),
-//            context.getResources().getString(R.string.alarm_wise_saying45),
-//            context.getResources().getString(R.string.alarm_wise_saying46),
-//            context.getResources().getString(R.string.alarm_wise_saying47),
-//            context.getResources().getString(R.string.alarm_wise_saying48),
-//            context.getResources().getString(R.string.alarm_wise_saying49),
-//            context.getResources().getString(R.string.alarm_wise_saying50)
-//    };
